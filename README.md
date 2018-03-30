@@ -1,7 +1,7 @@
 # Progetto-Ingegneria-del-Software
 
 
-gruppo <##>
+gruppo ##
 
 studente1 studente2 studente3
 
