@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -17,7 +18,7 @@ public abstract class  AbstractCardFactory {
 
 
     // read the csv file and create card deck
-    public Hashtable<String , Drawable > getNewCardDeck(){
+    public Hashtable<String , Drawable > getNewCardDeck() throws FileNotFoundException  {
 
         Hashtable<String , Drawable > decks = new Hashtable<String, Drawable>() ;
 
