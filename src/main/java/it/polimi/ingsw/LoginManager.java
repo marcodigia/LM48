@@ -16,7 +16,7 @@ public class LoginManager {
         int count = nicknames.size(); if (count >= 4)
             return false;
         if (nicknames.contains(nick))
-            return false;
+            return false; //hello
         nicknames.add(nick);
         return true;
     }
