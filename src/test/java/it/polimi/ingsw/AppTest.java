@@ -3,9 +3,17 @@ package it.polimi.ingsw;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-class FirstJUnit5Tests {
+class AppTest {
     @Test
     void myFirstTest() {
         assertEquals(2, 1 + 1);
+    }
+
+    @Test
+    void LoginTest() {
+        System.out.println("testing");
+        LoginManager lm = new LoginManager();
+        assertEquals(true, lm.login("bob"));
+        assertEquals(false, lm.login("bob"));
     }
 }
