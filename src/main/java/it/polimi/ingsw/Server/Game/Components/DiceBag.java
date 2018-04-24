@@ -8,6 +8,7 @@ import java.util.Random;
 public class DiceBag {
    private ArrayList<Dice> dices;
 
+
     public DiceBag() {
         dices = new ArrayList<Dice>();
         for (DiceColor dye : DiceColor.values() )
@@ -24,7 +25,7 @@ public class DiceBag {
 
     public ArrayList<Dice> getNdices(int n ){
 
-        if (dices.size() < n){
+        if (dices.size() < n || n < 0) {
             return null;
         }
 
@@ -45,7 +46,11 @@ public class DiceBag {
 
     }
 
-    public void putDice( Dice dice){
+    public boolean putDice(Dice dice) {
+        if (dices.size() >= 90)
+            return false;
         dices.add(dice);
+        return true;
     }
+
 }
