@@ -11,6 +11,8 @@ public abstract class  AbstractCardFactory {
     abstract String getFilename() ;
 
     //This method create actually creates the istance of the specific card
+
+    //TODO throw excteption file not found
     abstract  Drawable getCard(ArrayList<String> pattern );
 
 
