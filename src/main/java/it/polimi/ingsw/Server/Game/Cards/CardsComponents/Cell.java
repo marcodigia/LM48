@@ -24,7 +24,7 @@ public class Cell {
         adjacency.add(cell);
     }
 
-     Dice getDice() {
+    public Dice getDice() {
         return dice;
     }
 
