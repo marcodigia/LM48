@@ -12,6 +12,7 @@ class AppTest {
     @Test
     void LoginTest() {
         System.out.println("testing");
+        System.out.println("testingggggg");
         LoginManager lm = new LoginManager();
         assertEquals(true, lm.login("bob"));
         assertEquals(false, lm.login("bob"));
