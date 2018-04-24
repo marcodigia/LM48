@@ -22,7 +22,7 @@ public class ToolCard implements Drawable {
         restriction = pattern.get(4);
 
     }
-    
+
 
     public String getID() {
         return id;

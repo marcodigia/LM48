@@ -14,25 +14,25 @@ public class Cell {
     private Restriction restrictions ;
 
 
-    public Cell() {
+     Cell() {
         adjacency = new ArrayList<Cell>();
         restrictions = new Restriction();
 
     }
 
-    public void setCell(Cell cell ){
+     void setCell(Cell cell ){
         adjacency.add(cell);
     }
 
-    public Dice getDice() {
+     Dice getDice() {
         return dice;
     }
 
-    public void addRestricion(String s ){
+     void addRestricion(String s ){
         restrictions.addRestriction(s);
     }
 
-    public void removeDice(Dice dice ){
+     void removeDice(Dice dice ){
 
         this.dice = null ;
         restrictions.removeRestricion(dice.getDiceColor().getColor());
@@ -43,7 +43,7 @@ public class Cell {
 
     //TODO: prima piazzo il dado poi verifico che sia piazzablie??
 
-    public void setDice(Dice dice ) {
+     void setDice(Dice dice ) {
         this.dice = dice;
         restrictions.addRestriction(dice.getDiceColor().getColor());
         restrictions.addRestriction(dice.getValue());
@@ -65,7 +65,7 @@ public class Cell {
 
 
 
-     boolean verify(Dice dice , boolean IGNORE_COLOR , boolean IGNORE_VALUE ){
+    private boolean verify(Dice dice , boolean IGNORE_COLOR , boolean IGNORE_VALUE ){
 
         Boolean colorRes = restrictions.verifyRestrictions( dice.getDiceColor().getColor() ) || IGNORE_COLOR;
         Boolean valueRes = restrictions.verifyRestrictions( dice.getValue()) || IGNORE_VALUE;
