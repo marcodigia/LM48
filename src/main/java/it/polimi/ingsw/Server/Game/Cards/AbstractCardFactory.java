@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -47,6 +48,12 @@ public abstract class  AbstractCardFactory {
             data.close();
         }
 
+        scanner.close();
+        try {
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return decks ;
 
     }
