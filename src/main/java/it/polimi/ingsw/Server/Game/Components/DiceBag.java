@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DiceBag {
-   private ArrayList<Dice> dices;
 
+    private ArrayList<Dice> dices;
+    private final int MAX_N = 6;
+    private final int MIN_N = 1;
 
     public DiceBag() {
         dices = new ArrayList<Dice>();
@@ -15,7 +17,7 @@ public class DiceBag {
             for (int i = 0 ; i < 18 ; i++){
 
                 Random random = new Random();
-                dices.add( new Dice(dye, Integer.toString( random.nextInt() ) ) );
+                dices.add( new Dice(dye, Integer.toString( random.nextInt(MAX_N)+MIN_N ) ) );
             }
     }
 
