@@ -13,7 +13,7 @@ public class WindowPatternCard implements Drawable {
     private ArrayList<String> pattern;
     private Matrix matrix ;
 
-    WindowPatternCard(ArrayList<String> pattern) {
+    public WindowPatternCard(ArrayList<String> pattern) {
 
         this.pattern = pattern ;
         matrix = new Matrix(5,4);

@@ -47,7 +47,7 @@ public abstract class  AbstractCardFactory {
             decks.put(card.getID(), card);
             data.close();
         }
-
+        //Close streams
         scanner.close();
         try {
             is.close();

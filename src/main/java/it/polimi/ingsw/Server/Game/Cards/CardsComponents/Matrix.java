@@ -26,6 +26,11 @@ public class Matrix {
     // initialize the matric by linking all the cells whith their neighbour
     public void initialize() {
 
+        for(int i = 0; i < matrix.size(); i++){
+            Cell current_cell = matrix.get(i);
+            current_cell.setCell(current_cell);
+        }
+
         // inizializzo con celle a nord
         for (int i = lenght; i < matrix.size(); i++) {
 
