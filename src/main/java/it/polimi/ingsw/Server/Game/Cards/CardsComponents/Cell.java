@@ -8,20 +8,27 @@ import java.util.ArrayList;
 public class Cell {
 
 
-
-    private ArrayList<Cell> adjacency;
+    private ArrayList<Cell> adjacencyHV; //adjacent cells horizontal and vertical
+    private ArrayList<Cell> adjacenyHVD; // adjacent cell horizontal vertical and diagonal
     private Dice dice = null ;
     private Restriction restrictions ;
 
 
      Cell() {
-        adjacency = new ArrayList<Cell>();
+         adjacencyHV = new ArrayList<Cell>();
+         adjacenyHVD = new ArrayList<Cell>();
         restrictions = new Restriction();
+         adjacencyHV.add(this);
 
     }
 
-     void setCell(Cell cell ){
-        adjacency.add(cell);
+    void setCell(Cell cell, boolean isDiagonal) {
+
+        if (!isDiagonal)
+            adjacencyHV.add(cell);
+
+        adjacenyHVD.add((cell));
+
     }
 
     public Dice getDice() {
@@ -56,7 +63,7 @@ public class Cell {
     public boolean isPlaceble(Dice dice , boolean ignore_color , boolean ignore_value ){
 
 
-        for( Cell s :  adjacency ){
+        for (Cell s : adjacencyHV) {
             if (!s.verify(dice , ignore_color , ignore_value))
                 return false;
         }
@@ -67,8 +74,14 @@ public class Cell {
 
     private boolean verify(Dice dice , boolean IGNORE_COLOR , boolean IGNORE_VALUE ){
 
-        Boolean colorRes = restrictions.verifyRestrictions( dice.getDiceColor().getColor() ) || IGNORE_COLOR;
-        Boolean valueRes = restrictions.verifyRestrictions( dice.getValue()) || IGNORE_VALUE;
+        boolean valueRes = IGNORE_VALUE;
+        boolean colorRes = IGNORE_COLOR;
+
+        if (!IGNORE_COLOR)
+            colorRes = restrictions.verifyRestrictions(dice.getDiceColor().getColor());
+        if (!IGNORE_VALUE)
+            valueRes = restrictions.verifyRestrictions(dice.getValue());
+
         return colorRes && valueRes;
     }
 
@@ -79,5 +92,6 @@ public class Cell {
     public ArrayList<String> getRestrictions(){
         return restrictions.getRestrictions();
     }
+
 
 }

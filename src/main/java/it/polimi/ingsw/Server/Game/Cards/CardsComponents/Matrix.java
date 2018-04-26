@@ -24,59 +24,68 @@ public class Matrix {
 
 
     // initialize the matric by linking all the cells whith their neighbour
+
+
     public void initialize() {
 
-        for(int i = 0; i < matrix.size(); i++){
-            Cell current_cell = matrix.get(i);
-            current_cell.setCell(current_cell);
-        }
-
-        // inizializzo con celle a nord
-        for (int i = lenght; i < matrix.size(); i++) {
-
-            Cell current_cell = matrix.get(i);
-            Cell nord_cell = matrix.get(i - lenght);
-            current_cell.setCell(nord_cell);
-        }
-
-        // inizializzo con celle a sud
-
-        for (int i = 0; i < matrix.size() - lenght; i++) {
-
-            Cell current_cell = matrix.get(i);
-            Cell sud_cell = matrix.get(i + lenght);
-            current_cell.setCell(sud_cell);
-        }
-
-
-        // inizializzo con celle ad ovest
-
         for (int i = 0; i < matrix.size(); i++) {
 
-            if (i % lenght >= 1) {
-                Cell current_cell = matrix.get(i);
-                Cell ovest_cell = matrix.get(i - 1);
-                current_cell.setCell(ovest_cell);
+            if (hasNord(i)) {
+                Cell nord_cell = matrix.get(i - lenght);
+                matrix.get(i).setCell(nord_cell, false);
+                if (hasEst(i)) {
+                    Cell diagonal_nord_cell_est = matrix.get(i - lenght + 1);
+                    matrix.get(i).setCell(diagonal_nord_cell_est, true);
+                }
+                if (hasOvest(i)) {
+                    Cell diagonal_nord_cell_ovest = matrix.get(i - lenght - 1);
+                    matrix.get(i).setCell(diagonal_nord_cell_ovest, true);
+                }
+            }
+            if (hasSud(i, matrix.size())) {
+
+                Cell sud_cell = matrix.get(i + lenght);
+                matrix.get(i).setCell(sud_cell, false);
+                if (hasEst(i)) {
+                    Cell diagonal_sud_cell_est = matrix.get(i + lenght + 1);
+                    matrix.get(i).setCell(diagonal_sud_cell_est, true);
+                }
+                if (hasOvest(i)) {
+                    Cell diagonal_sud_cell_ovest = matrix.get(i + lenght - 1);
+                    matrix.get(i).setCell(diagonal_sud_cell_ovest, true);
+                }
             }
 
-        }
-
-        //inizializzo con celle ad est
-        for (int i = 0; i < matrix.size(); i++) {
-
-            if (i % lenght < lenght - 1) {
+            if (hasEst(i)) {
                 Cell current_cell = matrix.get(i);
                 Cell est_cell = matrix.get(i + 1);
 
-                current_cell.setCell(est_cell);
+                current_cell.setCell(est_cell, false);
+            }
+            if (hasOvest(i)) {
+                Cell current_cell = matrix.get(i);
+                Cell ovest_cell = matrix.get(i - 1);
+                current_cell.setCell(ovest_cell, false);
             }
 
         }
-
-
     }
 
+    private boolean hasNord(int i) {
+        return i >= lenght;
+    }
 
+    private boolean hasSud(int i, int size) {
+        return i < size - lenght;
+    }
+
+    private boolean hasOvest(int i) {
+        return i % lenght >= 1;
+    }
+
+    private boolean hasEst(int i) {
+        return i % lenght < lenght - 1;
+    }
     //this method add all the restrictions
     public void initialize_restricions( ArrayList<String> matrix_pattern ) throws WrongPatternSizeException {
 
@@ -182,6 +191,7 @@ public class Matrix {
         return cell.isPlaceble(dice, ignore_color, ignore_value);
 
     }
+
     public ArrayList<String> getAllDices(){
         return null;
     }
@@ -210,4 +220,5 @@ public class Matrix {
 
         return row;
     }
+
 }
