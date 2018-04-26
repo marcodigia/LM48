@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,4 +54,32 @@ class BoardRoundTest {
         aspectedWinners.add(players.get(2));
         assertEquals(boardRound.getWinners(), aspectedWinners);
     }
+
+
+    @Test
+    void getScoreBoardEmpty() {
+        Hashtable<Player, Integer> scoreborard = boardRound.getScoreboard();
+        for (Player p : scoreborard.keySet()) {
+            assertTrue(players.contains(p));
+            assertEquals(boardRound.getScore(p), new Integer(0));
+        }
+        assertEquals(scoreborard.keySet().size(), players.size());
+
+    }
+
+    @Test
+    void getScoreBoardFull() {
+        Hashtable<Player, Integer> scoreborard = boardRound.getScoreboard();
+        for (Player p : scoreborard.keySet()) {
+            boardRound.updateScore(p, 2);
+        }
+        for (Player p : scoreborard.keySet()) {
+            assertTrue(players.contains(p));
+            assertEquals(boardRound.getScore(p), new Integer(2));
+        }
+        assertEquals(scoreborard.keySet().size(), players.size());
+
+    }
+
+
 }
