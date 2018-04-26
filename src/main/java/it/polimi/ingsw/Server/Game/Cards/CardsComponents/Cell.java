@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 
 import it.polimi.ingsw.Server.Game.Components.Dice;
-import it.polimi.ingsw.Server.Game.Components.Restriction;
+import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 
 import java.util.ArrayList;
 
@@ -11,13 +11,13 @@ public class Cell {
     private ArrayList<Cell> adjacencyHV; //adjacent cells horizontal and vertical
     private ArrayList<Cell> adjacenyHVD; // adjacent cell horizontal vertical and diagonal
     private Dice dice = null ;
-    private Restriction restrictions ;
+    private Restriction restriction;
 
 
      Cell() {
          adjacencyHV = new ArrayList<Cell>();
          adjacenyHVD = new ArrayList<Cell>();
-        restrictions = new Restriction();
+         restriction = new Restriction();
          adjacencyHV.add(this);
 
     }
@@ -36,14 +36,14 @@ public class Cell {
     }
 
      void addRestricion(String s ){
-        restrictions.addRestriction(s);
+         restriction.addRestriction(s);
     }
 
      void removeDice(Dice dice ){
 
         this.dice = null ;
-        restrictions.removeRestricion(dice.getDiceColor().getColor());
-        restrictions.removeRestricion(dice.getValue());
+         restriction.removeRestricion(dice.getDiceColor().getColor());
+         restriction.removeRestricion(dice.getValue());
 
     }
 
@@ -52,8 +52,8 @@ public class Cell {
 
      void setDice(Dice dice ) {
         this.dice = dice;
-        restrictions.addRestriction(dice.getDiceColor().getColor());
-        restrictions.addRestriction(dice.getValue());
+         restriction.addRestriction(dice.getDiceColor().getColor());
+         restriction.addRestriction(dice.getValue());
 
 
     }
@@ -83,10 +83,12 @@ public class Cell {
         boolean valueRes = IGNORE_VALUE;
         boolean colorRes = IGNORE_COLOR;
 
-        if (!IGNORE_COLOR)
-            colorRes = restrictions.verifyRestrictions(dice.getDiceColor().getColor());
-        if (!IGNORE_VALUE)
-            valueRes = restrictions.verifyRestrictions(dice.getValue());
+        if (!IGNORE_COLOR) {
+            colorRes = restriction.verifyRestrictions(dice.getDiceColor().getColor());
+        }
+        if (!IGNORE_VALUE) {
+            valueRes = restriction.verifyRestrictions(dice.getValue());
+        }
 
         return colorRes && valueRes;
     }
@@ -95,8 +97,8 @@ public class Cell {
         return dice == null;
     }
 
-    public ArrayList<String> getRestrictions(){
-        return restrictions.getRestrictions();
+    public ArrayList<String> getRestriction() {
+        return restriction.getRestrictions();
     }
 
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 class AppTest {
@@ -17,4 +18,7 @@ class AppTest {
         assertEquals(true, lm.login("bob"));
         assertEquals(false, lm.login("bob"));
     }
+
 }
+
+

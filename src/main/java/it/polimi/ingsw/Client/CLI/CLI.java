@@ -33,7 +33,7 @@ public class CLI {
                 ArrayList<Cell> cells = p.getRow(i);
                 for (Cell cell : cells) {
                     if (cell.isEmpty())
-                        line.append(cell.getRestrictions().toString());
+                        line.append(cell.getRestriction().toString());
                     else {
                         Dice d = cell.getDice();
                         line.append(d.getDiceColor().getAnsiColor()).append(ANSI_COLOR.BOLD).append("[").append(d.getValue()).append("]").append(ANSI_COLOR.ANSI_RESET);

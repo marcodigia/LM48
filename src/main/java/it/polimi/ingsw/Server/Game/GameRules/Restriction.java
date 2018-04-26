@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Server.Game.Components;
+package it.polimi.ingsw.Server.Game.GameRules;
 
 import java.util.ArrayList;
 

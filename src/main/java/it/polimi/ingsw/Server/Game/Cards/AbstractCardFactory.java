@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
+import it.polimi.ingsw.Server.Game.Utility.CSVReader;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,25 +29,13 @@ public abstract class  AbstractCardFactory {
         String filename = getFilename();
         InputStream is =  getClass().getClassLoader().getResourceAsStream(filename);
         Scanner scanner =  new Scanner(is);
-        Scanner data ;
 
         while (scanner.hasNextLine()){
 
-            data = new Scanner( scanner.nextLine() ) ;
-            data.useDelimiter(",");
-            ArrayList<String> pattern = new ArrayList<String>();
-            while (data.hasNext()){
-                String s = data.next();
-                pattern.add(s);
-                System.out.print(s);
-            }
-            System.out.println();
-
             // get card is different for every AbstractFactory
-
-            Drawable card = getCard(pattern);
+            Drawable card = getCard(CSVReader.parseLine(scanner.nextLine()));
             decks.put(card.getID(), card);
-            data.close();
+
         }
         //Close streams
         scanner.close();
