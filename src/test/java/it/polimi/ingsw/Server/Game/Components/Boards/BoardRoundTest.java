@@ -34,11 +34,22 @@ class BoardRoundTest {
     }
 
     @Test
-    void getWinner() {
+    void getWinnerSingleWinner() {
         boardRound.updateScore(players.get(1), 4);
         boardRound.updateScore(players.get(0), 1);
-        ArrayList<Player> aspectedWinner = new ArrayList<Player>();
-        aspectedWinner.add(players.get(1));
-        assertEquals(boardRound.getWinners(), aspectedWinner);
+        ArrayList<Player> aspectedWinners = new ArrayList<Player>();
+        aspectedWinners.add(players.get(1));
+        assertEquals(boardRound.getWinners(), aspectedWinners);
+    }
+
+    @Test
+    void getWinnerManyWinner() {
+        boardRound.updateScore(players.get(1), 4);
+        boardRound.updateScore(players.get(2), 4);
+        boardRound.updateScore(players.get(0), 1);
+        ArrayList<Player> aspectedWinners = new ArrayList<Player>();
+        aspectedWinners.add(players.get(1));
+        aspectedWinners.add(players.get(2));
+        assertEquals(boardRound.getWinners(), aspectedWinners);
     }
 }
