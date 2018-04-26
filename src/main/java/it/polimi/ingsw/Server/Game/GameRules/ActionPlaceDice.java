@@ -5,9 +5,11 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
+
 public class ActionPlaceDice extends Action {
     private boolean ignoreColorRestricion;
     private boolean ignoreValueRestriction;
+    private boolean ignoreAdjacencyRestriction;
 
     private static final String actionName  = "Place Dice";
     private int coordinate ;
@@ -17,9 +19,10 @@ public class ActionPlaceDice extends Action {
     private Dice dice ;
     private DraftPool draftPool ;
 
-    public ActionPlaceDice(boolean ignoreColorRestricion, boolean ignoreValueRestriction , DraftPool draftPool) {
+    public ActionPlaceDice(boolean ignoreColorRestricion, boolean ignoreValueRestriction, boolean ignoreAdjacencyRestriction, DraftPool draftPool) {
         this.ignoreColorRestricion = ignoreColorRestricion;
         this.ignoreValueRestriction = ignoreValueRestriction;
+        this.ignoreAdjacencyRestriction = ignoreAdjacencyRestriction;
         this.draftPool = draftPool;
     }
 
@@ -30,7 +33,8 @@ public class ActionPlaceDice extends Action {
         this.diceIndex = diceIndex;
 
         dice = draftPool.getDice(diceIndex);
-        return windowPatternCard.isPlaceable(dice,coordinate,ignoreColorRestricion,ignoreValueRestriction);
+
+        return windowPatternCard.isPlaceable(dice, coordinate, ignoreColorRestricion, ignoreValueRestriction, ignoreAdjacencyRestriction);
 
     }
 
@@ -40,7 +44,7 @@ public class ActionPlaceDice extends Action {
     }
 
     public void doAction() {
-        boolean res = windowPatternCard.placeDice(dice,coordinate,ignoreColorRestricion,ignoreValueRestriction);
+        boolean res = windowPatternCard.placeDice(dice, coordinate, ignoreColorRestricion, ignoreValueRestriction, ignoreAdjacencyRestriction);
         draftPool.removeDice(dice);
 
         //TODO throw an exception instead

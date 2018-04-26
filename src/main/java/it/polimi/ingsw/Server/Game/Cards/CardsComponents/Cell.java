@@ -59,9 +59,15 @@ public class Cell {
     }
 
 
+    boolean isPlaceble(Dice dice, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
-    public boolean isPlaceble(Dice dice , boolean ignore_color , boolean ignore_value ){
-
+        boolean flag_dices_near = ignore_adjacency;
+        for (Cell c : adjacenyHVD) {
+            if (!c.isEmpty())
+                flag_dices_near = true;
+        }
+        if (!flag_dices_near)
+            return false;
 
         for (Cell s : adjacencyHV) {
             if (!s.verify(dice , ignore_color , ignore_value))

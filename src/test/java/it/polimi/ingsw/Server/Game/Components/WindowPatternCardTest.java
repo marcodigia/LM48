@@ -45,6 +45,6 @@ public class WindowPatternCardTest {
     @Test
     void placeDiceOnCellRestriction(){
         Dice dado = new Dice(DiceColor.RED,"6");
-        assertFalse(windowPatternCard.placeDice(dado,19,false,false));
+        assertFalse(windowPatternCard.placeDice(dado, 19, false, false, false));
     }
 }

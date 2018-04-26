@@ -28,21 +28,21 @@ public class WindowPatternCard implements Drawable {
         matrix.initialize_restricions(pattern);
     }
 
-    public boolean placeDice(Dice dice, int coordinate , boolean ignore_color_restriction, boolean ignore_value_restriction){
+    public boolean placeDice(Dice dice, int coordinate, boolean ignore_color_restriction, boolean ignore_value_restriction, boolean ignore_adjacency) {
 
-        return matrix.setDice(dice,coordinate,ignore_color_restriction,ignore_value_restriction);
+        return matrix.setDice(dice, coordinate, ignore_color_restriction, ignore_value_restriction, ignore_adjacency);
     }
 
-    public boolean moveDice(int from , int to , boolean color_restricion , boolean value_restriction){
-        return matrix.moveDice(from , to ,color_restricion , value_restriction);
+    public boolean moveDice(int from, int to, boolean color_restricion, boolean value_restriction, boolean ignore_adjacency) {
+        return matrix.moveDice(from, to, color_restricion, value_restriction, ignore_adjacency);
     }
 
-    public boolean isPlaceable(Dice dice , int coordinate , boolean ignoreColorRestriction , boolean ignoreValueRestriction){
-        return matrix.isPlaceable(dice,coordinate,ignoreColorRestriction,ignoreValueRestriction);
+    public boolean isPlaceable(Dice dice, int coordinate, boolean ignoreColorRestriction, boolean ignoreValueRestriction, boolean ignore_adjacency) {
+        return matrix.isPlaceable(dice, coordinate, ignoreColorRestriction, ignoreValueRestriction, ignore_adjacency);
     }
 
-    public boolean checkRestriction(Dice dice, int coordinate , boolean ignoreColorRestriction ,boolean ignoreValueRestriction){
-        return matrix.checkRestriction(dice,coordinate,ignoreColorRestriction,ignoreValueRestriction);
+    public boolean checkRestriction(Dice dice, int coordinate, boolean ignoreColorRestriction, boolean ignoreValueRestriction, boolean ignore_adjacency) {
+        return matrix.checkRestriction(dice, coordinate, ignoreColorRestriction, ignoreValueRestriction, ignore_adjacency);
     }
 
     public Dice getDice(int coordinate){

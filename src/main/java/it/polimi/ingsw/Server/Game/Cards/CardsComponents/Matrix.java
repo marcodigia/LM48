@@ -3,7 +3,6 @@ package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 import it.polimi.ingsw.Exceptions.WrongPatternSizeException;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Matrix {
@@ -101,10 +100,10 @@ public class Matrix {
 
 
     // check if the input is legal and if the the cell is empty than  if the restrictions are satisfied place the dice
-    public boolean setDice(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value) {
+    public boolean setDice(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
 
-        boolean res = isPlaceable(dice,coordinate,ignore_color,ignore_value);
+        boolean res = isPlaceable(dice, coordinate, ignore_color, ignore_value, ignore_adjacency);
         if (res){
             Cell cell = matrix.get(coordinate);
             cell.setDice(dice);
@@ -139,7 +138,7 @@ public class Matrix {
     }
 
     //check if a the dice is present and if the destination cell is empty than move the dice from a cell to the another
-    public boolean moveDice(int from, int to, boolean ignore_color, boolean ignore_value) {
+    public boolean moveDice(int from, int to, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
         Cell cell_source = matrix.get(from);
         Dice dice = cell_source.getDice();
@@ -150,7 +149,7 @@ public class Matrix {
 
             if (cell_destination.isEmpty()) {
 
-                if (cell_destination.isPlaceble(dice, ignore_color, ignore_value)) {
+                if (cell_destination.isPlaceble(dice, ignore_color, ignore_value, ignore_adjacency)) {
                     cell_source.removeDice(dice);
                     cell_destination.setDice(dice);
                 } else
@@ -163,9 +162,9 @@ public class Matrix {
         return false;
     }
 
-    public boolean isPlaceable(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value){
+    public boolean isPlaceable(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
-        if (checkRestriction(dice,coordinate,ignore_color,ignore_value))
+        if (checkRestriction(dice, coordinate, ignore_color, ignore_value, ignore_adjacency))
         {
             Cell cell = matrix.get(coordinate);
             if (!cell.isEmpty()) {
@@ -179,7 +178,7 @@ public class Matrix {
 
     }
 
-    public boolean checkRestriction(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value){
+    public boolean checkRestriction(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
         //TODO throw exception
         if (coordinate >= matrix.size()) {
@@ -188,7 +187,7 @@ public class Matrix {
         }
         Cell cell = matrix.get(coordinate);
 
-        return cell.isPlaceble(dice, ignore_color, ignore_value);
+        return cell.isPlaceble(dice, ignore_color, ignore_value, ignore_adjacency);
 
     }
 
