@@ -2,7 +2,7 @@ package it.polimi.ingsw.Server.Game.Cards;
 
 import java.util.ArrayList;
 
-public class WindowPatternCardFactory {
+public class WindowPatternCardFactory extends AbstractCardFactory {
    private String filname;
 
     public WindowPatternCardFactory(String filname) {
