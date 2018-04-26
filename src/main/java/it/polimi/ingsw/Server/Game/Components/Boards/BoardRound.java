@@ -23,7 +23,7 @@ public class BoardRound {
         return false;
     }
 
-    public ArrayList<Player> getWinner() {
+    public ArrayList<Player> getWinners() {
         ArrayList<Player> winners = new ArrayList<Player>();
         for (Player p1 : scoreboard.keySet()) {
 
