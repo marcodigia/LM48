@@ -64,14 +64,14 @@ public class Cell {
         boolean flag_dices_near = ignore_adjacency;
         for (Cell c : adjacenyHVD) {
             if (!c.isEmpty())
-                flag_dices_near = true;
+                flag_dices_near = false;
         }
-        if (!flag_dices_near)
-            return false;
+        if (flag_dices_near)
+            return true;
 
         for (Cell s : adjacencyHV) {
             if (!s.verify(dice , ignore_color , ignore_value))
-                return false;
+                return true;
         }
         return true ;
     }
