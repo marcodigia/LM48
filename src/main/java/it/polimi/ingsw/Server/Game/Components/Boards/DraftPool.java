@@ -57,7 +57,6 @@ public class DraftPool {
     }
 
     public ArrayList<Dice> getDraft(){
-
         return new ArrayList<Dice>(dices);
     }
 }
