@@ -1,0 +1,15 @@
+
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(¤ˆáûÿÿÿÿ8¶êÆ¯,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Çí˜8½†ÌÆ¯,
+‹"squid:ClassVariableVisibilityCheck"XMake usernametext a static final constant or non-public and provide accessors if needed.(ÚÚØü8½†ÌÆ¯,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Ø¼¢ƒ8è¦ëÆ¯,
+"squid:ClassVariableVisibilityCheck"VMake playbutton a static final constant or non-public and provide accessors if needed.(¥¹˜•şÿÿÿÿ8½†ÌÆ¯,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(¡Ø¨ÿşÿÿÿÿ8ÙÃğ½°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(¿ˆö­8½†ÌÆ¯,
+Rsquid:S2696"6Make the enclosing method "static" or remove this set.(êªŠ½8è¦ëÆ¯,
+esquid:S1858"D"s" is already a string, there's no need to call "toString()" on it.(¡Ø¨ÿşÿÿÿÿ8è¦ëÆ¯,
+Rsquid:S2696"6Make the enclosing method "static" or remove this set.(şÑı—8Åğ½°,

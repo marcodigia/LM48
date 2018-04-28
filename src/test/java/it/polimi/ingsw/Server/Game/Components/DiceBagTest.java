@@ -21,7 +21,7 @@ class DiceBagTest {
         diceBagSecond = new DiceBag();
     }
 
-    //@Test
+    @Test
     void allDicesBetweenOneSix(){
         ArrayList<Dice> result = diceBag.getNdices(90);
         for(Dice d : result){
@@ -33,7 +33,7 @@ class DiceBagTest {
     /*Giusto che fallisca voglio verificare se è necessario cambiare
     il seed per avvere set di dadi diversi*/
 
-    //@Test
+    @Test
     void twoDiceBagTwoSet(){
         ArrayList<Dice> result = diceBag.getNdices(90);
         ArrayList<Dice> resultSecond = diceBagSecond.getNdices(90);

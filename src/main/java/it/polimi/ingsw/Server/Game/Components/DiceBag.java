@@ -13,12 +13,10 @@ public class DiceBag {
 
     public DiceBag() {
         dices = new ArrayList<Dice>();
+        Random random = new Random();
         for (DiceColor dye : DiceColor.values() )
-            for (int i = 0 ; i < 18 ; i++){
-
-                Random random = new Random();
-                dices.add( new Dice(dye, Integer.toString( random.nextInt(MAX_N)+MIN_N ) ) );
-            }
+            for (int i = 0 ; i < 18 ; i++)
+                dices.add(new Dice(dye, Integer.toString(random.nextInt(MAX_N)+MIN_N)));
     }
 
 

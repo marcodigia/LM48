@@ -1,0 +1,136 @@
+
+Š"squid:ClassVariableVisibilityCheck"RMake draft5 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+†"squid:ClassVariableVisibilityCheck"TMake cellp420 a static final constant or non-public and provide accessors if needed.(ƒ»Ö8ò–—µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(”‚Şê8éúßº°,
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(‰ëÃÌûÿÿÿÿ8‚Å·»°,
+‡"squid:ClassVariableVisibilityCheck"TMake cellp404 a static final constant or non-public and provide accessors if needed.(£øóÅ8ò–—µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(¿ˆö­8åÆó³°,
+Gsquid:S1659"&Declare "cellp430" on a separate line.(ßÙ‡õúÿÿÿÿ8˜‡–µ°,
+Rsquid:S2696"6Make the enclosing method "static" or remove this set.(Áéíû8¶÷¶»°,
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(£„Œïÿÿÿÿÿ8éúßº°,
+Asquid:S1659"&Declare "cellp423" on a separate line.(ƒ»Ö8˜‡–µ°,
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(ÉÜÈüÿÿÿÿ8¥˜¶»°,
+Esquid:S1659"$Declare "draft7" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(€â¼¤8½ƒîº°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp413 a static final constant or non-public and provide accessors if needed.(À³İâûÿÿÿÿ8ò–—µ°,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.( ´±Šıÿÿÿÿ8¥˜¶»°,
+Š"squid:ClassVariableVisibilityCheck"RMake draft7 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(ïµ–Çûÿÿÿÿ8 »¶»°,
+Š"squid:ClassVariableVisibilityCheck"RMake draft6 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+ssquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(œÎÆûúÿÿÿÿ8ê¿ö»°,
+Esquid:S1659"$Declare "draft6" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+Š"squid:ClassVariableVisibilityCheck"RMake draft1 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+Gsquid:S1659"&Declare "cellp433" on a separate line.(ßÙ‡õúÿÿÿÿ8˜‡–µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Š"squid:ClassVariableVisibilityCheck"RMake draft8 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Rsquid:S2696"6Make the enclosing method "static" or remove this set.(Ãˆ¥8‚Å·»°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp410 a static final constant or non-public and provide accessors if needed.(À³İâûÿÿÿÿ8ò–—µ°,
+Gsquid:S1659"&Declare "cellp414" on a separate line.(À³İâûÿÿÿÿ8˜‡–µ°,
+†"squid:ClassVariableVisibilityCheck"TMake cellp423 a static final constant or non-public and provide accessors if needed.(ƒ»Ö8ò–—µ°,
+Gsquid:S1659"&Declare "cellp411" on a separate line.(À³İâûÿÿÿÿ8˜‡–µ°,
+‡"squid:ClassVariableVisibilityCheck"TMake cellp400 a static final constant or non-public and provide accessors if needed.(£øóÅ8ò–—µ°,
+Gsquid:S1659"&Declare "cellp410" on a separate line.(À³İâûÿÿÿÿ8˜‡–µ°,
+Bsquid:S1659"&Declare "cellp404" on a separate line.(£øóÅ8˜‡–µ°,
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(”£´¨ıÿÿÿÿ8‚Å·»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp411 a static final constant or non-public and provide accessors if needed.(À³İâûÿÿÿÿ8ò–—µ°,
+Bsquid:S1659"&Declare "cellp401" on a separate line.(£øóÅ8˜‡–µ°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp414 a static final constant or non-public and provide accessors if needed.(À³İâûÿÿÿÿ8ò–—µ°,
+Gsquid:S1659"&Declare "cellp412" on a separate line.(À³İâûÿÿÿÿ8˜‡–µ°,
+†"squid:ClassVariableVisibilityCheck"TMake cellp424 a static final constant or non-public and provide accessors if needed.(ƒ»Ö8ò–—µ°,
+"squid:ClassVariableVisibilityCheck"NMake p4 a static final constant or non-public and provide accessors if needed.(Ë»éÒ8óˆ·¼°,
+†"squid:ClassVariableVisibilityCheck"TMake cellp421 a static final constant or non-public and provide accessors if needed.(ƒ»Ö8ò–—µ°,
+Rsquid:S2696"6Make the enclosing method "static" or remove this set.(ü°Ï—8œòµ»°,
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(°ïªÄÿÿÿÿÿ8‚Å·»°,
+<squid:S1659" Declare "p4" on a separate line.(Ë»éÒ8óˆ·¼°,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(ÖÆËúÿÿÿÿ8º¡õ½°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp434 a static final constant or non-public and provide accessors if needed.(ßÙ‡õúÿÿÿÿ8ò–—µ°,
+Gsquid:S1659"&Declare "cellp431" on a separate line.(ßÙ‡õúÿÿÿÿ8˜‡–µ°,
+Esquid:S1659"$Declare "draft4" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(êÅÚ²ıÿÿÿÿ8¥˜¶»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Rsquid:S2696"6Make the enclosing method "static" or remove this set.(é·Àñ8‚Å·»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(°‡ï8¥˜¶»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp430 a static final constant or non-public and provide accessors if needed.(ßÙ‡õúÿÿÿÿ8ò–—µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Asquid:S1659"&Declare "cellp424" on a separate line.(ƒ»Ö8˜‡–µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Gsquid:S1659"&Declare "cellp413" on a separate line.(À³İâûÿÿÿÿ8˜‡–µ°,
+Gsquid:S1659"&Declare "cellp432" on a separate line.(ßÙ‡õúÿÿÿÿ8˜‡–µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(»Š†ò8¼§ìº°,
+‡"squid:ClassVariableVisibilityCheck"TMake cellp402 a static final constant or non-public and provide accessors if needed.(£øóÅ8ò–—µ°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp433 a static final constant or non-public and provide accessors if needed.(ßÙ‡õúÿÿÿÿ8ò–—µ°,
+Esquid:S1659"$Declare "draft9" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+Esquid:S1659"$Declare "draft1" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+‡"squid:ClassVariableVisibilityCheck"TMake cellp401 a static final constant or non-public and provide accessors if needed.(£øóÅ8ò–—µ°,
+Š"squid:ClassVariableVisibilityCheck"RMake draft3 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+Gsquid:S1659"&Declare "cellp434" on a separate line.(ßÙ‡õúÿÿÿÿ8˜‡–µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Bsquid:S1659"&Declare "cellp402" on a separate line.(£øóÅ8˜‡–µ°,
+Bsquid:S1659"&Declare "cellp403" on a separate line.(£øóÅ8˜‡–µ°,
+Asquid:S1659"&Declare "cellp420" on a separate line.(ƒ»Ö8˜‡–µ°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp412 a static final constant or non-public and provide accessors if needed.(À³İâûÿÿÿÿ8ò–—µ°,
+Asquid:S1659"&Declare "cellp422" on a separate line.(ƒ»Ö8˜‡–µ°,
+Esquid:S1659"$Declare "draft5" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(îÜÍ¦ûÿÿÿÿ8Ç³»°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp432 a static final constant or non-public and provide accessors if needed.(ßÙ‡õúÿÿÿÿ8ò–—µ°,
+csquid:S1192"GDefine a constant instead of duplicating this literal "WP in" 20 times.(Œò½8ê¿ö»°,
+†"squid:ClassVariableVisibilityCheck"TMake cellp422 a static final constant or non-public and provide accessors if needed.(ƒ»Ö8ò–—µ°,
+Œ"squid:ClassVariableVisibilityCheck"TMake cellp431 a static final constant or non-public and provide accessors if needed.(ßÙ‡õúÿÿÿÿ8ò–—µ°,
+Esquid:S1659"$Declare "draft8" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+‡"squid:ClassVariableVisibilityCheck"TMake cellp403 a static final constant or non-public and provide accessors if needed.(£øóÅ8ò–—µ°,
+Š"squid:ClassVariableVisibilityCheck"RMake draft9 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+Asquid:S1659"&Declare "cellp421" on a separate line.(ƒ»Ö8˜‡–µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8‚Å·»°,
+Esquid:S1659"$Declare "draft2" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8Óõ»°,
+Esquid:S1659"$Declare "draft3" on a separate line.(éœ÷×øÿÿÿÿ8˜‡–µ°,
+Rsquid:S2696"6Make the enclosing method "static" or remove this set.(˜Ø½¤8‚Å·»°,
+Š"squid:ClassVariableVisibilityCheck"RMake draft2 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(Œò½8ê¿ö»°,
+Š"squid:ClassVariableVisibilityCheck"RMake draft4 a static final constant or non-public and provide accessors if needed.(éœ÷×øÿÿÿÿ8ò–—µ°,
+Wsquid:S2696"6Make the enclosing method "static" or remove this set.(³åÅÍıÿÿÿÿ8¶÷¶»°,
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(™Êíúÿÿÿÿ8¥˜¶»°,
