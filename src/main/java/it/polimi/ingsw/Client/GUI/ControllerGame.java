@@ -20,6 +20,7 @@ public class ControllerGame implements Initializable {
                  p4;
     private static Label draftToDisable;
     private String buffer;
+    private boolean put = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -90,105 +91,132 @@ public class ControllerGame implements Initializable {
     public void handleClickWP(MouseEvent mouseEvent) {
         diceToPut = buffer;
         System.out.println("WP");
-        if (mouseEvent.getSource().equals(cellp400)){
+        if (mouseEvent.getSource().equals(cellp400) && put==false){
             System.out.println("WP in");
             cellp400.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp401)){
+        else if (mouseEvent.getSource().equals(cellp401) && put==false){
             System.out.println("WP in");
             cellp401.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp402)){
+        else if (mouseEvent.getSource().equals(cellp402) && put==false){
             System.out.println("WP in");
             cellp402.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp403)){
+        else if (mouseEvent.getSource().equals(cellp403) && put==false){
             System.out.println("WP in");
             cellp403.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp404)){
+        else if (mouseEvent.getSource().equals(cellp404) && put==false){
             System.out.println("WP in");
             cellp404.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp410)){
+        else if (mouseEvent.getSource().equals(cellp410) && put==false){
             System.out.println("WP in");
             cellp410.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp411)){
+        else if (mouseEvent.getSource().equals(cellp411) && put==false){
             System.out.println("WP in");
             cellp411.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp412)){
+        else if (mouseEvent.getSource().equals(cellp412) && put==false){
             System.out.println("WP in");
             cellp412.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp413)){
+        else if (mouseEvent.getSource().equals(cellp413) && put==false){
             System.out.println("WP in");
             cellp413.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp414)){
+        else if (mouseEvent.getSource().equals(cellp414) && put==false){
             System.out.println("WP in");
             cellp414.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp420)){
+        else if (mouseEvent.getSource().equals(cellp420) && put==false){
             System.out.println("WP in");
             cellp420.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp421)){
+        else if (mouseEvent.getSource().equals(cellp421) && put==false){
             System.out.println("WP in");
             cellp421.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp422)){
+        else if (mouseEvent.getSource().equals(cellp422) && put==false){
             System.out.println("WP in");
             cellp422.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp423)){
+        else if (mouseEvent.getSource().equals(cellp423) && put==false){
             System.out.println("WP in");
             cellp423.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp424)){
+        else if (mouseEvent.getSource().equals(cellp424) && put==false){
             System.out.println("WP in");
             cellp424.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp430)){
+        else if (mouseEvent.getSource().equals(cellp430) && put==false){
             System.out.println("WP in");
             cellp430.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp431)){
+        else if (mouseEvent.getSource().equals(cellp431) && put==false){
             System.out.println("WP in");
             cellp431.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp432)){
+        else if (mouseEvent.getSource().equals(cellp432) && put==false){
             System.out.println("WP in");
             cellp432.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp433)){
+        else if (mouseEvent.getSource().equals(cellp433) && put==false){
             System.out.println("WP in");
             cellp433.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
         }
-        else if (mouseEvent.getSource().equals(cellp434)){
+        else if (mouseEvent.getSource().equals(cellp434) && put==false){
             System.out.println("WP in");
             cellp434.setText(diceToPut);
             draftToDisable.setDisable(true);
+            put = true;
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            String s = "You already placed this dice!" + "Please select another dice.";
+            alert.setContentText(s);
+            alert.showAndWait();
         }
     }
 
