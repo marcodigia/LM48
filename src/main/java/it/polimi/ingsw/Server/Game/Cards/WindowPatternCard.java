@@ -10,12 +10,10 @@ public class WindowPatternCard implements Drawable {
     private String name ;
     private String id;
     private int difficulty;
-    private ArrayList<String> pattern;
     private Matrix matrix ;
 
     public WindowPatternCard(ArrayList<String> pattern) {
 
-        this.pattern = pattern ;
         matrix = new Matrix(5,4);
         matrix.initialize();
 

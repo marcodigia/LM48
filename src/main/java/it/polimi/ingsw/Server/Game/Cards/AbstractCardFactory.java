@@ -28,6 +28,10 @@ public abstract class  AbstractCardFactory {
         //open the stream from resources folder , filename is initialize whith the constructor
         String filename = getFilename();
         InputStream is =  getClass().getClassLoader().getResourceAsStream(filename);
+
+        if (is == null)
+            throw new FileNotFoundException();
+
         Scanner scanner =  new Scanner(is);
 
         while (scanner.hasNextLine()){

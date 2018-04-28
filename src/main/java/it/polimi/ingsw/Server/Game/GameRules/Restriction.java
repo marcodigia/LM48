@@ -1,41 +1,56 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
-import java.util.ArrayList;
+public enum Restriction {
+    ONE("1"), TWO("2"), THREE("3"), FOUR("4"),
+    FIVE("5"), SIX("6"), GREEN("G"), YELLOW("Y"),
+    BLUE("B"), RED("R"), PURPLE("P"), NONE(" ");
 
-public class Restriction {
+    String restrictionType;
 
-
-    //TODO add addiacency restriction ??
-
-    private ArrayList<String> restrictions;
-
-    public Restriction() {
-        this.restrictions = new ArrayList<String>();
+    Restriction(String restrictionType) {
+        this.restrictionType = restrictionType;
     }
 
-    public boolean verifyRestrictions(String res_to_test ){
-        Boolean result = true ;
-        for( String s : restrictions ) {
-
-            if(s.equals(res_to_test))
-                result = false ;
-            //result = restrictions.contains(res_to_test);//
+    public static Restriction parseRestricion(String s) {
+        Restriction res;
+        switch (s) {
+            case "Y":
+                res = YELLOW;
+                break;
+            case "B":
+                res = BLUE;
+                break;
+            case "G":
+                res = GREEN;
+                break;
+            case "R":
+                res = RED;
+                break;
+            case "P":
+                res = PURPLE;
+                break;
+            case "1":
+                res = ONE;
+                break;
+            case "2":
+                res = TWO;
+                break;
+            case "3":
+                res = THREE;
+                break;
+            case "4":
+                res = FOUR;
+                break;
+            case "5":
+                res = FIVE;
+                break;
+            case "6":
+                res = SIX;
+                break;
+            default:
+                res = NONE;
+                break;
         }
-        return result;
-
-    }
-
-    public void addRestriction(String s ){
-        restrictions.add(s);
-    }
-
-    public void removeRestricion(String s){
-        restrictions.remove(s);
-    }
-
-    // return a copy of the private state
-    public ArrayList<String> getRestrictions(){
-        ArrayList<String> res = new ArrayList<String>(restrictions);
         return res;
     }
 }

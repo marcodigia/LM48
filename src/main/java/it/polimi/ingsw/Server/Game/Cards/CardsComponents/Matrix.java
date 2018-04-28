@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 
 import it.polimi.ingsw.Exceptions.WrongPatternSizeException;
 import it.polimi.ingsw.Server.Game.Components.Dice;
+import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 
 import java.util.ArrayList;
 
@@ -88,12 +89,14 @@ public class Matrix {
     //this method add all the restrictions
     public void initialize_restricions( ArrayList<String> matrix_pattern ) throws WrongPatternSizeException {
 
+
         if (matrix_pattern.size() != matrix.size())
             throw new WrongPatternSizeException();
 
         for (int i = 0 ; i < matrix.size() ; i ++ )
         {
-            matrix.get(i).addRestricion( matrix_pattern.get(i));
+
+            matrix.get(i).setRestriction(Restriction.parseRestricion(matrix_pattern.get(i)));
         }
 
     }
@@ -101,14 +104,7 @@ public class Matrix {
 
     // check if the input is legal and if the the cell is empty than  if the restrictions are satisfied place the dice
     public boolean setDice(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
-
-
-        boolean res = isPlaceable(dice, coordinate, ignore_color, ignore_value, ignore_adjacency);
-        if (res){
-            Cell cell = matrix.get(coordinate);
-            cell.setDice(dice);
-        }
-        return res;
+        return matrix.get(coordinate).putDice(dice, ignore_color, ignore_value, ignore_adjacency);
 
 
 
@@ -129,8 +125,7 @@ public class Matrix {
 
 
         Cell cell = matrix.get(coordinate);
-        Dice dice = cell.getDice();
-        cell.removeDice(dice);
+        cell.removeDice();
 
 
         return true;
@@ -149,9 +144,8 @@ public class Matrix {
 
             if (cell_destination.isEmpty()) {
 
-                if (cell_destination.isPlaceble(dice, ignore_color, ignore_value, ignore_adjacency)) {
-                    cell_source.removeDice(dice);
-                    cell_destination.setDice(dice);
+                if (cell_destination.putDice(dice, ignore_color, ignore_value, ignore_adjacency)) {
+                    cell_source.removeDice();
                 } else
                     return false;
                 return true;
@@ -191,8 +185,14 @@ public class Matrix {
 
     }
 
-    public ArrayList<String> getAllDices(){
-        return null;
+    public ArrayList<Dice> getAllDices() {
+        ArrayList<Dice> alldices = new ArrayList<>();
+        for (Cell cell : matrix) {
+            if (!cell.isEmpty()) {
+                alldices.add(cell.getDice());
+            }
+        }
+        return alldices;
     }
 
     public Dice getDice(int coordinate){

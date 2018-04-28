@@ -7,17 +7,18 @@ import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
 
 public class ActionPlaceDice extends Action {
+
     private boolean ignoreColorRestricion;
     private boolean ignoreValueRestriction;
     private boolean ignoreAdjacencyRestriction;
-
-    private static final String actionName  = "Place Dice";
-    private int coordinate ;
+    private static final String actionName = "Place Dice";
+    private boolean actionActive = false;
+    private int coordinate;
     private WindowPatternCard windowPatternCard;
     private int diceIndex;
 
-    private Dice dice ;
-    private DraftPool draftPool ;
+    private Dice dice;
+    private DraftPool draftPool;
 
     public ActionPlaceDice(boolean ignoreColorRestricion, boolean ignoreValueRestriction, boolean ignoreAdjacencyRestriction, DraftPool draftPool) {
         this.ignoreColorRestricion = ignoreColorRestricion;
@@ -26,16 +27,17 @@ public class ActionPlaceDice extends Action {
         this.draftPool = draftPool;
     }
 
-    public boolean placeDice(int coordinate , WindowPatternCard windowPatternCard , int diceIndex ){
+    public boolean placeDice(int coordinate, WindowPatternCard windowPatternCard, int diceIndex) {
+
 
         this.coordinate = coordinate;
         this.windowPatternCard = windowPatternCard;
         this.diceIndex = diceIndex;
 
         dice = draftPool.getDice(diceIndex);
-
-        return windowPatternCard.isPlaceable(dice, coordinate, ignoreColorRestricion, ignoreValueRestriction, ignoreAdjacencyRestriction);
-
+        if (windowPatternCard.isPlaceable(dice, coordinate, ignoreColorRestricion, ignoreValueRestriction, ignoreAdjacencyRestriction))
+            actionActive = true;
+        return actionActive;
     }
 
 
@@ -44,12 +46,13 @@ public class ActionPlaceDice extends Action {
     }
 
     public void doAction() {
-        boolean res = windowPatternCard.placeDice(dice, coordinate, ignoreColorRestricion, ignoreValueRestriction, ignoreAdjacencyRestriction);
-        draftPool.removeDice(dice);
+        if (!actionActive) {
+            return;
+        }
 
-        //TODO throw an exception instead
-        if (!res)
-            System.out.println(ANSI_COLOR.ANSI_RED + "[!!] Action failed illegal placement" + ANSI_COLOR.ANSI_RESET);
+        boolean res = windowPatternCard.placeDice(dice, coordinate, ignoreColorRestricion, ignoreValueRestriction, ignoreAdjacencyRestriction);
+        if (res)
+            draftPool.removeDice(dice);
     }
 }
 

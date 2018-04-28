@@ -13,6 +13,8 @@ public class ActionMoveDice extends Action {
     private int to;
     private WindowPatternCard windowPatternCard;
 
+    private boolean actionActive = false;
+
     public ActionMoveDice(boolean color_restriction, boolean value_restriciton, boolean ignore_adjacency) {
         this.color_restriction = color_restriction;
         this.value_restriciton = value_restriciton;
@@ -25,7 +27,7 @@ public class ActionMoveDice extends Action {
         this.from = from;
         this.to = to;
         this.windowPatternCard = windowPatternCard;
-        Dice dice = windowPatternCard.getDice(from); //TODO not working
+        Dice dice = windowPatternCard.getDice(from);
         return windowPatternCard.checkRestriction(dice, to, color_restriction, value_restriciton, ignore_adjacency);
     }
 
