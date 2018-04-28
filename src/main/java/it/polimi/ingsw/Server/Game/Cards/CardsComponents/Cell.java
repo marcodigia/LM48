@@ -32,7 +32,7 @@ public class Cell {
 
     boolean isPlaceble(Dice dice, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
-        return verifyColorAndValue(dice, ignore_color, ignore_value) && verifyAdjacency(dice, ignore_adjacency);
+        return verifyColorAndValue(dice, ignore_color, ignore_value) && verifyAdjacency(ignore_adjacency);
     }
 
     public Restriction getRestriction() {
@@ -40,11 +40,18 @@ public class Cell {
     }
 
     void setRestriction(Restriction cellRestriction) {
-
+        restriction2 = cellRestriction;
     }
 
     // return true only if all the dices in the orthogonal cell are not in contrast with the dice
     boolean verifyColorAndValue(Dice diceToPlace, boolean ignoreColor, boolean ignoreValue) {
+        // convert the DiceInformation to a Restriction
+        Restriction diceToPlaceColor = Restriction.parseRestricion(diceToPlace.getDiceColor().getColor());
+        System.out.println("Confronto " + restriction2 + " con " + diceToPlaceColor);
+        Restriction diceToPlaceValue = Restriction.parseRestricion(diceToPlace.getValue());
+        System.out.println("Confronto " + restriction2 + " con " + diceToPlaceValue);
+        if (restriction2 == (diceToPlaceColor) || restriction2 == (diceToPlaceValue))
+            return false;
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
                 boolean colorIsEqual = diceToPlace.getDiceColor().equals(adjacentOrthogonalCell.getDice().getDiceColor());
@@ -61,7 +68,7 @@ public class Cell {
     }
 
     //return true only if exists a cell adjacent to this one that is not empty
-    boolean verifyAdjacency(Dice diceToPlace, boolean ignoreAdjacency) {
+    boolean verifyAdjacency(boolean ignoreAdjacency) {
         if (ignoreAdjacency)
             return true;
         for (Cell adjacentCell : adjaceny) {
@@ -78,7 +85,7 @@ public class Cell {
 
     //if is according to the current restrictions return true if the method managed to correctly set the dice
     public boolean putDice(Dice diceToPlace, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
-        if (verifyColorAndValue(diceToPlace, ignoreColor, ignoreValue) && verifyAdjacency(diceToPlace, ignoreAdjacency)) {
+        if (verifyColorAndValue(diceToPlace, ignoreColor, ignoreValue) && verifyAdjacency(ignoreAdjacency)) {
             this.dice = diceToPlace;
             return true;
         }

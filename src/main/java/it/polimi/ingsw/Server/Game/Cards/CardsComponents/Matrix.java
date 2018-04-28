@@ -161,11 +161,7 @@ public class Matrix {
         if (checkRestriction(dice, coordinate, ignore_color, ignore_value, ignore_adjacency))
         {
             Cell cell = matrix.get(coordinate);
-            if (!cell.isEmpty()) {
-                System.out.println("dado gia piazzato ");
-                return false;
-            }
-            return true;
+            return cell.isEmpty();
         }
 
         return false;
