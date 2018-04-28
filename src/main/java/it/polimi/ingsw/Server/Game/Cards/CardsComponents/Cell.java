@@ -9,7 +9,7 @@ public class Cell {
 
 
     //private Restriction restriction;
-    Restriction restriction2;
+    Restriction cellRestriction;
     private ArrayList<Cell> adjacencyOrthogonal; //adjacent cells horizontal and vertical
     private Dice dice = null ;
     private ArrayList<Cell> adjaceny; // adjacent cell horizontal vertical and diagonal
@@ -36,21 +36,20 @@ public class Cell {
     }
 
     public Restriction getRestriction() {
-        return restriction2;
+        return cellRestriction;
     }
 
-    void setRestriction(Restriction cellRestriction) {
-        restriction2 = cellRestriction;
+    void setRestriction(Restriction restriction) {
+        this.cellRestriction = restriction;
     }
 
     // return true only if all the dices in the orthogonal cell are not in contrast with the dice
     boolean verifyColorAndValue(Dice diceToPlace, boolean ignoreColor, boolean ignoreValue) {
         // convert the DiceInformation to a Restriction
         Restriction diceToPlaceColor = Restriction.parseRestricion(diceToPlace.getDiceColor().getColor());
-        System.out.println("Confronto " + restriction2 + " con " + diceToPlaceColor);
         Restriction diceToPlaceValue = Restriction.parseRestricion(diceToPlace.getValue());
-        System.out.println("Confronto " + restriction2 + " con " + diceToPlaceValue);
-        if (restriction2 == (diceToPlaceColor) || restriction2 == (diceToPlaceValue))
+        // NB. == is ok because restriction is an enum
+        if (cellRestriction == (diceToPlaceColor) || cellRestriction == (diceToPlaceValue))
             return false;
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
