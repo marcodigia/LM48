@@ -53,6 +53,7 @@ public class Cell {
                 (cellRestriction == (diceToPlaceValue) || ignoreValue) ||
                 cellRestriction == Restriction.NONE))
             return false;
+
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
                 boolean colorIsEqual = diceToPlace.getDiceColor().equals(adjacentOrthogonalCell.getDice().getDiceColor());
@@ -86,6 +87,8 @@ public class Cell {
 
     //if is according to the current restrictions return true if the method managed to correctly set the dice
     public boolean putDice(Dice diceToPlace, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
+        if (!isEmpty())
+            return false;
         if (verifyColorAndValue(diceToPlace, ignoreColor, ignoreValue) && verifyAdjacency(ignoreAdjacency)) {
             this.dice = diceToPlace;
             return true;
