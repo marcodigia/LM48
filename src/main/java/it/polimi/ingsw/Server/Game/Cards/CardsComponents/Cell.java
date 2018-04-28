@@ -49,7 +49,9 @@ public class Cell {
         Restriction diceToPlaceColor = Restriction.parseRestricion(diceToPlace.getDiceColor().getColor());
         Restriction diceToPlaceValue = Restriction.parseRestricion(diceToPlace.getValue());
         // NB. == is ok because restriction is an enum
-        if (cellRestriction == (diceToPlaceColor) || cellRestriction == (diceToPlaceValue))
+        if (!((cellRestriction == (diceToPlaceColor) || ignoreColor) ||
+                (cellRestriction == (diceToPlaceValue) || ignoreValue) ||
+                cellRestriction == Restriction.NONE))
             return false;
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
