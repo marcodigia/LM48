@@ -67,7 +67,7 @@ public class ControllerGame2 implements Initializable {
         diceToPut = buffer;
         System.out.println("WP");
         Label event = (Label) mouseEvent.getSource();
-        if (cells.contains(event) && !put) {
+        if (cells.contains(event) && !put && ((Label) mouseEvent.getSource()).getText().equals("Empty")) {
             System.out.println("WP in");
             event.setText(diceToPut);
             draftToDisable.setDisable(true);
@@ -75,7 +75,7 @@ public class ControllerGame2 implements Initializable {
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error!");
-            String s = "You already placed this dice!" + "Please select another dice.";
+            String s = "You already placed this dice OR in this cell has already been placed a dice!" + " Please perform a correct move.";
             alert.setContentText(s);
             alert.showAndWait();
         }
