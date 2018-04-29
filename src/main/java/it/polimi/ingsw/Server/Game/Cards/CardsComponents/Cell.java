@@ -59,8 +59,9 @@ public class Cell {
                 boolean colorIsEqual = diceToPlace.getDiceColor().equals(adjacentOrthogonalCell.getDice().getDiceColor());
                 boolean valueIsEqual = diceToPlace.getValue().equals(adjacentOrthogonalCell.getDice().getValue());
 
-                if ((colorIsEqual || ignoreColor) ||
-                        (valueIsEqual || ignoreValue)) {
+                if (!((colorIsEqual || ignoreColor) ||
+                        (valueIsEqual || ignoreValue))) {
+                    System.out.println(" Fallito colore valore ");
                     return false;
 
                 }
