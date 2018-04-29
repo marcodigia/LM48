@@ -4,7 +4,7 @@ import it.polimi.ingsw.Exceptions.PlayersNumbersException;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
-import it.polimi.ingsw.Server.Game.PlayerUtility.Player;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
 import java.util.ArrayList;

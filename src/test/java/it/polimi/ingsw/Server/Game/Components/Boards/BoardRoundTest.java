@@ -1,12 +1,11 @@
 package it.polimi.ingsw.Server.Game.Components.Boards;
 
-import it.polimi.ingsw.Server.Game.PlayerUtility.Player;
-import it.polimi.ingsw.Server.Game.PlayerUtility.PlayerColor;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.GameRules.PlayerUtility.PlayerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 import static org.junit.jupiter.api.Assertions.*;

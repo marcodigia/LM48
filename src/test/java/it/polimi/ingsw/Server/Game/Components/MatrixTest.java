@@ -17,6 +17,7 @@ public class MatrixTest {
 
     @BeforeEach
     void setup(){
+
         pattern = new ArrayList<String>();
         pattern.add("Y");   //0
         pattern.add("0");   //1

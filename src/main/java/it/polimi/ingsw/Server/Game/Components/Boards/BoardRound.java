@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Server.Game.Components.Boards;
 
-import it.polimi.ingsw.Server.Game.PlayerUtility.Player;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

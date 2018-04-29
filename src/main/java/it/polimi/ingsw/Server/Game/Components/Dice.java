@@ -31,6 +31,9 @@ public class Dice implements Cloneable{
         value = Integer.toString(i);
     }
 
+    public void setValue(int i) {
+        value = Integer.toString(i);
+    }
 
     @Override
     public boolean equals(Object obj) {
