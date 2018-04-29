@@ -16,8 +16,12 @@ import static it.polimi.ingsw.Client.GUI.ControllerLogin.user;
 public class ControllerGame2 implements Initializable {
 
     private static Label draftToDisable;
-    public Label p4;
-    private ArrayList<Label> cells;
+    public Label p4,
+            cellp400, cellp401, cellp402, cellp403, cellp404,
+            cellp410, cellp411, cellp412, cellp413, cellp414,
+            cellp420, cellp421, cellp422, cellp423, cellp424,
+            cellp430, cellp431, cellp432, cellp433, cellp434;
+    private ArrayList<Label> cells = new ArrayList<>();
     private String buffer;
     private boolean put = false;
 
@@ -25,6 +29,26 @@ public class ControllerGame2 implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("loaded");
         p4.setText(user);
+        cells.add(cellp400);
+        cells.add(cellp401);
+        cells.add(cellp402);
+        cells.add(cellp403);
+        cells.add(cellp404);
+        cells.add(cellp410);
+        cells.add(cellp411);
+        cells.add(cellp412);
+        cells.add(cellp413);
+        cells.add(cellp414);
+        cells.add(cellp420);
+        cells.add(cellp421);
+        cells.add(cellp422);
+        cells.add(cellp423);
+        cells.add(cellp424);
+        cells.add(cellp430);
+        cells.add(cellp431);
+        cells.add(cellp432);
+        cells.add(cellp433);
+        cells.add(cellp434);
     }
 
     @FXML
@@ -35,7 +59,7 @@ public class ControllerGame2 implements Initializable {
         confirmDice();
         buffer = eventDraft.getText();
         draftToDisable = eventDraft;
-
+        put = false;
     }
 
     @FXML
