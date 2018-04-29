@@ -10,3 +10,4 @@ Yellow,Cork-backed Straightedge,9 ,“After drafting place the die in a spot tha
 Green ,Grinding Stone          ,10,“After drafting flip the die to its opposite side”                                    ,“6 flips to 1 ; 5 to 2; 4 to 3 ; etc”
 Purple,Flux Remover            ,11,“After drafting return the die to the Dice Bag and pull 1 die from the bag”           ,“Choose a new value and place the new die obeying all placement restrictions or return it to the Draft Pool”
 Blue  ,Tap Wheel               ,12,Move up to two dice of the same color that match the color of a die on the Round Track,You must obey all placement restrictions
+Purple,Test Tool Card          ,13,“Do nothing”                                                                          ,“Do nothing”
