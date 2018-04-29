@@ -85,6 +85,7 @@ public class ControllerGame implements Initializable {
             buffer = draft9.getText();
             draftToDisable = draft9;
         }
+        put = false;
     }
 
     @FXML
