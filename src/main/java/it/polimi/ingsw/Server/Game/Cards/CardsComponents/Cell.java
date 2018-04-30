@@ -61,7 +61,7 @@ public class Cell {
 
                 if (!((colorIsEqual || ignoreColor) ||
                         (valueIsEqual || ignoreValue))) {
-                    System.out.println(" Fallito colore valore ");
+                    //System.out.println(" Fallito colore valore ");
                     return false;
 
                 }
