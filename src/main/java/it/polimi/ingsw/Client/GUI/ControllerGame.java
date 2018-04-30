@@ -13,11 +13,11 @@ import static it.polimi.ingsw.Client.GUI.ControllerLogin.user;
 public class ControllerGame implements Initializable {
 
     public Label cellp400, cellp401, cellp402, cellp403, cellp404,
-                 cellp410, cellp411, cellp412, cellp413, cellp414,
-                 cellp420, cellp421, cellp422, cellp423, cellp424,
-                 cellp430, cellp431, cellp432, cellp433, cellp434,
-                 draft1, draft2, draft3, draft4, draft5, draft6, draft7, draft8, draft9,
-                 p4;
+            cellp410, cellp411, cellp412, cellp413, cellp414,
+            cellp420, cellp421, cellp422, cellp423, cellp424,
+            cellp430, cellp431, cellp432, cellp433, cellp434,
+            draft1, draft2, draft3, draft4, draft5, draft6, draft7, draft8, draft9,
+            p4;
     private static Label draftToDisable;
     private String buffer;
     private boolean put = false;
@@ -26,6 +26,8 @@ public class ControllerGame implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("loaded");
         p4.setText(user);
+
+
     }
 
     @FXML

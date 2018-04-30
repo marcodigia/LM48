@@ -53,11 +53,6 @@ public class Player {
         useToolCardOfTheTurn.doAction();
     }
 
-    public void endTurn() {
-        placeDiceOfTheTurn = null;
-        useToolCardOfTheTurn = null;
-    }
-
 
     public ArrayList<Cell> getRow(int n) {
         return windowPatternCard.getRow(n);
