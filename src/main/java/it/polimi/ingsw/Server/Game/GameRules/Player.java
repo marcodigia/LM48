@@ -29,7 +29,6 @@ public class Player {
     public Player(PlayerColor color, String name) {
         this.color = color;
         this.name = name;
-        placeDiceOfTheTurn = new TakeDiceBasic(windowPatternCard, draftPool);
 
         ui = new UI_SIMULATION();
     }
@@ -44,6 +43,7 @@ public class Player {
 
 
     public void setAction_placeDiceOfTheTurn(int from, int to) {
+        placeDiceOfTheTurn = new TakeDiceBasic(windowPatternCard, draftPool);
         placeDiceOfTheTurn.takeDice(from, to);
         placeDiceOfTheTurn.doAction();
     }
