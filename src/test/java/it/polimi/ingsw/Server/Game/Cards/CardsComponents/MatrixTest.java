@@ -14,6 +14,7 @@ public class MatrixTest {
 
     private Matrix matrix;
     private ArrayList<String> pattern;
+    private ArrayList<Cell> cells;
     private ArrayList<Dice> dicesone;
     private Dice dice1;
     private Dice dice2;
@@ -59,6 +60,7 @@ public class MatrixTest {
         dice6 = new Dice(DiceColor.BLUE,"5");
 
         dicesone = new ArrayList<Dice>();
+        cells = new ArrayList<Cell>();
 
     }
 
@@ -69,6 +71,15 @@ public class MatrixTest {
         assertTrue(matrix.setDice(dice4,3,false,false,false));
         assertTrue(matrix.setDice(dice6,7,false,false,false));
         assertTrue(matrix.setDice(dice1,11,false,false,false));
+        //Try to place dice ignoring value restriction
+        assertTrue(matrix.setDice(dice3,9,false,true,false));
+        assertTrue(matrix.removeDice(9));
+        //Try to place dice ignoring color restriction
+        assertTrue(matrix.setDice(dice3,16,true,false,false));
+        assertTrue(matrix.removeDice(16));
+        //Try to place dice ignoring value-color restrction
+        assertTrue(matrix.setDice(dice3,6,true,true,false));
+        assertTrue(matrix.removeDice(6));
         //Try to place dices where they cannot go for color-value restriction of matrix
         assertFalse(matrix.setDice(dice5,2,false,false,false));
         assertFalse(matrix.setDice(dice3,12,false,false,false));
@@ -121,7 +132,7 @@ public class MatrixTest {
         assertTrue(matrix.setDice(dice2,8,false,false,true));
         assertTrue(matrix.setDice(dice4,3,false,false,false));
         assertTrue(matrix.setDice(dice6,7,false,false,false));
-        //Getdice
+        //Get dices that are in the matrix
         assertSame(dice2,matrix.getDice(8));
         assertSame(dice4,matrix.getDice(3));
         assertSame(dice6,matrix.getDice(7));
@@ -137,5 +148,39 @@ public class MatrixTest {
         assertTrue(matrix.moveDice(8,4,false,false,false));
         assertSame(dice2,matrix.getDice(4));
         assertFalse(matrix.moveDice(11,5,false,false,false));
+    }
+    @Test
+    void getRow(){
+        //Place dices where they can be placed
+        assertTrue(matrix.setDice(dice1,0,false,false,true));
+        assertTrue(matrix.setDice(dice4,1,false,false,false));
+        assertTrue(matrix.setDice(dice2,2,false,false,false));
+        assertTrue(matrix.setDice(dice3,3,false,false,false));
+        cells = matrix.getRow(0);
+        //Verify cells contains dices
+        assertTrue(cells.get(0).getDice().equals(dice1));
+        assertTrue(cells.get(1).getDice().equals(dice4));
+        assertTrue(cells.get(2).getDice().equals(dice2));
+        assertTrue(cells.get(3).getDice().equals(dice3));
+    }
+    @Test
+    void isPlaceable(){
+        //Place dice
+        assertTrue(matrix.isPlaceable(dice3,0,false,false,true));
+        assertTrue(matrix.setDice(dice3,0,false,false,true));
+        //Try place dice where it cannot be placed
+        assertFalse(matrix.isPlaceable(dice1,15,false,false,false));
+        //Place dice considering adjacent restriction
+        assertTrue(matrix.isPlaceable(dice2,5,false,false,false));
+        assertTrue(matrix.setDice(dice2,5,false,false,false));
+        //Place dice next to another dice same color (ignor color)
+        assertTrue(matrix.isPlaceable(dice1,1,true,false,false));
+        assertTrue(matrix.setDice(dice1,1,true,false,false));
+        //Place dice on cell with value restriction (ignor value restriction)
+        assertTrue(matrix.isPlaceable(dice6,6,false,true,false));
+        assertTrue(matrix.setDice(dice6,6,false,true,false));
+        //Place dice next to another dice same value and cell with color restriction
+        assertTrue(matrix.isPlaceable(dice4,11,true,true,false));
+        assertTrue(matrix.setDice(dice4,11,true,true,false));
     }
 }
