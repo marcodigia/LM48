@@ -49,22 +49,33 @@ public class Cell {
         Restriction diceToPlaceColor = Restriction.parseRestricion(diceToPlace.getDiceColor().getColor());
         Restriction diceToPlaceValue = Restriction.parseRestricion(diceToPlace.getValue());
         // NB. == is ok because restriction is an enum
-        if (!((cellRestriction == (diceToPlaceColor) || ignoreColor) ||
+        //Consider value restriction
+        if(cellRestriction!=Restriction.NONE && !ignoreValue &&
+                ((cellRestriction==Restriction.ONE || cellRestriction==Restriction.TWO ||
+                cellRestriction==Restriction.THREE || cellRestriction==Restriction.FOUR ||
+                cellRestriction==Restriction.FIVE || cellRestriction==Restriction.SIX) &&
+                cellRestriction!=diceToPlaceValue))
+            return false;
+        //Consider color restriction
+        if(cellRestriction!=Restriction.NONE && !ignoreColor &&
+                ((cellRestriction==Restriction.BLUE || cellRestriction==Restriction.GREEN ||
+                cellRestriction==Restriction.PURPLE || cellRestriction == Restriction.RED ||
+                cellRestriction==Restriction.YELLOW) && cellRestriction!=diceToPlaceColor))
+            return false;
+        /*if (!((cellRestriction == (diceToPlaceColor) || ignoreColor) ||
                 (cellRestriction == (diceToPlaceValue) || ignoreValue) ||
                 cellRestriction == Restriction.NONE))
-            return false;
+            return false;*/
 
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
                 boolean colorIsEqual = diceToPlace.getDiceColor().equals(adjacentOrthogonalCell.getDice().getDiceColor());
                 boolean valueIsEqual = diceToPlace.getValue().equals(adjacentOrthogonalCell.getDice().getValue());
 
-                if (!((colorIsEqual || ignoreColor) ||
-                        (valueIsEqual || ignoreValue))) {
-                    //System.out.println(" Fallito colore valore ");
+                if(colorIsEqual && (!ignoreColor))
                     return false;
-
-                }
+                if(valueIsEqual && (!ignoreValue))
+                    return false;
             }
         }
         return true;
