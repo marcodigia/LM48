@@ -1,6 +1,7 @@
-package it.polimi.ingsw.Server.Game.Components;
+package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Matrix;
+import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,37 +66,37 @@ public class MatrixTest {
     void placeDice(){
         //Place dices where they can be placed
         assertTrue(matrix.setDice(dice2,8,false,false,true));
-        assertTrue(matrix.setDice(dice4,15,false,false,true));
-        assertTrue(matrix.setDice(dice6,7,false,false,true));
+        assertTrue(matrix.setDice(dice4,3,false,false,false));
+        assertTrue(matrix.setDice(dice6,7,false,false,false));
+        assertTrue(matrix.setDice(dice1,11,false,false,false));
         //Try to place dices where they cannot go for color-value restriction of matrix
-        assertFalse(matrix.setDice(dice5,0,false,false,true));
-        assertFalse(matrix.setDice(dice3,10,false,false,true));
-        assertFalse(matrix.setDice(dice1,18,false,false,true));
+        assertFalse(matrix.setDice(dice5,2,false,false,false));
+        assertFalse(matrix.setDice(dice3,12,false,false,false));
         //Try to place dices where there are other dices
-        assertFalse(matrix.setDice(dice1,8,false,false,true));
-        assertFalse(matrix.setDice(dice3,15,false,false,true));
-        assertFalse(matrix.setDice(dice5,7,false,false,true));
+        assertFalse(matrix.setDice(dice1,8,false,false,false));
+        assertFalse(matrix.setDice(dice3,3,false,false,false));
+        assertFalse(matrix.setDice(dice5,7,false,false,false));
         //Try to place dices where they cannot go because of color value restrictions of other dices
-        assertFalse(matrix.setDice(dice5,16,false,false,true));
+        assertFalse(matrix.setDice(dice5,4,false,false,false));
     }
 
     @Test
     void removeDice(){
-        //Place dices
-        assertTrue(matrix.setDice(dice1, 3,false,false,true));
-        assertTrue(matrix.setDice(dice2, 2,false,false,true));
-        assertTrue(matrix.setDice(dice3, 15,false,false,true));
-        assertTrue(matrix.setDice(dice4, 6,false,false,true));
+        //Place dices where they can be placed
+        assertTrue(matrix.setDice(dice2,8,false,false,true));
+        assertTrue(matrix.setDice(dice4,3,false,false,false));
+        assertTrue(matrix.setDice(dice6,7,false,false,false));
+        assertTrue(matrix.setDice(dice1,11,false,false,false));
         //Try remove dices that are really in the matrix
         assertTrue(matrix.removeDice(3));
-        assertTrue(matrix.removeDice(2));
-        assertTrue(matrix.removeDice(15));
-        assertTrue(matrix.removeDice(6));
+        assertTrue(matrix.removeDice(8));
+        assertTrue(matrix.removeDice(7));
+        assertTrue(matrix.removeDice(11));
         //After remove dices try to remove them again
         assertFalse(matrix.removeDice(3));
-        assertFalse(matrix.removeDice(2));
-        assertFalse(matrix.removeDice(15));
-        assertFalse(matrix.removeDice(6));
+        assertFalse(matrix.removeDice(8));
+        assertFalse(matrix.removeDice(7));
+        assertFalse(matrix.removeDice(11));
         //Remove no dice
         assertFalse(matrix.removeDice(1));
         //Out of bounds
@@ -105,23 +106,36 @@ public class MatrixTest {
     }
     @Test
     void getAllDices(){
-        //Place dices
+        //Place dices where they can be placed
         assertTrue(matrix.setDice(dice2,8,false,false,true));
-        assertTrue(matrix.setDice(dice4,15,false,false,true));
-        assertTrue(matrix.setDice(dice6,7,false,false,true));
+        assertTrue(matrix.setDice(dice4,3,false,false,false));
+        assertTrue(matrix.setDice(dice6,7,false,false,false));
+        assertTrue(matrix.setDice(dice1,11,false,false,false));
         //Get all dices
         dicesone = matrix.getAllDices();
-        assertEquals(3,dicesone.size());
+        assertEquals(4,dicesone.size());
     }
     @Test
     void getDice(){
-        //Place dices
+        //Place dices where they can be placed
         assertTrue(matrix.setDice(dice2,8,false,false,true));
-        assertTrue(matrix.setDice(dice4,15,false,false,true));
-        assertTrue(matrix.setDice(dice6,7,false,false,true));
+        assertTrue(matrix.setDice(dice4,3,false,false,false));
+        assertTrue(matrix.setDice(dice6,7,false,false,false));
         //Getdice
         assertSame(dice2,matrix.getDice(8));
-        assertSame(dice4,matrix.getDice(15));
+        assertSame(dice4,matrix.getDice(3));
         assertSame(dice6,matrix.getDice(7));
+    }
+    @Test
+    void moveDice(){
+        //Place dices where they can be placed
+        assertTrue(matrix.setDice(dice2,8,false,false,true));
+        assertTrue(matrix.setDice(dice4,3,false,false,false));
+        assertTrue(matrix.setDice(dice6,7,false,false,false));
+        assertTrue(matrix.setDice(dice1,11,false,false,false));
+        //Move dices
+        assertTrue(matrix.moveDice(8,4,false,false,false));
+        assertSame(dice2,matrix.getDice(4));
+        assertFalse(matrix.moveDice(11,5,false,false,false));
     }
 }
