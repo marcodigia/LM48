@@ -2,20 +2,18 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
 import it.polimi.ingsw.Client.View.UI;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
-import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.ComplexAction;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
 
 public class UseToolCardBasic extends BasicAction {
 
     private ToolCard toolCard;
-    private ComplexAction action; //ComplexAction
+    private Actions action;
+    private GameSetUp gameSetUp;
 
-    public UseToolCardBasic(ToolCard toolCard, UI ui, DraftPool draftPool, WindowPatternCard windowPatternCard) {
+    public UseToolCardBasic(ToolCard toolCard, UI ui, GameSetUp gameSetUp) {
         this.toolCard = toolCard;
-        action = toolCard.getActions(ui);
-        action.setWindowPatter(windowPatternCard);
-        action.setDraftPool(draftPool);
+        action = toolCard.getActions(ui, gameSetUp);
     }
 
     @Override

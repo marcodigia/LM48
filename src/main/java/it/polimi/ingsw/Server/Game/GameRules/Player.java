@@ -17,14 +17,14 @@ import java.util.ArrayList;
 public class Player {
 
 
-    private WindowPatternCard windowPatternCard;
+
     private PrivateObjectiveCard privateObjectiveCard;
     private TakeDiceBasic placeDiceOfTheTurn;
     private UseToolCardBasic useToolCardOfTheTurn;
     private PlayerColor color;
     private String name;
-    private DraftPool draftPool;
     private UI ui;
+    private GameSetUp gameSetUp;
 
     public Player(PlayerColor color, String name) {
         this.color = color;
@@ -43,34 +43,28 @@ public class Player {
 
 
     public void setAction_placeDiceOfTheTurn(int from, int to) {
-        placeDiceOfTheTurn = new TakeDiceBasic(windowPatternCard, draftPool);
+        placeDiceOfTheTurn = new TakeDiceBasic(gameSetUp.getWindowPatternCard(), gameSetUp.getDraftPool());
         placeDiceOfTheTurn.takeDice(from, to);
         placeDiceOfTheTurn.doAction();
     }
 
     public void setAction_UseToolCardOfTheTurn(ToolCard toolCard) {
-        useToolCardOfTheTurn = new UseToolCardBasic(toolCard, ui, draftPool, windowPatternCard);
+        useToolCardOfTheTurn = new UseToolCardBasic(toolCard, ui, gameSetUp);
         useToolCardOfTheTurn.doAction();
     }
 
 
     public ArrayList<Cell> getRow(int n) {
-        return windowPatternCard.getRow(n);
+        return gameSetUp.getWindowPatternCard().getRow(n);
     }
 
     public WindowPatternCard getWindowPatternCard() {
-        return windowPatternCard;
+        return gameSetUp.getWindowPatternCard();
     }
 
-    public void setWindowPatternCard(WindowPatternCard windowPatternCard) {
-        this.windowPatternCard = windowPatternCard;
+    public void setGameSetUp(GameSetUp gameSetUp) {
+        this.gameSetUp = gameSetUp;
     }
 
-    public DraftPool getDraftPool() {
-        return draftPool;
-    }
 
-    public void setDraftPool(DraftPool draftPool) {
-        this.draftPool = draftPool;
-    }
 }

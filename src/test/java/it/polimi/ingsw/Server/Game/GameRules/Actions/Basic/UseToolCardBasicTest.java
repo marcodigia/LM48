@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.ToolCardFactory;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
+import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +36,8 @@ class UseToolCardBasicTest {
     @Test
     void doAction() {
 
-        BasicAction action = new UseToolCardBasic(toolCard, new UI_SIMULATION(), draftPool, null);
+
+        BasicAction action = new UseToolCardBasic(toolCard, new UI_SIMULATION(), new GameSetUp(draftPool, diceBag, null, null));
         draftPool.getDice(0).setValue(4);
         action.doAction();
         System.out.println(draftPool.getDice(0).getValue());

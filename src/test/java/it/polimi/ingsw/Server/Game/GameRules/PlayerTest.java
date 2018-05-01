@@ -19,7 +19,7 @@ class PlayerTest {
     DraftPool draftPool = new DraftPool(diceBag);
     WindowPatternCard windowPatternCard;
     ToolCard toolCard;
-
+    GameSetUp gameSetUp;
     @BeforeEach
     void setUp() {
         player = new Player(PlayerColor.PLAYER_BLUE, "maior");
@@ -44,13 +44,14 @@ class PlayerTest {
         }
 
 
+        gameSetUp = new GameSetUp(draftPool, diceBag, null, windowPatternCard);
+        player.setGameSetUp(gameSetUp);
     }
 
     @Test
     void setAction_placeDiceOfTheTurn() {
         assertNull(windowPatternCard.getDice(0));
-        player.setDraftPool(draftPool);
-        player.setWindowPatternCard(windowPatternCard);
+
         player.setAction_placeDiceOfTheTurn(0, 0);
         assertNotNull(windowPatternCard.getDice(0));
 
@@ -60,13 +61,9 @@ class PlayerTest {
     void setAction_UseToolCardOfTheTurn() {
 
         draftPool.getDice(0).setValue(3);
-        player.setDraftPool(draftPool);
         player.setAction_UseToolCardOfTheTurn(toolCard);
         assertEquals(Integer.parseInt(draftPool.getDice(0).getValue()), 4);
 
     }
 
-    @Test
-    void setWindowPatternCard() {
-    }
 }

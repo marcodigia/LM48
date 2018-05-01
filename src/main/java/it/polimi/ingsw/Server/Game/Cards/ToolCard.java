@@ -1,8 +1,9 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
 import it.polimi.ingsw.Client.View.UI;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.ComplexAction;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.IncreaseDice;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.ChangeDiceValueByOne;
+import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
 import java.util.ArrayList;
@@ -30,14 +31,14 @@ public class ToolCard implements Drawable {
     }
 
 
-    public ComplexAction getActions(UI ui) {
+    public Actions getActions(UI ui, GameSetUp gameSetUp) {
 
-        ComplexAction action = null;
+        Actions action = null;
         switch (id) {
 
             case "13":
                 System.out.println("Did nothing");
-                action = new IncreaseDice(1, ui.getDraftPoolIndex());
+                action = new ChangeDiceValueByOne(1, ui.getDraftPoolIndex(), gameSetUp);
                 ui.getMatrixIndexTo();
                 ui.getDraftPoolIndex();
                 break;
