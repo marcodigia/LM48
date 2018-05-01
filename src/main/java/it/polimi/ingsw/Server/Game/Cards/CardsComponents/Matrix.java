@@ -133,6 +133,7 @@ public class Matrix {
     }
 
     //check if a the dice is present and if the destination cell is empty than move the dice from a cell to the another
+    //remove dice from cell_source before move it so can check if adjacent is still true
     public boolean moveDice(int from, int to, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
         Cell cell_source = matrix.get(from);
@@ -143,13 +144,14 @@ public class Matrix {
         if (!cell_source.isEmpty())
 
             if (cell_destination.isEmpty()) {
-
-                if (cell_destination.putDice(dice, ignore_color, ignore_value, ignore_adjacency)) {
-                    cell_source.removeDice();
-                } else
-                    return false;
-                return true;
-
+                Dice dice_source = cell_source.getDice();
+                cell_source.removeDice();
+                if (cell_destination.putDice(dice, ignore_color, ignore_value, ignore_adjacency))
+                    return true;
+                 else{
+                     //Set everything true if dice was there it doesn't matter how but replace it there
+                     cell_source.putDice(dice_source,true,true,true);
+                }
             }
 
 
