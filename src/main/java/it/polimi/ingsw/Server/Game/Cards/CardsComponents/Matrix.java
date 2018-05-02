@@ -111,7 +111,7 @@ public class Matrix {
     }
 
     // check if the input is lega than remove the dice if present
-    public boolean removeDice(int coordinate) {
+    boolean removeDice(int coordinate) {
 
 
         if (coordinate >= matrix.size() || coordinate < 0) {
@@ -170,7 +170,7 @@ public class Matrix {
 
     }
 
-    public boolean checkRestriction(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
+    private boolean checkRestriction(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
         //TODO throw exception
         if (coordinate >= matrix.size()) {
@@ -183,7 +183,7 @@ public class Matrix {
 
     }
 
-    public ArrayList<Dice> getAllDices() {
+    ArrayList<Dice> getAllDices() {
         ArrayList<Dice> alldices = new ArrayList<>();
         for (Cell cell : matrix) {
             if (!cell.isEmpty()) {
