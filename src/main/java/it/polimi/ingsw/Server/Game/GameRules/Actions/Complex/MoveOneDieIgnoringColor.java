@@ -17,7 +17,6 @@ public class MoveOneDieIgnoringColor implements Actions {
 
     @Override
     public void doAction() {
-        if (gameSetUp.getWindowPatternCard().moveDice(from, to, true, false, false))
-            gameSetUp.getDraftPool().removeDice(gameSetUp.getDraftPool().getDice(from));
+        gameSetUp.getWindowPatternCard().moveDice(from, to, true, false, false);
     }
 }

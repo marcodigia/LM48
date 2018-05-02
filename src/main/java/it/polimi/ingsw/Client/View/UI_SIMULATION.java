@@ -25,7 +25,7 @@ public class UI_SIMULATION extends UI {
 
     @Override
     public int getMatrixIndexTo() {
-        return 1;
+        return 19;
     }
 
     @Override

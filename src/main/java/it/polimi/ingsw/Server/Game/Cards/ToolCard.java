@@ -49,7 +49,7 @@ public class ToolCard implements Drawable {
 
                 action = new ChangeDiceValueByOne(ui.getAmmountToChange(), ui.getDraftPoolIndex(), gameSetUp);
                 break;
-            case "2":
+            case "2": // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
                 if (!existsValidMove(gameSetUp.getDraftPool().getDraft(), gameSetUp.getWindowPatternCard(), true, false, false)) {
                     ui.printMessage("No possible valid moves");
                     throw new NoPossibleValidMovesException();
@@ -57,10 +57,10 @@ public class ToolCard implements Drawable {
                 boolean flag = true;
                 do {
                     int matrixTo = ui.getMatrixIndexTo();
-                    int draftPooolFrom = ui.getDraftPoolIndex();
-                    if (gameSetUp.getWindowPatternCard().isPlaceable(gameSetUp.getDraftPool().getDice(draftPooolFrom), matrixTo, true, false, false)) {
+                    int matrixIndexFromFrom = ui.getMatrixIndexFrom();
+                    if (gameSetUp.getWindowPatternCard().isPlaceable(gameSetUp.getWindowPatternCard().getDice(matrixIndexFromFrom), matrixTo, true, false, false)) {
                         flag = false;
-                        action = new MoveOneDieIgnoringColor(gameSetUp, draftPooolFrom, matrixTo);
+                        action = new MoveOneDieIgnoringColor(gameSetUp, matrixIndexFromFrom, matrixTo);
                     }
                 } while (flag);
 
