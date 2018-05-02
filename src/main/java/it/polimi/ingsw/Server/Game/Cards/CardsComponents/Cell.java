@@ -74,13 +74,11 @@ public class Cell {
                 cellRestriction == Restriction.NONE))
             return false;*/
 
-        System.out.println(adjacencyOrthogonal);
+
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
                 boolean colorIsEqual = diceToPlace.getDiceColor().equals(adjacentOrthogonalCell.getDice().getDiceColor());
                 boolean valueIsEqual = diceToPlace.getValue().equals(adjacentOrthogonalCell.getDice().getValue());
-
-                System.out.println(ANSI_COLOR.ANSI_CYAN + " cell restriction :" + cellRestriction + " color Is equal " + colorIsEqual + " value is Equal" + valueIsEqual + ANSI_COLOR.ANSI_RESET);
 
                 if(colorIsEqual && (!ignoreColor))
                     return false;
@@ -111,7 +109,6 @@ public class Cell {
     public boolean putDice(Dice diceToPlace, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
         if (!isEmpty())
             return false;
-        System.out.println("verify color value " + diceToPlace + " ignore " + ignoreColor + ignoreValue + ignoreAdjacency + " " + verifyColorAndValue(diceToPlace, ignoreColor, ignoreValue));
         if (verifyColorAndValue(diceToPlace, ignoreColor, ignoreValue) && verifyAdjacency(ignoreAdjacency)) {
             this.dice = diceToPlace;
             return true;

@@ -42,6 +42,7 @@ class MoveTwoDiceTest {
         gameSetUp = new GameSetUp(draftPool, diceBag, null, windowPatternCard);
     }
 
+    //Move two Dices in two legal position
     @Test
     void doAction() {
         gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "1"), 0, true, true, true);
@@ -57,6 +58,63 @@ class MoveTwoDiceTest {
         moveTwoDiceAction.doAction();
         assertNull(gameSetUp.getWindowPatternCard().getDice(0));
         assertNull(gameSetUp.getWindowPatternCard().getDice(2));
+    }
+
+    //Move same Dice in Two different Positions
+    @Test
+    void doAction2() {
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "1"), 0, true, true, true);
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 2, true, true, true);
+
+        //gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "1"), 5, true, true, true);
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 6, true, true, true);
+
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
+        moveTwoDiceAction = new MoveTwoDice(0, 12, 0, 10, gameSetUp);
+        moveTwoDiceAction.doAction();
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
+        assertNull(gameSetUp.getWindowPatternCard().getDice(12));
+        assertNull(gameSetUp.getWindowPatternCard().getDice(10));
+    }
+
+    //Move two dice in the same position
+    @Test
+    void doAction3() {
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "1"), 0, true, true, true);
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 2, true, true, true);
+
+        //gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "1"), 5, true, true, true);
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 6, true, true, true);
+
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
+        moveTwoDiceAction = new MoveTwoDice(0, 10, 2, 10, gameSetUp);
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(2));
+        moveTwoDiceAction.doAction();
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(2));
+        assertNull(gameSetUp.getWindowPatternCard().getDice(10));
+    }
+
+    //Move two Dices one in legal position the other one in an illegal position
+    @Test
+    void doAction4() {
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "1"), 0, true, true, true);
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 2, true, true, true);
+
+        //gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "1"), 5, true, true, true);
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 6, true, true, true);
+
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
+        moveTwoDiceAction = new MoveTwoDice(0, 12, 2, 19, gameSetUp);
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(2));
+        moveTwoDiceAction.doAction();
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
+        assertNotNull(gameSetUp.getWindowPatternCard().getDice(2));
+        assertNull(gameSetUp.getWindowPatternCard().getDice(12));
+        assertNull(gameSetUp.getWindowPatternCard().getDice(19));
+
     }
 
 
