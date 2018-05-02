@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 import it.polimi.ingsw.Exceptions.WrongPatternSizeException;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,15 @@ public class Matrix {
    private int lenght;
     private int height;
     private ArrayList<Cell> matrix;
+
+    @Override
+    public String toString() {
+        StringBuilder matrixString = new StringBuilder(ANSI_COLOR.ANSI_BLUE + "[ height: " + height + ", lenght: " + lenght + " ");
+        for (Cell cell : matrix)
+            matrixString.append(cell.toString());
+        matrixString.append(ANSI_COLOR.ANSI_BLUE).append("]").append(ANSI_COLOR.ANSI_RESET);
+        return matrixString.toString();
+    }
 
     public Matrix(int lenght, int height) {
         this.lenght = lenght;
@@ -111,30 +121,32 @@ public class Matrix {
     }
 
     // check if the input is lega than remove the dice if present
-    boolean removeDice(int coordinate) {
+    public Dice removeDice(int coordinate) {
 
 
         if (coordinate >= matrix.size() || coordinate < 0) {
             System.out.println("index out of bound ");
-            return false;
+            return null;
         }
         if (matrix.get(coordinate).getDice() == null) {
             System.out.println("nessun dado piazzato ");
-            return false;
+            return null;
         }
 
 
         Cell cell = matrix.get(coordinate);
+        Dice dice = cell.getDice();
         cell.removeDice();
 
 
-        return true;
+        return dice;
 
     }
 
     //check if a the dice is present and if the destination cell is empty than move the dice from a cell to the another
     //remove dice from cell_source before move it so can check if adjacent is still true
     public boolean moveDice(int from, int to, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
+
 
         Cell cell_source = matrix.get(from);
         Dice dice = cell_source.getDice();
@@ -151,6 +163,7 @@ public class Matrix {
                  else{
                      //Set everything true if dice was there it doesn't matter how but replace it there
                      cell_source.putDice(dice_source,true,true,true);
+
                 }
             }
 
@@ -183,7 +196,7 @@ public class Matrix {
 
     }
 
-    ArrayList<Dice> getAllDices() {
+    public ArrayList<Dice> getAllDices() {
         ArrayList<Dice> alldices = new ArrayList<>();
         for (Cell cell : matrix) {
             if (!cell.isEmpty()) {

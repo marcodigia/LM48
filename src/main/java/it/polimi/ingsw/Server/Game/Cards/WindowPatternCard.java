@@ -39,9 +39,13 @@ public class WindowPatternCard implements Drawable {
         return matrix.isPlaceable(dice, coordinate, ignoreColorRestriction, ignoreValueRestriction, ignore_adjacency);
     }
 
-    /*public boolean checkRestriction(Dice dice, int coordinate, boolean ignoreColorRestriction, boolean ignoreValueRestriction, boolean ignore_adjacency) {
-        return matrix.checkRestriction(dice, coordinate, ignoreColorRestriction, ignoreValueRestriction, ignore_adjacency);
-    }*/
+    public Dice removeDice(int n) {
+        return matrix.removeDice(n);
+    }
+
+    public ArrayList<Dice> getAllDices() {
+        return matrix.getAllDices();
+    }
 
     public Dice getDice(int coordinate){
         return matrix.getDice(coordinate);

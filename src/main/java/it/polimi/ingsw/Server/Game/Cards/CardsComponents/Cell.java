@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,18 @@ public class Cell {
     private Dice dice = null ;
     private ArrayList<Cell> adjaceny; // adjacent cell horizontal vertical and diagonal
 
-
-     Cell() {
+    Cell() {
          adjacencyOrthogonal = new ArrayList<>();
          adjaceny = new ArrayList<>();
          // restriction = new Restriction();
 
 
+    }
+
+    @Override
+    public String toString() {
+
+        return ANSI_COLOR.ANSI_YELLOW + "{" + "dice :" + dice + " " + cellRestriction + " }" + ANSI_COLOR.ANSI_RESET;
     }
 
 
@@ -50,7 +56,8 @@ public class Cell {
         Restriction diceToPlaceValue = Restriction.parseRestricion(diceToPlace.getValue());
         // NB. == is ok because restriction is an enum
         //Consider value restriction
-        if(cellRestriction!=Restriction.NONE && !ignoreValue &&
+
+        if (cellRestriction != Restriction.NONE && !ignoreValue &&
                 ((cellRestriction==Restriction.ONE || cellRestriction==Restriction.TWO ||
                 cellRestriction==Restriction.THREE || cellRestriction==Restriction.FOUR ||
                 cellRestriction==Restriction.FIVE || cellRestriction==Restriction.SIX) &&
@@ -67,10 +74,13 @@ public class Cell {
                 cellRestriction == Restriction.NONE))
             return false;*/
 
+        System.out.println(adjacencyOrthogonal);
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
                 boolean colorIsEqual = diceToPlace.getDiceColor().equals(adjacentOrthogonalCell.getDice().getDiceColor());
                 boolean valueIsEqual = diceToPlace.getValue().equals(adjacentOrthogonalCell.getDice().getValue());
+
+                System.out.println(ANSI_COLOR.ANSI_CYAN + " cell restriction :" + cellRestriction + " color Is equal " + colorIsEqual + " value is Equal" + valueIsEqual + ANSI_COLOR.ANSI_RESET);
 
                 if(colorIsEqual && (!ignoreColor))
                     return false;
@@ -101,11 +111,13 @@ public class Cell {
     public boolean putDice(Dice diceToPlace, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
         if (!isEmpty())
             return false;
+        System.out.println("verify color value " + diceToPlace + " ignore " + ignoreColor + ignoreValue + ignoreAdjacency + " " + verifyColorAndValue(diceToPlace, ignoreColor, ignoreValue));
         if (verifyColorAndValue(diceToPlace, ignoreColor, ignoreValue) && verifyAdjacency(ignoreAdjacency)) {
             this.dice = diceToPlace;
             return true;
         }
         return false;
+
     }
 
     //return the dice in this cell

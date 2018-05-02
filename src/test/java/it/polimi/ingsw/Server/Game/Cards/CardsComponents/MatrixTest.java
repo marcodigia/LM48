@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 
-import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Matrix;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,13 +72,13 @@ public class MatrixTest {
         assertTrue(matrix.setDice(dice1,11,false,false,false));
         //Try to place dice ignoring value restriction
         assertTrue(matrix.setDice(dice3,9,false,true,false));
-        assertTrue(matrix.removeDice(9));
+        assertNotNull(matrix.removeDice(9));
         //Try to place dice ignoring color restriction
         assertTrue(matrix.setDice(dice3,16,true,false,false));
-        assertTrue(matrix.removeDice(16));
+        assertNotNull(matrix.removeDice(16));
         //Try to place dice ignoring value-color restrction
         assertTrue(matrix.setDice(dice3,6,true,true,false));
-        assertTrue(matrix.removeDice(6));
+        assertNotNull(matrix.removeDice(6));
         //Try to place dices where they cannot go for color-value restriction of matrix
         assertFalse(matrix.setDice(dice5,2,false,false,false));
         assertFalse(matrix.setDice(dice3,12,false,false,false));
@@ -99,20 +98,20 @@ public class MatrixTest {
         assertTrue(matrix.setDice(dice6,7,false,false,false));
         assertTrue(matrix.setDice(dice1,11,false,false,false));
         //Try remove dices that are really in the matrix
-        assertTrue(matrix.removeDice(3));
-        assertTrue(matrix.removeDice(8));
-        assertTrue(matrix.removeDice(7));
-        assertTrue(matrix.removeDice(11));
+        assertNotNull(matrix.removeDice(3));
+        assertNotNull(matrix.removeDice(8));
+        assertNotNull(matrix.removeDice(7));
+        assertNotNull(matrix.removeDice(11));
         //After remove dices try to remove them again
-        assertFalse(matrix.removeDice(3));
-        assertFalse(matrix.removeDice(8));
-        assertFalse(matrix.removeDice(7));
-        assertFalse(matrix.removeDice(11));
+        assertNull(matrix.removeDice(3));
+        assertNull(matrix.removeDice(8));
+        assertNull(matrix.removeDice(7));
+        assertNull(matrix.removeDice(11));
         //Remove no dice
-        assertFalse(matrix.removeDice(1));
+        assertNull(matrix.removeDice(1));
         //Out of bounds
-        assertFalse(matrix.removeDice(20));
-        assertFalse(matrix.removeDice(-1));
+        assertNull(matrix.removeDice(20));
+        assertNull(matrix.removeDice(-1));
 
     }
     @Test

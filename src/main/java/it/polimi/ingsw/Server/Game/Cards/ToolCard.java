@@ -50,6 +50,8 @@ public class ToolCard implements Drawable {
 
                 action = new ChangeDiceValueByOne(ui.getAmmountToChange(), ui.getDraftPoolIndex(), gameSetUp);
                 break;
+
+
             case "2": // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
                 if (!existsValidMove(gameSetUp.getDraftPool().getDraft(), gameSetUp.getWindowPatternCard(), true, false, false)) {
                     ui.printMessage("No possible valid moves");
@@ -67,6 +69,7 @@ public class ToolCard implements Drawable {
 
                 break;
 
+
             case "3": // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
                 if (!existsValidMove(gameSetUp.getDraftPool().getDraft(), gameSetUp.getWindowPatternCard(), true, false, false)) {
                     ui.printMessage("No possible valid moves");
@@ -83,6 +86,46 @@ public class ToolCard implements Drawable {
                 } while (flag2);
 
                 break;
+
+
+            case "4":
+                if (gameSetUp.getWindowPatternCard().getAllDices().size() < 2 || gameSetUp.getWindowPatternCard().getAllDices().size() > 19)
+                    throw new NoPossibleValidMovesException();
+                flag = false;
+                if (exists2DiceValidMove(gameSetUp))
+                    throw new NoPossibleValidMovesException();
+
+                do {
+                    // if i due dadi non vanno in constrasto tra di loro quando vengono piazzati piazza
+                    int dice1From = ui.getMatrixIndexFrom();
+                    int dice1To = ui.getMatrixIndexTo();
+                    int dice2From = ui.getMatrixIndexFrom();
+                    int dice2To = ui.getMatrixIndexTo();
+
+                    if (gameSetUp.getWindowPatternCard().isPlaceable(
+                            gameSetUp.getWindowPatternCard().getDice(dice1From), dice1To,
+                            false, false, false)) {
+
+                        gameSetUp.getWindowPatternCard().placeDice(gameSetUp.getWindowPatternCard().getDice(dice1From), dice1To,
+                                false, false, false);
+
+                        if (gameSetUp.getWindowPatternCard().isPlaceable(
+                                gameSetUp.getWindowPatternCard().getDice(dice2From), dice2To,
+                                false, false, false)) {
+
+                            gameSetUp.getWindowPatternCard().placeDice(gameSetUp.getWindowPatternCard().getDice(dice2From), dice2To,
+                                    false, false, false);
+                            flag = true;
+                        } else {
+                            Dice dice1 = gameSetUp.getWindowPatternCard().removeDice(dice1To);
+                            gameSetUp.getWindowPatternCard().placeDice(dice1, dice1From, true, true, true);
+                        }
+                    }
+                    if (!flag) {
+                        ui.printMessage("Dices chosen not valid");
+                    }
+                } while (!flag);
+
             default:
                 break;
 
@@ -90,12 +133,39 @@ public class ToolCard implements Drawable {
         return action;
     }
 
+
+    private boolean exists2DiceValidMove(GameSetUp gameSetUp) {
+        ArrayList<Dice> dices = gameSetUp.getWindowPatternCard().getAllDices();
+        for (int i = 0; i < dices.size(); i++) {
+            for (int j = 0; j < dices.size(); i++) {
+                if (dices.get(i).equals(dices.get(j)))
+                    continue;
+                Dice diceTemp = gameSetUp.getWindowPatternCard().removeDice(i);
+                if (scanMatrix(diceTemp, gameSetUp.getWindowPatternCard(), false, false, false)) {
+                    gameSetUp.getWindowPatternCard().placeDice(diceTemp, i, true, true, true);
+                    Dice diceTemp2 = gameSetUp.getWindowPatternCard().removeDice(j);
+                    if (scanMatrix(diceTemp2, gameSetUp.getWindowPatternCard(), false, false, false)) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+        return false;
+    }
+
     private boolean existsValidMove(ArrayList<Dice> dicesToTest, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
         for (Dice dice : dicesToTest) {
-            for (int i = 0; i < 20; i++) {
-                if (windowPatternCard.isPlaceable(dice, i, ignoreColor, ignoreValue, ignoreAdjacency)) {
-                    return true;
-                }
+            if (scanMatrix(dice, windowPatternCard, ignoreColor, ignoreValue, ignoreAdjacency))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean scanMatrix(Dice dice, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
+        for (int i = 0; i < 20; i++) {
+            if (windowPatternCard.isPlaceable(dice, i, ignoreColor, ignoreValue, ignoreAdjacency)) {
+                return true;
             }
         }
         return false;
