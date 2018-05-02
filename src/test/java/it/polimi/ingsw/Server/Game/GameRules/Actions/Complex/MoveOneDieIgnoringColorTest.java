@@ -28,6 +28,7 @@ class MoveOneDieIgnoringColorTest {
     void setUp() {
         WindowPatternCardFactory factory = new WindowPatternCardFactory("windowPatternCards.csv");
         WindowPatternCard windowPatternCard = null;
+
         try {
 
             Hashtable<String, Drawable> deck = factory.getNewCardDeck();
@@ -42,8 +43,8 @@ class MoveOneDieIgnoringColorTest {
 
     @Test
     void doAction() {
-        gameSetUp.getWindowPatternCard().placeDice(gameSetUp.getDraftPool().getDice(0), 0, true, true, true);
-        gameSetUp.getWindowPatternCard().placeDice(gameSetUp.getDraftPool().getDice(1), 6, true, true, true);
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "1"), 0, true, true, true);
+        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 6, true, true, true);
 
         assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
         moveOneDiceAction = new MoveOneDieIgnoringColor(gameSetUp, 0, 1);

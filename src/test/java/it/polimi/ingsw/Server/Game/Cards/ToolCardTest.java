@@ -45,31 +45,6 @@ class ToolCardTest {
 
     }
 
-    @ParameterizedTest(name = " ToolCard id: {index}")
-    @ValueSource(ints = {1, 2})
-    void getActions(int n) {
-        gameSetUp.getWindowPatternCard().placeDice(gameSetUp.getDraftPool().getDice(0), 6, true, true, true);
-        ToolCardFactory Toolfactory = new ToolCardFactory("toolCards.csv");
-        ToolCard toolCard = null;
-        try {
-
-            Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
-
-            toolCard = (ToolCard) deck.get(Integer.toString(n));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Actions actions;
-        try {
-
-            actions = toolCard.getActions(new UI_SIMULATION(), gameSetUp);
-            actions.doAction();
-        } catch (NoPossibleValidMovesException e) {
-
-        }
-
-
-    }
 
     @Test
     void toolCard1() {
@@ -103,6 +78,7 @@ class ToolCardTest {
             gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
             gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
 
+            assertNotNull(toolCard);
             Actions actions = toolCard.getActions(new UI_SIMULATION(), gameSetUp);
             assertNull(gameSetUp.getWindowPatternCard().getDice(19));
             actions.doAction();
