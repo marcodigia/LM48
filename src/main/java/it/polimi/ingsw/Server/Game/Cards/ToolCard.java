@@ -7,6 +7,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.ChangeDiceValueByOne;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.MoveOneDiceIgnoringValue;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.MoveOneDieIgnoringColor;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.MoveTwoDice;
 import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
@@ -92,15 +93,22 @@ public class ToolCard implements Drawable {
                 if (gameSetUp.getWindowPatternCard().getAllDices().size() < 2 || gameSetUp.getWindowPatternCard().getAllDices().size() > 19)
                     throw new NoPossibleValidMovesException();
                 flag = false;
-                if (exists2DiceValidMove(gameSetUp))
+                if (!exists2DiceValidMove(gameSetUp))
                     throw new NoPossibleValidMovesException();
-
+                int dice1From;
+                int dice1To;
+                int dice2From;
+                int dice2To;
                 do {
                     // if i due dadi non vanno in constrasto tra di loro quando vengono piazzati piazza
-                    int dice1From = ui.getMatrixIndexFrom();
-                    int dice1To = ui.getMatrixIndexTo();
-                    int dice2From = ui.getMatrixIndexFrom();
-                    int dice2To = ui.getMatrixIndexTo();
+
+                    dice1From = ui.getMatrixIndexFrom();
+
+                    dice1To = ui.getMatrixIndexTo();
+
+                    dice2From = ui.getMatrixIndexFrom();
+
+                    dice2To = ui.getMatrixIndexTo();
 
                     if (gameSetUp.getWindowPatternCard().isPlaceable(
                             gameSetUp.getWindowPatternCard().getDice(dice1From), dice1To,
@@ -115,6 +123,9 @@ public class ToolCard implements Drawable {
 
                             gameSetUp.getWindowPatternCard().placeDice(gameSetUp.getWindowPatternCard().getDice(dice2From), dice2To,
                                     false, false, false);
+
+                            gameSetUp.getWindowPatternCard().removeDice(dice1To);
+                            gameSetUp.getWindowPatternCard().removeDice(dice2To);
                             flag = true;
                         } else {
                             Dice dice1 = gameSetUp.getWindowPatternCard().removeDice(dice1To);
@@ -126,6 +137,7 @@ public class ToolCard implements Drawable {
                     }
                 } while (!flag);
 
+                return new MoveTwoDice(dice1From, dice1To, dice2From, dice2To, gameSetUp);
             default:
                 break;
 
@@ -135,20 +147,28 @@ public class ToolCard implements Drawable {
 
 
     private boolean exists2DiceValidMove(GameSetUp gameSetUp) {
-        ArrayList<Dice> dices = gameSetUp.getWindowPatternCard().getAllDices();
-        for (int i = 0; i < dices.size(); i++) {
-            for (int j = 0; j < dices.size(); i++) {
-                if (dices.get(i).equals(dices.get(j)))
-                    continue;
-                Dice diceTemp = gameSetUp.getWindowPatternCard().removeDice(i);
-                if (scanMatrix(diceTemp, gameSetUp.getWindowPatternCard(), false, false, false)) {
-                    gameSetUp.getWindowPatternCard().placeDice(diceTemp, i, true, true, true);
-                    Dice diceTemp2 = gameSetUp.getWindowPatternCard().removeDice(j);
-                    if (scanMatrix(diceTemp2, gameSetUp.getWindowPatternCard(), false, false, false)) {
-                        return true;
-                    }
+
+        System.out.println(gameSetUp.getWindowPatternCard().getAllDices().size());
+        for (int i = 0; i < 20; i++) {
+            if (gameSetUp.getWindowPatternCard().getDice(i) != null)
+                for (int j = 0; j < 20; j++) {
+                    if (j != i)
+                        if (gameSetUp.getWindowPatternCard().getDice(j) != null) {
+                            System.out.println(" i : " + i + " j :" + j);
+                            Dice dice1 = gameSetUp.getWindowPatternCard().removeDice(i);
+                            Dice dice2 = gameSetUp.getWindowPatternCard().removeDice(j);
+                            if (scanMatrix(dice1, gameSetUp.getWindowPatternCard(), false, false, false, i))
+                                if (scanMatrix(dice2, gameSetUp.getWindowPatternCard(), false, false, false, j)) {
+                                    gameSetUp.getWindowPatternCard().placeDice(dice1, i, true, true, true);
+                                    gameSetUp.getWindowPatternCard().placeDice(dice2, j, true, true, true);
+                                    return true;
+                                }
+                            gameSetUp.getWindowPatternCard().placeDice(dice1, i, true, true, true);
+                            gameSetUp.getWindowPatternCard().placeDice(dice2, j, true, true, true);
+                        }
+
+
                 }
-            }
 
         }
         return false;
@@ -156,17 +176,18 @@ public class ToolCard implements Drawable {
 
     private boolean existsValidMove(ArrayList<Dice> dicesToTest, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
         for (Dice dice : dicesToTest) {
-            if (scanMatrix(dice, windowPatternCard, ignoreColor, ignoreValue, ignoreAdjacency))
+            if (scanMatrix(dice, windowPatternCard, ignoreColor, ignoreValue, ignoreAdjacency, -1))
                 return true;
         }
         return false;
     }
 
-    private boolean scanMatrix(Dice dice, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
+    private boolean scanMatrix(Dice dice, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency, int currentPlace) {
         for (int i = 0; i < 20; i++) {
-            if (windowPatternCard.isPlaceable(dice, i, ignoreColor, ignoreValue, ignoreAdjacency)) {
-                return true;
-            }
+            if (i != currentPlace)
+                if (windowPatternCard.isPlaceable(dice, i, ignoreColor, ignoreValue, ignoreAdjacency)) {
+                    return true;
+                }
         }
         return false;
     }

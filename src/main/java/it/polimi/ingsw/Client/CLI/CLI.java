@@ -60,7 +60,7 @@ public class CLI extends UI {
         System.out.println(line);
     }
 
-    public static void print_draftborad(ArrayList<Dice> draft) {
+    public static void print_draftboard(ArrayList<Dice> draft) {
 
         System.out.println("Draft Pool : \n");
         StringBuilder line = new StringBuilder();
