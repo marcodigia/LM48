@@ -34,16 +34,6 @@ public class DraftPool {
     //TODO throw exception if not present
     public Dice getDice(int i ){
 
-       /* if ( !dices.contains(dice) )
-            return null;
-
-        for (Dice dd : dices){
-            if (dd.equals(dice))
-                dices.remove(dd);
-                return dd;
-        }
-        return null; */
-
         return dices.get(i);
 
     }
@@ -57,6 +47,6 @@ public class DraftPool {
     }
 
     public ArrayList<Dice> getDraft(){
-        return new ArrayList<Dice>(dices);
+        return new ArrayList<>(dices);
     }
 }

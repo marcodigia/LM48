@@ -74,6 +74,28 @@ public class CLI extends UI {
     }
 
     @Override
+    public void printMessage(String s) {
+        System.out.println(s);
+    }
+
+    @Override
+    public int getAmmountToChange() {
+
+        InputStream is = System.in;
+        Scanner scanner = new Scanner(is);
+
+        int choice;
+        do {
+
+            System.out.println("Aumentare o Diminuire valore del dado => +1 , -1 : ");
+            choice = scanner.nextInt();
+            if (!(choice == -1 || choice == 1))
+                System.out.println("Valore non valido , inserire +1 o  -1");
+        } while (!(choice == -1 || choice == 1));
+        return choice;
+    }
+
+    @Override
     public int getDraftPoolIndex() {
         System.out.println("Indice dado Draft pool : ");
         InputStream is = System.in;

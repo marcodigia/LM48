@@ -4,6 +4,16 @@ import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 public class UI_SIMULATION extends UI {
     @Override
+    public void printMessage(String s) {
+        System.out.println(s);
+    }
+
+    @Override
+    public int getAmmountToChange() {
+        return 1;
+    }
+
+    @Override
     public int getDraftPoolIndex() {
         return 0;
     }
