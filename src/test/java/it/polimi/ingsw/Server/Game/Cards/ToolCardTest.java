@@ -10,8 +10,6 @@ import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
@@ -24,10 +22,11 @@ class ToolCardTest {
     Actions moveOneDiceAction;
     GameSetUp gameSetUp;
     WindowPatternCard windowPatternCard = null;
-
+    WindowPatternCardFactory factory;
     @BeforeEach
     void setUp() {
-        WindowPatternCardFactory factory = new WindowPatternCardFactory("windowPatternCards.csv");
+
+        factory = new WindowPatternCardFactory("windowPatternCards.csv");
 
         try {
 
@@ -75,6 +74,42 @@ class ToolCardTest {
             Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
 
             toolCard = (ToolCard) deck.get("2");
+            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
+            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
+
+            assertNotNull(toolCard);
+            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameSetUp);
+            assertNull(gameSetUp.getWindowPatternCard().getDice(19));
+            actions.doAction();
+            assertNotNull(gameSetUp.getWindowPatternCard().getDice(19));
+
+        } catch (FileNotFoundException | NoPossibleValidMovesException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void toolCard3() {
+
+        try {
+
+            Hashtable<String, Drawable> deck = factory.getNewCardDeck();
+
+            windowPatternCard = (WindowPatternCard) deck.get("26");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        gameSetUp = new GameSetUp(draftPool, diceBag, null, windowPatternCard);
+
+
+        ToolCardFactory Toolfactory = new ToolCardFactory("toolCards.csv");
+        ToolCard toolCard;
+        try {
+
+            Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
+
+            toolCard = (ToolCard) deck.get("3");
             gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
             gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
 
