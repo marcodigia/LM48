@@ -5,6 +5,7 @@ import it.polimi.ingsw.Exceptions.NoPossibleValidMovesException;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.ChangeDiceValueByOne;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.MoveOneDiceIgnoringValue;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.MoveOneDieIgnoringColor;
 import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
@@ -66,6 +67,22 @@ public class ToolCard implements Drawable {
 
                 break;
 
+            case "3": // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
+                if (!existsValidMove(gameSetUp.getDraftPool().getDraft(), gameSetUp.getWindowPatternCard(), true, false, false)) {
+                    ui.printMessage("No possible valid moves");
+                    throw new NoPossibleValidMovesException();
+                }
+                boolean flag2 = true;
+                do {
+                    int matrixTo = ui.getMatrixIndexTo();
+                    int matrixIndexFromFrom = ui.getMatrixIndexFrom();
+                    if (gameSetUp.getWindowPatternCard().isPlaceable(gameSetUp.getWindowPatternCard().getDice(matrixIndexFromFrom), matrixTo, true, false, false)) {
+                        flag2 = false;
+                        action = new MoveOneDiceIgnoringValue(gameSetUp, matrixIndexFromFrom, matrixTo);
+                    }
+                } while (flag2);
+
+                break;
             default:
                 break;
 
