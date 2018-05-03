@@ -1,23 +1,23 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class MoveOneDiceIgnoringValue implements Actions {
 
-    private GameSetUp gameSetUp;
+    private GameContext gameContext;
     private int from;
     private int to;
 
-    public MoveOneDiceIgnoringValue(GameSetUp gameSetUp, int from, int to) {
-        this.gameSetUp = gameSetUp;
+    public MoveOneDiceIgnoringValue(GameContext gameContext, int from, int to) {
+        this.gameContext = gameContext;
         this.from = from;
         this.to = to;
     }
 
     @Override
     public void doAction() {
-        gameSetUp.getWindowPatternCard().moveDice(from, to, false, true, false);
+        gameContext.getWindowPatternCard().moveDice(from, to, false, true, false);
 
     }
 }

@@ -19,7 +19,7 @@ class PlayerTest {
     DraftPool draftPool = new DraftPool(diceBag);
     WindowPatternCard windowPatternCard;
     ToolCard toolCard;
-    GameSetUp gameSetUp;
+    GameContext gameContext;
     @BeforeEach
     void setUp() {
         player = new Player(PlayerColor.PLAYER_BLUE, "maior");
@@ -44,8 +44,8 @@ class PlayerTest {
         }
 
 
-        gameSetUp = new GameSetUp(draftPool, diceBag, null, windowPatternCard);
-        player.setGameSetUp(gameSetUp);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
+        player.setGameContext(gameContext);
     }
 
     @Test

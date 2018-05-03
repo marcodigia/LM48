@@ -4,21 +4,22 @@ import it.polimi.ingsw.Client.View.UI;
 import it.polimi.ingsw.Exceptions.NoPossibleValidMovesException;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class UseToolCardBasic extends BasicAction {
 
     private ToolCard toolCard;
     private Actions action;
-    private GameSetUp gameSetUp;
+    private GameContext gameContext;
 
     private boolean active;
-    public UseToolCardBasic(ToolCard toolCard, UI ui, GameSetUp gameSetUp) {
+
+    public UseToolCardBasic(ToolCard toolCard, UI ui, GameContext gameContext) {
         this.toolCard = toolCard;
         active = true;
 
         try {
-            action = toolCard.getActions(ui, gameSetUp);
+            action = toolCard.getActions(ui, gameContext);
         } catch (NoPossibleValidMovesException e) {
             active = false;
         }

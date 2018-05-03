@@ -1,23 +1,23 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class MoveOneDieIgnoringColor implements Actions {
 
-    private GameSetUp gameSetUp;
+    private GameContext gameContext;
     private int from;
     private int to;
 
-    public MoveOneDieIgnoringColor(GameSetUp gameSetUp, int from, int to) {
-        this.gameSetUp = gameSetUp;
+    public MoveOneDieIgnoringColor(GameContext gameContext, int from, int to) {
+        this.gameContext = gameContext;
         this.from = from;
         this.to = to;
     }
 
     @Override
     public void doAction() {
-        gameSetUp.getWindowPatternCard().moveDice(from, to, true, false, false);
+        gameContext.getWindowPatternCard().moveDice(from, to, true, false, false);
 
     }
 }

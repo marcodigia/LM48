@@ -1,11 +1,9 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
-import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class ChangeDiceValueByOne implements Actions {
 
@@ -15,11 +13,11 @@ public class ChangeDiceValueByOne implements Actions {
     private int draftPoolIndex;
     private boolean active;
 
-    public ChangeDiceValueByOne(int ammount, int draftPoolIndex, GameSetUp gameSetUp) {
+    public ChangeDiceValueByOne(int ammount, int draftPoolIndex, GameContext gameContext) {
         active = true;
         this.ammount = ammount;
         this.draftPoolIndex = draftPoolIndex;
-        draftPool = gameSetUp.getDraftPool();
+        draftPool = gameContext.getDraftPool();
 
     }
 

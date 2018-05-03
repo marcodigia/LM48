@@ -7,7 +7,7 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class MoveOneDiceIgnoringValueTest {
     DiceBag diceBag = new DiceBag();
     DraftPool draftPool = new DraftPool(diceBag);
     Actions moveOneDiceAction;
-    GameSetUp gameSetUp;
+    GameContext gameContext;
 
     @BeforeEach
     void setUp() {
@@ -38,35 +38,35 @@ class MoveOneDiceIgnoringValueTest {
             e.printStackTrace();
         }
         draftPool.extractNdice(2);
-        gameSetUp = new GameSetUp(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
     }
 
     @Test
     void doAction() {
-        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
-        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 6, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 6, true, true, true);
 
-        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
-        moveOneDiceAction = new MoveOneDiceIgnoringValue(gameSetUp, 0, 1);
-        assertNull(gameSetUp.getWindowPatternCard().getDice(1));
-        //assertTrue(gameSetUp.getWindowPatternCard().moveDice(0,1,true,false,false));
+        assertNotNull(gameContext.getWindowPatternCard().getDice(0));
+        moveOneDiceAction = new MoveOneDiceIgnoringValue(gameContext, 0, 1);
+        assertNull(gameContext.getWindowPatternCard().getDice(1));
+        //assertTrue(gameContext.getWindowPatternCard().moveDice(0,1,true,false,false));
         moveOneDiceAction.doAction();
-        assertNull(gameSetUp.getWindowPatternCard().getDice(0));
-        assertNotNull(gameSetUp.getWindowPatternCard().getDice(1));
+        assertNull(gameContext.getWindowPatternCard().getDice(0));
+        assertNotNull(gameContext.getWindowPatternCard().getDice(1));
     }
 
     @Test
     void doAction2() {
-        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "4"), 0, true, true, true);
-        gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "4"), 13, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "4"), 0, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "4"), 13, true, true, true);
 
-        assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
-        moveOneDiceAction = new MoveOneDiceIgnoringValue(gameSetUp, 0, 19);
-        assertNull(gameSetUp.getWindowPatternCard().getDice(19));
-        assertTrue(gameSetUp.getWindowPatternCard().moveDice(0, 19, true, false, false));
+        assertNotNull(gameContext.getWindowPatternCard().getDice(0));
+        moveOneDiceAction = new MoveOneDiceIgnoringValue(gameContext, 0, 19);
+        assertNull(gameContext.getWindowPatternCard().getDice(19));
+        assertTrue(gameContext.getWindowPatternCard().moveDice(0, 19, true, false, false));
 
-        assertNull(gameSetUp.getWindowPatternCard().getDice(0));
-        assertNotNull(gameSetUp.getWindowPatternCard().getDice(19));
+        assertNull(gameContext.getWindowPatternCard().getDice(0));
+        assertNotNull(gameContext.getWindowPatternCard().getDice(19));
     }
 
 }

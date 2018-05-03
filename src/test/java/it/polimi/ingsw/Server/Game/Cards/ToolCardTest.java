@@ -6,7 +6,7 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameSetUp;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,9 +20,10 @@ class ToolCardTest {
     DiceBag diceBag = new DiceBag();
     DraftPool draftPool = new DraftPool(diceBag);
     Actions moveOneDiceAction;
-    GameSetUp gameSetUp;
+    GameContext gameContext;
     WindowPatternCard windowPatternCard = null;
     WindowPatternCardFactory factory;
+
     @BeforeEach
     void setUp() {
 
@@ -37,7 +38,7 @@ class ToolCardTest {
             e.printStackTrace();
         }
 
-        gameSetUp = new GameSetUp(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
 
         draftPool.extractNdice(2);
 
@@ -54,11 +55,11 @@ class ToolCardTest {
             Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
 
             toolCard = (ToolCard) deck.get("1");
-            gameSetUp.getDraftPool().getDice(0).setValue(2);
-            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameSetUp);
-            assertEquals(gameSetUp.getDraftPool().getDice(0).getValue(), "2");
+            gameContext.getDraftPool().getDice(0).setValue(2);
+            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameContext);
+            assertEquals(gameContext.getDraftPool().getDice(0).getValue(), "2");
             actions.doAction();
-            assertEquals(gameSetUp.getDraftPool().getDice(0).getValue(), "3");
+            assertEquals(gameContext.getDraftPool().getDice(0).getValue(), "3");
 
         } catch (FileNotFoundException | NoPossibleValidMovesException e) {
             e.printStackTrace();
@@ -74,14 +75,14 @@ class ToolCardTest {
             Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
 
             toolCard = (ToolCard) deck.get("2");
-            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
-            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
 
             assertNotNull(toolCard);
-            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameSetUp);
-            assertNull(gameSetUp.getWindowPatternCard().getDice(19));
+            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameContext);
+            assertNull(gameContext.getWindowPatternCard().getDice(19));
             actions.doAction();
-            assertNotNull(gameSetUp.getWindowPatternCard().getDice(19));
+            assertNotNull(gameContext.getWindowPatternCard().getDice(19));
 
         } catch (FileNotFoundException | NoPossibleValidMovesException e) {
             e.printStackTrace();
@@ -100,7 +101,7 @@ class ToolCardTest {
             e.printStackTrace();
         }
 
-        gameSetUp = new GameSetUp(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
 
 
         ToolCardFactory Toolfactory = new ToolCardFactory("toolCards.csv");
@@ -110,14 +111,14 @@ class ToolCardTest {
             Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
 
             toolCard = (ToolCard) deck.get("3");
-            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
-            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
 
             assertNotNull(toolCard);
-            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameSetUp);
-            assertNull(gameSetUp.getWindowPatternCard().getDice(19));
+            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameContext);
+            assertNull(gameContext.getWindowPatternCard().getDice(19));
             actions.doAction();
-            assertNotNull(gameSetUp.getWindowPatternCard().getDice(19));
+            assertNotNull(gameContext.getWindowPatternCard().getDice(19));
 
         } catch (FileNotFoundException | NoPossibleValidMovesException e) {
             e.printStackTrace();
@@ -125,7 +126,7 @@ class ToolCardTest {
     }
 
     @Test
-    void toolCard4() {
+    void toolCard4_1() {
         ToolCardFactory Toolfactory = new ToolCardFactory("toolCards.csv");
         ToolCard toolCard;
         try {
@@ -133,22 +134,50 @@ class ToolCardTest {
             Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
 
             toolCard = (ToolCard) deck.get("4");
-            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
-            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 2, true, true, true);
-            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 6, true, true, true);
-            gameSetUp.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 2, true, true, true);
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 6, true, true, true);
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 13, true, true, true);
 
             assertNotNull(toolCard);
-            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameSetUp);
-            assertNull(gameSetUp.getWindowPatternCard().getDice(19));
-            assertNotNull(gameSetUp.getWindowPatternCard().getDice(0));
-            assertNotNull(gameSetUp.getWindowPatternCard().getDice(2));
+            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameContext);
+            assertNull(gameContext.getWindowPatternCard().getDice(19));
+            assertNotNull(gameContext.getWindowPatternCard().getDice(0));
+            assertNotNull(gameContext.getWindowPatternCard().getDice(2));
             actions.doAction();
-            assertNotNull(gameSetUp.getWindowPatternCard().getDice(19));
+            assertNotNull(gameContext.getWindowPatternCard().getDice(19));
 
 
         } catch (FileNotFoundException | NoPossibleValidMovesException e) {
             e.printStackTrace();
         }
     }
+
+    /*
+    void toolCard4_2() {
+        ToolCardFactory Toolfactory = new ToolCardFactory("toolCards.csv");
+        ToolCard toolCard;
+        try {
+
+            Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
+
+            toolCard = (ToolCard) deck.get("4");
+
+
+            for(int i = 0 ; i < 19 ; i ++) {
+
+                gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW,"4"),i,true,true,true);
+            }
+
+            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameContext);
+            actions.doAction();
+
+        } catch (FileNotFoundException | NoPossibleValidMovesException e) {
+            e.printStackTrace();
+            assertNotNull(e);
+        }
+
+
+
+    }*/
 }
