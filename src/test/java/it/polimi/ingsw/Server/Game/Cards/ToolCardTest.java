@@ -180,4 +180,34 @@ class ToolCardTest {
 
 
     }*/
+
+    @Test
+    void doAction6() {
+        while (draftPool.getDice(0).getDiceColor().equals(DiceColor.RED)) {
+            draftPool.extractNdice(1);
+
+        }
+        ToolCardFactory Toolfactory = new ToolCardFactory("toolCards.csv");
+        ToolCard toolCard;
+        try {
+
+            Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
+
+            toolCard = (ToolCard) deck.get("6");
+            gameContext.getDraftPool().getDice(0).setValue(2);
+            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameContext);
+            assertNull(gameContext.getWindowPatternCard().getDice(17));
+            
+            String value = "1";
+            if (draftPool.getDice(0).getValue().equals("1"))
+                value = "2";
+
+            gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, value), 13, true, true, true);
+            actions.doAction();
+            assertNotNull(gameContext.getWindowPatternCard().getDice(17));
+
+        } catch (FileNotFoundException | NoPossibleValidMovesException e) {
+            e.printStackTrace();
+        }
+    }
 }

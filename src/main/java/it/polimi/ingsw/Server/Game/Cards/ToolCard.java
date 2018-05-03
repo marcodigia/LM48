@@ -4,10 +4,7 @@ import it.polimi.ingsw.Client.View.UI;
 import it.polimi.ingsw.Exceptions.NoPossibleValidMovesException;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.ChangeDiceValueByOne;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.MoveOneDiceIgnoringValue;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.MoveOneDieIgnoringColor;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.MoveTwoDice;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.*;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
@@ -138,6 +135,9 @@ public class ToolCard implements Drawable {
                 } while (!flag);
 
                 return new MoveTwoDice(dice1From, dice1To, dice2From, dice2To, gameContext);
+            case "6":
+                int draftFrom = ui.getDraftPoolIndex();
+                return new RerollDraftedDice(gameContext, draftFrom, ui);
             default:
                 break;
 
