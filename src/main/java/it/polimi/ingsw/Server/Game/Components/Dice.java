@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.Components;
 
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
+import java.io.InputStream;
 import java.util.Random;
 
 public class Dice implements Cloneable{
@@ -57,6 +58,13 @@ public class Dice implements Cloneable{
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    public InputStream getDiceImage(){
+
+        String diceImageName = "dice" + (value + color.getColor() + ".png");
+        return getClass().getClassLoader().getResourceAsStream(diceImageName);
     }
 }
 
