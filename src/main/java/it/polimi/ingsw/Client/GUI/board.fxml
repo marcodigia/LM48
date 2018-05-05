@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,38 +11,38 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="609.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.ControllerGame">
+<AnchorPane prefHeight="609.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.ControllerGame">
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <children>
-            <HBox alignment="CENTER" spacing="5.0">
+            <HBox alignment="CENTER">
                <children>
                   <Label text="Game">
                      <font>
                         <Font size="14.0" />
                      </font>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
             <HBox alignment="CENTER">
                <children>
                   <Label text="Round Track">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
-            <HBox>
+            <HBox alignment="CENTER">
                <children>
                   <GridPane alignment="CENTER">
                      <columnConstraints>
@@ -144,11 +143,8 @@
                         </Label>
                      </children>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
                   </GridPane>
                </children>
             </HBox>
@@ -156,17 +152,17 @@
                <children>
                   <Label text="Draft Pool">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
-            <HBox>
+            <HBox alignment="CENTER">
                <children>
-                  <GridPane alignment="CENTER">
+                  <GridPane alignment="CENTER" minHeight="30.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -182,7 +178,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="draft1" onMouseClicked="#handleClickDraft" text="dice1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft1" onMouseClicked="#handleClickDraft" text="" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
@@ -190,7 +186,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="draft2" alignment="CENTER" onMouseClicked="#handleClickDraft" text="dice2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft2" alignment="CENTER" onMouseClicked="#handleClickDraft" text="" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -198,7 +194,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="draft3" alignment="CENTER" onMouseClicked="#handleClickDraft" text="dice3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft3" alignment="CENTER" onMouseClicked="#handleClickDraft" text="" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -206,7 +202,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="draft4" alignment="CENTER" onMouseClicked="#handleClickDraft" text="dice4" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft4" alignment="CENTER" onMouseClicked="#handleClickDraft" text="" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -214,7 +210,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="draft5" alignment="CENTER" onMouseClicked="#handleClickDraft" text="dice5" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft5" alignment="CENTER" onMouseClicked="#handleClickDraft" text="" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -222,7 +218,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="draft6" alignment="CENTER" onMouseClicked="#handleClickDraft" text="dice6" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft6" alignment="CENTER" onMouseClicked="#handleClickDraft" text="" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -230,7 +226,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="draft7" alignment="CENTER" onMouseClicked="#handleClickDraft" text="dice7" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft7" alignment="CENTER" onMouseClicked="#handleClickDraft" text="" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -238,7 +234,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="draft8" alignment="CENTER" onMouseClicked="#handleClickDraft" text="dice8" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft8" alignment="CENTER" onMouseClicked="#handleClickDraft" text="" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -246,7 +242,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="draft9" alignment="CENTER" onMouseClicked="#handleClickDraft" text="dice9" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label fx:id="draft9" alignment="CENTER" onMouseClicked="#handleClickDraft" text="" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -256,27 +252,24 @@
                         </Label>
                      </children>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
                   </GridPane>
                </children>
             </HBox>
-            <HBox alignment="CENTER" spacing="5.0">
+            <HBox alignment="CENTER">
                <children>
                   <Label text="Player 1">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" spacing="5.0">
+            <HBox alignment="CENTER">
                <children>
                   <GridPane alignment="CENTER" gridLinesVisible="true">
                      <columnConstraints>
@@ -293,11 +286,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" text="Label" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                         <Label alignment="CENTER" contentDisplay="CENTER" text="Label" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
@@ -323,34 +313,31 @@
                   </GridPane>
                </children>
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
             <HBox alignment="CENTER">
                <children>
                   <Label text="Player 2">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                   <Separator opacity="0.0" prefHeight="13.0" prefWidth="272.0">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
                   </Separator>
                   <Label alignment="CENTER_RIGHT" text="Player 3">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                </children>
             </HBox>
-            <HBox spacing="5.0">
+            <HBox alignment="CENTER" spacing="10.0">
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets />
                </VBox.margin>
                <children>
                   <GridPane alignment="CENTER" gridLinesVisible="true">
@@ -367,9 +354,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
                      <children>
                         <Label text="Label" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                         <Label text="Label" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
@@ -393,7 +377,7 @@
                         <Label text="Label" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                      </children>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </GridPane>
                   <GridPane alignment="CENTER" gridLinesVisible="true">
@@ -410,9 +394,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
                      <children>
                         <Label text="Label" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                         <Label text="Label" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
@@ -436,29 +417,29 @@
                         <Label text="Label" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                      </children>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </GridPane>
                </children>
             </HBox>
-            <HBox alignment="CENTER" spacing="5.0">
+            <HBox alignment="CENTER">
                <children>
                   <Label fx:id="p4" text="Player 4">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" spacing="5.0">
+            <HBox alignment="CENTER">
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets />
                </VBox.margin>
                <children>
-                  <GridPane alignment="CENTER" gridLinesVisible="true">
+                  <GridPane alignment="CENTER" gridLinesVisible="true" minHeight="140.0" prefHeight="140.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -472,9 +453,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
                      <children>
                         <Label fx:id="cellp400" onMouseClicked="#handleClickWP" text="Empty" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                         <Label fx:id="cellp403" onMouseClicked="#handleClickWP" text="Empty" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
@@ -498,12 +476,11 @@
                         <Label fx:id="cellp413" onMouseClicked="#handleClickWP" text="Empty" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                      </children>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </GridPane>
                </children>
             </HBox>
-            <Button fx:id="putDice" mnemonicParsing="false" opacity="0.0" text="Put Dice" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
