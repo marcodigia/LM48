@@ -19,19 +19,18 @@ import static it.polimi.ingsw.Client.GUI.Main.root;
 
 public class ControllerLobby implements Initializable{
 
-    public Label player1, player2;
+    public Label player1;
     public Button startbutton;
-    public static String diceToPut = "Empty";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("loaded");
+        System.out.println("Lobby Window Loaded");
         player1.setText(user);
     }
 
     @FXML
     private void handleButtonStart(ActionEvent event) throws IOException {
-        System.out.println("cool, start button");
+        System.out.println("Start button");
         URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/board.fxml").toURL();
         switchScene(startbutton, url);
     }

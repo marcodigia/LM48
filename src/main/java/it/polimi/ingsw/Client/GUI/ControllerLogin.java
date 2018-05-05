@@ -23,58 +23,58 @@ public class ControllerLogin implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("loaded");
+        System.out.println("Login Window Loaded");
     }
 
     @FXML
     private void handleButtonPlay(ActionEvent event) throws IOException {
-        if (event.getSource() == playbutton) {
-            System.out.println("cool, play button");
-        }
+        System.out.println("Play button");
         if (usernametext.getLength() > 0) {
-            saveName();
-            URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/rmi_socket.fxml").toURL();
-            switchScene(playbutton, url);
+            goToConnection();
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error!");
-            String s = "Text should be at least 1 characters long. " + "Enter valid text and save.";
-            alert.setContentText(s);
-            alert.showAndWait();
+            createAlertBox();
         }
     }
 
     @FXML
     private void onEnterLogin(ActionEvent enter) throws IOException {
-        System.out.println("cool, enter pressed");
+        System.out.println("Enter pressed");
         if(usernametext.getLength()>0) {
-            saveName();
-            URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/rmi_socket.fxml").toURL();
-            switchScene(playbutton, url);
+            goToConnection();
         }
         else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error!");
-            String s = "Text should be at least 1 characters long. " + "Enter valid text and save.";
-            alert.setContentText(s);
-            alert.showAndWait();
+            createAlertBox();
         }
     }
 
-    public void switchScene(Button button, URL s) throws IOException {
+    private void switchScene(Button button, URL url) throws IOException {
         //get reference to the button's stage
         stage = (Stage) button.getScene().getWindow();
         //load up OTHER FXML document
-        root = FXMLLoader.load(s);
+        root = FXMLLoader.load(url);
         //create a new scene with root and set the stage
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void saveName(){
+    private void saveName(){
         user = new String(usernametext.getText());
         System.out.println(user);
+    }
+
+    private void goToConnection() throws IOException {
+        saveName();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/rmi_socket.fxml").toURL();
+        switchScene(playbutton, url);
+    }
+
+    private void createAlertBox(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error!");
+        String s = "Text should be at least 1 characters long. " + "Enter valid text.";
+        alert.setContentText(s);
+        alert.showAndWait();
     }
 
 }

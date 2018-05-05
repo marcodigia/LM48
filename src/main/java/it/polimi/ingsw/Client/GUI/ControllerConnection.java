@@ -21,19 +21,19 @@ public class ControllerConnection implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("loaded");
+        System.out.println("Connection Window Loaded");
     }
 
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
-        System.out.println("cool, rmi button");
+        System.out.println("RMI button");
         URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/lobby.fxml").toURL();
         switchScene(rmibutton, url);
     }
 
     @FXML
     private void handleButtonSocket(ActionEvent event) throws IOException {
-        System.out.println("cool, socket button");
+        System.out.println("Socket button");
         URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/lobby.fxml").toURL();
         switchScene(socketbutton, url);
     }
