@@ -4,15 +4,19 @@ import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
-import it.polimi.ingsw.Server.Game.Utility.DiceColor;
+import javafx.geometry.Pos;
+import javafx.scene.layout.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -22,17 +26,17 @@ public class ControllerGame implements Initializable {
 
     private int draftpoolindex = -1;
     private static Label draftToDisable;
-    public static String diceToPut = "Empty";
     public WindowPatternCard windowPatternCard;
     public DraftPool draftPool;
     ArrayList<Label> draftPoolLabel = new ArrayList<>();
     ArrayList<String> pattern = new ArrayList<String>();
     public Label p4,
-            cellp400, cellp401, cellp402, cellp403, cellp404,
-            cellp410, cellp411, cellp412, cellp413, cellp414,
-            cellp420, cellp421, cellp422, cellp423, cellp424,
-            cellp430, cellp431, cellp432, cellp433, cellp434,
-            draft1, draft2, draft3, draft4, draft5, draft6, draft7, draft8, draft9;
+                 cellp400, cellp401, cellp402, cellp403, cellp404,
+                 cellp410, cellp411, cellp412, cellp413, cellp414,
+                 cellp420, cellp421, cellp422, cellp423, cellp424,
+                 cellp430, cellp431, cellp432, cellp433, cellp434,
+                 draft1, draft2, draft3, draft4, draft5, draft6, draft7, draft8, draft9;
+    public MenuItem showpublic, showprivate, showtool, showcopyright;
     private ArrayList<Label> cells = new ArrayList<>();
     private String buffer;
     private boolean put = false;
@@ -40,9 +44,8 @@ public class ControllerGame implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Game Window Loaded");
-        p4.setText(user);
 
-        Dice dice = new Dice(DiceColor.RED, "4");
+        p4.setText(user + " (You)");
 
         cells.add(cellp400);
         cells.add(cellp401);
@@ -64,6 +67,7 @@ public class ControllerGame implements Initializable {
         cells.add(cellp432);
         cells.add(cellp433);
         cells.add(cellp434);
+
         draftPoolLabel.add(draft1);
         draftPoolLabel.add(draft2);
         draftPoolLabel.add(draft3);
@@ -128,6 +132,16 @@ public class ControllerGame implements Initializable {
         alert.showAndWait();
     }
 
+    private void createInfoBox(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Copyright ©");
+        String header = "Software Engineering Project\nAll rights reserved";
+        alert.setHeaderText(header);
+        String content = "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D";
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     void setUp(){
         pattern.add("2");
         pattern.add("Via Lux");
@@ -180,5 +194,33 @@ public class ControllerGame implements Initializable {
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         return imageView;
+    }
+
+    public void handleShow(javafx.event.ActionEvent event) {
+        if (event.getSource().equals(showtool))
+            openWindowFromMenu("Tool Cards");
+        if (event.getSource().equals(showpublic))
+            openWindowFromMenu("Public Objective Cards");
+        if (event.getSource().equals(showprivate))
+            openWindowFromMenu("Private Objective Cards");
+    }
+
+    private void openWindowFromMenu(String string){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(string);
+        window.setMinWidth(250);
+        window.setMinHeight(100);
+        Label label = new Label(string);
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label);
+        layout.setAlignment(Pos.TOP_CENTER);
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    public void handleCR(javafx.event.ActionEvent event){
+        createInfoBox();
     }
 }
