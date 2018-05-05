@@ -55,7 +55,7 @@ public class ControllerGame implements Initializable {
         //System.out.println("Draft");
         Label eventDraft = (Label) mouseEvent.getSource();
         //System.out.println(eventDraft.getText());
-        confirmDice();
+        confirmDice(eventDraft);
         buffer = eventDraft.getText();
         draftToDisable = eventDraft;
         put = false;
@@ -76,19 +76,23 @@ public class ControllerGame implements Initializable {
         }
     }
 
-    private void confirmDice() {
+    private void confirmDice(Label l) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Dice");
-        String s = "Do you want to place this dice?";
-        alert.setContentText(s);
+        String header = l.getText();
+        alert.setHeaderText(header);
+        String content = "Do you want to place this dice?";
+        alert.setContentText(content);
         alert.showAndWait();
     }
 
     private void createAlertBox(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error!");
-        String s = "You already placed this dice OR in this cell has already been placed a dice!" + " Please perform a correct move.";
-        alert.setContentText(s);
+        String header = "Wrong action";
+        alert.setHeaderText(header);
+        String content = "You already placed this dice or in this cell has already been placed a dice! Please perform a correct move.";
+        alert.setContentText(content);
         alert.showAndWait();
     }
 }

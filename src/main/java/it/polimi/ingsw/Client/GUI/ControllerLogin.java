@@ -72,8 +72,10 @@ public class ControllerLogin implements Initializable {
     private void createAlertBox(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error!");
-        String s = "Text should be at least 1 characters long. " + "Enter valid text.";
-        alert.setContentText(s);
+        String header = "Your username should be at least 1 character long.";
+        alert.setHeaderText(header);
+        String content = "Please enter a valid username.";
+        alert.setContentText(content);
         alert.showAndWait();
     }
 

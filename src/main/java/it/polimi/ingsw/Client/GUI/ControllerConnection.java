@@ -38,11 +38,11 @@ public class ControllerConnection implements Initializable {
         switchScene(socketbutton, url);
     }
 
-    void switchScene(Button button, URL s) throws IOException {
+    void switchScene(Button button, URL url) throws IOException {
         //get reference to the button's stage
         stage = (Stage) button.getScene().getWindow();
         //load up OTHER FXML document
-        root = FXMLLoader.load(s);
+        root = FXMLLoader.load(url);
         //create a new scene with root and set the stage
         Scene scene = new Scene(root);
         stage.setScene(scene);
