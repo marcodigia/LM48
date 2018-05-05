@@ -18,7 +18,7 @@ public class Main extends Application {
         URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/login.fxml").toURL();
         root = FXMLLoader.load(url);
         primaryStage.setTitle("Sagrada");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
