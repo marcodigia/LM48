@@ -1,12 +1,12 @@
-Purple,Grozing Pliers          ,1 ,“After drafting increase or decrease the value of the drafted die by 1”               ,“1 may not change to 6 or 6 to 1”
-Blue  ,Eglomise Brush          ,2 ,Move any one die in your window ignoring color restrictions                           ,You must obey all other placement restrictions
-Red   ,Copper Foil Burnisher   ,3 ,Move any one die in your window ignoring value restrictions                           ,You must obey all other placement restrictions
-Yellow,Lathekin                ,4 ,“Move exactly two dice obeying all placement restrictions”                            ,-
-Green ,Lens Cutter             ,5 ,“After drafting swap the drafted die with a die from the Round Track”                 ,-
-Purple,Flux Brush              ,6 ,“After drafting re-roll the drafted die”                                              ,“If it cannot be placed return it to the Draft Pool“
-Blue  ,Glazing Hammer          ,7 ,Re-roll all dice in the Draft Pool                                                    ,This may only be used on your second turn before drafting
-Red   ,Running Pliers          ,8 ,“After your first turn immediately draft a die”                                       ,Skip your next turn this round
-Yellow,Cork-backed Straightedge,9 ,“After drafting place the die in a spot that is not adjacent to another die”          ,You must obey all other restrictions
+Purple,Grozing Pliers          ,1,“After drafting increase or decrease the value of the drafted die by 1”               ,“1 may not change to 6 or 6 to 1”
+Blue  ,Eglomise Brush          ,2,Move any one die in your window ignoring color restrictions                           ,You must obey all other placement restrictions
+Red   ,Copper Foil Burnisher   ,3,Move any one die in your window ignoring value restrictions                           ,You must obey all other placement restrictions
+Yellow,Lathekin                ,4,“Move exactly two dice obeying all placement restrictions”                            ,-
+Green ,Lens Cutter             ,5,“After drafting swap the drafted die with a die from the Round Track”                 ,-
+Purple,Flux Brush              ,6,“After drafting re-roll the drafted die”                                              ,“If it cannot be placed return it to the Draft Pool“
+Blue  ,Glazing Hammer          ,7,Re-roll all dice in the Draft Pool                                                    ,This may only be used on your second turn before drafting
+Red   ,Running Pliers          ,8,“After your first turn immediately draft a die”                                       ,Skip your next turn this round
+Yellow,Cork-backed Straightedge,9,“After drafting place the die in a spot that is not adjacent to another die”          ,You must obey all other restrictions
 Green ,Grinding Stone          ,10,“After drafting flip the die to its opposite side”                                    ,“6 flips to 1 ; 5 to 2; 4 to 3 ; etc”
 Purple,Flux Remover            ,11,“After drafting return the die to the Dice Bag and pull 1 die from the bag”           ,“Choose a new value and place the new die obeying all placement restrictions or return it to the Draft Pool”
 Blue  ,Tap Wheel               ,12,Move up to two dice of the same color that match the color of a die on the Round Track,You must obey all placement restrictions

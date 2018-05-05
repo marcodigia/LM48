@@ -29,6 +29,7 @@ public abstract class  AbstractCardFactory {
         String filename = getFilename();
         InputStream is =  getClass().getClassLoader().getResourceAsStream(filename);
 
+
         if (is == null)
             throw new FileNotFoundException();
 

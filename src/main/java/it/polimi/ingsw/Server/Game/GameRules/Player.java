@@ -6,7 +6,6 @@ import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.Cards.PrivateObjectiveCard;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
-import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.TakeDiceBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.PlayerUtility.PlayerColor;
@@ -17,19 +16,18 @@ import java.util.ArrayList;
 public class Player {
 
 
-    private WindowPatternCard windowPatternCard;
+
     private PrivateObjectiveCard privateObjectiveCard;
     private TakeDiceBasic placeDiceOfTheTurn;
     private UseToolCardBasic useToolCardOfTheTurn;
     private PlayerColor color;
     private String name;
-    private DraftPool draftPool;
     private UI ui;
+    private GameContext gameContext;
 
     public Player(PlayerColor color, String name) {
         this.color = color;
         this.name = name;
-        placeDiceOfTheTurn = new TakeDiceBasic(windowPatternCard, draftPool);
 
         ui = new UI_SIMULATION();
     }
@@ -44,33 +42,28 @@ public class Player {
 
 
     public void setAction_placeDiceOfTheTurn(int from, int to) {
+        placeDiceOfTheTurn = new TakeDiceBasic(gameContext.getWindowPatternCard(), gameContext.getDraftPool());
         placeDiceOfTheTurn.takeDice(from, to);
         placeDiceOfTheTurn.doAction();
     }
 
     public void setAction_UseToolCardOfTheTurn(ToolCard toolCard) {
-        useToolCardOfTheTurn = new UseToolCardBasic(toolCard, ui, draftPool, windowPatternCard);
+        useToolCardOfTheTurn = new UseToolCardBasic(toolCard, ui, gameContext);
         useToolCardOfTheTurn.doAction();
     }
 
 
     public ArrayList<Cell> getRow(int n) {
-        return windowPatternCard.getRow(n);
+        return gameContext.getWindowPatternCard().getRow(n);
     }
 
     public WindowPatternCard getWindowPatternCard() {
-        return windowPatternCard;
+        return gameContext.getWindowPatternCard();
     }
 
-    public void setWindowPatternCard(WindowPatternCard windowPatternCard) {
-        this.windowPatternCard = windowPatternCard;
+    public void setGameContext(GameContext gameContext) {
+        this.gameContext = gameContext;
     }
 
-    public DraftPool getDraftPool() {
-        return draftPool;
-    }
 
-    public void setDraftPool(DraftPool draftPool) {
-        this.draftPool = draftPool;
-    }
 }

@@ -27,6 +27,8 @@ public class DiceTest {
     @RepeatedTest(2)
     void reRollDice(){
         dice2.reroll();
+        while (dice.toString().equals(dice2.toString()))
+            dice2.reroll();
         assertNotEquals(dice.toString(),dice2.toString());
     }
     @Test

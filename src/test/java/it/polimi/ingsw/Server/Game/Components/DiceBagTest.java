@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Server.Game.Components;
 
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
@@ -33,6 +30,7 @@ class DiceBagTest {
     /*Giusto che fallisca voglio verificare se è necessario cambiare
     il seed per avvere set di dadi diversi*/
 
+    @Disabled
     @Test
     void twoDiceBagTwoSet(){
         ArrayList<Dice> result = diceBag.getNdices(90);

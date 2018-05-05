@@ -4,6 +4,10 @@ import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 public abstract class UI {
 
+    public abstract void printMessage(String s);
+
+    public abstract int getAmmountToChange();
+
     public abstract int getDraftPoolIndex();
 
     public abstract int getMatrixIndexFrom();

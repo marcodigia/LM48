@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,18 @@ public class Cell {
     private Dice dice = null ;
     private ArrayList<Cell> adjaceny; // adjacent cell horizontal vertical and diagonal
 
-
-     Cell() {
+    Cell() {
          adjacencyOrthogonal = new ArrayList<>();
          adjaceny = new ArrayList<>();
          // restriction = new Restriction();
 
 
+    }
+
+    @Override
+    public String toString() {
+
+        return ANSI_COLOR.ANSI_YELLOW + "{" + "dice :" + dice + " " + cellRestriction + " }" + ANSI_COLOR.ANSI_RESET;
     }
 
 
@@ -50,7 +56,8 @@ public class Cell {
         Restriction diceToPlaceValue = Restriction.parseRestricion(diceToPlace.getValue());
         // NB. == is ok because restriction is an enum
         //Consider value restriction
-        if(cellRestriction!=Restriction.NONE && !ignoreValue &&
+
+        if (cellRestriction != Restriction.NONE && !ignoreValue &&
                 ((cellRestriction==Restriction.ONE || cellRestriction==Restriction.TWO ||
                 cellRestriction==Restriction.THREE || cellRestriction==Restriction.FOUR ||
                 cellRestriction==Restriction.FIVE || cellRestriction==Restriction.SIX) &&
@@ -66,6 +73,7 @@ public class Cell {
                 (cellRestriction == (diceToPlaceValue) || ignoreValue) ||
                 cellRestriction == Restriction.NONE))
             return false;*/
+
 
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
@@ -106,6 +114,7 @@ public class Cell {
             return true;
         }
         return false;
+
     }
 
     //return the dice in this cell

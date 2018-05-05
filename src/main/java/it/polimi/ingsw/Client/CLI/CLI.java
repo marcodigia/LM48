@@ -60,7 +60,7 @@ public class CLI extends UI {
         System.out.println(line);
     }
 
-    public static void print_draftborad(ArrayList<Dice> draft) {
+    public static void print_draftboard(ArrayList<Dice> draft) {
 
         System.out.println("Draft Pool : \n");
         StringBuilder line = new StringBuilder();
@@ -71,6 +71,28 @@ public class CLI extends UI {
         }
         System.out.println(line);
         System.out.println();
+    }
+
+    @Override
+    public void printMessage(String s) {
+        System.out.println(s);
+    }
+
+    @Override
+    public int getAmmountToChange() {
+
+        InputStream is = System.in;
+        Scanner scanner = new Scanner(is);
+
+        int choice;
+        do {
+
+            System.out.println("Aumentare o Diminuire valore del dado => +1 , -1 : ");
+            choice = scanner.nextInt();
+            if (!(choice == -1 || choice == 1))
+                System.out.println("Valore non valido , inserire +1 o  -1");
+        } while (!(choice == -1 || choice == 1));
+        return choice;
     }
 
     @Override

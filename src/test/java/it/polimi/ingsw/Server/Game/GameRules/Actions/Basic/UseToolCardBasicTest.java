@@ -6,13 +6,14 @@ import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.ToolCardFactory;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UseToolCardBasicTest {
 
@@ -35,7 +36,8 @@ class UseToolCardBasicTest {
     @Test
     void doAction() {
 
-        BasicAction action = new UseToolCardBasic(toolCard, new UI_SIMULATION(), draftPool, null);
+
+        BasicAction action = new UseToolCardBasic(toolCard, new UI_SIMULATION(), new GameContext(draftPool, diceBag, null, null));
         draftPool.getDice(0).setValue(4);
         action.doAction();
         System.out.println(draftPool.getDice(0).getValue());

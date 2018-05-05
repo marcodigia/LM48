@@ -51,7 +51,16 @@ class BoardRoundTest {
         ArrayList<Player> aspectedWinners = new ArrayList<Player>();
         aspectedWinners.add(players.get(1));
         aspectedWinners.add(players.get(2));
-        assertEquals(boardRound.getWinners(), aspectedWinners);
+        assertEquals(boardRound.getWinners().size(), aspectedWinners.size());
+        for (Player player : boardRound.getWinners()) {
+            boolean flag = false;
+            for (Player player2 : aspectedWinners) {
+                if (player.equals(player2))
+                    flag = true;
+            }
+            assertTrue(flag);
+        }
+
     }
 
 
