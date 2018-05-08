@@ -1,6 +1,5 @@
 # Progetto-Ingegneria-del-Software
-
-Gruppo numero 48
+## Gruppo numero 48
 
 Membri:
 
