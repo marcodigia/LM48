@@ -24,19 +24,20 @@ import static it.polimi.ingsw.Client.GUI.ControllerLogin.user;
 
 public class ControllerGame implements Initializable {
 
-    private int draftpoolindex = -1;
-    private static Label draftToDisable;
-    public WindowPatternCard windowPatternCard;
-    public DraftPool draftPool;
-    ArrayList<Label> draftPoolLabel = new ArrayList<>();
-    ArrayList<String> pattern = new ArrayList<String>();
-    public Label p4,
+    public Label p1, p2, p3, p4,
                  cellp400, cellp401, cellp402, cellp403, cellp404,
                  cellp410, cellp411, cellp412, cellp413, cellp414,
                  cellp420, cellp421, cellp422, cellp423, cellp424,
                  cellp430, cellp431, cellp432, cellp433, cellp434,
-                 draft1, draft2, draft3, draft4, draft5, draft6, draft7, draft8, draft9;
+                 draft1, draft2, draft3, draft4, draft5, draft6, draft7, draft8, draft9,
+                 round1, round2, round3, round4, round5, round6, round7, round8, round9, round10;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
+    private int draftpoolindex = -1;
+    private static Label draftToDisable;
+    private WindowPatternCard windowPatternCard;
+    private DraftPool draftPool;
+    private ArrayList<Label> draftPoolLabel = new ArrayList<>();
+    private ArrayList<String> pattern = new ArrayList<String>();
     private ArrayList<Label> cells = new ArrayList<>();
     private String buffer;
     private boolean put = false;
