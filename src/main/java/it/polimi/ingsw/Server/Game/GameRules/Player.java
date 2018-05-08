@@ -29,7 +29,7 @@ public class Player {
         this.color = color;
         this.name = name;
 
-        ui = new UI_SIMULATION();
+        ui = new UI_SIMULATION(0, 0, 0, 0, 0);
     }
 
     public String getName() {
@@ -44,12 +44,12 @@ public class Player {
     public void setAction_placeDiceOfTheTurn(int from, int to) {
         placeDiceOfTheTurn = new TakeDiceBasic(gameContext.getWindowPatternCard(), gameContext.getDraftPool());
         placeDiceOfTheTurn.takeDice(from, to);
-        placeDiceOfTheTurn.doAction();
+        placeDiceOfTheTurn.doAction(gameContext);
     }
 
     public void setAction_UseToolCardOfTheTurn(ToolCard toolCard) {
         useToolCardOfTheTurn = new UseToolCardBasic(toolCard, ui, gameContext);
-        useToolCardOfTheTurn.doAction();
+        useToolCardOfTheTurn.doAction(gameContext);
     }
 
 

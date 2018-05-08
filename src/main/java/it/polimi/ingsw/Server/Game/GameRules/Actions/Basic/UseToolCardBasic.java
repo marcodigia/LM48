@@ -26,10 +26,15 @@ public class UseToolCardBasic extends BasicAction {
     }
 
     @Override
-    public void doAction() {
+    public void doAction(GameContext gameContext) {
         System.out.println("Used tool card" + toolCard.getID());
         //Complex action set Window Pattern , Complex action set Draft
         if (active)
-            action.doAction();
+            action.doAction(gameContext);
+    }
+
+    @Override
+    public void useAction(UI ui, GameContext gameContext) {
+
     }
 }

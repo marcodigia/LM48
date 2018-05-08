@@ -1,21 +1,8 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
-import it.polimi.ingsw.Server.Game.Cards.Drawable;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
-import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
-import it.polimi.ingsw.Server.Game.Components.DiceBag;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
-import java.util.Hashtable;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class TakeDiceBasicTest {
 
-    DiceBag diceBag = new DiceBag();
+   /* DiceBag diceBag = new DiceBag();
     DraftPool draftPool = new DraftPool(diceBag);
     WindowPatternCard windowPatternCard;
 
@@ -50,5 +37,5 @@ class TakeDiceBasicTest {
         assertNull(windowPatternCard.getDice(7));
         takeDice.doAction();
         assertNull(windowPatternCard.getDice(7));
-    }
+    }*/
 }

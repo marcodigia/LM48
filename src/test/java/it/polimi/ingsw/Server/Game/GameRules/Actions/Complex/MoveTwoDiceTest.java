@@ -1,25 +1,7 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
-import it.polimi.ingsw.Server.Game.Cards.Drawable;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
-import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
-import it.polimi.ingsw.Server.Game.Components.Dice;
-import it.polimi.ingsw.Server.Game.Components.DiceBag;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
-import it.polimi.ingsw.Server.Game.Utility.DiceColor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
-import java.util.Hashtable;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 class MoveTwoDiceTest {
-
+/*
     DiceBag diceBag = new DiceBag();
     DraftPool draftPool = new DraftPool(diceBag);
     Actions moveTwoDiceAction;
@@ -115,7 +97,7 @@ class MoveTwoDiceTest {
         assertNull(gameContext.getWindowPatternCard().getDice(12));
         assertNull(gameContext.getWindowPatternCard().getDice(19));
 
-    }
+    }*/
 
 
 }

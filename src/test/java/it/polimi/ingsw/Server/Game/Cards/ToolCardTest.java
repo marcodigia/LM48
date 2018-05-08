@@ -1,23 +1,7 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
-import it.polimi.ingsw.Client.View.UI_SIMULATION;
-import it.polimi.ingsw.Exceptions.NoPossibleValidMovesException;
-import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
-import it.polimi.ingsw.Server.Game.Components.Dice;
-import it.polimi.ingsw.Server.Game.Components.DiceBag;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
-import it.polimi.ingsw.Server.Game.Utility.DiceColor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
-import java.util.Hashtable;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class ToolCardTest {
-    DiceBag diceBag = new DiceBag();
+   /* DiceBag diceBag = new DiceBag();
     DraftPool draftPool = new DraftPool(diceBag);
     Actions moveOneDiceAction;
     GameContext gameContext;
@@ -153,34 +137,6 @@ class ToolCardTest {
         }
     }
 
-    /*
-    void toolCard4_2() {
-        ToolCardFactory Toolfactory = new ToolCardFactory("toolCards.csv");
-        ToolCard toolCard;
-        try {
-
-            Hashtable<String, Drawable> deck = Toolfactory.getNewCardDeck();
-
-            toolCard = (ToolCard) deck.get("4");
-
-
-            for(int i = 0 ; i < 19 ; i ++) {
-
-                gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW,"4"),i,true,true,true);
-            }
-
-            Actions actions = toolCard.getActions(new UI_SIMULATION(), gameContext);
-            actions.doAction();
-
-        } catch (FileNotFoundException | NoPossibleValidMovesException e) {
-            e.printStackTrace();
-            assertNotNull(e);
-        }
-
-
-
-    }*/
-
     @Test
     void doAction6() {
         while (draftPool.getDice(0).getDiceColor().equals(DiceColor.RED)) {
@@ -210,4 +166,5 @@ class ToolCardTest {
             e.printStackTrace();
         }
     }
+    */
 }

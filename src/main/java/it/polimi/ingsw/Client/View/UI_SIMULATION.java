@@ -1,54 +1,54 @@
 package it.polimi.ingsw.Client.View;
 
+import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 public class UI_SIMULATION extends UI {
 
-    int from = 0;
-    int from2 = 2;
-    int to = 17;
-    int to2 = 19;
-    boolean flag = true;
-    boolean flag2 = true;
+
+    int ammountToChange;
+    int drafFrom;
+    int matrixFrom;
+    int matrixTo;
+    int roundTrackIndex;
+
+    public UI_SIMULATION(int ammountToChange, int drafFrom, int matrixFrom, int matrixTo, int roundTrackIndex) {
+        this.ammountToChange = ammountToChange;
+        this.drafFrom = drafFrom;
+        this.matrixFrom = matrixFrom;
+        this.matrixTo = matrixTo;
+        this.roundTrackIndex = roundTrackIndex;
+    }
+
     @Override
-    public void printMessage(String s) {
+    public void printMessage(String s) throws EndOfTurnException {
         System.out.println(s);
     }
 
     @Override
-    public int getAmmountToChange() {
-        return 1;
+    public int getAmmountToChange() throws EndOfTurnException {
+        return ammountToChange;
     }
 
     @Override
-    public int getDraftPoolIndex() {
-        return 0;
+    public int getDraftPoolIndex() throws EndOfTurnException {
+        return drafFrom;
     }
 
     @Override
-    public int getMatrixIndexFrom() {
-        if (flag) {
-            flag = false;
-            return from;
-        } else {
-            return from2;
-        }
+    public int getMatrixIndexFrom() throws EndOfTurnException {
+        return matrixFrom;
 
     }
 
     @Override
-    public int getMatrixIndexTo() {
-        if (flag2) {
-            flag2 = false;
-            return to2;
-        } else {
-            return to;
-        }
+    public int getMatrixIndexTo() throws EndOfTurnException {
+        return matrixTo;
     }
 
     @Override
     public int getRoundTrackIndex() {
-        return 0;
+        return roundTrackIndex;
     }
 
     @Override

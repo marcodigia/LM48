@@ -50,7 +50,7 @@ class MoveOneDiceIgnoringValueTest {
         moveOneDiceAction = new MoveOneDiceIgnoringValue(gameContext, 0, 1);
         assertNull(gameContext.getWindowPatternCard().getDice(1));
         //assertTrue(gameContext.getWindowPatternCard().moveDice(0,1,true,false,false));
-        moveOneDiceAction.doAction();
+        moveOneDiceAction.doAction(gameContext);
         assertNull(gameContext.getWindowPatternCard().getDice(0));
         assertNotNull(gameContext.getWindowPatternCard().getDice(1));
     }

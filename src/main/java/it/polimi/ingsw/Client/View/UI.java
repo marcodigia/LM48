@@ -1,18 +1,28 @@
 package it.polimi.ingsw.Client.View;
 
+import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 public abstract class UI {
 
-    public abstract void printMessage(String s);
+    //THOSE METHOD SHOULD UNLOCK A SPECIFC ZONE IN THE GUI IN ORDER TO ALLOW THE INPUT, AND JUST PRINT THE MESSAGE IN THE CLI
+    //es. getDraftPoolIndex shuld unlock the draftpool so the user can select a Dice.
 
-    public abstract int getAmmountToChange();
+    // NB ALL FUNCIONS RETURN -1 default
 
-    public abstract int getDraftPoolIndex();
+    public abstract void printMessage(String s) throws EndOfTurnException;
 
-    public abstract int getMatrixIndexFrom();
+    //NB this function must return 0 default
+    public abstract int getAmmountToChange() throws EndOfTurnException;
 
-    public abstract int getMatrixIndexTo();
+    //UI must verify that value is in between bounds
+    public abstract int getDraftPoolIndex() throws EndOfTurnException;
+
+    //UI must verify that value is in between bounds
+    public abstract int getMatrixIndexFrom() throws EndOfTurnException;
+
+    //UI must verify that value is in between bounds
+    public abstract int getMatrixIndexTo() throws EndOfTurnException;
 
     public abstract int getRoundTrackIndex();
 
