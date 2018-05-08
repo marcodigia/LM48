@@ -7,8 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -21,10 +23,13 @@ public class ControllerLobby implements Initializable{
 
     public Label player1;
     public Button startbutton;
+    public AnchorPane anchorlobby;
+    public ImageView bg3;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Lobby Window Loaded");
+        setBackground(bg3, anchorlobby);
         player1.setText(user);
     }
 
@@ -46,4 +51,15 @@ public class ControllerLobby implements Initializable{
         stage.show();
     }
 
+    private void setBackground(ImageView background, AnchorPane anchorPane){
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream("sfondo.png"));
+        background.setImage(image);
+        background.setOpacity(0.25);
+        background.setPreserveRatio(false);
+        background.setCache(true);
+        background.setSmooth(true);
+        background.fitWidthProperty().bind(anchorPane.widthProperty());
+        background.fitHeightProperty().bind(anchorPane.heightProperty());
+        background.toBack();
+    }
 }
