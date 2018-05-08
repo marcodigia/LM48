@@ -15,7 +15,7 @@
 - [x] Remove dice from draft pool
 - [x] Add dice to draft pool
 
-## BoardRounTest
+## BoardRoundTest
 - [x] upDate score of players who belongs to board round 
 - [x] Test if different player score is correctly updated
 - [x] Test if correctly returns the winners in case the winner is only one
