@@ -6,12 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import static it.polimi.ingsw.Client.GUI.Main.stage;
 import static it.polimi.ingsw.Client.GUI.Main.root;
 
@@ -20,10 +23,13 @@ public class ControllerLogin implements Initializable {
     public Button playbutton;
     public TextField usernametext;
     static String user;
+    public ImageView bg1;
+    public AnchorPane anchorlogin;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Login Window Loaded");
+        setBackground(bg1, anchorlogin);
     }
 
     @FXML
@@ -77,6 +83,18 @@ public class ControllerLogin implements Initializable {
         String content = "Please enter a valid username.";
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void setBackground(ImageView background, AnchorPane anchorPane){
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream("sfondo.png"));
+        background.setImage(image);
+        background.setOpacity(0.25);
+        background.setPreserveRatio(false);
+        background.setCache(true);
+        background.setSmooth(true);
+        background.fitWidthProperty().bind(anchorPane.widthProperty());
+        background.fitHeightProperty().bind(anchorPane.heightProperty());
+        background.toBack();
     }
 
 }
