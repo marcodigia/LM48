@@ -32,6 +32,9 @@ public class ControllerGame implements Initializable {
                  draft1, draft2, draft3, draft4, draft5, draft6, draft7, draft8, draft9,
                  round1, round2, round3, round4, round5, round6, round7, round8, round9, round10;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
+    public ImageView bg4;
+    public AnchorPane anchorgame;
+
     private int draftpoolindex = -1;
     private static Label draftToDisable;
     private WindowPatternCard windowPatternCard;
@@ -39,12 +42,13 @@ public class ControllerGame implements Initializable {
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<String> pattern = new ArrayList<String>();
     private ArrayList<Label> cells = new ArrayList<>();
-    private String buffer;
     private boolean put = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Game Window Loaded");
+
+        setBackground(bg4, anchorgame);
 
         p4.setText(user + " (You)");
 
@@ -219,6 +223,18 @@ public class ControllerGame implements Initializable {
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+    private void setBackground(ImageView background, AnchorPane anchorPane){
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream("sfondo.png"));
+        background.setImage(image);
+        background.setOpacity(0.25);
+        background.setPreserveRatio(false);
+        background.setCache(true);
+        background.setSmooth(true);
+        background.fitWidthProperty().bind(anchorPane.widthProperty());
+        background.fitHeightProperty().bind(anchorPane.heightProperty());
+        background.toBack();
     }
 
     public void handleCR(javafx.event.ActionEvent event){
