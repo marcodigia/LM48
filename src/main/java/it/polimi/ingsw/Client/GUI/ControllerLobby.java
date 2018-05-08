@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import static it.polimi.ingsw.Client.GUI.ControllerLogin.user;
 import static it.polimi.ingsw.Client.GUI.Main.stage;
 import static it.polimi.ingsw.Client.GUI.Main.root;
@@ -28,14 +29,12 @@ public class ControllerLobby implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Lobby Window Loaded");
         setBackground(bg3, anchorlobby);
         player1.setText(user);
     }
 
     @FXML
     private void handleButtonStart(ActionEvent event) throws IOException {
-        System.out.println("Start button");
         URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/board.fxml").toURL();
         switchScene(startbutton, url);
     }

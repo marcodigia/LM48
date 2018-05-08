@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 import static it.polimi.ingsw.Client.GUI.ControllerLogin.user;
 
 public class ControllerGame implements Initializable {
@@ -46,8 +47,6 @@ public class ControllerGame implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Game Window Loaded");
-
         setBackground(bg4, anchorgame);
 
         p4.setText(user + " (You)");
@@ -83,7 +82,7 @@ public class ControllerGame implements Initializable {
         draftPoolLabel.add(draft8);
         draftPoolLabel.add(draft9);
 
-        setUp();
+        setUpWP();
         setUpDP();
         //updateDP();
 
@@ -147,7 +146,7 @@ public class ControllerGame implements Initializable {
         alert.showAndWait();
     }
 
-    void setUp(){
+    void setUpWP(){
         pattern.add("2");
         pattern.add("Via Lux");
         pattern.add("4");

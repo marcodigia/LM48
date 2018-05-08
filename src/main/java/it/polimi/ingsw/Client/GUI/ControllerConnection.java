@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -27,20 +26,17 @@ public class ControllerConnection implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Connection Window Loaded");
         setBackground(bg2, anchorconnection);
     }
 
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
-        System.out.println("RMI button");
         URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/lobby.fxml").toURL();
         switchScene(rmibutton, url);
     }
 
     @FXML
     private void handleButtonSocket(ActionEvent event) throws IOException {
-        System.out.println("Socket button");
         URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/lobby.fxml").toURL();
         switchScene(socketbutton, url);
     }

@@ -22,19 +22,17 @@ public class ControllerLogin implements Initializable {
 
     public Button playbutton;
     public TextField usernametext;
-    static String user;
     public ImageView bg1;
     public AnchorPane anchorlogin;
+    static String user;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Login Window Loaded");
         setBackground(bg1, anchorlogin);
     }
 
     @FXML
     private void handleButtonPlay(ActionEvent event) throws IOException {
-        System.out.println("Play button");
         if (usernametext.getLength() > 0) {
             goToConnection();
         } else {
@@ -44,7 +42,6 @@ public class ControllerLogin implements Initializable {
 
     @FXML
     private void onEnterLogin(ActionEvent enter) throws IOException {
-        System.out.println("Enter pressed");
         if(usernametext.getLength()>0) {
             goToConnection();
         }
