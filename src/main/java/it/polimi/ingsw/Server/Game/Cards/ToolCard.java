@@ -171,13 +171,6 @@ public class ToolCard implements Drawable {
         return false;
     }
 
-    private boolean existsValidMove(ArrayList<Dice> dicesToTest, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
-        for (Dice dice : dicesToTest) {
-            if (scanMatrix(dice, windowPatternCard, ignoreColor, ignoreValue, ignoreAdjacency, -1))
-                return true;
-        }
-        return false;
-    }
 
     private boolean scanMatrix(Dice dice, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency, int currentPlace) {
         for (int i = 0; i < 20; i++) {
