@@ -7,7 +7,7 @@ import it.polimi.ingsw.Server.Game.Components.Dice;
 import java.util.ArrayList;
 
 public class WindowPatternCard implements Drawable {
-    private String name ;
+    private String name;
     private String id;
     private int difficulty;
     private Matrix matrix ;
@@ -65,5 +65,13 @@ public class WindowPatternCard implements Drawable {
 
     public String getID() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getDifficulty(){
+        return difficulty;
     }
 }
