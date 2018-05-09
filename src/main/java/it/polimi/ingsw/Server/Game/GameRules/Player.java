@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
-import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Client.View.UI_SIMULATION;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;

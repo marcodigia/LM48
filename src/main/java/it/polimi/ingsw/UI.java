@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.View;
+package it.polimi.ingsw;
 
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.GameRules.Player;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
-import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;

@@ -1,13 +1,11 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
-import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
-
-import java.util.ArrayList;
 
 public class MoveOneDieIgnoringColor implements Actions {
 

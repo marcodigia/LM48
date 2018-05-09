@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions;
 
-import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 import java.io.Serializable;
