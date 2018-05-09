@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules;
 
 import it.polimi.ingsw.Client.View.UI;
 import it.polimi.ingsw.Client.View.UI_SIMULATION;
+import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.Cards.PrivateObjectiveCard;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
@@ -24,6 +25,12 @@ public class Player {
     private String name;
     private UI ui;
     private GameContext gameContext;
+    private ServerClientSender serverClientSender;
+
+    public Player(String username, ServerClientSender serverClientSender){
+        name=username;
+        this.serverClientSender = serverClientSender;
+    }
 
     public Player(PlayerColor color, String name) {
         this.color = color;
