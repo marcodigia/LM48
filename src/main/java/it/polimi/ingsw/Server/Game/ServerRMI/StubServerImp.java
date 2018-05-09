@@ -18,6 +18,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
 
     @Override
     public void unregister(String username) throws RemoteException {
+        System.out.println("ciao");
         WaitingRoom.removeClient(username);
     }
 }
