@@ -1,37 +1,87 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
-import it.polimi.ingsw.UI;
+import it.polimi.ingsw.Exceptions.EndOfTurnException;
+import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
+import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
+import it.polimi.ingsw.UI;
 
 public class MoveTwoDice implements Actions {
 
 
-    private int dice1From, dice1To;
-    private int dice2From, dice2To;
-
+    private int from1, from2, to1, to2;
     private GameContext gameContext;
-
-    public MoveTwoDice(int dice1From, int dice1To, int dice2From, int dice2To, GameContext gameContext) {
-        this.dice1From = dice1From;
-        this.dice1To = dice1To;
-        this.dice2From = dice2From;
-        this.dice2To = dice2To;
-        this.gameContext = gameContext;
-
-    }
 
 
     @Override
     public void doAction(GameContext gameContext) {
-        if (this.gameContext.getWindowPatternCard().moveDice(dice1From, dice1To, false, false, false))
-            if (!this.gameContext.getWindowPatternCard().moveDice(dice2From, dice2To, false, false, false))
-                this.gameContext.getWindowPatternCard().moveDice(dice1To, dice1From, true, true, true);
+        if (this.gameContext.getWindowPatternCard().moveDice(from1, to1, false, false, false))
+            if (!this.gameContext.getWindowPatternCard().moveDice(from2, to2, false, false, false))
+                this.gameContext.getWindowPatternCard().moveDice(to1, from1, true, true, true);
 
     }
 
     @Override
     public void useAction(UI ui, GameContext gameContext) {
 
+
+        Thread getUserInputThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ui.printMessage("Primo Dado");
+                    from1 = ui.getMatrixIndexFrom();
+                    to1 = ui.getMatrixIndexTo();
+
+                    ui.printMessage("Secondo Dado");
+                    from2 = ui.getMatrixIndexFrom();
+                    to2 = ui.getMatrixIndexTo();
+
+                } catch (EndOfTurnException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
+
+
+    private boolean exists2DiceValidMove(GameContext gameContext) {
+
+        System.out.println(gameContext.getWindowPatternCard().getAllDices().size());
+        for (int i = 0; i < 20; i++) {
+            if (gameContext.getWindowPatternCard().getDice(i) != null)
+                for (int j = 0; j < 20; j++) {
+                    if (j != i)
+                        if (gameContext.getWindowPatternCard().getDice(j) != null) {
+                            Dice dice1 = gameContext.getWindowPatternCard().removeDice(i);
+                            Dice dice2 = gameContext.getWindowPatternCard().removeDice(j);
+                            if (scanMatrix(dice1, gameContext.getWindowPatternCard(), false, false, false, i))
+                                if (scanMatrix(dice2, gameContext.getWindowPatternCard(), false, false, false, j)) {
+                                    gameContext.getWindowPatternCard().placeDice(dice1, i, true, true, true);
+                                    gameContext.getWindowPatternCard().placeDice(dice2, j, true, true, true);
+                                    return true;
+                                }
+                            gameContext.getWindowPatternCard().placeDice(dice1, i, true, true, true);
+                            gameContext.getWindowPatternCard().placeDice(dice2, j, true, true, true);
+                        }
+
+
+                }
+
+        }
+        return false;
+    }
+
+    private boolean scanMatrix(Dice dice, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency, int currentPlace) {
+        for (int i = 0; i < 20; i++) {
+            if (i != currentPlace)
+                if (windowPatternCard.isPlaceable(dice, i, ignoreColor, ignoreValue, ignoreAdjacency)) {
+                    return true;
+                }
+        }
+        return false;
+    }
+
 }
