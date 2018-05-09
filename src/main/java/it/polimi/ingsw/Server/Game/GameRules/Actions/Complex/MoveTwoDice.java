@@ -11,14 +11,13 @@ public class MoveTwoDice implements Actions {
 
 
     private int from1, from2, to1, to2;
-    private GameContext gameContext;
 
 
     @Override
     public void doAction(GameContext gameContext) {
-        if (this.gameContext.getWindowPatternCard().moveDice(from1, to1, false, false, false))
-            if (!this.gameContext.getWindowPatternCard().moveDice(from2, to2, false, false, false))
-                this.gameContext.getWindowPatternCard().moveDice(to1, from1, true, true, true);
+        if (gameContext.getWindowPatternCard().moveDice(from1, to1, false, false, false))
+            if (!gameContext.getWindowPatternCard().moveDice(from2, to2, false, false, false))
+                gameContext.getWindowPatternCard().moveDice(to1, from1, true, true, true);
 
     }
 
