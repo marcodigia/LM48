@@ -35,16 +35,20 @@ public class ControllerGame extends Controller implements Initializable {
     public MenuItem showpublic, showprivate, showtool, showcopyright;
     public ImageView bg4;
     public AnchorPane anchorgame;
+    public GridPane gp1, gp2, gp3, gp4;
+    public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
 
     private int draftpoolindex = -1;
     private static Label draftToDisable;
     private WindowPatternCard windowPatternCard;
     private DraftPool draftPool;
+
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells = new ArrayList<>();
     private ArrayList<Label> names = new ArrayList<>();
     private ArrayList<Label> round = new ArrayList<>();
     private ArrayList<String> pattern = new ArrayList<String>();
+
     private boolean put = false;
 
     @Override
@@ -60,17 +64,12 @@ public class ControllerGame extends Controller implements Initializable {
         round.add(round7);
         round.add(round8);
         round.add(round9);
+        round.add(round10);
 
         names.add(p1);
         names.add(p2);
         names.add(p3);
         names.add(p4);
-
-        for (int j=0; j<users.size(); j++){
-            names.get(j).setText(users.get(j));
-        }
-
-        p4.setText(p4.getText() + " (You)");
 
         cells.add(cellp400);
         cells.add(cellp401);
@@ -103,6 +102,12 @@ public class ControllerGame extends Controller implements Initializable {
         draftPoolLabel.add(draft8);
         draftPoolLabel.add(draft9);
 
+        for (Label l: round
+             ) {
+            l.setText("#");
+        }
+
+        setUpBoards();
         setUpWP();
         setUpDP();
 
@@ -113,7 +118,7 @@ public class ControllerGame extends Controller implements Initializable {
 
     public void handleClickDraft(MouseEvent mouseEvent) {
         Label eventDraft = (Label) mouseEvent.getSource();
-        confirmDice(eventDraft);
+        createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
         draftpoolindex = draftPoolLabel.indexOf(eventDraft);
         draftToDisable = eventDraft;
         put = false;
@@ -145,16 +150,6 @@ public class ControllerGame extends Controller implements Initializable {
 
     public void handleCR(ActionEvent event){
         createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
-    }
-
-    private void confirmDice(Label l) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Dice");
-        String header = l.getText();
-        alert.setHeaderText(header);
-        String content = "Do you want to place this dice?";
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
     void setUpWP(){
@@ -217,5 +212,40 @@ public class ControllerGame extends Controller implements Initializable {
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+    private void setUpBoards(){
+        switch (users.size()) {
+            case 1:
+                hboxgp1.getChildren().remove(gp1);
+                hboxl1.getChildren().remove(p1);
+                hboxgp2.getChildren().remove(gp2);
+                hboxl2.getChildren().remove(p2);
+                hboxgp3.getChildren().remove(gp3);
+                hboxl3.getChildren().remove(p3);
+                p4.setText(users.get(0) + " (You)");
+                break;
+            case 2:
+                hboxgp2.getChildren().remove(gp2);
+                hboxl2.getChildren().remove(p2);
+                hboxgp3.getChildren().remove(gp3);
+                hboxl3.getChildren().remove(p3);
+                p1.setText(users.get(1) + " (Opponent)");
+                p4.setText(users.get(0) + " (You)");
+                break;
+            case 3:
+                hboxgp1.getChildren().remove(gp1);
+                hboxl1.getChildren().remove(p1);
+                p2.setText(users.get(2) + " (Opponent)");
+                p3.setText(users.get(1) + " (Opponent)");
+                p4.setText(users.get(0) + " (You)");
+                break;
+            case 4:
+                p1.setText(users.get(3) + " (Opponent)");
+                p2.setText(users.get(2) + " (Opponent)");
+                p3.setText(users.get(1) + " (Opponent)");
+                p4.setText(users.get(0) + " (You)");
+                break;
+        }
     }
 }
