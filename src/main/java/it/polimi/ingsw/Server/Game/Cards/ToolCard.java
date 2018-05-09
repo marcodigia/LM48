@@ -23,7 +23,8 @@ public class ToolCard implements Drawable {
 
         color = DiceColor.resolveColor(pattern.get(0));
         name = pattern.get(1);
-        id = Id.valueOf(pattern.get(2));
+        id = Id.valueOf("_"+pattern.get(2));
+
         effect = pattern.get(3);
         restriction = pattern.get(4);
 
@@ -47,70 +48,18 @@ public class ToolCard implements Drawable {
             case _1:
 
                 action = new ChangeDiceValueByOne();
-
                 break;
 
 
             case _2: // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
-                if (!existsValidMove(gameContext.getDraftPool().getDraft(), gameContext.getWindowPatternCard(), true, false, false)) {
-                    try {
-                        ui.printMessage("No possible valid moves");
-                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
-                        e.printStackTrace();
-                    }
-                    throw new NoPossibleValidMovesException();
-                }
-                boolean flag = true;
-                do {
-                    int matrixTo = 0;
-                    try {
-                        matrixTo = ui.getMatrixIndexTo();
-                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
-                        e.printStackTrace();
-                    }
-                    int matrixIndexFromFrom = 0;
-                    try {
-                        matrixIndexFromFrom = ui.getMatrixIndexFrom();
-                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
-                        e.printStackTrace();
-                    }
-                    if (gameContext.getWindowPatternCard().isPlaceable(gameContext.getWindowPatternCard().getDice(matrixIndexFromFrom), matrixTo, true, false, false)) {
-                        flag = false;
-                        action = new MoveOneDieIgnoringColor(gameContext, matrixIndexFromFrom, matrixTo);
-                    }
-                } while (flag);
 
+                action = new MoveOneDieIgnoringColor();
                 break;
 
 
             case _3: // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
-                if (!existsValidMove(gameContext.getDraftPool().getDraft(), gameContext.getWindowPatternCard(), false, true, false)) {
-                    try {
-                        ui.printMessage("No possible valid moves");
-                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
-                        e.printStackTrace();
-                    }
-                    throw new NoPossibleValidMovesException();
-                }
-                boolean flag2 = true;
-                do {
-                    int matrixTo = 0;
-                    try {
-                        matrixTo = ui.getMatrixIndexTo();
-                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
-                        e.printStackTrace();
-                    }
-                    int matrixIndexFrom = 0;
-                    try {
-                        matrixIndexFrom = ui.getMatrixIndexFrom();
-                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
-                        e.printStackTrace();
-                    }
-                    if (gameContext.getWindowPatternCard().isPlaceable(gameContext.getWindowPatternCard().getDice(matrixIndexFrom), matrixTo, false, true, false)) {
-                        flag2 = false;
-                        action = new MoveOneDiceIgnoringValue(gameContext, matrixIndexFrom, matrixTo);
-                    }
-                } while (flag2);
+
+                action = new MoveOneDiceIgnoringValue();
 
                 break;
 
@@ -118,7 +67,7 @@ public class ToolCard implements Drawable {
             case _4:
                 if (gameContext.getWindowPatternCard().getAllDices().size() < 2 || gameContext.getWindowPatternCard().getAllDices().size() > 19)
                     throw new NoPossibleValidMovesException();
-                flag = false;
+                boolean flag = false;
                 if (!exists2DiceValidMove(gameContext))
                     throw new NoPossibleValidMovesException();
                 int dice1From = -1;

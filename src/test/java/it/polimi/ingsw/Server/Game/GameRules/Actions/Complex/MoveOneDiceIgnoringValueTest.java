@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
+import it.polimi.ingsw.Client.View.UI_SIMULATION;
 import it.polimi.ingsw.Server.Game.Cards.Drawable;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
@@ -23,7 +24,7 @@ class MoveOneDiceIgnoringValueTest {
     DraftPool draftPool = new DraftPool(diceBag);
     Actions moveOneDiceAction;
     GameContext gameContext;
-
+    Hashtable<String, Drawable> deck;
     @BeforeEach
     void setUp() {
         WindowPatternCardFactory factory = new WindowPatternCardFactory("windowPatternCards.csv");
@@ -31,9 +32,10 @@ class MoveOneDiceIgnoringValueTest {
 
         try {
 
-            Hashtable<String, Drawable> deck = factory.getNewCardDeck();
 
-            windowPatternCard = (WindowPatternCard) deck.get("25");
+            deck = factory.getNewCardDeck();
+
+            windowPatternCard = (WindowPatternCard) deck.get("26");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -41,32 +43,61 @@ class MoveOneDiceIgnoringValueTest {
         gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
     }
 
+    //Test if correctly move one dice in a legal position
     @Test
     void doAction() {
-        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 0, true, true, true);
-        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 6, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "2"), 0, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "3"), 2, true, true, true);
 
         assertNotNull(gameContext.getWindowPatternCard().getDice(0));
-        moveOneDiceAction = new MoveOneDiceIgnoringValue(gameContext, 0, 1);
         assertNull(gameContext.getWindowPatternCard().getDice(1));
-        //assertTrue(gameContext.getWindowPatternCard().moveDice(0,1,true,false,false));
+
+        moveOneDiceAction = new MoveOneDiceIgnoringValue();
+        moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,1,0),gameContext);
+
         moveOneDiceAction.doAction(gameContext);
+
         assertNull(gameContext.getWindowPatternCard().getDice(0));
         assertNotNull(gameContext.getWindowPatternCard().getDice(1));
     }
 
+
+    //Move one dice in a legal place with restriction
     @Test
     void doAction2() {
-        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "4"), 0, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "3"), 0, true, true, true);
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "4"), 13, true, true, true);
 
         assertNotNull(gameContext.getWindowPatternCard().getDice(0));
-        moveOneDiceAction = new MoveOneDiceIgnoringValue(gameContext, 0, 19);
         assertNull(gameContext.getWindowPatternCard().getDice(19));
-        assertTrue(gameContext.getWindowPatternCard().moveDice(0, 19, true, false, false));
+
+        moveOneDiceAction = new MoveOneDiceIgnoringValue();
+        moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,19,0),gameContext);
+
+        moveOneDiceAction.doAction(gameContext);
 
         assertNull(gameContext.getWindowPatternCard().getDice(0));
         assertNotNull(gameContext.getWindowPatternCard().getDice(19));
+    }
+
+    //Move one dice in a illegal place with restriction
+    @Test
+    void doAction3() {
+        gameContext = new GameContext(draftPool, diceBag, null, (WindowPatternCard) deck.get("25"));
+
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "3"), 0, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "3"), 13, true, true, true);
+
+        assertNotNull(gameContext.getWindowPatternCard().getDice(0));
+        assertNull(gameContext.getWindowPatternCard().getDice(19));
+
+        moveOneDiceAction = new MoveOneDiceIgnoringValue();
+        moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,19,0),gameContext);
+
+        moveOneDiceAction.doAction(gameContext);
+        //Fails due to a Red Restriction on Cell 19
+        assertNotNull(gameContext.getWindowPatternCard().getDice(0));
+        assertNull(gameContext.getWindowPatternCard().getDice(19));
     }
 
 }

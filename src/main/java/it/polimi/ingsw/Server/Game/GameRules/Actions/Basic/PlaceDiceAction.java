@@ -43,19 +43,29 @@ public class PlaceDiceAction implements Actions {
                 return;
             }
             //Try to place the Dice without adjacency restriction
-            gameContext.getDraftPool().removeDice(dice);
+
             if (gameContext.getWindowPatternCard().isPlaceable(dice, matrixIndexTo, false, false, true)) {
                 gameContext.getWindowPatternCard().placeDice(dice, matrixIndexTo, false, false, true);
+                gameContext.getDraftPool().removeDice(dice);
+                ACTIVE = false;
+            } else {
+                ACTIVE = true;
             }
+
+
 
         }
 
         //Try to place the Dice
-        gameContext.getDraftPool().removeDice(dice);
+
         if (gameContext.getWindowPatternCard().isPlaceable(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency)) {
             gameContext.getWindowPatternCard().placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
+            gameContext.getDraftPool().removeDice(dice);
+            ACTIVE = false;
+        } else {
+            ACTIVE = true;
         }
-        ACTIVE = false;
+
 
     }
 

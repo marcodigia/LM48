@@ -51,6 +51,7 @@ public class Cell {
 
     // return true only if all the dices in the orthogonal cell are not in contrast with the dice
     boolean verifyColorAndValue(Dice diceToPlace, boolean ignoreColor, boolean ignoreValue) {
+
         // convert the DiceInformation to a Restriction
         Restriction diceToPlaceColor = Restriction.parseRestricion(diceToPlace.getDiceColor().getColor());
         Restriction diceToPlaceValue = Restriction.parseRestricion(diceToPlace.getValue());
@@ -77,9 +78,9 @@ public class Cell {
 
         for (Cell adjacentOrthogonalCell : adjacencyOrthogonal) {
             if (!adjacentOrthogonalCell.isEmpty()) {
+
                 boolean colorIsEqual = diceToPlace.getDiceColor().equals(adjacentOrthogonalCell.getDice().getDiceColor());
                 boolean valueIsEqual = diceToPlace.getValue().equals(adjacentOrthogonalCell.getDice().getValue());
-
                 if(colorIsEqual && (!ignoreColor))
                     return false;
                 if(valueIsEqual && (!ignoreValue))

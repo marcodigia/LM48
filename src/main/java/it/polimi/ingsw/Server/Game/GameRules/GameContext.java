@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
@@ -12,6 +13,7 @@ public class GameContext {
     private DiceBag diceBag;
     private BoardRound boardRound;
     private WindowPatternCard windowPatternCard;
+    private ToolCard choosenToolCard;
     private boolean isFirstRound = false;
 
 
@@ -46,5 +48,13 @@ public class GameContext {
 
     public void setFirstRound(boolean firstRound) {
         isFirstRound = firstRound;
+    }
+
+    public void setChoosenToolCard(ToolCard toolCard){
+        this.choosenToolCard = toolCard;
+    }
+
+    public ToolCard getChoosenToolCard() {
+        return choosenToolCard;
     }
 }
