@@ -1,12 +1,9 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
-import it.polimi.ingsw.Exceptions.NoPossibleValidMovesException;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Id;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.*;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
-import it.polimi.ingsw.UI;
 
 import java.util.ArrayList;
 
@@ -35,7 +32,7 @@ public class ToolCard implements Drawable {
     }
 
 
-    public Actions getActions(UI ui, GameContext gameContext) throws NoPossibleValidMovesException {
+    public Actions getActions() {
 
         Actions action = null;
         switch (id) {
@@ -45,17 +42,12 @@ public class ToolCard implements Drawable {
                 action = new ChangeDiceValueByOne();
                 break;
             case _1:
-
                 action = new ChangeDiceValueByOne();
                 break;
-
             case _2:
-
                 action = new MoveOneDieIgnoringColor();
                 break;
-
             case _3:
-
                 action = new MoveOneDiceIgnoringValue();
                 break;
             case _4:
@@ -70,5 +62,5 @@ public class ToolCard implements Drawable {
         }
         return action;
     }
-    
+
 }
