@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="657.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.ControllerGame">
+<AnchorPane fx:id="anchorgame" prefHeight="657.0" prefWidth="668.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.Controllers.ControllerGame">
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <children>
@@ -505,5 +506,6 @@
           </Menu>
         </menus>
       </MenuBar>
+      <ImageView fx:id="bg4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
