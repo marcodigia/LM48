@@ -9,15 +9,25 @@ import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class PlaceDiceAction implements Actions {
 
+    private boolean ACTIVE = true;
     private final int MatrixSixe = 20;
     private Dice dice;
     private int matrixIndexTo;
+    private boolean ignoreValue;
+    private boolean ignoreColor;
+    private boolean ignoreAdjacency;
+    private boolean isFirstRound;
 
+    //This is called in TakeDiceBasicAction
     public PlaceDiceAction() {
         dice = null;
     }
 
-    public PlaceDiceAction(Dice dice) {
+    //This is called in RerollDraftedDiceAction
+    public PlaceDiceAction(Dice dice, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
+        this.ignoreAdjacency = ignoreAdjacency;
+        this.ignoreColor = ignoreColor;
+        this.ignoreValue = ignoreValue;
         this.dice = dice;
     }
 
@@ -25,17 +35,36 @@ public class PlaceDiceAction implements Actions {
     @Override
     public void doAction(GameContext gameContext) {
 
-        if (gameContext.getWindowPatternCard().isPlaceable(dice, matrixIndexTo, false, false, false)) {
+        if (!ACTIVE)
+            return;
+        if (gameContext.isFirstRound()) {
+            //Check if matrixIndexTo is not on border
+            if ((matrixIndexTo > 5 && matrixIndexTo < 9) || (matrixIndexTo > 10 && matrixIndexTo < 14)) {
+                return;
+            }
+            //Try to place the Dice without adjacency restriction
             gameContext.getDraftPool().removeDice(dice);
-            gameContext.getWindowPatternCard().placeDice(dice, matrixIndexTo, false, false, false);
+            if (gameContext.getWindowPatternCard().isPlaceable(dice, matrixIndexTo, false, false, true)) {
+                gameContext.getWindowPatternCard().placeDice(dice, matrixIndexTo, false, false, true);
+            }
+
         }
+
+        //Try to place the Dice
+        gameContext.getDraftPool().removeDice(dice);
+        if (gameContext.getWindowPatternCard().isPlaceable(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency)) {
+            gameContext.getWindowPatternCard().placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
+        }
+        ACTIVE = false;
 
     }
 
     @Override
     public void useAction(UI ui, GameContext gameContext) {
 
-        //NB the order in this if is important because it is shortcutted
+        //NB the order in this 'if' is important because it is shortcutted
+        if (!ACTIVE)
+            return;
         final boolean[] result = new boolean[1];
         if (dice != null && existsValidMove(dice, gameContext.getWindowPatternCard())) {
 
@@ -43,12 +72,8 @@ public class PlaceDiceAction implements Actions {
                 @Override
                 public void run() {
                     try {
-                        boolean flag = true;
-                        do {
-                            matrixIndexTo = ui.getMatrixIndexTo();
-                            if (gameContext.getWindowPatternCard().isPlaceable(dice, matrixIndexTo, false, false, false))
-                                flag = false;
-                        } while (flag);
+
+                        matrixIndexTo = ui.getMatrixIndexTo();
 
                     } catch (EndOfTurnException e) {
                         e.printStackTrace();

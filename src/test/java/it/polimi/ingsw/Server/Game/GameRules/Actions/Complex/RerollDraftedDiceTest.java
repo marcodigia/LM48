@@ -53,8 +53,10 @@ class RerollDraftedDiceTest {
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "1"), 0, true, true, true);
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 18, true, true, true);
 
-        Actions rerollDraftedDice = new RerollDraftedDice(gameContext, 0, new UI_SIMULATION(0, 0, 0, 0, 0));
+
+        Actions rerollDraftedDice = new RerollDraftedDice();
         assertNull(gameContext.getWindowPatternCard().getDice(17));
+        rerollDraftedDice.useAction(new UI_SIMULATION(0, 0, 0, 17, 0), gameContext);
         rerollDraftedDice.doAction(gameContext);
         assertNotNull(gameContext.getWindowPatternCard().getDice(17));
 
@@ -70,8 +72,9 @@ class RerollDraftedDiceTest {
 
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 13, true, true, true);
 
-        Actions rerollDraftedDice = new RerollDraftedDice(gameContext, 0, new UI_SIMULATION(0, 0, 0, 0, 0));
+        Actions rerollDraftedDice = new RerollDraftedDice();
         assertNull(gameContext.getWindowPatternCard().getDice(19));
+        rerollDraftedDice.useAction(new UI_SIMULATION(0, 0, 0, 19, 0), gameContext);
         rerollDraftedDice.doAction(gameContext);
         assertNull(gameContext.getWindowPatternCard().getDice(19));
 
@@ -103,8 +106,9 @@ class RerollDraftedDiceTest {
 
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "2"), 13, true, true, true);
 
-        Actions rerollDraftedDice = new RerollDraftedDice(gameContext, 0, new UI_SIMULATION(0, 0, 0, 0, 0));
+        Actions rerollDraftedDice = new RerollDraftedDice();
         assertNull(gameContext.getWindowPatternCard().getDice(19));
+        rerollDraftedDice.useAction(new UI_SIMULATION(0, 0, 0, 17, 0), gameContext);
         rerollDraftedDice.doAction(gameContext);
         assertNull(gameContext.getWindowPatternCard().getDice(19));
 

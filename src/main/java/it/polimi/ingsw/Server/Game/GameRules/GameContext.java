@@ -12,6 +12,8 @@ public class GameContext {
     private DiceBag diceBag;
     private BoardRound boardRound;
     private WindowPatternCard windowPatternCard;
+    private boolean isFirstRound = false;
+
 
 
     public GameContext(DraftPool draftPool, DiceBag diceBag, BoardRound boardRound, WindowPatternCard windowPatternCard) {
@@ -36,5 +38,13 @@ public class GameContext {
 
     public WindowPatternCard getWindowPatternCard() {
         return windowPatternCard;
+    }
+
+    public boolean isFirstRound() {
+        return isFirstRound;
+    }
+
+    public void setFirstRound(boolean firstRound) {
+        isFirstRound = firstRound;
     }
 }

@@ -185,13 +185,7 @@ public class ToolCard implements Drawable {
 
                 return new MoveTwoDice(dice1From, dice1To, dice2From, dice2To, gameContext);
             case _6:
-                int draftFrom = 0;
-                try {
-                    draftFrom = ui.getDraftPoolIndex();
-                } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
-                    e.printStackTrace();
-                }
-                return new RerollDraftedDice(gameContext, draftFrom, ui);
+                return new RerollDraftedDice();
             default:
                 break;
 

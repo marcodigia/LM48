@@ -15,4 +15,10 @@ public interface Actions extends Serializable {
 
     //To be used by UI
     void useAction(UI ui, GameContext gameContext);
+
+
+    /*
+    In case RMI is in use just send the whole object through a method, so doAction can be executed directly on the server.
+    In case Socekt is in use View on the Client will just update the virtual view on the Server and then virutalview will use useAction
+    */
 }

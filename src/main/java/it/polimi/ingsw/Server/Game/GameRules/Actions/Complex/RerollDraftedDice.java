@@ -9,36 +9,29 @@ import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class RerollDraftedDice implements Actions {
 
+    private boolean ACTIVE = true;
     private int MatrixSixe = 20;
-    private GameContext gameContext;
     private int diceIndex;
     private UI ui;
 
-    public RerollDraftedDice(GameContext gameContext, int diceIndex, UI ui) {
-        this.gameContext = gameContext;
-        this.diceIndex = diceIndex;
-
-        this.ui = ui;
+    public RerollDraftedDice() {
     }
 
     @Override
     public void doAction(GameContext gameContext) {
 
-        Dice diceToReroll = this.gameContext.getDraftPool().getDice(diceIndex);
+        if (!ACTIVE)
+            return;
+        Dice diceToReroll = gameContext.getDraftPool().getDice(diceIndex);
         diceToReroll.reroll();
 
-
-                /*if (this.gameContext.getWindowPatternCard().isPlaceable(diceToReroll, diceIndexTo, false, false, false)) {
-
-                    this.gameContext.getWindowPatternCard().placeDice(diceToReroll, diceIndexTo, false, false, false);
-                    this.gameContext.getDraftPool().removeDice(this.gameContext.getWindowPatternCard().getDice(diceIndex));
-                }*/
-
-
+        ACTIVE = false;
     }
 
     @Override
     public void useAction(UI ui, GameContext gameContext) {
+        if (!ACTIVE)
+            return;
 
         final boolean[] result = {true};
         Thread getUserInputThread = new Thread(new Runnable() {
@@ -72,10 +65,12 @@ public class RerollDraftedDice implements Actions {
         doAction(gameContext);
         //An action shuld be return by the server
         // reupdate the UI
-        nextAction = new PlaceDiceAction(gameContext.getDraftPool().getDice(diceIndex));
+        nextAction = new PlaceDiceAction(gameContext.getDraftPool().getDice(diceIndex), false, false, false);
 
         if (nextAction != null)
             nextAction.useAction(ui, gameContext);
+
+        nextAction.doAction(gameContext);
 
 
 

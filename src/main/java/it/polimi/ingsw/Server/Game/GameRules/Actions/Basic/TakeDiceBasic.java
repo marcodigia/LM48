@@ -33,7 +33,6 @@ public class TakeDiceBasic extends BasicAction {
     public void doAction(GameContext gameContext) {
         if (active) {
             windowPatternCard.placeDice(draftPool.getDice(from), to, false, false, true);
-            System.out.println("Took dice and put");
         }
     }
 
