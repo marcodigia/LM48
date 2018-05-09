@@ -4,4 +4,5 @@ import java.rmi.RemoteException;
 
 public interface ClientServerSender {
     public void register(String username, ServerClientSender clientRef) throws RemoteException;
+    public void unregister(String username) throws RemoteException;
 }

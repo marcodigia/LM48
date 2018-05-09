@@ -25,16 +25,17 @@ public class ServerClientReciver implements Runnable {
     @Override
     public void run() {
         while(true){
+
             String command = scanner.next();
             switch(command){
                 case "REGISTER":
                     username = scanner.next();
                     WaitingRoom.addClient(username, serverClientSenderImp);
                     break;
-                /*case "UNREGISTER":
+                case "UNREGISTER":
                     username = scanner.next();
                     WaitingRoom.removeClient(username);
-                    break;*/
+                    break;
                 default:
                     break;
             }

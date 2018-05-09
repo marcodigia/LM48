@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
-import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.Exceptions.EndOfTurnException;
+import it.polimi.ingsw.Server.View.VirtualView;
+import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Client.View.UI_SIMULATION;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
@@ -27,10 +29,12 @@ public class Player {
     private UI ui;
     private GameContext gameContext;
     private ServerClientSender serverClientSender;
+    private VirtualView virtualView;
 
     public Player(String username, ServerClientSender serverClientSender){
         name=username;
         this.serverClientSender = serverClientSender;
+        virtualView = new VirtualView(serverClientSender);
     }
 
     public Player(PlayerColor color, String name) {
@@ -38,6 +42,10 @@ public class Player {
         this.name = name;
 
         ui = new UI_SIMULATION(0, 0, 0, 0, 0);
+    }
+
+    public ServerClientSender getServerClientSender() {
+        return serverClientSender;
     }
 
     public String getName() {

@@ -1,55 +1,53 @@
-package it.polimi.ingsw.Client.View;
+package it.polimi.ingsw.Server.View;
 
+
+import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.UI;
 
-public class UI_SIMULATION extends UI {
+import java.rmi.RemoteException;
 
+public class VirtualView extends UI {
 
-    int ammountToChange;
-    int drafFrom;
-    int matrixFrom;
-    int matrixTo;
-    int roundTrackIndex;
+    ServerClientSender serverClientSender;
 
-    public UI_SIMULATION(int ammountToChange, int drafFrom, int matrixFrom, int matrixTo, int roundTrackIndex) {
-        this.ammountToChange = ammountToChange;
-        this.drafFrom = drafFrom;
-        this.matrixFrom = matrixFrom;
-        this.matrixTo = matrixTo;
-        this.roundTrackIndex = roundTrackIndex;
+    public VirtualView(ServerClientSender serverClientSender) {
+        this.serverClientSender = serverClientSender;
     }
 
     @Override
     public void printMessage(String s) throws EndOfTurnException {
-        System.out.println(s);
+        try {
+            serverClientSender.sendHello();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getAmmountToChange() throws EndOfTurnException {
-        return ammountToChange;
+        return 0;
     }
 
     @Override
     public int getDraftPoolIndex() throws EndOfTurnException {
-        return drafFrom;
+        return 0;
     }
 
     @Override
     public int getMatrixIndexFrom() throws EndOfTurnException {
-        return matrixFrom;
-
+        return 0;
     }
 
     @Override
     public int getMatrixIndexTo() throws EndOfTurnException {
-        return matrixTo;
+        return 0;
     }
 
     @Override
     public int getRoundTrackIndex() {
-        return roundTrackIndex;
+        return 0;
     }
 
     @Override

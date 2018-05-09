@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
-import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Exceptions.NoPossibleValidMovesException;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Id;
 import it.polimi.ingsw.Server.Game.Components.Dice;

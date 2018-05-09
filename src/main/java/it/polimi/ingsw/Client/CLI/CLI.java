@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Client.CLI;
 
-import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Exceptions.PlayersNumbersException;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
@@ -20,6 +20,7 @@ public class CLI extends UI {
     private static ArrayList<Player> players = new ArrayList<>();
     private static int height = 4;
     private static DraftPool draftPool;
+
 
 
     public static void addPlayer(Player player) throws PlayersNumbersException {
