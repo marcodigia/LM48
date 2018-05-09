@@ -30,12 +30,13 @@ public class ControllerLobby extends Controller implements Initializable{
         setBackground(bg3, anchorlobby);
 
         players.add(player1);
-        players.add(player2);
-        players.add(player3);
-        players.add(player4);
-        users.add(user);
-        users.add(user);
-        users.add(user);
+        //players.add(player2);
+        //players.add(player3);
+        //players.add(player4);
+
+        //users.add(user);
+        //users.add(user);
+        //users.add(user);
         users.add(user);
 
         assertEquals(true, players.size()==users.size());
