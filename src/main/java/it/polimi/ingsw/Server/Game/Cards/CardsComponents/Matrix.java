@@ -173,7 +173,7 @@ public class Matrix {
 
     public boolean isPlaceable(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
-        if (checkRestriction(dice, coordinate, ignore_color, ignore_value, ignore_adjacency))
+       if (checkRestriction(dice, coordinate, ignore_color, ignore_value, ignore_adjacency))
         {
             Cell cell = matrix.get(coordinate);
             return cell.isEmpty();

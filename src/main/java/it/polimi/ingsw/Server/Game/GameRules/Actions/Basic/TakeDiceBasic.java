@@ -1,9 +1,13 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
+import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
-public class TakeDiceBasic extends BasicAction {
+public class TakeDiceBasic implements Actions {
 
     private WindowPatternCard windowPatternCard;
     private DraftPool draftPool;
@@ -27,10 +31,54 @@ public class TakeDiceBasic extends BasicAction {
     }
 
     @Override
-    public void doAction() {
+    public void doAction(GameContext gameContext) {
         if (active) {
             windowPatternCard.placeDice(draftPool.getDice(from), to, false, false, true);
-            System.out.println("Took dice and put");
         }
     }
+
+
+    @Override
+    public void useAction(UI ui, GameContext gameContext) {
+
+        final boolean[] result = new boolean[1]; // necessary to pass information between thread
+        //UI must allow only valid values
+        do {
+
+            //Start a new Thread to get information from User Input and wait untill get it
+            result[0] = true;
+            Thread getUIinputThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        from = ui.getDraftPoolIndex();
+                        to = ui.getMatrixIndexTo();
+
+                    } catch (EndOfTurnException e) {
+                        e.printStackTrace();
+                        result[0] = false;
+                    }
+                }
+            });
+
+
+            getUIinputThread.start();
+
+            try {
+                getUIinputThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return;
+            }
+            if (result[0])
+                return;
+
+        } while (from == -1 || to == -1);
+
+        //TODO send action to the server!!
+
+
+    }
+
 }

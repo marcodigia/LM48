@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.Cards;
 
 import it.polimi.ingsw.Client.View.UI;
 import it.polimi.ingsw.Exceptions.NoPossibleValidMovesException;
+import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Id;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.*;
@@ -13,15 +14,17 @@ import java.util.ArrayList;
 public class ToolCard implements Drawable {
     private DiceColor color;
     private String name;
-    private String id;
+    private Id id;
     private String effect;
     private String restriction;
 
+    //The Id of the toolcard must be in Id
     public ToolCard(ArrayList<String> pattern) {
 
         color = DiceColor.resolveColor(pattern.get(0));
         name = pattern.get(1);
-        id = pattern.get(2);
+        id = Id.valueOf("_"+pattern.get(2));
+
         effect = pattern.get(3);
         restriction = pattern.get(4);
 
@@ -29,7 +32,7 @@ public class ToolCard implements Drawable {
 
 
     public String getID() {
-        return id;
+        return id.getId();
     }
 
 
@@ -38,74 +41,65 @@ public class ToolCard implements Drawable {
         Actions action = null;
         switch (id) {
 
-            case "13":
+            case _13:
                 System.out.println("Did nothing");
-                action = new ChangeDiceValueByOne(1, ui.getDraftPoolIndex(), gameContext);
-                ui.getMatrixIndexTo();
-                ui.getDraftPoolIndex();
+                action = new ChangeDiceValueByOne();
                 break;
-            case "1":
+            case _1:
 
-                action = new ChangeDiceValueByOne(ui.getAmmountToChange(), ui.getDraftPoolIndex(), gameContext);
+                action = new ChangeDiceValueByOne();
                 break;
 
 
-            case "2": // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
-                if (!existsValidMove(gameContext.getDraftPool().getDraft(), gameContext.getWindowPatternCard(), true, false, false)) {
-                    ui.printMessage("No possible valid moves");
-                    throw new NoPossibleValidMovesException();
-                }
-                boolean flag = true;
-                do {
-                    int matrixTo = ui.getMatrixIndexTo();
-                    int matrixIndexFromFrom = ui.getMatrixIndexFrom();
-                    if (gameContext.getWindowPatternCard().isPlaceable(gameContext.getWindowPatternCard().getDice(matrixIndexFromFrom), matrixTo, true, false, false)) {
-                        flag = false;
-                        action = new MoveOneDieIgnoringColor(gameContext, matrixIndexFromFrom, matrixTo);
-                    }
-                } while (flag);
+            case _2: // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
+
+                action = new MoveOneDieIgnoringColor();
+                break;
+
+
+            case _3: // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
+
+                action = new MoveOneDiceIgnoringValue();
 
                 break;
 
 
-            case "3": // The dice cannot be choose if it is not possible to place it, if it is the first round it is impossible to move the dice due to adjacency restriction
-                if (!existsValidMove(gameContext.getDraftPool().getDraft(), gameContext.getWindowPatternCard(), false, true, false)) {
-                    ui.printMessage("No possible valid moves");
-                    throw new NoPossibleValidMovesException();
-                }
-                boolean flag2 = true;
-                do {
-                    int matrixTo = ui.getMatrixIndexTo();
-                    int matrixIndexFrom = ui.getMatrixIndexFrom();
-                    if (gameContext.getWindowPatternCard().isPlaceable(gameContext.getWindowPatternCard().getDice(matrixIndexFrom), matrixTo, false, true, false)) {
-                        flag2 = false;
-                        action = new MoveOneDiceIgnoringValue(gameContext, matrixIndexFrom, matrixTo);
-                    }
-                } while (flag2);
-
-                break;
-
-
-            case "4":
+            case _4:
                 if (gameContext.getWindowPatternCard().getAllDices().size() < 2 || gameContext.getWindowPatternCard().getAllDices().size() > 19)
                     throw new NoPossibleValidMovesException();
-                flag = false;
+                boolean flag = false;
                 if (!exists2DiceValidMove(gameContext))
                     throw new NoPossibleValidMovesException();
-                int dice1From;
-                int dice1To;
-                int dice2From;
-                int dice2To;
+                int dice1From = -1;
+                int dice1To = -1;
+                int dice2From = -1;
+                int dice2To = -1;
                 do {
                     // if i due dadi non vanno in constrasto tra di loro quando vengono piazzati piazza
 
-                    dice1From = ui.getMatrixIndexFrom();
+                    try {
+                        dice1From = ui.getMatrixIndexFrom();
+                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
+                        e.printStackTrace();
+                    }
 
-                    dice1To = ui.getMatrixIndexTo();
+                    try {
+                        dice1To = ui.getMatrixIndexTo();
+                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
+                        e.printStackTrace();
+                    }
 
-                    dice2From = ui.getMatrixIndexFrom();
+                    try {
+                        dice2From = ui.getMatrixIndexFrom();
+                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
+                        e.printStackTrace();
+                    }
 
-                    dice2To = ui.getMatrixIndexTo();
+                    try {
+                        dice2To = ui.getMatrixIndexTo();
+                    } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
+                        e.printStackTrace();
+                    }
 
                     if (gameContext.getWindowPatternCard().isPlaceable(
                             gameContext.getWindowPatternCard().getDice(dice1From), dice1To,
@@ -130,14 +124,17 @@ public class ToolCard implements Drawable {
                         }
                     }
                     if (!flag) {
-                        ui.printMessage("Dices chosen not valid");
+                        try {
+                            ui.printMessage("Dices chosen not valid");
+                        } catch (it.polimi.ingsw.Exceptions.EndOfTurnException e) {
+                            e.printStackTrace();
+                        }
                     }
                 } while (!flag);
 
                 return new MoveTwoDice(dice1From, dice1To, dice2From, dice2To, gameContext);
-            case "6":
-                int draftFrom = ui.getDraftPoolIndex();
-                return new RerollDraftedDice(gameContext, draftFrom, ui);
+            case _6:
+                return new RerollDraftedDice();
             default:
                 break;
 
@@ -174,13 +171,6 @@ public class ToolCard implements Drawable {
         return false;
     }
 
-    private boolean existsValidMove(ArrayList<Dice> dicesToTest, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency) {
-        for (Dice dice : dicesToTest) {
-            if (scanMatrix(dice, windowPatternCard, ignoreColor, ignoreValue, ignoreAdjacency, -1))
-                return true;
-        }
-        return false;
-    }
 
     private boolean scanMatrix(Dice dice, WindowPatternCard windowPatternCard, boolean ignoreColor, boolean ignoreValue, boolean ignoreAdjacency, int currentPlace) {
         for (int i = 0; i < 20; i++) {

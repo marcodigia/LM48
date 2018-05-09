@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
+import it.polimi.ingsw.Client.View.UI_SIMULATION;
 import it.polimi.ingsw.Server.Game.Cards.Drawable;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
@@ -15,7 +16,8 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class MoveOneDieIgnoringColorTest {
 
@@ -23,7 +25,7 @@ class MoveOneDieIgnoringColorTest {
     DraftPool draftPool = new DraftPool(diceBag);
     Actions moveOneDiceAction;
     GameContext gameContext;
-
+    Hashtable<String, Drawable> deck;
     @BeforeEach
     void setUp() {
         WindowPatternCardFactory factory = new WindowPatternCardFactory("windowPatternCards.csv");
@@ -31,7 +33,8 @@ class MoveOneDieIgnoringColorTest {
 
         try {
 
-            Hashtable<String, Drawable> deck = factory.getNewCardDeck();
+
+            deck = factory.getNewCardDeck();
 
             windowPatternCard = (WindowPatternCard) deck.get("25");
         } catch (FileNotFoundException e) {
@@ -41,31 +44,61 @@ class MoveOneDieIgnoringColorTest {
         gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
     }
 
+    //Test if correctly move one dice in a legal position
     @Test
     void doAction() {
-        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "1"), 0, true, true, true);
-        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "2"), 6, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "2"), 0, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "3"), 2, true, true, true);
 
         assertNotNull(gameContext.getWindowPatternCard().getDice(0));
-        moveOneDiceAction = new MoveOneDieIgnoringColor(gameContext, 0, 1);
         assertNull(gameContext.getWindowPatternCard().getDice(1));
-        //assertTrue(gameContext.getWindowPatternCard().moveDice(0,1,true,false,false));
-        moveOneDiceAction.doAction();
+
+        moveOneDiceAction = new MoveOneDieIgnoringColor();
+        moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,1,0),gameContext);
+
+        moveOneDiceAction.doAction(gameContext);
+
         assertNull(gameContext.getWindowPatternCard().getDice(0));
         assertNotNull(gameContext.getWindowPatternCard().getDice(1));
     }
 
+
+    //Move one dice in a legal place with restriction
     @Test
     void doAction2() {
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "4"), 0, true, true, true);
-        gameContext.getWindowPatternCard().placeDice(gameContext.getDraftPool().getDice(1), 13, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.RED, "3"), 13, true, true, true);
 
         assertNotNull(gameContext.getWindowPatternCard().getDice(0));
-        moveOneDiceAction = new MoveOneDieIgnoringColor(gameContext, 0, 19);
         assertNull(gameContext.getWindowPatternCard().getDice(19));
-        assertTrue(gameContext.getWindowPatternCard().moveDice(0, 19, true, false, false));
+
+        moveOneDiceAction = new MoveOneDieIgnoringColor();
+        moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,19,0),gameContext);
+
+        moveOneDiceAction.doAction(gameContext);
 
         assertNull(gameContext.getWindowPatternCard().getDice(0));
         assertNotNull(gameContext.getWindowPatternCard().getDice(19));
     }
+
+    //Move one dice in a illegal place with a restriction not Ignored
+    @Test
+    void doAction3() {
+        gameContext = new GameContext(draftPool, diceBag, null, (WindowPatternCard) deck.get("26"));
+
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "3"), 0, true, true, true);
+        gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "3"), 13, true, true, true);
+
+        assertNotNull(gameContext.getWindowPatternCard().getDice(0));
+        assertNull(gameContext.getWindowPatternCard().getDice(19));
+
+        moveOneDiceAction = new MoveOneDieIgnoringColor();
+        moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,19,0),gameContext);
+
+        moveOneDiceAction.doAction(gameContext);
+
+        assertNotNull(gameContext.getWindowPatternCard().getDice(0));
+        assertNull(gameContext.getWindowPatternCard().getDice(19));
+    }
+
 }

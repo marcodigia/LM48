@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.CLI;
 
 import it.polimi.ingsw.Client.View.UI;
+import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Exceptions.PlayersNumbersException;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
@@ -74,12 +75,12 @@ public class CLI extends UI {
     }
 
     @Override
-    public void printMessage(String s) {
+    public void printMessage(String s) throws EndOfTurnException {
         System.out.println(s);
     }
 
     @Override
-    public int getAmmountToChange() {
+    public int getAmmountToChange() throws EndOfTurnException {
 
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
@@ -96,7 +97,7 @@ public class CLI extends UI {
     }
 
     @Override
-    public int getDraftPoolIndex() {
+    public int getDraftPoolIndex() throws EndOfTurnException {
         System.out.println("Indice dado Draft pool : ");
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
@@ -107,7 +108,7 @@ public class CLI extends UI {
     }
 
     @Override
-    public int getMatrixIndexFrom() {
+    public int getMatrixIndexFrom() throws EndOfTurnException {
         System.out.println("Indice cella Window Pattern partenza : ");
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
@@ -118,7 +119,7 @@ public class CLI extends UI {
     }
 
     @Override
-    public int getMatrixIndexTo() {
+    public int getMatrixIndexTo() throws EndOfTurnException {
         System.out.println("Indice cella window Pattern destinazione : ");
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);

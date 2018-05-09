@@ -6,30 +6,42 @@ import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
-public class UseToolCardBasic extends BasicAction {
+public class UseToolCardBasic implements Actions {
 
-    private ToolCard toolCard;
-    private Actions action;
-    private GameContext gameContext;
 
-    private boolean active;
+    private boolean ACTIVE = true;
 
-    public UseToolCardBasic(ToolCard toolCard, UI ui, GameContext gameContext) {
-        this.toolCard = toolCard;
-        active = true;
+    Actions toolCardAction;
+    public UseToolCardBasic() {
 
-        try {
-            action = toolCard.getActions(ui, gameContext);
-        } catch (NoPossibleValidMovesException e) {
-            active = false;
-        }
     }
 
     @Override
-    public void doAction() {
-        System.out.println("Used tool card" + toolCard.getID());
-        //Complex action set Window Pattern , Complex action set Draft
-        if (active)
-            action.doAction();
+    public void doAction(GameContext gameContext) {
+
+        if (!ACTIVE)
+            return;
+
+        toolCardAction.doAction(gameContext);
+        ACTIVE = false;
+    }
+
+    @Override
+    public void useAction(UI ui, GameContext gameContext) {
+
+        if (!ACTIVE)
+            return;
+        try {
+            toolCardAction = gameContext.getChoosenToolCard().getActions(ui , gameContext);
+
+            toolCardAction.useAction(ui,gameContext);
+
+        } catch (NoPossibleValidMovesException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        //TODO send Action to the Server
+
     }
 }
