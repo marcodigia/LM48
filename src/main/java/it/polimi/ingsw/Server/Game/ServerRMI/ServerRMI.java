@@ -12,7 +12,7 @@ public class ServerRMI {
             //TODO connect to another port if this one is occupied
             java.rmi.registry.LocateRegistry.createRegistry(1099);
             StubServerImp stubServer = new StubServerImp();
-            Naming.rebind("rmi://127.0.0.1/myabc",stubServer);
+            Naming.rebind("rmi://192.168.43.243/myabc",stubServer);
         } catch (RemoteException e) {
             e.printStackTrace();
 
