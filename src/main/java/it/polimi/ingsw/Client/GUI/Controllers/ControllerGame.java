@@ -21,9 +21,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.Controllers.ControllerLogin.user;
+import static it.polimi.ingsw.Client.GUI.Controllers.ControllerLobby.users;
 
-public class ControllerGame implements Initializable {
+public class ControllerGame extends Controller implements Initializable {
 
     public Label p1, p2, p3, p4,
                  cellp400, cellp401, cellp402, cellp403, cellp404,
@@ -42,6 +42,8 @@ public class ControllerGame implements Initializable {
     private DraftPool draftPool;
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells = new ArrayList<>();
+    private ArrayList<Label> names = new ArrayList<>();
+    private ArrayList<Label> round = new ArrayList<>();
     private ArrayList<String> pattern = new ArrayList<String>();
     private boolean put = false;
 
@@ -49,7 +51,26 @@ public class ControllerGame implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg4, anchorgame);
 
-        p4.setText(user + " (You)");
+        round.add(round1);
+        round.add(round2);
+        round.add(round3);
+        round.add(round4);
+        round.add(round5);
+        round.add(round6);
+        round.add(round7);
+        round.add(round8);
+        round.add(round9);
+
+        names.add(p1);
+        names.add(p2);
+        names.add(p3);
+        names.add(p4);
+
+        for (int j=0; j<users.size(); j++){
+            names.get(j).setText(users.get(j));
+        }
+
+        p4.setText(p4.getText() + " (You)");
 
         cells.add(cellp400);
         cells.add(cellp401);
@@ -84,7 +105,6 @@ public class ControllerGame implements Initializable {
 
         setUpWP();
         setUpDP();
-        //updateDP();
 
         for (int i = 0; i < 9; i++) {
             draftPoolLabel.get(i).setGraphic(toImage(draftPool.getDraft().get(i)));
@@ -133,22 +153,6 @@ public class ControllerGame implements Initializable {
         String header = l.getText();
         alert.setHeaderText(header);
         String content = "Do you want to place this dice?";
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    private void createAlertBox(String title, String header, String content){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    private void createInfoBox(String title, String header, String content){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
     }
@@ -213,17 +217,5 @@ public class ControllerGame implements Initializable {
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
-    }
-
-    private void setBackground(ImageView background, AnchorPane anchorPane){
-        Image image = new Image(getClass().getClassLoader().getResourceAsStream("sfondo.png"));
-        background.setImage(image);
-        background.setOpacity(0.25);
-        background.setPreserveRatio(false);
-        background.setCache(true);
-        background.setSmooth(true);
-        background.fitWidthProperty().bind(anchorPane.widthProperty());
-        background.fitHeightProperty().bind(anchorPane.heightProperty());
-        background.toBack();
     }
 }
