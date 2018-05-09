@@ -118,7 +118,7 @@ public class ControllerGame extends Controller implements Initializable {
 
     public void handleClickDraft(MouseEvent mouseEvent) {
         Label eventDraft = (Label) mouseEvent.getSource();
-        confirmDice(eventDraft);
+        createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
         draftpoolindex = draftPoolLabel.indexOf(eventDraft);
         draftToDisable = eventDraft;
         put = false;
@@ -150,16 +150,6 @@ public class ControllerGame extends Controller implements Initializable {
 
     public void handleCR(ActionEvent event){
         createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
-    }
-
-    private void confirmDice(Label l) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Dice");
-        String header = l.getText();
-        alert.setHeaderText(header);
-        String content = "Do you want to place this dice?";
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
     void setUpWP(){

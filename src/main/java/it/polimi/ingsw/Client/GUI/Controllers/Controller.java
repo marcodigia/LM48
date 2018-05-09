@@ -32,6 +32,14 @@ public abstract class Controller {
         alert.showAndWait();
     }
 
+    protected void createConfirmationBox(String title, String header, String content){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     protected void switchScene(Button button, URL url) throws IOException {
         //get reference to the button's stage
         stage = (Stage) button.getScene().getWindow();
