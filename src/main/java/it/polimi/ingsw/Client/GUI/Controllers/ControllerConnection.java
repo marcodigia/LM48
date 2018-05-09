@@ -1,12 +1,11 @@
-package it.polimi.ingsw.Client.GUI;
+package it.polimi.ingsw.Client.GUI.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -16,27 +15,30 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerLogin.user;
 import static it.polimi.ingsw.Client.GUI.Main.stage;
 import static it.polimi.ingsw.Client.GUI.Main.root;
 
-public class ControllerLobby implements Initializable{
+public class ControllerConnection implements Initializable {
 
-    public Label player1;
-    public Button startbutton;
-    public AnchorPane anchorlobby;
-    public ImageView bg3;
+    public Button rmibutton, socketbutton;
+    public AnchorPane anchorconnection;
+    public ImageView bg2;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBackground(bg3, anchorlobby);
-        player1.setText(user);
+        setBackground(bg2, anchorconnection);
     }
 
     @FXML
-    private void handleButtonStart(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/board.fxml").toURL();
-        switchScene(startbutton, url);
+    private void handleButtonRMI(ActionEvent event) throws IOException {
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/lobby.fxml").toURL();
+        switchScene(rmibutton, url);
+    }
+
+    @FXML
+    private void handleButtonSocket(ActionEvent event) throws IOException {
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/lobby.fxml").toURL();
+        switchScene(socketbutton, url);
     }
 
     void switchScene(Button button, URL url) throws IOException {

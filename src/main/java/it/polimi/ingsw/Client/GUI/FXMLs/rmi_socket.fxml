@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane fx:id="anchorconnection" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.ControllerConnection">
+<AnchorPane fx:id="anchorconnection" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.Controllers.ControllerConnection">
    <children>
       <ImageView fx:id="bg2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
       <BorderPane prefHeight="84.0" prefWidth="180.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">

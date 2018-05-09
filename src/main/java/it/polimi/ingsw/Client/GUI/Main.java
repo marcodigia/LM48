@@ -10,12 +10,12 @@ import java.net.URL;
 
 public class Main extends Application {
 
-    static Stage stage;
-    static Parent root;
+    public static Stage stage;
+    public static Parent root;
 
     public void start(Stage primaryStage) throws Exception {
         Parent root;
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/login.fxml").toURL();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/login.fxml").toURL();
         root = FXMLLoader.load(url);
         primaryStage.setTitle("Sagrada");
         primaryStage.setScene(new Scene(root));

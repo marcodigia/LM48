@@ -1,12 +1,12 @@
-package it.polimi.ingsw.Client.GUI;
+package it.polimi.ingsw.Client.GUI.Controllers;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.layout.*;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerLogin.user;
+import static it.polimi.ingsw.Client.GUI.Controllers.ControllerLogin.user;
 
 public class ControllerGame implements Initializable {
 
@@ -41,8 +41,8 @@ public class ControllerGame implements Initializable {
     private WindowPatternCard windowPatternCard;
     private DraftPool draftPool;
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
-    private ArrayList<String> pattern = new ArrayList<String>();
     private ArrayList<Label> cells = new ArrayList<>();
+    private ArrayList<String> pattern = new ArrayList<String>();
     private boolean put = false;
 
     @Override
@@ -91,7 +91,6 @@ public class ControllerGame implements Initializable {
         }
     }
 
-    @FXML
     public void handleClickDraft(MouseEvent mouseEvent) {
         Label eventDraft = (Label) mouseEvent.getSource();
         confirmDice(eventDraft);
@@ -100,7 +99,6 @@ public class ControllerGame implements Initializable {
         put = false;
     }
 
-    @FXML
     public void handleClickWP(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
         int indice_dado = cells.indexOf(event);
@@ -112,8 +110,21 @@ public class ControllerGame implements Initializable {
             put = true;
             //updateDP();
         } else {
-            createAlertBox();
+            createAlertBox("Error!", "Wrong action", "You already placed this dice or in this cell has already been placed a dice! Please perform a correct move.");
         }
+    }
+
+    public void handleShow(ActionEvent event) {
+        if (event.getSource().equals(showtool))
+            openWindowFromMenu("Tool Cards");
+        if (event.getSource().equals(showpublic))
+            openWindowFromMenu("Public Objective Cards");
+        if (event.getSource().equals(showprivate))
+            openWindowFromMenu("Private Objective Cards");
+    }
+
+    public void handleCR(ActionEvent event){
+        createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
     }
 
     private void confirmDice(Label l) {
@@ -126,22 +137,18 @@ public class ControllerGame implements Initializable {
         alert.showAndWait();
     }
 
-    private void createAlertBox(){
+    private void createAlertBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error!");
-        String header = "Wrong action";
+        alert.setTitle(title);
         alert.setHeaderText(header);
-        String content = "You already placed this dice or in this cell has already been placed a dice! Please perform a correct move.";
         alert.setContentText(content);
         alert.showAndWait();
     }
 
-    private void createInfoBox(){
+    private void createInfoBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Copyright ©");
-        String header = "Software Engineering Project\nAll rights reserved";
+        alert.setTitle(title);
         alert.setHeaderText(header);
-        String content = "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D";
         alert.setContentText(content);
         alert.showAndWait();
     }
@@ -182,15 +189,8 @@ public class ControllerGame implements Initializable {
         for (int i=0; i<cells.size(); i++) {
             if (windowPatternCard.getDice(i)!=null)
                 cells.get(i).setGraphic(toImage(windowPatternCard.getDice(i)));
-                //cells.get(i).setText(windowPatternCard.getDice(i).getValue() + windowPatternCard.getDice(i).getDiceColor());
         }
     }
-
-    /*private void updateDP(){
-        for (int i=0; i<draftPoolLabel.size(); i++) {
-            draftPoolLabel.get(i).setText(draftPool.getDice(i).getValue() + draftPool.getDice(i).getDiceColor());
-        }
-    }*/
 
     private ImageView toImage(Dice dice){
         Image image = new Image(dice.getDiceImage());
@@ -198,15 +198,6 @@ public class ControllerGame implements Initializable {
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         return imageView;
-    }
-
-    public void handleShow(javafx.event.ActionEvent event) {
-        if (event.getSource().equals(showtool))
-            openWindowFromMenu("Tool Cards");
-        if (event.getSource().equals(showpublic))
-            openWindowFromMenu("Public Objective Cards");
-        if (event.getSource().equals(showprivate))
-            openWindowFromMenu("Private Objective Cards");
     }
 
     private void openWindowFromMenu(String string){
@@ -234,9 +225,5 @@ public class ControllerGame implements Initializable {
         background.fitWidthProperty().bind(anchorPane.widthProperty());
         background.fitHeightProperty().bind(anchorPane.heightProperty());
         background.toBack();
-    }
-
-    public void handleCR(javafx.event.ActionEvent event){
-        createInfoBox();
     }
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.GUI;
+package it.polimi.ingsw.Client.GUI.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,30 +18,39 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.Main.stage;
 import static it.polimi.ingsw.Client.GUI.Main.root;
 
-public class ControllerConnection implements Initializable {
+public class ControllerLogin implements Initializable {
 
-    public Button rmibutton, socketbutton;
-    public AnchorPane anchorconnection;
-    public ImageView bg2;
+    public Button playbutton;
+    public TextField usernametext;
+    public ImageView bg1;
+    public AnchorPane anchorlogin;
+    static String user;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBackground(bg2, anchorconnection);
+        setBackground(bg1, anchorlogin);
     }
 
     @FXML
-    private void handleButtonRMI(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/lobby.fxml").toURL();
-        switchScene(rmibutton, url);
+    private void handleButtonPlay(ActionEvent event) throws IOException {
+        if (usernametext.getLength() > 0) {
+            goToConnection();
+        } else {
+            createAlertBox();
+        }
     }
 
     @FXML
-    private void handleButtonSocket(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/lobby.fxml").toURL();
-        switchScene(socketbutton, url);
+    private void onEnterLogin(ActionEvent enter) throws IOException {
+        if(usernametext.getLength()>0) {
+            goToConnection();
+        }
+        else {
+            createAlertBox();
+        }
     }
 
-    void switchScene(Button button, URL url) throws IOException {
+    private void switchScene(Button button, URL url) throws IOException {
         //get reference to the button's stage
         stage = (Stage) button.getScene().getWindow();
         //load up OTHER FXML document
@@ -50,6 +59,27 @@ public class ControllerConnection implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void saveName(){
+        user = new String(usernametext.getText());
+        System.out.println(user);
+    }
+
+    private void goToConnection() throws IOException {
+        saveName();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/rmi_socket.fxml").toURL();
+        switchScene(playbutton, url);
+    }
+
+    private void createAlertBox(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error!");
+        String header = "Your username should be at least 1 character long.";
+        alert.setHeaderText(header);
+        String content = "Please enter a valid username.";
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void setBackground(ImageView background, AnchorPane anchorPane){
@@ -63,4 +93,5 @@ public class ControllerConnection implements Initializable {
         background.fitHeightProperty().bind(anchorPane.heightProperty());
         background.toBack();
     }
+
 }
