@@ -28,10 +28,15 @@ public class MainClientRete {
                     break;
             }
         }while(repeatInsertion);
-
+        //scegli tra CLI e GUI new CLI(genirClient.getClientServerSender) o GUI(genirClient.getClientServerSender)
         System.out.println("Inserisci il tuo username");
         String username = keyboard.next();
         generiClient.register(username);
 
+        System.out.println("Digita per disconnettere");
+        username = keyboard.next();
+        generiClient.unregister();
+
+        username = keyboard.next(); //Solo per bloccare client
     }
 }

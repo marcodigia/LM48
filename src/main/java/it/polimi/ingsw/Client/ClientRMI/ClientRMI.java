@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 public class ClientRMI extends LinkClientServer{
     private StubServer stubServer;
     private SkeletonClientImp skeletonClient;
+
     public ClientRMI(){
         try {
             skeletonClient = new SkeletonClientImp();

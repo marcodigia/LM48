@@ -20,6 +20,7 @@ public class GeneriClient {
     private ClientServerSender clientServerSender; //stub -- ClientServerSender
     private ClientServerReciver clientServerReciver; //skeleton -- ClientServerReciver
     private LinkClientServer linkClientServer;
+    private String username;
 
     public GeneriClient(String ipServer, int portServer){
         linkClientServer = new ClientSocketHandler(ipServer, portServer);
@@ -40,6 +41,7 @@ public class GeneriClient {
     }
 
     public void register(String username){
+        this.username = username;
         if(linkClientServer instanceof ClientSocketHandler){
 
             try {
@@ -60,6 +62,14 @@ public class GeneriClient {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void unregister(){
+        try {
+            clientServerSender.unregister(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 }
