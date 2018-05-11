@@ -1,17 +1,17 @@
 # Command Client -> Server
 In the following we will use:
-1. <x> to indicate something that is required to user 
+1. !x! to indicate something that is required to user 
 2. [x]+* to that x can be repeted 2 up to 4 times
   
 ## Registation process
-R £00£ <username> £00£
+R £00£ !username! £00£
 
 Where:
 * R stay for registation command
 * username stay for username choose by user
 
 ## Unregitration process
-U £00£ <username> £00£
+U £00£ !username! £00£
   
 Where:
 * U stay for unregistration command
