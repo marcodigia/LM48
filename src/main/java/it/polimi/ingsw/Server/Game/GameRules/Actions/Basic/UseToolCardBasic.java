@@ -1,9 +1,8 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
-import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Exceptions.NoPossibleValidMovesException;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
+import it.polimi.ingsw.UI;
 
 public class UseToolCardBasic implements Actions {
 
@@ -30,15 +29,11 @@ public class UseToolCardBasic implements Actions {
 
         if (!ACTIVE)
             return;
-        try {
-            toolCardAction = gameContext.getChoosenToolCard().getActions(ui , gameContext);
+
+        toolCardAction = gameContext.getChoosenToolCard().getActions();
 
             toolCardAction.useAction(ui,gameContext);
 
-        } catch (NoPossibleValidMovesException e) {
-            e.printStackTrace();
-            return;
-        }
 
         //TODO send Action to the Server
 
