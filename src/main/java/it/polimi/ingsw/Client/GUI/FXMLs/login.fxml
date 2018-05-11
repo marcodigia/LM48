@@ -43,7 +43,7 @@
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding></Label>
-                  <TextField fx:id="usernametext" onAction="#onEnterLogin" promptText="username...">
+                  <TextField fx:id="usernametext" onAction="#handleEnter" promptText="username...">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
