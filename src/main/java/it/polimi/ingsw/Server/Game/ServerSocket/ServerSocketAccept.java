@@ -22,7 +22,7 @@ public class ServerSocketAccept implements Runnable {
                 if(e instanceof BindException)
                     port++;
             }
-        }while(!bound && port < 4000);
+        }while(!bound && port < 3000);
 
         try {
             while(true){
