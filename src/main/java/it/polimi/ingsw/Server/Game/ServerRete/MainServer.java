@@ -5,12 +5,15 @@ import it.polimi.ingsw.Server.Game.ServerSocket.ServerSocketAccept;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 public class MainServer {
+    private static final int SERVERSOCKETPORT = 2000;
+    private static final int RMIPORT = 1099;
+
     public static void main(String[] args){
         ServerRete serverRete = new ServerRete();
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setServerRete(serverRete);
-        ServerRMI serverRMI = new ServerRMI();
-        ServerSocketAccept serverSocketAccept = new ServerSocketAccept(2000);
+        ServerRMI serverRMI = new ServerRMI(RMIPORT);
+        ServerSocketAccept serverSocketAccept = new ServerSocketAccept(SERVERSOCKETPORT);
         Thread t = new Thread(serverSocketAccept);
 
         serverRMI.start();
