@@ -14,18 +14,18 @@ Where:
 U £00£ !username! £00£
   
 Where:
-* U stay for unregistration command
-* username stay for username choose by user
+* U stays for unregistration command
+* username stays for username choose by user
 
 ## Setup process
 S £00£ IDT1 £00£ IDT2 £00£ IDT3 £00£ IDPU1 £00£ IDPU2 £00£ IDPU3 £00£ IDPR [£00£ IDW £00£]+*
 
 Where:
-* S stay for setup command
-* IDTn stay for ToolCard's id 
-* IDPUn stay for PublicCard's id 
-* IDPR stay for PrivateCrad's id
-* IDW stay for WindowPattern's id
+* S stays for setup command
+* IDTn stays for ToolCard's id 
+* IDPUn stays for PublicCard's id 
+* IDPR stays for PrivateCrad's id
+* IDW stays for WindowPattern's id
 
 ## Actions
 ### GetAmountToChange
@@ -35,18 +35,25 @@ A £00£ GATC £00£
 
 A £00£ GDPI £00£
 
+Where GDPI stays for draftpool index
+
 ### GetMatrixIndexFrom
 
 A £00£ GMIF £00£
+
+Where GMIF stays for index where dice is placed
 
 ### GetMatrixIndexTo
 
 A £00£ GMIT £00£
 
+Where GMIT stays for idex where dice has to be placed
+
 ### GetRoundTrackIndex
 
 A £00£ GRTI £00£
 
+Where GRTI stays
 ### UpdateDraftPool
 
 A £00£ UDP £00£
@@ -87,4 +94,16 @@ SGS £00£ *GS*
 
 # Objects serialization
 
+In the following we propose a serialization of what we consider the three fundamental objects:
 
+1. WindowPatternCard
+
+ WP £00£ ID £00£ matrix.toString() £00£
+ 
+2. GameStatus
+  
+  GS £00£ NPPLAY £00£ [{USERNMAE £00£ [WP] £00£ }]+* £00£ DF £00£ {dice...} £00£ TOL £00£ PUB £00£ PR
+ 
+3.BoardRound 
+
+  BR £00£ 
