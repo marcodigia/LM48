@@ -95,4 +95,8 @@ public class MoveOneDiceIgnoringValue implements Actions {
         return false;
     }
 
+    @Override
+    public String toPacket() {
+        return null;
+    }
 }

@@ -37,6 +37,10 @@ public class MainClientRete {
         username = keyboard.next();
         generiClient.unregister();
 
-        username = keyboard.next(); //Solo per bloccare client
+        System.out.println("Ricontetti");
+        username = keyboard.next();
+        generiClient.register(username);
+
+        username = keyboard.next(); //blocca client
     }
 }

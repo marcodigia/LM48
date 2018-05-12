@@ -38,4 +38,9 @@ public class UseToolCardBasic implements Actions {
         //TODO send Action to the Server
 
     }
+
+    @Override
+    public String toPacket() {
+        return null;
+    }
 }

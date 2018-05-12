@@ -83,4 +83,8 @@ public class MoveTwoDice implements Actions {
         return false;
     }
 
+    @Override
+    public String toPacket() {
+        return null;
+    }
 }

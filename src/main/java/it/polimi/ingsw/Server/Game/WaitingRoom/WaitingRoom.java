@@ -4,11 +4,13 @@ import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.ServerRete;
 
+import java.io.*;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//Al momento fatta per la singola partita
 public class WaitingRoom {
 
     public ArrayList<Player> clientList = new ArrayList<>();
@@ -16,6 +18,11 @@ public class WaitingRoom {
     private ArrayList<Player> clientWhoAreGaming = new ArrayList<>();
     private ServerRete serverRete;
     private Timer timer = null;
+    private File file;
+    private FileReader fileReader;
+    private BufferedReader bufferedReader;
+    private FileWriter fileWriter;
+    private BufferedWriter bufferedWriter;
 
     public void setServerRete(ServerRete serverRete){
         this.serverRete = serverRete;
@@ -82,7 +89,6 @@ public class WaitingRoom {
                 //TODO classe partita già implementata???
             }
             else{
-                //TODO take timer from file
                 if(timer==null) {
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -93,16 +99,69 @@ public class WaitingRoom {
                             clientWhoAreGaming.addAll(clientList);
                             clientList.clear();
                         }
-                    }, 1 * 20 * 1000);
+                    }, readTimerFromFile("timer.txt"));
                 }
             }
         }
         else{
-            if(clientList.size()<2 && timer!=null){
+            if(timer!=null){
              timer.cancel();
              timer = null;
             }
         }
+    }
+
+    private int readTimerFromFile(String path){
+        int delay = 30*1000; //If timer.txt is not present create it with value 30s
+        file = new File(path);
+        try {
+            if(file.createNewFile()) {
+                fileWriter = new FileWriter(file);
+                bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(delay);
+                bufferedWriter.flush();
+            }
+            else{
+                fileReader = new FileReader(file);
+                bufferedReader = new BufferedReader(fileReader);
+                delay = bufferedReader.read();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(bufferedWriter!=null) {
+                try {
+                    bufferedWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(fileWriter!=null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(bufferedReader!=null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(fileReader!=null) {
+                try {
+                    fileReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(file!=null)
+                file.setReadOnly();
+        }
+        return delay;
     }
 
     public void clearClientWhoAreGaming(){

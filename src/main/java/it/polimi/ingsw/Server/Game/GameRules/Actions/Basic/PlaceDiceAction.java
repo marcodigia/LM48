@@ -152,4 +152,9 @@ public class PlaceDiceAction implements Actions {
         }
         return false;
     }
+
+    @Override
+    public String toPacket() {
+        return null;
+    }
 }

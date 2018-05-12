@@ -94,4 +94,9 @@ public class MoveOneDieIgnoringColor implements Actions {
         }
         return false;
     }
+
+    @Override
+    public String toPacket() {
+        return null;
+    }
 }

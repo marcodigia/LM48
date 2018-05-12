@@ -6,9 +6,8 @@ import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.SkeletonClient;
 import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.StubServer;
-import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
-import it.polimi.ingsw.Server.Game.ServerSocket.ServerClientSenderImp;
 
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.rmi.Naming;
@@ -46,7 +45,7 @@ public class GeneriClient {
 
             try {
                 //Reference to ServerClientSender is not going to be used
-                clientServerSender.register(username,null);
+                clientServerSender.register(this.username,null);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -54,7 +53,7 @@ public class GeneriClient {
         else{
             try {
                 clientServerSender = (StubServer) Naming.lookup("rmi://127.0.0.1/myabc");
-                clientServerSender.register(username, (SkeletonClient)clientServerReciver);
+                clientServerSender.register(this.username, (SkeletonClient)clientServerReciver);
             } catch (NotBoundException e) {
                 e.printStackTrace();
             } catch (MalformedURLException e) {
@@ -72,4 +71,5 @@ public class GeneriClient {
             e.printStackTrace();
         }
     }
+    
 }

@@ -71,4 +71,8 @@ public class ChangeDiceValueByOne implements Actions {
     }
 
 
+    @Override
+    public String toPacket() {
+        return null;
+    }
 }

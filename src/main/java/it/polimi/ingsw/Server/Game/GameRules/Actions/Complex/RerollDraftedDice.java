@@ -78,4 +78,8 @@ public class RerollDraftedDice implements Actions {
     }
 
 
+    @Override
+    public String toPacket() {
+        return null;
+    }
 }
