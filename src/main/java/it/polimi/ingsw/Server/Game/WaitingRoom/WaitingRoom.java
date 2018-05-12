@@ -4,36 +4,56 @@ import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.ServerRete;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class WaitingRoom {
 
-    public static ArrayList<Player> clientList = new ArrayList<>();
+    public ArrayList<Player> clientList = new ArrayList<>();
     //TODO alla fine di una partita fare clear di questo array per consentire username uguali in diverse partite
-    private static ArrayList<Player> clientWhoAreGaming = new ArrayList<>();
-    private static ServerRete serverRete;
-    private static Timer timer = null;
+    private ArrayList<Player> clientWhoAreGaming = new ArrayList<>();
+    private ServerRete serverRete;
+    private Timer timer = null;
 
     public void setServerRete(ServerRete serverRete){
         this.serverRete = serverRete;
     }
 
-    public synchronized static boolean addClient(String username, ServerClientSender clientRef){
+    public synchronized  boolean addClient(String username, ServerClientSender clientRef){
+        if(scanForSameUsername(username)){
+            try {
+                clientRef.sendMessage("Nome utente già in uso");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+        //Crea giocatore
         Player newPlayer = new Player(username,clientRef);
-        if(!clientList.contains(newPlayer)){
-            clientList.add(newPlayer);
-            System.out.println(username);
-            waitForGame();
-            return true;
+        clientList.add(newPlayer);
+        System.out.println(username);
+        waitForGame();
+        return true;
+    }
+    //True if there is another player with same name
+    //False if there is not  a player with same name
+    private boolean scanForSameUsername(String username){
+        Player playerSameUsername = null;
+        if(clientList.size()>0){
+            for(Player p : clientList)
+                if(p.getName().equals(username))
+                    playerSameUsername = p;
+            if(playerSameUsername!=null)
+                return true;
         }
         return false;
     }
     //Rimuovi client dalla clientList se non è ancora iniziato il game. Se game è
     //già iniziato occorre settare il client a disconnesso così che si possa riconnettere
     //in seguito
-    public synchronized static boolean removeClient(String username){
+    public synchronized  boolean removeClient(String username){
         Player playerToRemove = null;
         //Cerca tra i client in attesa di giocare
         for(Player p : clientList)
@@ -56,7 +76,7 @@ public class WaitingRoom {
         return false;
     }
 
-    private static void waitForGame(){
+    private void waitForGame(){
         if(clientList.size()>=2){
             if(clientList.size() == 4){
                 //TODO classe partita già implementata???
@@ -85,7 +105,7 @@ public class WaitingRoom {
         }
     }
 
-    public static void clearClientWhoAreGaming(){
+    public void clearClientWhoAreGaming(){
         clientWhoAreGaming.clear();
     }
 

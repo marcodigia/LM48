@@ -12,8 +12,8 @@ public class MainServer {
         ServerRete serverRete = new ServerRete();
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setServerRete(serverRete);
-        ServerRMI serverRMI = new ServerRMI(RMIPORT);
-        ServerSocketAccept serverSocketAccept = new ServerSocketAccept(SERVERSOCKETPORT);
+        ServerRMI serverRMI = new ServerRMI(RMIPORT, waitingRoom);
+        ServerSocketAccept serverSocketAccept = new ServerSocketAccept(SERVERSOCKETPORT, waitingRoom);
         Thread t = new Thread(serverSocketAccept);
 
         serverRMI.start();

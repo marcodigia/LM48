@@ -16,11 +16,12 @@ public class Game {
     }
     //Aggiungi players alla partita
     public void addPlayer(ArrayList<Player> playersToAdd){
+        String s = "Hello";
         if(playersToAdd!=null)
             for(Player p : playersToAdd){
                 players.put(p, true);
                 try {
-                    p.getServerClientSender().sendHello();
+                    p.getServerClientSender().sendMessage(s);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

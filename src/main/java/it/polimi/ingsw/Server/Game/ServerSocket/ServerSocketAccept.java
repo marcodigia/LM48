@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Server.Game.ServerSocket;
 
+import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
+
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -9,8 +11,11 @@ public class ServerSocketAccept implements Runnable {
     private int port;
     private ServerSocket serverSocket;
     private boolean bound = false;
-    public ServerSocketAccept(int port){
+    private WaitingRoom waitingRoom;
+
+    public ServerSocketAccept(int port, WaitingRoom waitingRoom){
         this.port = port;
+        this.waitingRoom = waitingRoom;
     }
     @Override
     public void run() {
@@ -27,7 +32,7 @@ public class ServerSocketAccept implements Runnable {
         try {
             while(true){
                 Socket socket = serverSocket.accept();
-                ServerSocketHandler serverSocketHandler = new ServerSocketHandler(socket);
+                ServerSocketHandler serverSocketHandler = new ServerSocketHandler(socket, waitingRoom);
                 Thread t = new Thread(serverSocketHandler);
                 t.start();
             }

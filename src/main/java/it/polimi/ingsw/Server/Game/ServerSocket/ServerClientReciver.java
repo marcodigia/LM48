@@ -11,10 +11,12 @@ public class ServerClientReciver implements Runnable {
     private Scanner scanner;
     private ServerClientSenderImp serverClientSenderImp;
     private String username;
+    private WaitingRoom waitingRoom;
 
-    public ServerClientReciver(Socket socket, ServerClientSenderImp serverClientSenderImp){
+    public ServerClientReciver(Socket socket, ServerClientSenderImp serverClientSenderImp, WaitingRoom waitingRoom){
         this.socket = socket;
         this.serverClientSenderImp = serverClientSenderImp;
+        this.waitingRoom = waitingRoom;
         try {
             scanner = new Scanner(socket.getInputStream()).useDelimiter("\\s*£00£\\s*");
         } catch (IOException e) {
@@ -28,13 +30,13 @@ public class ServerClientReciver implements Runnable {
 
             String command = scanner.next();
             switch(command){
-                case "REGISTER":
+                case "R":
                     username = scanner.next();
-                    WaitingRoom.addClient(username, serverClientSenderImp);
+                    waitingRoom.addClient(username, serverClientSenderImp);
                     break;
-                case "UNREGISTER":
+                case "U":
                     username = scanner.next();
-                    WaitingRoom.removeClient(username);
+                    waitingRoom.removeClient(username);
                     break;
                 default:
                     break;

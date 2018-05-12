@@ -28,13 +28,13 @@ public class ClientServerSenderImp implements Runnable, ClientServerSender {
 
     @Override
     public void register(String username, ServerClientSender clientRef) throws RemoteException {
-        printWriter.println("REGISTER £00£ "+username+" £00£");
+        printWriter.println("R £00£ "+username+" £00£");
         printWriter.flush();
     }
 
     @Override
     public void unregister(String username) throws RemoteException {
-        printWriter.println("UNREGISTER £00£ "+username+" £00£");
+        printWriter.println("U £00£ "+username+" £00£");
         printWriter.flush();
     }
 }

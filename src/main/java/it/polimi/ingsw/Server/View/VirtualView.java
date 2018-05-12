@@ -19,7 +19,7 @@ public class VirtualView extends UI {
     @Override
     public void printMessage(String s) throws EndOfTurnException {
         try {
-            serverClientSender.sendHello();
+            serverClientSender.sendMessage(s);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

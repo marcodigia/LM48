@@ -24,8 +24,8 @@ public class ServerClientSenderImp implements Runnable, ServerClientSender {
     }
 
     @Override
-    public void sendHello() throws RemoteException {
-        printWriter.println("MESSAGE £00£ Hello £00£");
+    public void sendMessage(String message) throws RemoteException {
+        printWriter.println("MESSAGE £00£"+message+"£00£");
         printWriter.flush();
     }
 }

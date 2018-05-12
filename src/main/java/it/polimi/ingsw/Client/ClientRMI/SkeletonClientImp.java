@@ -9,7 +9,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
     }
 
     @Override
-    public void sendHello() throws RemoteException {
-        System.out.println("Hello");
+    public void sendMessage(String message) throws RemoteException {
+        System.out.println(message);
     }
 }
