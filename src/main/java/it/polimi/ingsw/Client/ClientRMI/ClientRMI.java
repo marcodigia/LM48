@@ -7,6 +7,7 @@ import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.StubServer
 import java.rmi.RemoteException;
 
 public class ClientRMI extends LinkClientServer{
+
     private StubServer stubServer;
     private SkeletonClientImp skeletonClient;
 

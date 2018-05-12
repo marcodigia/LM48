@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-import static it.polimi.ingsw.Client.GUI.Main.root;
-import static it.polimi.ingsw.Client.GUI.Main.stage;
+import static it.polimi.ingsw.Client.GUI.GUI.root;
+import static it.polimi.ingsw.Client.GUI.GUI.stage;
 
 public abstract class Controller {
 

@@ -1,15 +1,18 @@
 package it.polimi.ingsw.Client.ClientSocket;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
+import it.polimi.ingsw.UI;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientServerReciverImp implements Runnable, ClientServerReciver {
+
     private Socket socket;
     private Scanner scanner;
     private String message;
+    private UI ui;
 
     public ClientServerReciverImp(Socket socket){
         this.socket = socket;

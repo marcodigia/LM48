@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.CLI;
 
+import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Exceptions.PlayersNumbersException;
@@ -20,17 +21,10 @@ public class CLI extends UI {
     private static ArrayList<Player> players = new ArrayList<>();
     private static int height = 4;
     private static DraftPool draftPool;
+    private ClientServerSender clientServerSender;
 
-
-
-    public static void main(String args[]){
-
-        CLI cli = new CLI();
-        try {
-            cli.printMessage("Ciao");
-        } catch (EndOfTurnException e) {
-            e.printStackTrace();
-        }
+    public CLI(ClientServerSender clientServerSender){
+        this.clientServerSender = clientServerSender;
     }
 
     public void print_boards() {
@@ -135,9 +129,10 @@ public class CLI extends UI {
     }
 
     @Override
-    public String chooseWP() throws EndOfTurnException {
+    public String chooseWP(String s, String s1) throws EndOfTurnException {
         return null;
     }
+
 
     @Override
     public int getRoundTrackIndex() {

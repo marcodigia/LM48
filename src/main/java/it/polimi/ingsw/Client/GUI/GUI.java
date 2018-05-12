@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI;
 
+import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,10 +9,11 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.net.URL;
 
-public class Main extends Application {
+public class GUI extends Application implements  Runnable{
 
     public static Stage stage;
     public static Parent root;
+    public static ClientServerSender clientServerSender;
 
     public void start(Stage primaryStage) throws Exception {
         Parent root;
@@ -24,5 +26,10 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void run() {
+        launch(null);
     }
 }

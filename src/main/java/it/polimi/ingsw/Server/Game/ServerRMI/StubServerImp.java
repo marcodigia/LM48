@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.ServerRMI;
 
 import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.StubServer;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 import java.rmi.RemoteException;
@@ -21,5 +22,20 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
     @Override
     public void unregister(String username) throws RemoteException {
         waitingRoom.removeClient(username);
+    }
+
+    @Override
+    public void choosenWindowPattern(String id) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendAction(Actions action) throws RemoteException {
+
+    }
+
+    @Override
+    public void endOfTurn() throws RemoteException {
+
     }
 }

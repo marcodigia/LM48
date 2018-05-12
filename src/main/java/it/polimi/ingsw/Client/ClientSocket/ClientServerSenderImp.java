@@ -2,6 +2,7 @@ package it.polimi.ingsw.Client.ClientSocket;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,5 +37,20 @@ public class ClientServerSenderImp implements Runnable, ClientServerSender {
     public void unregister(String username) throws RemoteException {
         printWriter.println("U £00£ "+username+" £00£");
         printWriter.flush();
+    }
+
+    @Override
+    public void choosenWindowPattern(String id) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendAction(Actions action) throws RemoteException {
+
+    }
+
+    @Override
+    public void endOfTurn() throws RemoteException {
+
     }
 }

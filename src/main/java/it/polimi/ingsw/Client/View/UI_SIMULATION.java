@@ -48,7 +48,7 @@ public class UI_SIMULATION extends UI {
     }
 
     @Override
-    public String chooseWP() throws EndOfTurnException {
+    public String chooseWP(String s, String s1) throws EndOfTurnException {
         return null;
     }
 

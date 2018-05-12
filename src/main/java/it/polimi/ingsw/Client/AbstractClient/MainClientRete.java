@@ -1,10 +1,15 @@
 package it.polimi.ingsw.Client.AbstractClient;
 
+import it.polimi.ingsw.Client.CLI.CLI;
+import it.polimi.ingsw.Client.GUI.GUI;
+import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
+
 import java.util.Scanner;
 
 public class MainClientRete {
     public static void main(String[] args){
         final int PORTSERVER = 2000;
+
         GeneriClient generiClient = null;
         Scanner keyboard = new Scanner(System.in);
         boolean repeatInsertion = true;
@@ -28,7 +33,11 @@ public class MainClientRete {
                     break;
             }
         }while(repeatInsertion);
-        //scegli tra CLI e GUI new CLI(genirClient.getClientServerSender) o GUI(genirClient.getClientServerSender)
+
+        //scegli tra
+        CLI cli = new CLI(generiClient.getClientServerSender());
+        GUI.clientServerSender = generiClient.getClientServerSender();
+        //GUI gui = new GUI(generiClient.getClientServerSender());
         System.out.println("Inserisci il tuo username");
         String username = keyboard.next();
         generiClient.register(username);

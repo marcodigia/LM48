@@ -24,7 +24,7 @@ public abstract class UI {
     //UI must verify that value is in between bounds
     public abstract int getMatrixIndexTo() throws EndOfTurnException;
 
-    public abstract String chooseWP() throws EndOfTurnException;
+    public abstract String chooseWP(String s, String s1) throws EndOfTurnException;
 
     public abstract int getRoundTrackIndex();
 
