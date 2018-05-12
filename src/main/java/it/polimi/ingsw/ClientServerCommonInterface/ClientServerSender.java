@@ -9,5 +9,5 @@ public interface ClientServerSender {
     public void unregister(String username) throws RemoteException;
     public void choosenWindowPattern(String id) throws RemoteException;
     public void sendAction(Actions action) throws RemoteException;
-
+    public void endOfTurn() throws RemoteException;
 }

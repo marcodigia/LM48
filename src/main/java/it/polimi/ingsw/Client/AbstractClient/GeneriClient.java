@@ -42,7 +42,6 @@ public class GeneriClient {
     public void register(String username){
         this.username = username;
         if(linkClientServer instanceof ClientSocketHandler){
-
             try {
                 //Reference to ServerClientSender is not going to be used
                 clientServerSender.register(this.username,null);
@@ -71,5 +70,5 @@ public class GeneriClient {
             e.printStackTrace();
         }
     }
-    
+
 }
