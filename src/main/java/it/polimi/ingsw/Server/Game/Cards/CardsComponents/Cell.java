@@ -26,7 +26,7 @@ public class Cell {
     @Override
     public String toString() {
 
-        return ANSI_COLOR.ANSI_YELLOW + "{" + "dice :" + dice + " " + cellRestriction + " }" + ANSI_COLOR.ANSI_RESET;
+        return "("  + cellRestriction + "," + dice + " )" ;
     }
 
 

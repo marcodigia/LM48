@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.Cards;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Matrix;
 import it.polimi.ingsw.Server.Game.Components.Dice;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.util.ArrayList;
 
@@ -28,8 +29,8 @@ public class WindowPatternCard implements Drawable {
 
     @Override
     public String toString() {
-        String windowpatterncard = "{ Id " + id;
-        windowpatterncard += matrix + "}";
+        String windowpatterncard = "WP " +CONSTANT.delimenter + id;
+        windowpatterncard += matrix + CONSTANT.delimenter;
         return windowpatterncard;
     }
 

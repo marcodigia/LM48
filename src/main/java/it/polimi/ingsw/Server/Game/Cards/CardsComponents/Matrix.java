@@ -14,10 +14,10 @@ public class Matrix {
 
     @Override
     public String toString() {
-        StringBuilder matrixString = new StringBuilder(ANSI_COLOR.ANSI_BLUE + "[ height: " + height + ", lenght: " + lenght + " ");
+        StringBuilder matrixString = new StringBuilder( "{" );
         for (Cell cell : matrix)
             matrixString.append(cell.toString());
-        matrixString.append(ANSI_COLOR.ANSI_BLUE).append("]").append(ANSI_COLOR.ANSI_RESET);
+        matrixString.append("}");
         return matrixString.toString();
     }
 

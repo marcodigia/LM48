@@ -23,13 +23,17 @@ public class CLI extends UI {
 
 
 
-    public static void addPlayer(Player player) throws PlayersNumbersException {
-        if (players.size() >= 4)
-            throw new PlayersNumbersException();
-        players.add(player);
+    public static void main(String args[]){
+
+        CLI cli = new CLI();
+        try {
+            cli.printMessage("Ciao");
+        } catch (EndOfTurnException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void print_boards() {
+    public void print_boards() {
         System.out.println("Players Board :\n");
         StringBuilder line = new StringBuilder();
         for (int i = 0; i < height; i++) {
@@ -62,7 +66,7 @@ public class CLI extends UI {
         System.out.println(line);
     }
 
-    public static void print_draftboard(ArrayList<Dice> draft) {
+    public void print_draftboard(ArrayList<Dice> draft) {
 
         System.out.println("Draft Pool : \n");
         StringBuilder line = new StringBuilder();
@@ -128,6 +132,11 @@ public class CLI extends UI {
         if (choice >= 0 && choice < draftPool.getDraft().size())
             return choice;
         return -1;
+    }
+
+    @Override
+    public String chooseWP() throws EndOfTurnException {
+        return null;
     }
 
     @Override
