@@ -29,19 +29,62 @@ Where:
 
 ## Actions
 ### GetAmountToChange
-A £00£ GATC
+A £00£ GATC £00£
+
 ### GetDraftedPoolIndex
-A £00£ GDPI
+
+A £00£ GDPI £00£
+
 ### GetMatrixIndexFrom
-A £00£ GMIF
+
+A £00£ GMIF £00£
+
 ### GetMatrixIndexTo
-A £00£ GMIT
+
+A £00£ GMIT £00£
+
 ### GetRoundTrackIndex
-A £00£ GRTI
+
+A £00£ GRTI £00£
+
 ### UpdateDraftPool
-A £00£ UDP
+
+A £00£ UDP £00£
+
 ### UpdateWindowPattern
-A £00£ UWP
+
+A £00£ UWP £00£
+
 ### UpdateRoundTrack
-A £00£ URT
+
+A £00£ URT £00£
+
+# Server -> Client 
+
+## SendMessage
+
+S £00£ message £00£
+
+## chooseWindowPattern
+
+CW £00£ ID1 £00£ ID2 £00£ ID3 £00£ ID4 £00£
+
+## timerEnd
+
+TE £00£ 
+
+## timerStart
+
+TS £00£
+
+## sendScore 
+
+SC £00£ *SC*
+
+## sendGameStatus
+
+SGS £00£ *GS*
+
+# Objects serialization
+
 
