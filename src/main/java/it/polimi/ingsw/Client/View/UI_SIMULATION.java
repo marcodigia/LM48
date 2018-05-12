@@ -48,6 +48,11 @@ public class UI_SIMULATION extends UI {
     }
 
     @Override
+    public String chooseWP() throws EndOfTurnException {
+        return null;
+    }
+
+    @Override
     public int getRoundTrackIndex() {
         return roundTrackIndex;
     }

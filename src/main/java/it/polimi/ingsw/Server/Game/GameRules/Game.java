@@ -8,7 +8,7 @@ import java.util.Hashtable;
 public class Game {
 
     private Hashtable<Player ,Boolean> players;
-    private GameContext gameContext;
+
 
     public Game(){
         players = new Hashtable<>();
@@ -28,9 +28,11 @@ public class Game {
             }
 
     }
+
     public boolean scanForPlayer(Player playerToFind){
         return players.containsKey(playerToFind);
     }
+
     //Metti a false la partecipazione alla partita del player che si è disconesso
     public boolean setPlayerToDisconnect(Player playerToDisconnect){
         if(scanForPlayer(playerToDisconnect)) {
@@ -39,4 +41,6 @@ public class Game {
         }
         return false;
     }
+
+
 }

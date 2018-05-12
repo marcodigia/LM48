@@ -18,9 +18,9 @@ class BoardRoundTest {
     void setUp() {
 
         players = new ArrayList<Player>();
-        players.add(new Player(PlayerColor.PLAYER_BLUE, "mario"));
-        players.add(new Player(PlayerColor.PLAYER_BLUE, "mauro"));
-        players.add(new Player(PlayerColor.PLAYER_BLUE, "nanni"));
+        players.add(new Player( "mario",null));
+        players.add(new Player("mauro",null));
+        players.add(new Player("nanni" , null));
 
         boardRound = new BoardRound(players);
     }

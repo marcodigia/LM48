@@ -22,7 +22,7 @@ class PlayerTest {
     GameContext gameContext;
     @BeforeEach
     void setUp() {
-        player = new Player(PlayerColor.PLAYER_BLUE, "maior");
+        player = new Player("maior",null);
         WindowPatternCardFactory factory = new WindowPatternCardFactory("windowPatternCards.csv");
         try {
 
@@ -48,22 +48,6 @@ class PlayerTest {
         player.setGameContext(gameContext);
     }
 
-    @Test
-    void setAction_placeDiceOfTheTurn() {
-        assertNull(windowPatternCard.getDice(0));
 
-        player.setAction_placeDiceOfTheTurn(0, 0);
-        assertNotNull(windowPatternCard.getDice(0));
-
-    }
-
-    @Test
-    void setAction_UseToolCardOfTheTurn() {
-
-        draftPool.getDice(0).setValue(3);
-        player.setAction_UseToolCardOfTheTurn(toolCard);
-        assertEquals(Integer.parseInt(draftPool.getDice(0).getValue()), 4);
-
-    }
 
 }

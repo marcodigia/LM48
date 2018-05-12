@@ -26,7 +26,6 @@ public class Player {
     private UseToolCardBasic useToolCardOfTheTurn;
     private PlayerColor color;
     private String name;
-    private UI ui;
     private GameContext gameContext;
     private ServerClientSender serverClientSender;
     private VirtualView virtualView;
@@ -37,12 +36,27 @@ public class Player {
         virtualView = new VirtualView(serverClientSender);
     }
 
-    public Player(PlayerColor color, String name) {
-        this.color = color;
-        this.name = name;
-
-        ui = new UI_SIMULATION(0, 0, 0, 0, 0);
+    public void startRound(){
+        placeDiceOfTheTurn = new PlaceDiceAction();
+        useToolCardOfTheTurn = new UseToolCardBasic();
     }
+
+    public void setGameContext(GameContext gameContext) {
+        this.gameContext = gameContext;
+    }
+
+
+
+    public ArrayList<Cell> getRow(int n) {
+        return gameContext.getWindowPatternCard().getRow(n);
+    }
+
+    public WindowPatternCard getWindowPatternCard() {
+        return gameContext.getWindowPatternCard();
+    }
+
+
+
 
     public ServerClientSender getServerClientSender() {
         return serverClientSender;
@@ -55,31 +69,5 @@ public class Player {
     public PlayerColor getPlayerColor() {
         return color;
     }
-
-    //Game Controller shuould invoke this method at the beginin of every turn
-    public void setAction_placeDiceOfTheTurn(int i, int j) {
-        placeDiceOfTheTurn = new PlaceDiceAction();
-    }
-
-    public Actions getAction_placeDiceOfTheTurn() {
-        return placeDiceOfTheTurn;
-    }
-    public void setAction_UseToolCardOfTheTurn(ToolCard toolCard) {
-
-    }
-
-
-    public ArrayList<Cell> getRow(int n) {
-        return gameContext.getWindowPatternCard().getRow(n);
-    }
-
-    public WindowPatternCard getWindowPatternCard() {
-        return gameContext.getWindowPatternCard();
-    }
-
-    public void setGameContext(GameContext gameContext) {
-        this.gameContext = gameContext;
-    }
-
 
 }
