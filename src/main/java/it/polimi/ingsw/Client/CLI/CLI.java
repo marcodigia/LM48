@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //Decided to make CLI static , because it just need to print stuff
-public class CLI extends UI {
+public class CLI extends UI implements Runnable{
 
     private static final int maxNameSize = 18;
     private static ArrayList<Player> players = new ArrayList<>();
@@ -158,5 +158,10 @@ public class CLI extends UI {
     @Override
     public void updateRoundTrack() {
 
+    }
+
+    @Override
+    public void run() {
+        
     }
 }
