@@ -19,8 +19,7 @@ import java.util.ArrayList;
 //moved player in game rules so doAction is package friendly
 public class Player {
 
-
-
+    private Boolean isConnected = false;    //Set this variable to true if connected
     private PrivateObjectiveCard privateObjectiveCard;
     private PlaceDiceAction placeDiceOfTheTurn;
     private UseToolCardBasic useToolCardOfTheTurn;
