@@ -1,7 +1,7 @@
 # Test
 ## DiceBagTest
 - [x] See if DiceBag constructor creates two different set of dices 
-- [x] Take 0 dice
+- [x] Take 0 dices
 - [x] Take all dices
 - [x] Put a dice on DiceBag
 
@@ -22,7 +22,6 @@
 - [x] Test if correctly returns the winners in case there is more then one winner
 - [x] Check if returns the the scoreboard right if is empty
 - [x] Check if returns the the scoreboard right if is not empty
-
 
 ## MatrixTest
 - [x] Place dices on matrix
