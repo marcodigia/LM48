@@ -41,7 +41,8 @@ public class ClientServerSenderImp implements Runnable, ClientServerSender {
 
     @Override
     public void choosenWindowPattern(String id) throws RemoteException {
-
+        printWriter.println("CWP £00£ "+id+" £00£");
+        printWriter.flush();
     }
 
     @Override

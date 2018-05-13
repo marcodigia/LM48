@@ -40,7 +40,7 @@ class PlaceDiceActionTest {
             e.printStackTrace();
         }
         draftPool.extractNdice(2);
-        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard, null);
     }
 
     //Verify if the the Action is correctly done in the first round

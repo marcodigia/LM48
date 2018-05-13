@@ -1,9 +1,8 @@
 package it.polimi.ingsw.Client.AbstractClient;
 
 import it.polimi.ingsw.Client.CLI.CLI;
-import it.polimi.ingsw.Client.GUI.GUI;
-import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class MainClientRete {
@@ -35,12 +34,17 @@ public class MainClientRete {
         }while(repeatInsertion);
 
         //scegli tra
-        CLI cli = new CLI(generiClient.getClientServerSender());
-        GUI.clientServerSender = generiClient.getClientServerSender();
+        PrintStream ps = System.out;
+        CLI cli = new CLI(generiClient.getClientServerSender(), ps);
+        //GUI.clientServerSender = generiClient.getClientServerSender();
         //GUI gui = new GUI(generiClient.getClientServerSender());
+        Thread t = new Thread(cli);
+        t.start();
+
         System.out.println("Inserisci il tuo username");
         String username = keyboard.next();
         generiClient.register(username);
+        generiClient.getClientServerReciver().setUI(cli);
 
         System.out.println("Digita per disconnettere");
         username = keyboard.next();

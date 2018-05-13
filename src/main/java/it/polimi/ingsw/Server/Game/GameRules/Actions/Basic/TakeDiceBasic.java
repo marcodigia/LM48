@@ -51,14 +51,8 @@ public class TakeDiceBasic implements Actions {
                 @Override
                 public void run() {
 
-                    try {
-                        from = ui.getDraftPoolIndex();
-                        to = ui.getMatrixIndexTo();
-
-                    } catch (EndOfTurnException e) {
-                        e.printStackTrace();
-                        result[0] = false;
-                    }
+                    from = ui.getDraftPoolIndex();
+                    to = ui.getMatrixIndexTo();
                 }
             });
 

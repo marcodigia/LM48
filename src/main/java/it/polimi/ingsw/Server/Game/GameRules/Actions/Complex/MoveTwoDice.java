@@ -28,18 +28,13 @@ public class MoveTwoDice implements Actions {
         Thread getUserInputThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    ui.printMessage("Primo Dado");
-                    from1 = ui.getMatrixIndexFrom();
-                    to1 = ui.getMatrixIndexTo();
+                ui.printMessage("Primo Dado");
+                from1 = ui.getMatrixIndexFrom();
+                to1 = ui.getMatrixIndexTo();
 
-                    ui.printMessage("Secondo Dado");
-                    from2 = ui.getMatrixIndexFrom();
-                    to2 = ui.getMatrixIndexTo();
-
-                } catch (EndOfTurnException e) {
-                    e.printStackTrace();
-                }
+                ui.printMessage("Secondo Dado");
+                from2 = ui.getMatrixIndexFrom();
+                to2 = ui.getMatrixIndexTo();
             }
         });
 

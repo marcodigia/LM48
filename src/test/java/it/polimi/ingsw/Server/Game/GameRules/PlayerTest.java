@@ -3,14 +3,10 @@ package it.polimi.ingsw.Server.Game.GameRules;
 import it.polimi.ingsw.Server.Game.Cards.*;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
-import it.polimi.ingsw.Server.Game.GameRules.PlayerUtility.PlayerColor;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
@@ -44,7 +40,7 @@ class PlayerTest {
         }
 
 
-        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard, null);
         player.setGameContext(gameContext);
     }
 

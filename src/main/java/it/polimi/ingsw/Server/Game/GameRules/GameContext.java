@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
+import it.polimi.ingsw.Server.Game.Cards.PrivateObjectiveCard;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.Server.Game.Components.DiceBag;
 
 public class GameContext {
 
+    private PrivateObjectiveCard privateObjectiveCard;
     private DraftPool draftPool;
     private DiceBag diceBag;
     private BoardRound boardRound;
@@ -18,14 +20,17 @@ public class GameContext {
 
 
 
-    public GameContext(DraftPool draftPool, DiceBag diceBag, BoardRound boardRound, WindowPatternCard windowPatternCard) {
+    public GameContext(DraftPool draftPool, DiceBag diceBag, BoardRound boardRound, WindowPatternCard windowPatternCard, PrivateObjectiveCard privateObjectiveCard) {
         this.draftPool = draftPool;
         this.diceBag = diceBag;
         this.boardRound = boardRound;
         this.windowPatternCard = windowPatternCard;
+        this.privateObjectiveCard = privateObjectiveCard;
     }
 
-
+    public PrivateObjectiveCard getPrivateObjectiveCard() {
+        return privateObjectiveCard;
+    }
     public DraftPool getDraftPool() {
         return draftPool;
     }

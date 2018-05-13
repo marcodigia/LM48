@@ -10,21 +10,21 @@ public abstract class UI {
 
     // NB ALL FUNCIONS RETURN -1 default
 
-    public abstract void printMessage(String s) throws EndOfTurnException;
+    public abstract void printMessage(String s);
 
     //NB this function must return 0 default
-    public abstract int getAmmountToChange() throws EndOfTurnException;
+    public abstract int getAmmountToChange();
 
     //UI must verify that value is in between bounds
-    public abstract int getDraftPoolIndex() throws EndOfTurnException;
+    public abstract int getDraftPoolIndex();
 
     //UI must verify that value is in between bounds
-    public abstract int getMatrixIndexFrom() throws EndOfTurnException;
+    public abstract int getMatrixIndexFrom();
 
     //UI must verify that value is in between bounds
-    public abstract int getMatrixIndexTo() throws EndOfTurnException;
+    public abstract int getMatrixIndexTo();
 
-    public abstract String chooseWP(String s, String s1) throws EndOfTurnException;
+    public abstract String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro);
 
     public abstract int getRoundTrackIndex();
 

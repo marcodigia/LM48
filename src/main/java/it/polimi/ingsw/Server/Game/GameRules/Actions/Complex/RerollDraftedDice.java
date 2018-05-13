@@ -37,16 +37,7 @@ public class RerollDraftedDice implements Actions {
         Thread getUserInputThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-
-                    diceIndex = ui.getDraftPoolIndex();
-
-
-                } catch (EndOfTurnException e) {
-                    e.printStackTrace();
-                    result[0] = false;
-                }
-
+                diceIndex = ui.getDraftPoolIndex();
             }
         });
 

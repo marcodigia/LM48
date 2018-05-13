@@ -81,14 +81,7 @@ public class PlaceDiceAction implements Actions {
             Thread getUserInputThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-
-                        matrixIndexTo = ui.getMatrixIndexTo();
-
-                    } catch (EndOfTurnException e) {
-                        e.printStackTrace();
-                        result[0] = false;
-                    }
+                    matrixIndexTo = ui.getMatrixIndexTo();
                 }
             });
 
@@ -106,15 +99,9 @@ public class PlaceDiceAction implements Actions {
             Thread getUserInputThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-
-                    try {
-                        matrixIndexTo = ui.getMatrixIndexTo();
-                        int diceIndex = ui.getDraftPoolIndex();
-                        dice = gameContext.getDraftPool().getDice(diceIndex);
-                    } catch (EndOfTurnException e) {
-                        e.printStackTrace();
-                        result[0] = false;
-                    }
+                    matrixIndexTo = ui.getMatrixIndexTo();
+                    int diceIndex = ui.getDraftPoolIndex();
+                    dice = gameContext.getDraftPool().getDice(diceIndex);
                 }
             });
 
@@ -128,11 +115,7 @@ public class PlaceDiceAction implements Actions {
                 return;
             }
         } else {
-            try {
-                ui.printMessage("No possible moves , Putting dice back to Draft Pool ... ");
-            } catch (EndOfTurnException e) {
-                e.printStackTrace();
-            }
+            ui.printMessage("No possible moves , Putting dice back to Draft Pool ... ");
             return;
         }
 

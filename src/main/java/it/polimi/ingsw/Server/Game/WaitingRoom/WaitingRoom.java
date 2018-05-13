@@ -74,12 +74,10 @@ public class WaitingRoom {
         }
         //Cerca tra i client che stanno giocando
         for(Player p : clientWhoAreGaming)
-            if(p.getName().equals(username))
-                playerToRemove = p;
-
-        if(serverRete.scanForPlayer(playerToRemove))
-            return serverRete.setPlayerSilent(playerToRemove);
-
+            if(p.getName().equals(username)) {
+                p.setIsNotConnected();
+                return true;
+            }
         return false;
     }
 
@@ -87,6 +85,7 @@ public class WaitingRoom {
         if(clientList.size()>=2){
             if(clientList.size() == 4){
                 //TODO classe partita già implementata???
+                //TODO bloccare ulteriri utenti se patrtita in corso ma permettere riconnessioni
             }
             else{
                 if(timer==null) {
@@ -112,7 +111,7 @@ public class WaitingRoom {
     }
 
     private int readTimerFromFile(String path){
-        int delay = 30*1000; //If timer.txt is not present create it with value 30s
+        int delay = 5*1000; //If timer.txt is not present create it with value 30s
         file = new File(path);
         try {
             if(file.createNewFile()) {

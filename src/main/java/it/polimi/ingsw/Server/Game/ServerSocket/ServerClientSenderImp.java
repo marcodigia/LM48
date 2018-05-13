@@ -28,32 +28,37 @@ public class ServerClientSenderImp implements Runnable, ServerClientSender {
 
     @Override
     public void sendMessage(String message) throws RemoteException {
-        printWriter.println("MESSAGE £00£"+message+"£00£");
+        printWriter.println("S £00£"+message+"£00£");
         printWriter.flush();
     }
 
     @Override
     public void chooseWindowPattern(String id1, String id2, String id3, String id4) throws RemoteException {
-
+        printWriter.println("CW £00£"+id1+"£00£"+id2+"£00£"+id3+"£00£"+id4+"£00£");
+        printWriter.flush();
     }
 
     @Override
     public void timerEnd() throws RemoteException {
-
+        printWriter.println("TE £00£");
+        printWriter.flush();
     }
 
     @Override
     public void timerStart() throws RemoteException {
-
+        printWriter.println("TS £00£");
+        printWriter.flush();
     }
 
     @Override
     public void sendGameStatus(GameStatus gameStatus) throws RemoteException {
-
+        printWriter.println("SGS £00£"+gameStatus.toString()+"£00£");
+        printWriter.flush();
     }
 
     @Override
     public void sendScore(Score score) throws RemoteException {
-
+        printWriter.println("SC £00£"+score.toString()+"£00£");
+        printWriter.flush();
     }
 }

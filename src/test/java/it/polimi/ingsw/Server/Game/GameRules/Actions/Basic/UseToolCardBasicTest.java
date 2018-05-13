@@ -40,7 +40,7 @@ class UseToolCardBasicTest {
 
         Actions action = new UseToolCardBasic();
         draftPool.getDice(0).setValue(4);
-        GameContext gameContext = new GameContext(draftPool,diceBag,null,null);
+        GameContext gameContext = new GameContext(draftPool,diceBag,null,null, null);
         gameContext.setChoosenToolCard(toolCard);
         action.useAction(new UI_SIMULATION(1,0,0,0,0),gameContext);
         action.doAction(gameContext);

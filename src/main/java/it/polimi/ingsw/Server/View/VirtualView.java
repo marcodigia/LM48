@@ -1,27 +1,15 @@
 package it.polimi.ingsw.Server.View;
 
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Score;
 
-import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
+public interface VirtualView {
 
-
-//Virtual view is an Observer of the Model , and through ServerClientSender notify the changes to the ClientView
-public class VirtualView  {
-
-    ServerClientSender serverClientSender;
-
-
-    public VirtualView(ServerClientSender serverClientSender) {
-        this.serverClientSender = serverClientSender;
-    }
-
-
-    public String choseWindowPattern(){
-        return null;
-    }
-
-   public void update(){
-
-   }
-
+    public void sendMessage(String message);
+    public void chooseWindowPattern(String id1, String id2, String id3, String id4);
+    public void timerEnd();
+    public void timerStart();
+    public void sendGameStatus(GameStatus gameStatus);
+    public void sendScore(Score score);
 
 }

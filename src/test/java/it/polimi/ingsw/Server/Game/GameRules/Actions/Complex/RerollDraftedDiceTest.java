@@ -40,7 +40,7 @@ class RerollDraftedDiceTest {
             e.printStackTrace();
         }
         draftPool.extractNdice(1);
-        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard, null);
     }
 
     //Reroll a dice and place in a legal position
@@ -96,7 +96,7 @@ class RerollDraftedDiceTest {
             e.printStackTrace();
         }
         draftPool.extractNdice(1);
-        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard, null);
 
         while (gameContext.getDraftPool().getDice(0).getDiceColor() == DiceColor.RED) {
             gameContext.getDraftPool().extractNdice(1);

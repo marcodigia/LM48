@@ -1,17 +1,24 @@
 package it.polimi.ingsw.Client.CLI;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
+import it.polimi.ingsw.Server.Game.Cards.AbstractCardFactory;
+import it.polimi.ingsw.Server.Game.Cards.Drawable;
+import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
+import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
-import it.polimi.ingsw.Exceptions.PlayersNumbersException;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 //Decided to make CLI static , because it just need to print stuff
@@ -22,16 +29,19 @@ public class CLI extends UI implements Runnable{
     private static int height = 4;
     private static DraftPool draftPool;
     private ClientServerSender clientServerSender;
+    private PrintStream ps;
 
-    public CLI(ClientServerSender clientServerSender){
+    public CLI(ClientServerSender clientServerSender, PrintStream ps){
         this.clientServerSender = clientServerSender;
+        this.ps = ps;
+
     }
 
     public void print_boards() {
-        System.out.println("Players Board :\n");
+        ps.println("Players Board :\n");
         StringBuilder line = new StringBuilder();
         for (int i = 0; i < height; i++) {
-            //System.out.println(i);
+            //ps.println(i);
             for (Player p : players) {
                 ArrayList<Cell> cells = p.getRow(i);
                 for (Cell cell : cells) {
@@ -57,29 +67,29 @@ public class CLI extends UI implements Runnable{
 
             line.append(player.getName()).append(spaces);
         }
-        System.out.println(line);
+        ps.println(line);
     }
 
     public void print_draftboard(ArrayList<Dice> draft) {
 
-        System.out.println("Draft Pool : \n");
+        ps.println("Draft Pool : \n");
         StringBuilder line = new StringBuilder();
         for (Dice d : draft) {
             line.append(d.getDiceColor().getAnsiColor()).append(ANSI_COLOR.BOLD).append("[")
                     .append(d.getValue()).append("]").append(ANSI_COLOR.ANSI_RESET)
                     .append("  ");
         }
-        System.out.println(line);
-        System.out.println();
+        ps.println(line);
+        ps.println();
     }
 
     @Override
-    public void printMessage(String s) throws EndOfTurnException {
-        System.out.println(s);
+    public void printMessage(String s){
+        ps.println(s);
     }
 
     @Override
-    public int getAmmountToChange() throws EndOfTurnException {
+    public int getAmmountToChange(){
 
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
@@ -87,17 +97,17 @@ public class CLI extends UI implements Runnable{
         int choice;
         do {
 
-            System.out.println("Aumentare o Diminuire valore del dado => +1 , -1 : ");
+            ps.println("Aumentare o Diminuire valore del dado => +1 , -1 : ");
             choice = scanner.nextInt();
             if (!(choice == -1 || choice == 1))
-                System.out.println("Valore non valido , inserire +1 o  -1");
+                ps.println("Valore non valido , inserire +1 o  -1");
         } while (!(choice == -1 || choice == 1));
         return choice;
     }
 
     @Override
-    public int getDraftPoolIndex() throws EndOfTurnException {
-        System.out.println("Indice dado Draft pool : ");
+    public int getDraftPoolIndex(){
+        ps.println("Indice dado Draft pool : ");
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
         int choice = scanner.nextInt();
@@ -107,8 +117,8 @@ public class CLI extends UI implements Runnable{
     }
 
     @Override
-    public int getMatrixIndexFrom() throws EndOfTurnException {
-        System.out.println("Indice cella Window Pattern partenza : ");
+    public int getMatrixIndexFrom(){
+        ps.println("Indice cella Window Pattern partenza : ");
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
         int choice = scanner.nextInt();
@@ -118,8 +128,8 @@ public class CLI extends UI implements Runnable{
     }
 
     @Override
-    public int getMatrixIndexTo() throws EndOfTurnException {
-        System.out.println("Indice cella window Pattern destinazione : ");
+    public int getMatrixIndexTo(){
+        ps.println("Indice cella window Pattern destinazione : ");
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
         int choice = scanner.nextInt();
@@ -129,14 +139,33 @@ public class CLI extends UI implements Runnable{
     }
 
     @Override
-    public String chooseWP(String s, String s1) throws EndOfTurnException {
+    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+
+        ps.println("chose wp " + wp1fronte + " " + wp2retro + " " + wp3fronte +  " " + wp4retro);
+        Scanner scanner = new Scanner(System.in);
+        int chose = scanner.nextInt();
+        ps.println("jhakjdhajhouh1");
+        AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
+        ps.println("jhakjdhajhouh2");
+        Player p = new Player("aa", null);
+        ps.println("jhakjdhajhouh3");
+        try {
+            ps.println("jhakjdhajhouh");
+            Hashtable<String , Drawable> deck =factory.getNewCardDeck();
+            p.setGameContext(new GameContext(null,null,null, (WindowPatternCard) deck.get(Integer.toString(chose)),null));
+            players.add(p);
+            print_boards();
+        } catch (FileNotFoundException e) {
+            ps.println("1111");
+            e.printStackTrace();
+        }
         return null;
     }
 
 
     @Override
     public int getRoundTrackIndex() {
-        System.out.println("Indice cella round Track : ");
+        ps.println("Indice cella round Track : ");
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
         int choice = scanner.nextInt();
@@ -162,6 +191,6 @@ public class CLI extends UI implements Runnable{
 
     @Override
     public void run() {
-        
+
     }
 }

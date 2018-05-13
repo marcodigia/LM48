@@ -41,7 +41,7 @@ class MoveOneDieIgnoringColorTest {
             e.printStackTrace();
         }
         draftPool.extractNdice(2);
-        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard, null);
     }
 
     //Test if correctly move one dice in a legal position
@@ -84,7 +84,7 @@ class MoveOneDieIgnoringColorTest {
     //Move one dice in a illegal place with a restriction not Ignored
     @Test
     void doAction3() {
-        gameContext = new GameContext(draftPool, diceBag, null, (WindowPatternCard) deck.get("26"));
+        gameContext = new GameContext(draftPool, diceBag, null, (WindowPatternCard) deck.get("26"), null);
 
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.BLUE, "3"), 0, true, true, true);
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "3"), 13, true, true, true);

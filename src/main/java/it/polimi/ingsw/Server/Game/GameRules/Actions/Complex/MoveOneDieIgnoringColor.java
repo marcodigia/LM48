@@ -30,12 +30,7 @@ public class MoveOneDieIgnoringColor implements Actions {
             return;
 
         if (!existsValidMove(gameContext.getWindowPatternCard(), true)) {
-            try {
-                ui.printMessage("No possible moves");
-
-            } catch (EndOfTurnException e) {
-                e.printStackTrace();
-            }
+            ui.printMessage("No possible moves");
             return;
         } else {
 
@@ -46,14 +41,8 @@ public class MoveOneDieIgnoringColor implements Actions {
             Thread getUserInputThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        from = ui.getMatrixIndexFrom();
-                        to = ui.getMatrixIndexTo();
-                    } catch (EndOfTurnException e) {
-                        e.printStackTrace();
-                        result[0] = false;
-                        return;
-                    }
+                    from = ui.getMatrixIndexFrom();
+                    to = ui.getMatrixIndexTo();
 
                 }
             });

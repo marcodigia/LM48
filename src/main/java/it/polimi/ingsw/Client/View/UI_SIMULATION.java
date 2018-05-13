@@ -22,33 +22,33 @@ public class UI_SIMULATION extends UI {
     }
 
     @Override
-    public void printMessage(String s) throws EndOfTurnException {
+    public void printMessage(String s){
         System.out.println(s);
     }
 
     @Override
-    public int getAmmountToChange() throws EndOfTurnException {
+    public int getAmmountToChange(){
         return ammountToChange;
     }
 
     @Override
-    public int getDraftPoolIndex() throws EndOfTurnException {
+    public int getDraftPoolIndex(){
         return drafFrom;
     }
 
     @Override
-    public int getMatrixIndexFrom() throws EndOfTurnException {
+    public int getMatrixIndexFrom(){
         return matrixFrom;
 
     }
 
     @Override
-    public int getMatrixIndexTo() throws EndOfTurnException {
+    public int getMatrixIndexTo(){
         return matrixTo;
     }
 
     @Override
-    public String chooseWP(String s, String s1) throws EndOfTurnException {
+    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
         return null;
     }
 

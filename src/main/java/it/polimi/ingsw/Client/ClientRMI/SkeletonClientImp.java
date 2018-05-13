@@ -44,4 +44,9 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
     public void sendScore(Score score) throws RemoteException {
 
     }
+
+    @Override
+    public void setUI(UI ui) {
+
+    }
 }

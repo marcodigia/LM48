@@ -42,14 +42,8 @@ public class ChangeDiceValueByOne implements Actions {
             Thread getUserInputThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        draftPoolIndex = ui.getDraftPoolIndex();
-                        ammount = ui.getAmmountToChange();
-
-                    } catch (EndOfTurnException e) {
-                        e.printStackTrace();
-                        result[0] = false;
-                    }
+                    draftPoolIndex = ui.getDraftPoolIndex();
+                    ammount = ui.getAmmountToChange();
                 }
             });
 

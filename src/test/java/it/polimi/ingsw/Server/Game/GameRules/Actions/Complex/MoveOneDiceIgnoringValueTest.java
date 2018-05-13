@@ -40,7 +40,7 @@ class MoveOneDiceIgnoringValueTest {
             e.printStackTrace();
         }
         draftPool.extractNdice(2);
-        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard);
+        gameContext = new GameContext(draftPool, diceBag, null, windowPatternCard, null);
     }
 
     //Test if correctly move one dice in a legal position
@@ -83,7 +83,7 @@ class MoveOneDiceIgnoringValueTest {
     //Move one dice in a illegal place with restriction
     @Test
     void doAction3() {
-        gameContext = new GameContext(draftPool, diceBag, null, (WindowPatternCard) deck.get("25"));
+        gameContext = new GameContext(draftPool, diceBag, null, (WindowPatternCard) deck.get("25"), null);
 
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "3"), 0, true, true, true);
         gameContext.getWindowPatternCard().placeDice(new Dice(DiceColor.YELLOW, "3"), 13, true, true, true);

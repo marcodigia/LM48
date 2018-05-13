@@ -1,15 +1,9 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
-import it.polimi.ingsw.Server.View.VirtualView;
-import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Client.View.UI_SIMULATION;
+import it.polimi.ingsw.Server.View.VirtualViewImp;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
-import it.polimi.ingsw.Server.Game.Cards.PrivateObjectiveCard;
-import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.PlayerUtility.PlayerColor;
@@ -19,20 +13,20 @@ import java.util.ArrayList;
 //moved player in game rules so doAction is package friendly
 public class Player {
 
-    private Boolean isConnected = false;    //Set this variable to true if connected
-    private PrivateObjectiveCard privateObjectiveCard;
+    private GameContext gameContext;
+    private VirtualViewImp virtualView;    //Server send packets to client through virualView
     private PlaceDiceAction placeDiceOfTheTurn;
     private UseToolCardBasic useToolCardOfTheTurn;
-    private PlayerColor color;
+
     private String name;
-    private GameContext gameContext;
-    private ServerClientSender serverClientSender;
-    private VirtualView virtualView;
+    private PlayerColor color;
+
+    private Boolean isConnected = false;    //Set this variable to true if connected
 
     public Player(String username, ServerClientSender serverClientSender){
         name=username;
-        this.serverClientSender = serverClientSender;
-        virtualView = new VirtualView(serverClientSender);
+        virtualView = new VirtualViewImp(serverClientSender);
+        isConnected = true;
     }
 
     public void startRound(){
@@ -44,9 +38,8 @@ public class Player {
         this.gameContext = gameContext;
     }
 
-
-
     public ArrayList<Cell> getRow(int n) {
+        System.out.println("cciciiacsfihh");
         return gameContext.getWindowPatternCard().getRow(n);
     }
 
@@ -54,11 +47,8 @@ public class Player {
         return gameContext.getWindowPatternCard();
     }
 
-
-
-
-    public ServerClientSender getServerClientSender() {
-        return serverClientSender;
+    public VirtualViewImp getvirtualView() {
+        return virtualView;
     }
 
     public String getName() {
@@ -68,5 +58,9 @@ public class Player {
     public PlayerColor getPlayerColor() {
         return color;
     }
+
+    public void setIsNotConnected(){this.isConnected = false;}
+
+    public void setIsConnected(){this.isConnected = true;}
 
 }

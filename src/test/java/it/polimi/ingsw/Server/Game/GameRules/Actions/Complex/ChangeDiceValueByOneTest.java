@@ -22,7 +22,7 @@ class ChangeDiceValueByOneTest {
     void setUp() {
 
         draftPool.extractNdice(7);
-        gameContext = new GameContext(draftPool, diceBag, null, null);
+        gameContext = new GameContext(draftPool, diceBag, null, null, null);
 
     }
 
