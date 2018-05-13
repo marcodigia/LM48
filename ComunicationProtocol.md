@@ -34,6 +34,8 @@ Where:
 
 ## Actions
 
+With actions we denotes the set of all command we have identified as essential to play this game.
+
 ### GetAmountToChange
 
 A £00£ GATC £00£
