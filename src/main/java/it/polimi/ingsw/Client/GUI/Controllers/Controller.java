@@ -1,15 +1,19 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 import static it.polimi.ingsw.Client.GUI.GUI.root;
 import static it.polimi.ingsw.Client.GUI.GUI.stage;
@@ -22,6 +26,27 @@ public abstract class Controller {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public void createWarningBox(String title, String header, String content){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonTypeOk, buttonTypeCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeOk) {
+            alert.close();
+            stage.close();
+        } else {
+            alert.close();
+        }
     }
 
     protected void createInfoBox(String title, String header, String content){
@@ -47,6 +72,10 @@ public abstract class Controller {
         root = FXMLLoader.load(url);
         //create a new scene with root and set the stage
         Scene scene = new Scene(root);
+        stage.setOnCloseRequest(event -> {
+            event.consume();
+            createWarningBox("Warning", "Closing Window", "Are you sure?");
+        });
         stage.setScene(scene);
         stage.show();
     }
