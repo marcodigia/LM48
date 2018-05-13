@@ -1,35 +1,36 @@
 # Command Client -> Server
 
 In the following we will use:
-1. !x! to indicate something that is required to user 
-2. [x]+* to that x can be repeted 2 up to 4 times
+1. !x! to indicate something that is required to user. 
+2. [x]+* to that x can be repeted 2 up to 4 times.
+3. £00£ is a delimiter we use to separate strings.
   
 ## Registation process
 
 R £00£ !username! £00£
 
 Where:
-* R denotes registation command
-* username denotes username choose by user
+* R denotes registation command.
+* username denotes username choose by user.
 
 ## Unregitration process
 
 U £00£ !username! £00£
   
 Where:
-* U denotes unregistration command
-* username denotes username choose by user
+* U denotes unregistration command.
+* username denotes username choose by user.
 
 ## Setup process
 
 S £00£ IDT1 £00£ IDT2 £00£ IDT3 £00£ IDPU1 £00£ IDPU2 £00£ IDPU3 £00£ IDPR [£00£ IDW £00£]+*
 
 Where:
-* S denotes for setup command
-* IDTn denotes ToolCard's id 
-* IDPUn denotes PublicCard's id 
-* IDPR denotes PrivateCrad's id
-* IDW denotes WindowPattern's id
+* S denotes for setup command.
+* IDTn denotes ToolCard's id.
+* IDPUn denotes PublicCard's id. 
+* IDPR denotes PrivateCrad's id.
+* IDW denotes WindowPattern's id.
 
 ## Actions
 
