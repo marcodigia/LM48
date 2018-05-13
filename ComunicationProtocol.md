@@ -1,70 +1,68 @@
 # Command Client -> Server
+
 In the following we will use:
 1. !x! to indicate something that is required to user 
 2. [x]+* to that x can be repeted 2 up to 4 times
   
 ## Registation process
+
 R £00£ !username! £00£
 
 Where:
-* R stay for registation command
-* username stay for username choose by user
+* R denotes registation command
+* username denotes username choose by user
 
 ## Unregitration process
+
 U £00£ !username! £00£
   
 Where:
-* U stays for unregistration command
-* username stays for username choose by user
+* U denotes unregistration command
+* username denotes username choose by user
 
 ## Setup process
+
 S £00£ IDT1 £00£ IDT2 £00£ IDT3 £00£ IDPU1 £00£ IDPU2 £00£ IDPU3 £00£ IDPR [£00£ IDW £00£]+*
 
 Where:
-* S stays for setup command
-* IDTn stays for ToolCard's id 
-* IDPUn stays for PublicCard's id 
-* IDPR stays for PrivateCrad's id
-* IDW stays for WindowPattern's id
+* S denotes for setup command
+* IDTn denotes ToolCard's id 
+* IDPUn denotes PublicCard's id 
+* IDPR denotes PrivateCrad's id
+* IDW denotes WindowPattern's id
 
 ## Actions
-### GetAmountToChange
-A £00£ GATC £00£
 
+### GetAmountToChange
+
+A £00£ GATC £00£
+ 
+Where GAT denotes the value to assign to a dice.
+ 
 ### GetDraftedPoolIndex
 
 A £00£ GDPI £00£
 
-Where GDPI stays for draftpool index
+Where GDPI denotes draftpool index.
 
 ### GetMatrixIndexFrom
 
 A £00£ GMIF £00£
 
-Where GMIF stays for index where dice is placed
+Where GMIF denotes matrix index where dice is placed.
 
 ### GetMatrixIndexTo
 
 A £00£ GMIT £00£
 
-Where GMIT stays for idex where dice has to be placed
+Where GMIT denotes matrix idex where dice has to be placed.
 
 ### GetRoundTrackIndex
 
 A £00£ GRTI £00£
 
-Where GRTI stays
-### UpdateDraftPool
+Where GRTI denotes the index of round track from which take a dice.
 
-A £00£ UDP £00£
-
-### UpdateWindowPattern
-
-A £00£ UWP £00£
-
-### UpdateRoundTrack
-
-A £00£ URT £00£
 
 # Server -> Client 
 
@@ -72,9 +70,13 @@ A £00£ URT £00£
 
 S £00£ message £00£
 
+Where message is a message server send to client.
+
 ## chooseWindowPattern
 
 CW £00£ ID1 £00£ ID2 £00£ ID3 £00£ ID4 £00£
+
+Where IDn denotes idex of windowpatterncard.
 
 ## timerEnd
 
@@ -88,22 +90,14 @@ TS £00£
 
 SC £00£ *SC*
 
+Where *SC* is a Score object in string format.
+
 ## sendGameStatus
 
 SGS £00£ *GS*
 
+Where *GS* is a GameStatus object in a string format.
+
 # Objects serialization
 
-In the following we propose a serialization of what we consider the three fundamental objects:
-
-1. WindowPatternCard
-
- WP £00£ ID £00£ matrix.toString() £00£
- 
-2. GameStatus
-  
-  GS £00£ NPPLAY £00£ [{USERNMAE £00£ [WP] £00£ }]+* £00£ DF £00£ {dice...} £00£ TOL £00£ PUB £00£ PR
- 
-3.BoardRound 
-
-  BR £00£ 
+In order to send objects through a socket we decided to override the method toString(); doing that we create a string which rappresent the specific object whose toString() is applied.
