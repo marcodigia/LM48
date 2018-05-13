@@ -9,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.*;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -21,102 +20,56 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.Controllers.ControllerLobby.users;
+import static it.polimi.ingsw.Client.GUI.GUI.clientServerSender;
+import static it.polimi.ingsw.Client.GUI.Controllers.ControllerLobby.playersName;
 
 public class ControllerGame extends Controller implements Initializable {
 
-    public Label p1, p2, p3, p4,
-                 cellp400, cellp401, cellp402, cellp403, cellp404,
-                 cellp410, cellp411, cellp412, cellp413, cellp414,
-                 cellp420, cellp421, cellp422, cellp423, cellp424,
-                 cellp430, cellp431, cellp432, cellp433, cellp434,
-                 draft1, draft2, draft3, draft4, draft5, draft6, draft7, draft8, draft9,
-                 round1, round2, round3, round4, round5, round6, round7, round8, round9, round10;
+    private static Label draftToDisable;
+
+    public Label p1, p2, p3, p4;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
     public ImageView bg4;
     public AnchorPane anchorgame;
-    public GridPane gp1, gp2, gp3, gp4;
+    public GridPane gp1, gp2, gp3, gp4, gpround, gpdraft;
     public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
 
     private int draftpoolindex = -1;
-    private static Label draftToDisable;
+    private boolean put = false;
     private WindowPatternCard windowPatternCard;
     private DraftPool draftPool;
 
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
-    private ArrayList<Label> cells = new ArrayList<>();
+    private ArrayList<Label> cells4 = new ArrayList<>();
     private ArrayList<Label> names = new ArrayList<>();
     private ArrayList<Label> round = new ArrayList<>();
     private ArrayList<String> pattern = new ArrayList<String>();
-
-    private boolean put = false;
+    private ArrayList<GridPane> gridPanes = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg4, anchorgame);
 
-        round.add(round1);
-        round.add(round2);
-        round.add(round3);
-        round.add(round4);
-        round.add(round5);
-        round.add(round6);
-        round.add(round7);
-        round.add(round8);
-        round.add(round9);
-        round.add(round10);
+        setUpGame();
+        setUpWindowPattern();
+        setUpDraftPool();
+
+        populateGridPane(gp4, 4, 5, cells4, "Empty");
+        populateGridPane(gpdraft, 1, 9, draftPoolLabel, "");
+        populateGridPane(gpround, 1, 10, round, "#");
 
         names.add(p1);
         names.add(p2);
         names.add(p3);
         names.add(p4);
 
-        cells.add(cellp400);
-        cells.add(cellp401);
-        cells.add(cellp402);
-        cells.add(cellp403);
-        cells.add(cellp404);
-        cells.add(cellp410);
-        cells.add(cellp411);
-        cells.add(cellp412);
-        cells.add(cellp413);
-        cells.add(cellp414);
-        cells.add(cellp420);
-        cells.add(cellp421);
-        cells.add(cellp422);
-        cells.add(cellp423);
-        cells.add(cellp424);
-        cells.add(cellp430);
-        cells.add(cellp431);
-        cells.add(cellp432);
-        cells.add(cellp433);
-        cells.add(cellp434);
-
-        draftPoolLabel.add(draft1);
-        draftPoolLabel.add(draft2);
-        draftPoolLabel.add(draft3);
-        draftPoolLabel.add(draft4);
-        draftPoolLabel.add(draft5);
-        draftPoolLabel.add(draft6);
-        draftPoolLabel.add(draft7);
-        draftPoolLabel.add(draft8);
-        draftPoolLabel.add(draft9);
-
-        for (Label l: round
-             ) {
-            l.setText("#");
-        }
-
-        setUpBoards();
-        setUpWP();
-        setUpDP();
-
+        //show dices image in DraftPool
         for (int i = 0; i < 9; i++) {
             draftPoolLabel.get(i).setGraphic(toImage(draftPool.getDraft().get(i)));
         }
     }
 
-    public void handleClickDraft(MouseEvent mouseEvent) {
+    public void handleClickDraftPool(MouseEvent mouseEvent) {
         Label eventDraft = (Label) mouseEvent.getSource();
         createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
         draftpoolindex = draftPoolLabel.indexOf(eventDraft);
@@ -124,16 +77,15 @@ public class ControllerGame extends Controller implements Initializable {
         put = false;
     }
 
-    public void handleClickWP(MouseEvent mouseEvent) {
+    public void handleClickWindowPattern(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
-        int indice_dado = cells.indexOf(event);
-        if (windowPatternCard.getDice(indice_dado)== null && !put) {
-            windowPatternCard.placeDice(draftPool.getDice(draftpoolindex), indice_dado, true,true,true);
+        int indice_dado = cells4.indexOf(event);
+        if (windowPatternCard.getDice(indice_dado) == null && !put) {
+            windowPatternCard.placeDice(draftPool.getDice(draftpoolindex), indice_dado, true, true, true);
             event.setText("");
-            updateWP();
+            updateWindowPattern();
             draftToDisable.setDisable(true);
             put = true;
-            //updateDP();
         } else {
             createAlertBox("Error!", "Wrong action", "You already placed this dice or in this cell has already been placed a dice! Please perform a correct move.");
         }
@@ -148,11 +100,11 @@ public class ControllerGame extends Controller implements Initializable {
             openWindowFromMenu("Private Objective Cards");
     }
 
-    public void handleCR(ActionEvent event){
+    public void handleCopyright(ActionEvent event) {
         createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
     }
 
-    void setUpWP(){
+    private void setUpWindowPattern() {
         pattern.add("2");
         pattern.add("Via Lux");
         pattern.add("4");
@@ -179,19 +131,19 @@ public class ControllerGame extends Controller implements Initializable {
         windowPatternCard = new WindowPatternCard(pattern);
     }
 
-    void setUpDP(){
+    private void setUpDraftPool() {
         draftPool = new DraftPool(new DiceBag());
         draftPool.extractNdice(9);
     }
 
-    private void updateWP(){
-        for (int i=0; i<cells.size(); i++) {
-            if (windowPatternCard.getDice(i)!=null)
-                cells.get(i).setGraphic(toImage(windowPatternCard.getDice(i)));
+    private void updateWindowPattern() {
+        for (int i = 0; i < cells4.size(); i++) {
+            if (windowPatternCard.getDice(i) != null)
+                cells4.get(i).setGraphic(toImage(windowPatternCard.getDice(i)));
         }
     }
 
-    private ImageView toImage(Dice dice){
+    private ImageView toImage(Dice dice) {
         Image image = new Image(dice.getDiceImage());
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(30);
@@ -199,7 +151,7 @@ public class ControllerGame extends Controller implements Initializable {
         return imageView;
     }
 
-    private void openWindowFromMenu(String string){
+    private void openWindowFromMenu(String string) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(string);
@@ -214,8 +166,8 @@ public class ControllerGame extends Controller implements Initializable {
         window.showAndWait();
     }
 
-    private void setUpBoards(){
-        switch (users.size()) {
+    private void setUpGame() {
+        switch (playersName.size()) {
             case 1:
                 hboxgp1.getChildren().remove(gp1);
                 hboxl1.getChildren().remove(p1);
@@ -223,29 +175,72 @@ public class ControllerGame extends Controller implements Initializable {
                 hboxl2.getChildren().remove(p2);
                 hboxgp3.getChildren().remove(gp3);
                 hboxl3.getChildren().remove(p3);
-                p4.setText(users.get(0) + " (You)");
+                gridPanes.add(gp4);
+                p4.setText(playersName.get(0) + " (You)");
                 break;
             case 2:
                 hboxgp2.getChildren().remove(gp2);
                 hboxl2.getChildren().remove(p2);
                 hboxgp3.getChildren().remove(gp3);
                 hboxl3.getChildren().remove(p3);
-                p1.setText(users.get(1) + " (Opponent)");
-                p4.setText(users.get(0) + " (You)");
+                gridPanes.add(gp1);
+                gridPanes.add(gp4);
+                p1.setText(playersName.get(1) + " (Opponent)");
+                p4.setText(playersName.get(0) + " (You)");
                 break;
             case 3:
                 hboxgp1.getChildren().remove(gp1);
                 hboxl1.getChildren().remove(p1);
-                p2.setText(users.get(2) + " (Opponent)");
-                p3.setText(users.get(1) + " (Opponent)");
-                p4.setText(users.get(0) + " (You)");
+                gridPanes.add(gp2);
+                gridPanes.add(gp3);
+                gridPanes.add(gp4);
+                p2.setText(playersName.get(2) + " (Opponent)");
+                p3.setText(playersName.get(1) + " (Opponent)");
+                p4.setText(playersName.get(0) + " (You)");
                 break;
             case 4:
-                p1.setText(users.get(3) + " (Opponent)");
-                p2.setText(users.get(2) + " (Opponent)");
-                p3.setText(users.get(1) + " (Opponent)");
-                p4.setText(users.get(0) + " (You)");
+                gridPanes.add(gp1);
+                gridPanes.add(gp2);
+                gridPanes.add(gp3);
+                gridPanes.add(gp4);
+                p1.setText(playersName.get(3) + " (Opponent)");
+                p2.setText(playersName.get(2) + " (Opponent)");
+                p3.setText(playersName.get(1) + " (Opponent)");
+                p4.setText(playersName.get(0) + " (You)");
                 break;
         }
+    }
+
+    private void populateGridPane(GridPane gridPane, int rows, int cols, ArrayList<Label> arrayList, String labelContent) {
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
+                Label l = new Label(labelContent);
+                gridPane.setConstraints(l, i, j);
+                gridPane.getChildren().add(l);
+                l.setOnMouseClicked((MouseEvent mouseEvent) -> {
+                    switch (typeOfGridPane(gridPane)){
+                        case 0:
+                            handleClickWindowPattern(mouseEvent);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            handleClickDraftPool(mouseEvent);
+                            break;
+                    }
+                });
+                arrayList.add(l);
+            }
+        }
+    }
+
+    private int typeOfGridPane(GridPane gridPane){
+        if (gridPane.equals(gp1) || gridPane.equals(gp2) || gridPane.equals(gp3) || gridPane.equals(gp4))
+            return 0;
+        if (gridPane.equals(gpround))
+            return 1;
+        if (gridPane.equals(gpdraft))
+            return 2;
+        return -1;
     }
 }

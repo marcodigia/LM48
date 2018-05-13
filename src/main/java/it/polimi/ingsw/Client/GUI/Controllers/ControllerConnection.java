@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.Client.GUI.GUI.clientServerSender;
+
 public class ControllerConnection extends Controller implements Initializable {
 
     public Button rmibutton, socketbutton;
@@ -20,6 +22,7 @@ public class ControllerConnection extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg2, anchorconnection);
+        bg2.autosize();
     }
 
     @FXML

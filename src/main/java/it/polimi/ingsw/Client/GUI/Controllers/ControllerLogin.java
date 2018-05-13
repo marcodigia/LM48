@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
+import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static it.polimi.ingsw.Client.GUI.GUI.clientServerSender;
 
 public class ControllerLogin extends Controller implements Initializable {
 
@@ -28,6 +31,7 @@ public class ControllerLogin extends Controller implements Initializable {
     private void handleButtonPlay(ActionEvent event) throws IOException {
         if (usernametext.getLength() > 0) {
             saveName();
+            //clientServerSender.register(user, ServerClientSender serverClientServer);
             URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/rmi_socket.fxml").toURL();
             switchScene(playbutton, url);
         } else {

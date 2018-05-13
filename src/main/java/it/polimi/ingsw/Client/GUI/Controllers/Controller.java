@@ -55,9 +55,9 @@ public abstract class Controller {
         Image image = new Image(getClass().getClassLoader().getResourceAsStream("sfondo.png"));
         background.setImage(image);
         background.setOpacity(0.25);
-        background.setPreserveRatio(false);
         background.setCache(true);
         background.setSmooth(true);
+        background.setPreserveRatio(false);
         background.fitWidthProperty().bind(anchorPane.widthProperty());
         background.fitHeightProperty().bind(anchorPane.heightProperty());
         background.toBack();
