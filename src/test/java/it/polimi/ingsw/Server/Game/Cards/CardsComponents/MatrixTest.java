@@ -148,7 +148,7 @@ public class MatrixTest {
         assertSame(dice2,matrix.getDice(4));
         assertFalse(matrix.moveDice(11,5,false,false,false));
     }
-   
+
     @Test
     void isPlaceable(){
         //Place dice
