@@ -52,6 +52,7 @@ public class ClientServerSenderImp implements Runnable, ClientServerSender {
 
     @Override
     public void endOfTurn() throws RemoteException {
-
+        printWriter.println("ET £00£ ");
+        printWriter.flush();
     }
 }

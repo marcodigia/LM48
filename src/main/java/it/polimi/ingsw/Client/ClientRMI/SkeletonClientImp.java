@@ -22,7 +22,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void chooseWindowPattern(String id1, String id2, String id3, String id4) throws RemoteException {
-
+        ui.chooseWP(id1,id2,id3,id4);
     }
 
     @Override

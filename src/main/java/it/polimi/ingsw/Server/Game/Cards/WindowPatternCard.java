@@ -27,6 +27,7 @@ public class WindowPatternCard implements Drawable {
         matrix.initialize_restricions(pattern);
     }
 
+
     @Override
     public String toString() {
         String windowpatterncard = "WP " +CONSTANT.delimenter + id;

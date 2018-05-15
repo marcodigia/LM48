@@ -40,6 +40,16 @@ public class Game {
             }
     }
 
+    public void setWindowToPlayer(String idWp){
+        for(Player p : players.keySet())
+            if(players.get(p)){
+                for(WindowPatternCard w : gameSetup.getWindowPatternCards())
+                    if(w.getID().equals(idWp))
+                        p.getGameContext().setWindowPatternCard(w);
+            }
+
+    }
+
     public void sendWindowPatternToChoose(){
         ArrayList<WindowPatternCard> wp = new ArrayList<>(gameSetup.getWindowPatternCards());
         Set<Player> playerToWP;
@@ -56,4 +66,6 @@ public class Game {
             p.getvirtualView().chooseWindowPattern(id1,id2,id3,id4);
         }
     }
+
+
 }

@@ -34,12 +34,15 @@ public class Player {
         useToolCardOfTheTurn = new UseToolCardBasic();
     }
 
+    public GameContext getGameContext() {
+        return gameContext;
+    }
+
     public void setGameContext(GameContext gameContext) {
         this.gameContext = gameContext;
     }
 
     public ArrayList<Cell> getRow(int n) {
-        System.out.println("cciciiacsfihh");
         return gameContext.getWindowPatternCard().getRow(n);
     }
 

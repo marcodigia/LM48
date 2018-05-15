@@ -31,6 +31,7 @@ public class GameContext {
     public PrivateObjectiveCard getPrivateObjectiveCard() {
         return privateObjectiveCard;
     }
+
     public DraftPool getDraftPool() {
         return draftPool;
     }
@@ -46,6 +47,8 @@ public class GameContext {
     public WindowPatternCard getWindowPatternCard() {
         return windowPatternCard;
     }
+
+    public void setWindowPatternCard(WindowPatternCard wp){windowPatternCard = wp;}
 
     public boolean isFirstRound() {
         return isFirstRound;

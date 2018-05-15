@@ -33,27 +33,21 @@ public class MainClientRete {
             }
         }while(repeatInsertion);
 
-        //scegli tra
+        /*scegli tra
         PrintStream ps = System.out;
         CLI cli = new CLI(generiClient.getClientServerSender(), ps);
         //GUI.clientServerSender = generiClient.getClientServerSender();
         //GUI gui = new GUI(generiClient.getClientServerSender());
         Thread t = new Thread(cli);
-        t.start();
+        t.start();*/
 
         System.out.println("Inserisci il tuo username");
         String username = keyboard.next();
         generiClient.register(username);
-        generiClient.getClientServerReciver().setUI(cli);
+        //generiClient.getClientServerReciver().setUI(cli);
 
-        System.out.println("Digita per disconnettere");
-        username = keyboard.next();
+        System.out.println("Disconnetti");
         generiClient.unregister();
 
-        System.out.println("Ricontetti");
-        username = keyboard.next();
-        generiClient.register(username);
-
-        username = keyboard.next(); //blocca client
     }
 }
