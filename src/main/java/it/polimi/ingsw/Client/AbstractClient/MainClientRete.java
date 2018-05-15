@@ -46,14 +46,5 @@ public class MainClientRete {
         generiClient.register(username);
         generiClient.getClientServerReciver().setUI(cli);
 
-        System.out.println("Digita per disconnettere");
-        username = keyboard.next();
-        generiClient.unregister();
-
-        System.out.println("Ricontetti");
-        username = keyboard.next();
-        generiClient.register(username);
-
-        username = keyboard.next(); //blocca client
     }
 }

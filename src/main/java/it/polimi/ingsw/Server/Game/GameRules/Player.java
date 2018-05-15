@@ -39,7 +39,6 @@ public class Player {
     }
 
     public ArrayList<Cell> getRow(int n) {
-        System.out.println("cciciiacsfihh");
         return gameContext.getWindowPatternCard().getRow(n);
     }
 

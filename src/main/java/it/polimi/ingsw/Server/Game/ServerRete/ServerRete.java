@@ -17,4 +17,6 @@ public class ServerRete {
     public void serverAskClientForWindow(){
         game.sendWindowPatternToChoose();
     }
+
+    public Game getGame(){return game;}
 }

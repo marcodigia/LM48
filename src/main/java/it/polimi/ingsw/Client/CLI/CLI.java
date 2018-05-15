@@ -17,6 +17,7 @@ import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
@@ -144,19 +145,19 @@ public class CLI extends UI implements Runnable{
         ps.println("chose wp " + wp1fronte + " " + wp2retro + " " + wp3fronte +  " " + wp4retro);
         Scanner scanner = new Scanner(System.in);
         int chose = scanner.nextInt();
-        ps.println("jhakjdhajhouh1");
         AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
-        ps.println("jhakjdhajhouh2");
         Player p = new Player("aa", null);
-        ps.println("jhakjdhajhouh3");
         try {
-            ps.println("jhakjdhajhouh");
             Hashtable<String , Drawable> deck =factory.getNewCardDeck();
             p.setGameContext(new GameContext(null,null,null, (WindowPatternCard) deck.get(Integer.toString(chose)),null));
             players.add(p);
             print_boards();
+            try {
+                clientServerSender.choosenWindowPattern(Integer.toString(chose));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         } catch (FileNotFoundException e) {
-            ps.println("1111");
             e.printStackTrace();
         }
         return null;
