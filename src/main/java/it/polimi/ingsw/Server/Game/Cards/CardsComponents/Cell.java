@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class Cell {

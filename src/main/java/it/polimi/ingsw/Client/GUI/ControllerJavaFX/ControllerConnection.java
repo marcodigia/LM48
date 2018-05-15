@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.GUI.Controllers;
+package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static it.polimi.ingsw.Client.GUI.GUI.clientServerSender;
 
 public class ControllerConnection extends Controller implements Initializable {
 

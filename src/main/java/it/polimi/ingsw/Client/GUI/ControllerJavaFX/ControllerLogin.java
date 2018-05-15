@@ -1,7 +1,5 @@
-package it.polimi.ingsw.Client.GUI.Controllers;
+package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
-import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static it.polimi.ingsw.Client.GUI.GUI.clientServerSender;
 
 public class ControllerLogin extends Controller implements Initializable {
 

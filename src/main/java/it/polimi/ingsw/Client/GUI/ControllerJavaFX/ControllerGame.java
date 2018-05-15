@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.GUI.Controllers;
+package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
@@ -20,8 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.GUI.clientServerSender;
-import static it.polimi.ingsw.Client.GUI.Controllers.ControllerLobby.playersName;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerLobby.playersName;
 
 public class ControllerGame extends Controller implements Initializable {
 

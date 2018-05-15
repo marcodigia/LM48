@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.GUI.Controllers;
+package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.GUI.clientServerSender;
-import static it.polimi.ingsw.Client.GUI.Controllers.ControllerLogin.user;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerLogin.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ControllerLobby extends Controller implements Initializable{

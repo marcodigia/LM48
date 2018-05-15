@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
+import java.io.InputStream;
+
 public enum Restriction {
     ONE("1"), TWO("2"), THREE("3"), FOUR("4"),
     FIVE("5"), SIX("6"), GREEN("G"), YELLOW("Y"),
@@ -54,5 +56,10 @@ public enum Restriction {
         return res;
     }
 
+    public InputStream getRestrictionImage(){
+
+        String resImageName = "res" + (restrictionType + ".png");
+        return getClass().getClassLoader().getResourceAsStream(resImageName);
+    }
 
 }
