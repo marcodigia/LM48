@@ -1,7 +1,7 @@
 # Command Client -> Server
 
 In the following we will use:
-1. !x! to indicate something that is required to user. 
+1. <x> to indicate something that is variable. 
 2. [x]+* to that x can be repeted 2 up to 4 times.
 3. £00£ is a delimiter we use to separate strings.
   
