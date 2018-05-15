@@ -1,31 +1,31 @@
    
-                    CLIENT         GameStart              SERVER
-                       +                                      +
-                       |                                      |
-                       |                                      |
-                       |            Username                  |               WaitingRoom
-                       +-------------------------------------->                    +
-                       |                                      |                    v
-                       |                                      |               StartTimeOut()
-                       |                                      |                    +
-                       |                                      |                    v
-                       |                                      |               NewGameStart()
-                       |                                      |                    +
-                       |                                      |                    v
-                       |                                      |               GameSetUp()
-                       |                                      |                    +
-                       |          Id1,Id2,Id3,Id4             |                    v
-                       <--------------------------------------+  ServerRete.serverAskClientForWindow()
-                       |                                      |                    +
-Client.UI.chooseWP()   |                Id                    |                    v
-                       +-------------------------------------->     ServerRete.setWindowPattern()
-                       |                                      |                    +
-                       |             GameContext              |                    v
- Client.UI.update()    <--------------------------------------+        ServerRete.setGameContext()
-                       |                                      |
-                       |                                      |
-                       +                                      |
-                                                              +
+                                CLIENT         GameStart              SERVER
+                                   +                                      +
+                                   |                                      |
+                                   |                                      |
+                                   |            Username                  |               WaitingRoom
+                                   +-------------------------------------->                    +
+                                   |                                      |                    v
+                                   |                                      |               StartTimeOut()
+                                   |                                      |                    +
+                                   |                                      |                    v
+                                   |                                      |               NewGameStart()
+                                   |                                      |                    +
+                                   |                                      |                    v
+                                   |                                      |               GameSetUp()
+                                   |                                      |                    +
+                                   |          Id1,Id2,Id3,Id4             |                    v
+                                   <--------------------------------------+  ServerRete.serverAskClientForWindow()
+                                   |                                      |                    +
+            Client.UI.chooseWP()   |                Id                    |                    v
+                                   +-------------------------------------->     ServerRete.setWindowPattern()
+                                   |                                      |                    +
+                                   |             GameContext              |                    v
+             Client.UI.update()    <--------------------------------------+        ServerRete.setGameContext()
+                                   |                                      |
+                                   |                                      |
+                                   +                                      |
+                                                                          +
 
 
                     CLIENT                                  SERVER
