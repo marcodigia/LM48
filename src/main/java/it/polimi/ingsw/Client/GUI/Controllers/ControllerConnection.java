@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.Client.GUI.GUI.clientServerSender;
+
 public class ControllerConnection extends Controller implements Initializable {
 
     public Button rmibutton, socketbutton;
@@ -20,17 +22,18 @@ public class ControllerConnection extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg2, anchorconnection);
+        bg2.autosize();
     }
 
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/lobby.fxml").toURL();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Lobby.fxml").toURL();
         switchScene(rmibutton, url);
     }
 
     @FXML
     private void handleButtonSocket(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/lobby.fxml").toURL();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Lobby.fxml").toURL();
         switchScene(socketbutton, url);
     }
 

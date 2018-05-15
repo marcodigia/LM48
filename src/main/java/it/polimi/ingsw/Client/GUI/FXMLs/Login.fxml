@@ -10,12 +10,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorlogin" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.Controllers.ControllerLogin">
+<AnchorPane fx:id="anchorlogin" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.Controllers.ControllerLogin">
    <children>
       <ImageView fx:id="bg1" fitHeight="177.0" fitWidth="337.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <BorderPane layoutX="15.0" layoutY="15.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <top>
-            <Label fx:id="welcome" text="Welcome to Sagrada!" BorderPane.alignment="CENTER">
+            <Label fx:id="welcome" alignment="CENTER" text="Welcome to Sagrada!" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </BorderPane.margin>
@@ -53,29 +53,16 @@
                </children>
             </HBox>
          </center>
-         <bottom>
-            <HBox alignment="CENTER" spacing="0.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="playbutton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonPlay" text="Play!">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <BorderPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </BorderPane.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-         </bottom>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
+         <bottom>
+            <Button fx:id="playbutton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonPlay" text="Play!" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Button>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

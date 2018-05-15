@@ -32,6 +32,16 @@ Where:
 * IDPR denotes PrivateCrad's id.
 * IDW denotes WindowPattern's id.
 
+## endOfTurn
+
+ET £00£
+
+## choosenWindowPattern
+
+CWP £00£ ID £00£
+
+Where ID denotes the window pattern chosed by client.
+
 ## Actions
 
 With actions we denotes the set of all command we have identified as essential to play this game.
