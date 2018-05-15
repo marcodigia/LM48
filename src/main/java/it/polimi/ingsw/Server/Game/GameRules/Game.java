@@ -43,7 +43,9 @@ public class Game {
     public void setWindowToPlayer(String idWp){
         for(Player p : players.keySet())
             if(players.get(p)){
-            
+                for(WindowPatternCard w : gameSetup.getWindowPatternCards())
+                    if(w.getID().equals(idWp))
+                        p.getGameContext().setWindowPatternCard(w);
             }
 
     }
