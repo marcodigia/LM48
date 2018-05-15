@@ -19,7 +19,7 @@ public class GUI extends Application implements Runnable{
     public static Stage stage;
     public static Parent root;
     public static ClientServerSender clientServerSender;
-    public static GeneriClient generiClient = new GeneriClient();
+//    public static GeneriClient generiClient = new GeneriClient();
 
     public void start(Stage primaryStage) throws Exception {
         Parent root;

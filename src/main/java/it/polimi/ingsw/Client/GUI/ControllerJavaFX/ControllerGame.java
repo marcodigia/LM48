@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
+import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.layout.*;
@@ -20,6 +21,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ChooseWPController.selected;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ChooseWPController.windowPatternCard;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerLobby.playersName;
 
 public class ControllerGame extends Controller implements Initializable {
@@ -35,7 +38,7 @@ public class ControllerGame extends Controller implements Initializable {
 
     private int draftpoolindex = -1;
     private boolean put = false;
-    private WindowPatternCard windowPatternCard;
+    //private WindowPatternCard windowPatternCard;
     private DraftPool draftPool;
 
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
@@ -50,10 +53,12 @@ public class ControllerGame extends Controller implements Initializable {
         setBackground(bg4, anchorgame);
 
         setUpGame();
-        setUpWindowPattern();
+        //setUpWindowPattern();
+
         setUpDraftPool();
 
-        populateGridPane(gp4, 4, 5, cells4, "Empty");
+        //populateGridPane(gp4, 4, 5, cells4, "Empty");
+        populateGridPane(gp4, selected);
         populateGridPane(gpdraft, 1, 9, draftPoolLabel, "");
         populateGridPane(gpround, 1, 10, round, "#");
 
@@ -76,12 +81,14 @@ public class ControllerGame extends Controller implements Initializable {
         put = false;
     }
 
-    public void handleClickWindowPattern(MouseEvent mouseEvent) {
+    private void handleClickWindowPattern(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
         int indice_dado = cells4.indexOf(event);
+        System.out.println("b");
         if (windowPatternCard.getDice(indice_dado) == null && !put) {
+            System.out.println("a");
             windowPatternCard.placeDice(draftPool.getDice(draftpoolindex), indice_dado, true, true, true);
-            event.setText("");
+            //event.setGraphic(null);
             updateWindowPattern();
             draftToDisable.setDisable(true);
             put = true;
@@ -136,9 +143,11 @@ public class ControllerGame extends Controller implements Initializable {
     }
 
     private void updateWindowPattern() {
-        for (int i = 0; i < cells4.size(); i++) {
-            if (windowPatternCard.getDice(i) != null)
+        for (int i = 0; i < selected.size(); i++) {
+            if (windowPatternCard.getDice(i) != null) {
                 cells4.get(i).setGraphic(toImage(windowPatternCard.getDice(i)));
+                cells4.get(i).toFront();
+            }
         }
     }
 
@@ -231,6 +240,27 @@ public class ControllerGame extends Controller implements Initializable {
                 arrayList.add(l);
             }
         }
+    }
+
+    private void populateGridPane(GridPane gridPane, ArrayList<Label> arrayList) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                Label l = new Label();
+                l.setGraphic(toImage(windowPatternCard.getRestrictionAtIndex(4*i + j)));
+                gridPane.setConstraints(l, j, i);
+                gridPane.getChildren().add(l);
+                l.setOnMouseClicked(event -> handleClickWindowPattern(event));
+                cells4.add(l);
+            }
+        }
+    }
+
+    private ImageView toImage(Restriction restriction) {
+        Image image = new Image(restriction.getRestrictionImage());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        return imageView;
     }
 
     private int typeOfGridPane(GridPane gridPane){

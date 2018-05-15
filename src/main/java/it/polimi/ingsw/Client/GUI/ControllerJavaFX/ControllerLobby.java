@@ -31,12 +31,12 @@ public class ControllerLobby extends Controller implements Initializable{
         setBackground(bg3, anchorlobby);
 
         players.add(player1);
-        players.add(player2);
+        //players.add(player2);
         players.add(player3);
         players.add(player4);
 
         playersName.add(user);
-        playersName.add(user);
+        //playersName.add(user);
         playersName.add(user);
         playersName.add(user);
 
