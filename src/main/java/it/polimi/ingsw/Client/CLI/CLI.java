@@ -44,15 +44,8 @@ public class CLI extends UI implements Runnable{
         for (int i = 0; i < height; i++) {
             //ps.println(i);
             for (Player p : players) {
-                ArrayList<Cell> cells = p.getRow(i);
-                for (Cell cell : cells) {
-                    if (cell.isEmpty())
-                        line.append(cell.getRestriction().toString());
-                    else {
-                        Dice d = cell.getDice();
-                        line.append(d.getDiceColor().getAnsiColor()).append(ANSI_COLOR.BOLD).append("[").append(d.getValue()).append("]").append(ANSI_COLOR.ANSI_RESET);
-                    }
-                }
+                //ArrayList<Cell> cells = p.getRow(i);
+
                 line.append("   ");
             }
             line.append("\n");

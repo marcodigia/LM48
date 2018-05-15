@@ -42,9 +42,7 @@ public class Player {
         this.gameContext = gameContext;
     }
 
-    public ArrayList<Cell> getRow(int n) {
-        return gameContext.getWindowPatternCard().getRow(n);
-    }
+
 
     public WindowPatternCard getWindowPatternCard() {
         return gameContext.getWindowPatternCard();

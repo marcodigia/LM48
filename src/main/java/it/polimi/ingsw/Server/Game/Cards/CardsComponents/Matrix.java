@@ -212,23 +212,13 @@ public class Matrix {
     }
 
 
+    public Restriction getRestrictionAt(int i){
+        return getCellatIndex(i).getRestriction();
+    }
 
-    public ArrayList<Cell> getRow(int n ){
+    private Cell getCellatIndex(int i){
 
-        ArrayList<Cell> row = new ArrayList<Cell>();
-        //TODO throw exception , forse basta solo verificare che l'input non sia mai sbagliato
-        if (n > height)
-            return null;
-
-        int m = n*lenght;
-        for (int i = m; i < m +lenght; i++ ) {
-            //System.out.println(ANSI_COLOR.ANSI_BLUE+i+ANSI_COLOR.ANSI_RESET);
-            row.add(matrix.get(i));
-
-        }
-
-
-        return row;
+        return matrix.get(i);
     }
 
 }
