@@ -27,13 +27,13 @@ public class ControllerConnection extends Controller implements Initializable {
 
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/lobby.fxml").toURL();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Lobby.fxml").toURL();
         switchScene(rmibutton, url);
     }
 
     @FXML
     private void handleButtonSocket(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/lobby.fxml").toURL();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Lobby.fxml").toURL();
         switchScene(socketbutton, url);
     }
 

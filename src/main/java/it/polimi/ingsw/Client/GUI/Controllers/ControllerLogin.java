@@ -33,7 +33,7 @@ public class ControllerLogin extends Controller implements Initializable {
         if (usernametext.getLength() > 0) {
             saveName();
             //clientServerSender.register(user, ServerClientSender serverClientServer);
-            URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/rmi_socket.fxml").toURL();
+            URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/RMI_Socket.fxml").toURL();
             switchScene(playbutton, url);
         } else {
             createAlertBox("Error", "Your username should be at least 1 character long.", "Please enter a valid username.");
