@@ -50,7 +50,7 @@ public class ControllerLobby extends Controller implements Initializable{
 
     @FXML
     private void handleButtonStart(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Board.fxml").toURL();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/ChooseWP.fxml").toURL();
         switchScene(startbutton, url);
     }
 }
