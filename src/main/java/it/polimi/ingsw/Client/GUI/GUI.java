@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI;
 
+import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +19,12 @@ public class GUI extends Application implements Runnable{
     public static Stage stage;
     public static Parent root;
     public static ClientServerSender clientServerSender;
+    public static GeneriClient generiClient = new GeneriClient();
 
     public void start(Stage primaryStage) throws Exception {
         Parent root;
         stage = primaryStage;
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/login.fxml").toURL();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Login.fxml").toURL();
         root = FXMLLoader.load(url);
         stage.setTitle("Sagrada");
         stage.setOnCloseRequest(event -> {
