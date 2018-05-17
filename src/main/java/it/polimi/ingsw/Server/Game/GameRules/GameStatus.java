@@ -42,7 +42,18 @@ public class GameStatus implements Packetable {
         this.privateObjectiveCard = privateObjectiveCard;
     }
 
+    public GameStatus (ArrayList<ToolCard> toolCards, ArrayList<PublicObjectiveCard> publicObjectiveCards){
+        this.toolCards = toolCards;
+        this.publicObjectiveCards = publicObjectiveCards;
+    }
 
+    public void addWindowPatternCard(HashMap<Player,WindowPatternCard> playerWP){
+        this.playerWP = playerWP;
+    }
+
+    public void addPrivateObjectiveCard(ArrayList<PrivateObjectiveCard> privateObjectiveCards){
+        this.privateObjectiveCard = privateObjectiveCard;
+    }
 
     @Override
     public String toPacket() {

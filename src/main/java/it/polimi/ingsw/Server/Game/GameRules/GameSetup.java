@@ -4,17 +4,17 @@ import it.polimi.ingsw.Server.Game.Cards.*;
 import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
-import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Random;
 
 public class GameSetup {
 
-    private static Hashtable<Player,Boolean> players;
+    private HashMap<Player,Boolean> players;
     private DiceBag diceBag;
     private DraftPool draftPool;
     private BoardRound boardRound;
@@ -23,25 +23,26 @@ public class GameSetup {
     private ArrayList<WindowPatternCard> windowPatternCards;
     private ArrayList<PrivateObjectiveCard> privateObjectiveCards;
 
-    public GameSetup(Hashtable<Player,Boolean> players){
+    public GameSetup(HashMap<Player,Boolean> players){
         this.players = players;
         toolCardsGet();
         publicObjectiveGet();
-        privateObjectiveGet();
         windowPatternGet();
     }
 
-    public static void main(String[] args){
-        players = new Hashtable<>();
-        players.put(new Player(null,null),false);
-        players.put(new Player(null,null),false);
-        players.put(new Player(null,null),false);
-        players.put(new Player(null,null),false);
-        GameSetup game = new GameSetup(players);
-
+    //After that players have send their WP choice
+    //conclude the setup process extracting private card
+    public void concludeSetUp(HashMap<Player,Boolean> playersLeft){
+        ArrayList<Player> playerBoardRound = new ArrayList<>();
+        privateObjectiveGet(playersLeft.size());
+        diceBag = new DiceBag();
+        draftPool = new DraftPool(diceBag);
+        for(Player p : playersLeft.keySet())
+            playerBoardRound.add(p);
+        boardRound = new BoardRound(playerBoardRound);
     }
 
-    public Hashtable<Player, Boolean> getPlayers() {
+    public HashMap<Player, Boolean> getPlayers() {
         return players;
     }
 
@@ -95,12 +96,12 @@ public class GameSetup {
         }
     }
 
-    private void privateObjectiveGet(){
+    private void privateObjectiveGet(int playersLeft){
         AbstractCardFactory CardFactory = new PrivateObjectiveCardFactory(CONSTANT.privateObjectivefile);
         Hashtable<String, Drawable> privateobjectivedeck;
         try {
             privateobjectivedeck = CardFactory.getNewCardDeck();
-            privateObjectiveCards = extractRandom(privateobjectivedeck,CONSTANT.privateCardNumber, players.size());
+            privateObjectiveCards = extractRandom(privateobjectivedeck,CONSTANT.privateCardNumber, playersLeft);
         } catch (FileNotFoundException e) {
             System.out.println("File private card non è stato caricato");
         }

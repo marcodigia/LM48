@@ -45,7 +45,7 @@ public class ServerClientReciver implements Runnable {
                     break;
                 case "CWP":
                     id = scanner.next();
-                    serverRete.setWindowPattern(id);
+                    serverRete.setWindowPattern(id,username);
                 default:
                     break;
             }

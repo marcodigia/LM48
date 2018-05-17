@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.WaitingRoom;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.ServerRete;
+import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 
 import java.io.*;
 import java.rmi.RemoteException;
@@ -13,16 +14,10 @@ import java.util.TimerTask;
 //Al momento fatta per la singola partita
 public class WaitingRoom {
 
-    public ArrayList<Player> clientList = new ArrayList<>();
-    //TODO alla fine di una partita fare clear di questo array per consentire username uguali in diverse partite
-    private ArrayList<Player> clientWhoAreGaming = new ArrayList<>();
+    private ArrayList<Player> clientList = new ArrayList<>();
     private ServerRete serverRete;
     private Timer timer = null;
-    private File file;
-    private FileReader fileReader;
-    private BufferedReader bufferedReader;
-    private FileWriter fileWriter;
-    private BufferedWriter bufferedWriter;
+    private TimerUtility timerUtility;
 
     public void setServerRete(ServerRete serverRete){
         this.serverRete = serverRete;
@@ -57,9 +52,7 @@ public class WaitingRoom {
         }
         return false;
     }
-    //Rimuovi client dalla clientList se non è ancora iniziato il game. Se game è
-    //già iniziato occorre settare il client a disconnesso così che si possa riconnettere
-    //in seguito
+    //Remove client form ClientList if game is not start.
     public synchronized  boolean removeClient(String username){
         Player playerToRemove = null;
         //Cerca tra i client in attesa di giocare
@@ -72,12 +65,7 @@ public class WaitingRoom {
             waitForGame();
             return true;
         }
-        //Cerca tra i client che stanno giocando
-        for(Player p : clientWhoAreGaming)
-            if(p.getName().equals(username)) {
-                p.setIsNotConnected();
-                return true;
-            }
+
         return false;
     }
 
@@ -90,15 +78,15 @@ public class WaitingRoom {
             else{
                 if(timer==null) {
                     timer = new Timer();
+                    timerUtility = new TimerUtility();
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             System.out.println("inizia una nuova partita");
                             serverRete.createNewGame(clientList);
-                            clientWhoAreGaming.addAll(clientList);
                             clientList.clear();
                         }
-                    }, readTimerFromFile("timer.txt"));
+                    }, timerUtility.readTimerFromFile(5,"timer.txt"));
                 }
             }
         }
@@ -109,62 +97,4 @@ public class WaitingRoom {
             }
         }
     }
-
-    private int readTimerFromFile(String path){
-        int delay = 5*1000; //If timer.txt is not present create it with value 30s
-        file = new File(path);
-        try {
-            if(file.createNewFile()) {
-                fileWriter = new FileWriter(file);
-                bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write(delay);
-                bufferedWriter.flush();
-            }
-            else{
-                fileReader = new FileReader(file);
-                bufferedReader = new BufferedReader(fileReader);
-                delay = bufferedReader.read();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(bufferedWriter!=null) {
-                try {
-                    bufferedWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(fileWriter!=null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(bufferedReader!=null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(fileReader!=null) {
-                try {
-                    fileReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(file!=null)
-                file.setReadOnly();
-        }
-        return delay;
-    }
-
-    public void clearClientWhoAreGaming(){
-        clientWhoAreGaming.clear();
-    }
-
 }

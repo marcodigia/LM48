@@ -2,35 +2,38 @@ package it.polimi.ingsw.Server.Game.GameRules;
 
 
 import it.polimi.ingsw.Server.Game.Cards.*;
-import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
-import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
-import it.polimi.ingsw.Server.Game.Components.DiceBag;
-import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
-import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Game {
 
-    private Hashtable<Player ,Boolean> players; // True -> associated player turn False -> otherwise
+    private HashMap<Player ,Boolean> players; // True -> associated player turn False -> otherwise
     private GameStatus gameStatus;
     private GameSetup gameSetup;
 
 
 
     public Game(ArrayList<Player> playerToAdd){
-        players = new Hashtable<>();
+        players = new HashMap<>();
         addPlayer(playerToAdd);
-        gameSetup = new GameSetup(players);
+        gameSetup = new GameSetup(players); //TC - PBC - WP
+        gameStatus = new GameStatus(gameSetup.getToolCards(),gameSetup.getPublicObjectiveCards());  //TC and PBC will not change also if
+                                                                                                    //client will disconnect after WP sending
+        gameSetup.getPublicObjectiveCards().clear();
+        gameSetup.getToolCards().clear();
     }
-    //Aggiungi players alla partita
+
+    public int getNumberOfPlayers(){
+        return players.size();
+    }
+
+    public void endGameSetUp(){
+        gameSetup.concludeSetUp(players);  //Extract PB card
+        gameStatus.addPrivateObjectiveCard(gameSetup.getPrivateObjectiveCards());
+        gameSetup.getPrivateObjectiveCards().clear();
+    }
+
+    //Add player to game
     private void addPlayer(ArrayList<Player> playersToAdd){
         String s = "Hello";
         if(playersToAdd!=null)
@@ -40,14 +43,44 @@ public class Game {
             }
     }
 
-    public void setWindowToPlayer(String idWp){
-        for(Player p : players.keySet())
-            if(players.get(p)){
-                for(WindowPatternCard w : gameSetup.getWindowPatternCards())
-                    if(w.getID().equals(idWp))
-                        p.getGameContext().setWindowPatternCard(w);
+    //This method is called by ServerRete after WP-player pairing. If some players have false
+    //value in HashMap they will be removed as consequence of their no decision of WP
+    public void deleteWhoLeftGame(){
+        ArrayList<Player> playersToRemove = new ArrayList<>();
+        for(Player p : players.keySet()){
+            if(!players.get(p)){
+                playersToRemove.add(p);
             }
+        }
+        for(Player p : playersToRemove){
+            players.remove(p);
+        }
+    }
 
+    public void lookForWinner(){
+        //TODO implement
+    }
+
+    //TODO control if idWP belongs to WPs send to client
+    public void setWindowToPlayer(String idWp, String username){
+        HashMap<Player,WindowPatternCard> playerWP = new HashMap<>();
+        Player playerRecived = null;    //Used to modify HashMap. Set true mapped value to denote
+                                        //that the player is still playing
+        for(Player p : players.keySet()) {
+            if (p.getName().equals(username)) {
+                playerRecived = p;
+                for (WindowPatternCard w : gameSetup.getWindowPatternCards()) {
+                    if (w.getID().equals(idWp)) {
+                        p.getGameContext().setWindowPatternCard(w);     //Assign WP to player
+                        gameSetup.getWindowPatternCards().remove(w);    //Remove WP from GameSetUp
+                        playerWP.put(p, w);                              //Add tuple Player WP
+                    }
+                }
+            }
+        }
+        if(playerRecived!=null) //Now after scan data structure, it can be modified
+            players.replace(playerRecived,true);
+        gameStatus.addWindowPatternCard(playerWP);  //Add tuples of players and WP to GameStatus
     }
 
     public void sendWindowPatternToChoose(){
