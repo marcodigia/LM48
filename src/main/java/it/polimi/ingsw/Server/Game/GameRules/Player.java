@@ -26,7 +26,7 @@ public class Player {
     public Player(String username, ServerClientSender serverClientSender){
         name=username;
         virtualView = new VirtualViewImp(serverClientSender);
-        isConnected = true;
+        gameContext = new GameContext();
     }
 
     public void startRound(){
@@ -41,8 +41,6 @@ public class Player {
     public void setGameContext(GameContext gameContext) {
         this.gameContext = gameContext;
     }
-
-
 
     public WindowPatternCard getWindowPatternCard() {
         return gameContext.getWindowPatternCard();
@@ -63,5 +61,7 @@ public class Player {
     public void setIsNotConnected(){this.isConnected = false;}
 
     public void setIsConnected(){this.isConnected = true;}
+
+    public boolean getConnected(){return isConnected;}
 
 }

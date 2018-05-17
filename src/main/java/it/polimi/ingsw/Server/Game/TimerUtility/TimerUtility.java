@@ -11,7 +11,7 @@ public class TimerUtility {
     private BufferedWriter bufferedWriter;
 
     public int readTimerFromFile(int delaySecond,String path){
-        int delay = delaySecond*1000; //If timer.txt is not present create it with value 30s
+        int delay = delaySecond*1000; //If timer.txt is not present create it with value 5s
         file = new File(path);
         try {
             if(file.createNewFile()) {

@@ -18,7 +18,8 @@ public class GameContext {
     private ToolCard choosenToolCard;
     private boolean isFirstRound = false;
 
-
+    public GameContext(){
+    }
 
     public GameContext(DraftPool draftPool, DiceBag diceBag, BoardRound boardRound, WindowPatternCard windowPatternCard, PrivateObjectiveCard privateObjectiveCard) {
         this.draftPool = draftPool;

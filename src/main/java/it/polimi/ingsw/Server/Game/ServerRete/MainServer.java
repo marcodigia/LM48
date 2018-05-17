@@ -10,11 +10,11 @@ public class MainServer {
     private static final int RMIPORT = 1099;
 
     public static void main(String[] args){
-        ServerRete serverRete = new ServerRete();
+        Game game = new Game();
         WaitingRoom waitingRoom = new WaitingRoom();
-        waitingRoom.setServerRete(serverRete);
+        waitingRoom.setGame(game);
         ServerRMI serverRMI = new ServerRMI(RMIPORT, waitingRoom);
-        ServerSocketAccept serverSocketAccept = new ServerSocketAccept(SERVERSOCKETPORT, waitingRoom, serverRete);
+        ServerSocketAccept serverSocketAccept = new ServerSocketAccept(SERVERSOCKETPORT, waitingRoom, game);
         Thread t = new Thread(serverSocketAccept);
 
         serverRMI.start();

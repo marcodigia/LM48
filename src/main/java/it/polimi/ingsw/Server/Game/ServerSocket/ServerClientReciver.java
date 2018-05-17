@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Server.Game.ServerSocket;
 
-import it.polimi.ingsw.Server.Game.ServerRete.ServerRete;
+import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class ServerClientReciver implements Runnable {
 
-    private ServerRete serverRete;
+    private Game game;
     private Socket socket;
     private Scanner scanner;
     private ServerClientSenderImp serverClientSenderImp;
@@ -17,8 +17,8 @@ public class ServerClientReciver implements Runnable {
     private String id;
     private WaitingRoom waitingRoom;
 
-    public ServerClientReciver(Socket socket, ServerClientSenderImp serverClientSenderImp, WaitingRoom waitingRoom, ServerRete serverRete){
-        this.serverRete = serverRete;
+    public ServerClientReciver(Socket socket, ServerClientSenderImp serverClientSenderImp, WaitingRoom waitingRoom, Game game){
+        this.game = game;
         this.socket = socket;
         this.serverClientSenderImp = serverClientSenderImp;
         this.waitingRoom = waitingRoom;
@@ -45,7 +45,7 @@ public class ServerClientReciver implements Runnable {
                     break;
                 case "CWP":
                     id = scanner.next();
-                    serverRete.setWindowPattern(id,username);
+                    game.setWindowToPlayer(id,username);
                 default:
                     break;
             }

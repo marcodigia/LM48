@@ -7,14 +7,11 @@ import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Random;
+import java.util.*;
 
 public class GameSetup {
 
-    private HashMap<Player,Boolean> players;
+    private LinkedHashMap<Player,Boolean> players;
     private DiceBag diceBag;
     private DraftPool draftPool;
     private BoardRound boardRound;
@@ -23,7 +20,7 @@ public class GameSetup {
     private ArrayList<WindowPatternCard> windowPatternCards;
     private ArrayList<PrivateObjectiveCard> privateObjectiveCards;
 
-    public GameSetup(HashMap<Player,Boolean> players){
+    public GameSetup(LinkedHashMap<Player,Boolean> players){
         this.players = players;
         toolCardsGet();
         publicObjectiveGet();
@@ -90,7 +87,7 @@ public class GameSetup {
         Hashtable<String, Drawable> publicobjectivedeck;
         try {
             publicobjectivedeck = CardFactory.getNewCardDeck();
-            toolCards = extractRandom(publicobjectivedeck,CONSTANT.publicCardNumber,CONSTANT.publicCardToExtract);
+            publicObjectiveCards = extractRandom(publicobjectivedeck,CONSTANT.publicCardNumber,CONSTANT.publicCardToExtract);
         } catch (FileNotFoundException e) {
             System.out.println("File public card non è stato caricato");
         }

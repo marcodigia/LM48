@@ -1,11 +1,10 @@
 package it.polimi.ingsw.Server.Game.WaitingRoom;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
+import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
-import it.polimi.ingsw.Server.Game.ServerRete.ServerRete;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 
-import java.io.*;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -15,13 +14,11 @@ import java.util.TimerTask;
 public class WaitingRoom {
 
     private ArrayList<Player> clientList = new ArrayList<>();
-    private ServerRete serverRete;
+    private Game game;
     private Timer timer = null;
     private TimerUtility timerUtility;
 
-    public void setServerRete(ServerRete serverRete){
-        this.serverRete = serverRete;
-    }
+    public void setGame(Game game){ this.game = game;   }
 
     public synchronized  boolean addClient(String username, ServerClientSender clientRef){
         if(scanForSameUsername(username)){
@@ -83,7 +80,7 @@ public class WaitingRoom {
                         @Override
                         public void run() {
                             System.out.println("inizia una nuova partita");
-                            serverRete.createNewGame(clientList);
+                            game.createNewGame(clientList);
                             clientList.clear();
                         }
                     }, timerUtility.readTimerFromFile(5,"timer.txt"));
