@@ -148,20 +148,7 @@ public class MatrixTest {
         assertSame(dice2,matrix.getDice(4));
         assertFalse(matrix.moveDice(11,5,false,false,false));
     }
-    @Test
-    void getRow(){
-        //Place dices where they can be placed
-        assertTrue(matrix.setDice(dice1,0,false,false,true));
-        assertTrue(matrix.setDice(dice4,1,false,false,false));
-        assertTrue(matrix.setDice(dice2,2,false,false,false));
-        assertTrue(matrix.setDice(dice3,3,false,false,false));
-        cells = matrix.getRow(0);
-        //Verify cells contains dices
-        assertTrue(cells.get(0).getDice().equals(dice1));
-        assertTrue(cells.get(1).getDice().equals(dice4));
-        assertTrue(cells.get(2).getDice().equals(dice2));
-        assertTrue(cells.get(3).getDice().equals(dice3));
-    }
+
     @Test
     void isPlaceable(){
         //Place dice

@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.Cards;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Matrix;
 import it.polimi.ingsw.Server.Game.Components.Dice;
+import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.util.ArrayList;
@@ -60,9 +61,8 @@ public class WindowPatternCard implements Drawable {
         return matrix.getDice(coordinate);
     }
 
-
-    public ArrayList<Cell> getRow(int n){
-        return matrix.getRow(n);
+    public Restriction getRestrictionAtIndex(int i){
+        return matrix.getRestrictionAt(i);
     }
 
     public String getID() {

@@ -31,12 +31,12 @@ public class ControllerLobby extends Controller implements Initializable{
         setBackground(bg3, anchorlobby);
 
         players.add(player1);
-        players.add(player2);
+        //players.add(player2);
         players.add(player3);
         players.add(player4);
 
         playersName.add(user);
-        playersName.add(user);
+        //playersName.add(user);
         playersName.add(user);
         playersName.add(user);
 
@@ -50,7 +50,7 @@ public class ControllerLobby extends Controller implements Initializable{
 
     @FXML
     private void handleButtonStart(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Board.fxml").toURL();
+        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/ChooseWP.fxml").toURL();
         switchScene(startbutton, url);
     }
 }
