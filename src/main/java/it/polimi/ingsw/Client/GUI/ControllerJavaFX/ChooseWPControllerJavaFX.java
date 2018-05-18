@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ChooseWPController extends Controller implements Initializable{
+public class ChooseWPControllerJavaFX extends ControllerJavaFX implements Initializable{
 
     public static ArrayList<Label> selected = new ArrayList<>();
     public static WindowPatternCard windowPatternCard;

@@ -1,25 +1,17 @@
 package it.polimi.ingsw.Client.GUI;
 
-import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
-import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import java.io.File;
 import java.net.URL;
-import java.util.Optional;
 
 public class GUI extends Application implements Runnable{
 
     public static Stage stage;
     public static Parent root;
-    public static ClientServerSender clientServerSender;
-//    public static GeneriClient generiClient = new GeneriClient();
 
     public void start(Stage primaryStage) throws Exception {
         Parent root;
@@ -27,7 +19,7 @@ public class GUI extends Application implements Runnable{
         URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Login.fxml").toURL();
         root = FXMLLoader.load(url);
         stage.setTitle("Sagrada");
-        stage.setOnCloseRequest(event -> {
+        /* stage.setOnCloseRequest(event -> {
             event.consume();
             Alert alert = new Alert(Alert.AlertType.WARNING);
 
@@ -47,7 +39,7 @@ public class GUI extends Application implements Runnable{
             } else {
                 alert.close();
             }
-        });
+        }); */
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
