@@ -42,6 +42,7 @@ public class ServerClientReciver implements Runnable {
                 case "U":
                     username = scanner.next();
                     waitingRoom.removeClient(username);
+                    game.setPlayerAsDisconnected(username);
                     break;
                 case "CWP":
                     id = scanner.next();

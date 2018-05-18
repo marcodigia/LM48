@@ -17,24 +17,39 @@ public class WaitingRoom {
     private Game game;
     private Timer timer = null;
     private TimerUtility timerUtility;
+    private boolean noMorePlayerAccepted = false;
 
-    public void setGame(Game game){ this.game = game;   }
+    //This method should be called at the end of a game in order to let
+    //other player play a new game.
+    public void setNoMorePlayerAccepted(){this.noMorePlayerAccepted = false;}
+
+    public void setGame(Game game){ this.game = game;}
 
     public synchronized  boolean addClient(String username, ServerClientSender clientRef){
-        if(scanForSameUsername(username)){
-            try {
-                clientRef.sendMessage("Nome utente già in uso");
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        if(!noMorePlayerAccepted){
+            if(scanForSameUsername(username)){
+                try {
+                    System.out.println("Username is already used");
+                    clientRef.sendMessage("This username is already used");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                return false;
             }
-            return false;
+            //Create new player
+            Player newPlayer = new Player(username,clientRef);
+            clientList.add(newPlayer);
+            System.out.println("Connect : "+username);
+            waitForGame();
+            return true;
         }
-        //Crea giocatore
-        Player newPlayer = new Player(username,clientRef);
-        clientList.add(newPlayer);
-        System.out.println(username);
-        waitForGame();
-        return true;
+        try {
+            clientRef.sendMessage("Your connection have been refused");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Game has already been started");
+        return false;
     }
     //True if there is another player with same name
     //False if there is not  a player with same name
@@ -49,28 +64,37 @@ public class WaitingRoom {
         }
         return false;
     }
-    //Remove client form ClientList if game is not start.
+    //Remove client form ClientList if game is not start. This method will be called
+    //also if game is started but will not have effect because clientList will be empty
     public synchronized  boolean removeClient(String username){
         Player playerToRemove = null;
-        //Cerca tra i client in attesa di giocare
-        for(Player p : clientList)
-            if(p.getName().equals(username))
-                 playerToRemove = p;
-        //Se trovi il player resetta il timer
-        if(playerToRemove!=null) {
-            clientList.remove(playerToRemove);
-            waitForGame();
-            return true;
-        }
+        if(clientList.size()>0){
+            //Look for player in clientList
+            for(Player p : clientList)
+                if(p.getName().equals(username))
+                    playerToRemove = p;
+            //If you find the player query to restart or not timer
+            if(playerToRemove!=null) {
+                clientList.remove(playerToRemove);
+                waitForGame();
+                System.out.println("Disconnect : "+playerToRemove.getName());
+                playerToRemove.getvirtualView().sendMessage("You have been removed by this game.\n" +
+                        "You will not be able to play until a new game starts.");
+                return true;
+            }
 
+        }
         return false;
     }
 
     private void waitForGame(){
         if(clientList.size()>=2){
             if(clientList.size() == 4){
-                //TODO classe partita già implementata???
-                //TODO bloccare ulteriri utenti se patrtita in corso ma permettere riconnessioni
+                timer.cancel();
+                System.out.println("Start new game");
+                game.createNewGame(clientList);
+                clientList.clear();
+                noMorePlayerAccepted = true;
             }
             else{
                 if(timer==null) {
@@ -79,18 +103,19 @@ public class WaitingRoom {
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            System.out.println("inizia una nuova partita");
+                            System.out.println("Start new game");
                             game.createNewGame(clientList);
                             clientList.clear();
+                            noMorePlayerAccepted = true;
                         }
-                    }, timerUtility.readTimerFromFile(5,"timer.txt"));
+                    }, timerUtility.readTimerFromFile(10,"timer.txt"));
                 }
             }
         }
         else{
             if(timer!=null){
-             timer.cancel();
-             timer = null;
+                timer.cancel();
+                timer = null;
             }
         }
     }
