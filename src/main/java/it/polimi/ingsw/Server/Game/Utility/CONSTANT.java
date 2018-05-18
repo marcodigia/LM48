@@ -13,4 +13,5 @@ public class CONSTANT {
     public final static int publicCardToExtract  = 3;
     public final static int windowCardNumber = 24;
     public final static int privateCardNumber = 6;
+    public final static int numberOfRound = 10;
 }
