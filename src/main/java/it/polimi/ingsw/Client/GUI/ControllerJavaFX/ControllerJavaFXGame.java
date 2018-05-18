@@ -21,11 +21,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ChooseWPController.selected;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ChooseWPController.windowPatternCard;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerLobby.playersName;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ChooseWPControllerJavaFX.selected;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ChooseWPControllerJavaFX.windowPatternCard;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLobby.playersName;
 
-public class ControllerGame extends Controller implements Initializable {
+public class ControllerJavaFXGame extends ControllerJavaFX implements Initializable {
 
     private static Label draftToDisable;
 

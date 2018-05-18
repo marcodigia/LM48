@@ -17,7 +17,7 @@ import java.util.Optional;
 import static it.polimi.ingsw.Client.GUI.GUI.root;
 import static it.polimi.ingsw.Client.GUI.GUI.stage;
 
-public abstract class Controller {
+public abstract class ControllerJavaFX {
 
     protected void createAlertBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.ERROR);
