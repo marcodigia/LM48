@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.GameRules.GameSetup;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.util.*;
 
@@ -35,8 +36,7 @@ public class Game {
         p.setIsConnected();
         player.add(p);
         Game game = new Game(player);
-        for(int i=0; i<160;i++)
-            game.manageTurn();
+        game.manageRound();
     }
 
     public Game(ArrayList<Player> playerToAdd){
@@ -96,16 +96,31 @@ public class Game {
         }, timerUtility.readTimerFromFile(40,"timerDelayPlayer.txt"));
     }
 
-    public void manageTurn(){
+    private void manageRound(){
+        for(int i=0;i< CONSTANT.numberOfRound;i++){
+            System.out.println("\n"+i+"\n");
+            for(int j=0;j<players.size()*2;j++){
+                manageTurn(j);
+            }
+            ArrayList<Player> p = new ArrayList(players.keySet());
+            Player q = p.get(0);
+            p.remove(0);
+            players.remove(q);
+            players.put(q,false);
+        }
+    }
+
+    private void manageTurn(int j){
         //Forth
-        if(!notImmediately && !back){
+        if(!back){
             for(Map.Entry<Player,Boolean> entry : players.entrySet()){
                 if(!entry.getValue()){
                     back = true;
+                    notImmediately = true;
                     entry.setValue(true);
                     if(entry.getKey().getConnected()){
                         //TODO give control to this palyer and disable other players
-                        System.out.println(entry.getKey().getName());
+                        System.out.println(j+" : "+entry.getKey().getName());
                         break;
                     }
                     else{
@@ -116,12 +131,7 @@ public class Game {
             for(Map.Entry<Player,Boolean> entry : players.entrySet()){
                 if(!entry.getValue())
                     back = false;
-                else
-                    notImmediately = true;
             }
-        }
-        else{
-            notImmediately = false;
         }
 
         //Back
@@ -131,22 +141,24 @@ public class Game {
                 Player key = (Player) keyList.get(i);
                 if(players.get(key)){
                     back = false;
+                    notImmediately = true;
                     players.put(key, false);
                     if(key.getConnected()){
                         //TODO give control to this palyer and disable other players
-                        System.out.println(key.getName());
+                        System.out.println(j+" : "+key.getName());
                         break;
                     }
                     else{
+
                         //TODO this player cannot play this turn
                     }
                 }
             }
             for(Map.Entry<Player,Boolean> entry : players.entrySet()){
-                if(entry.getValue())
+                if(entry.getValue()) {
                     back = true;
-                else
-                    notImmediately = true;
+                    notImmediately = false;
+                }
             }
         }
         else{
