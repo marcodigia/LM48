@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.WaitingRoom;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.ServerSocket.ServerClientSenderImp;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 
 import java.rmi.RemoteException;
@@ -39,7 +40,17 @@ public class WaitingRoom {
             //Create new player
             Player newPlayer = new Player(username,clientRef);
             clientList.add(newPlayer);
-            System.out.println("Connect : "+username);
+            if(clientRef instanceof ServerClientSenderImp)
+                System.out.println("Connect Socket: "+username);
+            else
+                System.out.println("Connect RMI: "+username);
+            try {
+                clientRef.sendMessage("You are currently connected");
+                for(Player p : clientList)
+                    p.getvirtualView().sendMessage(username+" connect ");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             waitForGame();
             return true;
         }
