@@ -13,7 +13,7 @@ public class MainServer {
         Game game = new Game();
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setGame(game);
-        ServerRMI serverRMI = new ServerRMI(RMIPORT, waitingRoom);
+        ServerRMI serverRMI = new ServerRMI(RMIPORT, waitingRoom,game);
         ServerSocketAccept serverSocketAccept = new ServerSocketAccept(SERVERSOCKETPORT, waitingRoom, game);
         Thread t = new Thread(serverSocketAccept);
 

@@ -21,7 +21,8 @@ public class Game {
     public Game(){
     }
 
-    public static void main(String[] args){
+    //Test manageRound
+   /* public static void main(String[] args){
         ArrayList player = new ArrayList<>();
         Player p = new Player("lucia",null);
         p.setIsConnected();
@@ -37,7 +38,7 @@ public class Game {
         player.add(p);
         Game game = new Game(player);
         game.manageRound();
-    }
+    }*/
 
     public Game(ArrayList<Player> playerToAdd){
         players = new LinkedHashMap<>();
@@ -54,7 +55,20 @@ public class Game {
                                                                                                     //client will disconnect after WP sending
         gameSetup.getPublicObjectiveCards().clear();
         gameSetup.getToolCards().clear();
-        gameAskClientForWindow();
+        //gameAskClientForWindow();
+    }
+
+    public synchronized  void setPlayerAsDisconnected(String username){
+        if(players!=null){
+            for(Player p : players.keySet()){
+                if(p.getName().equals(username)){
+                    System.out.println("Diconnect : "+username);
+                    p.setIsNotConnected();
+                    p.getvirtualView().sendMessage("You disconnect from game.\n" +
+                            "You will be able to reconnect with your username.");
+                }
+            }
+        }
     }
 
     //TODO control if idWP belongs to WPs send to client
@@ -100,7 +114,7 @@ public class Game {
         for(int i=0;i< CONSTANT.numberOfRound;i++){
             System.out.println("\n"+i+"\n");
             for(int j=0;j<players.size()*2;j++){
-                manageTurn(j);
+                manageTurn();
             }
             ArrayList<Player> p = new ArrayList(players.keySet());
             Player q = p.get(0);
@@ -110,7 +124,7 @@ public class Game {
         }
     }
 
-    private void manageTurn(int j){
+    private void manageTurn(){
         //Forth
         if(!back){
             for(Map.Entry<Player,Boolean> entry : players.entrySet()){
@@ -120,7 +134,7 @@ public class Game {
                     entry.setValue(true);
                     if(entry.getKey().getConnected()){
                         //TODO give control to this palyer and disable other players
-                        System.out.println(j+" : "+entry.getKey().getName());
+                        System.out.println(entry.getKey().getName());
                         break;
                     }
                     else{
@@ -145,7 +159,7 @@ public class Game {
                     players.put(key, false);
                     if(key.getConnected()){
                         //TODO give control to this palyer and disable other players
-                        System.out.println(j+" : "+key.getName());
+                        System.out.println(key.getName());
                         break;
                     }
                     else{
@@ -174,7 +188,7 @@ public class Game {
 
     //Add player to game
     private void addPlayer(ArrayList<Player> playersToAdd){
-        String s = "Hello";
+        String s = "Welcome to Sagrada";
         if(playersToAdd!=null)
             for(Player p : playersToAdd){
                 players.put(p, false);

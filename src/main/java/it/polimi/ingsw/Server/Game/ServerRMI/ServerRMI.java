@@ -6,17 +6,20 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.ExportException;
 
-import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.StubServer;
+import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 public class ServerRMI {
+
     private int port;
     private boolean bound = false;
     private WaitingRoom waitingRoom;
+    private Game game;
 
-    public ServerRMI(int port, WaitingRoom waitingRoom){
+    public ServerRMI(int port, WaitingRoom waitingRoom, Game game){
         this.port = port;
         this.waitingRoom = waitingRoom;
+        this.game = game;
     }
     public void start(){
         do{
@@ -28,7 +31,7 @@ public class ServerRMI {
             }
         }while(!bound && port < 2000);
         try {
-            StubServerImp stubServer = new StubServerImp(waitingRoom);
+            StubServerImp stubServer = new StubServerImp(waitingRoom,game);
             Naming.rebind("rmi://127.0.0.1/myabc",stubServer);
         } catch (RemoteException e) {
 
