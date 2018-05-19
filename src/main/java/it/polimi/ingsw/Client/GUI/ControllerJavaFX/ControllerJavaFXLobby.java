@@ -28,24 +28,25 @@ public class ControllerJavaFXLobby extends ControllerJavaFX implements Initializ
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         setBackground(bg3, anchorlobby);
 
         players.add(player1);
-        //players.add(player2);
+        players.add(player2);
         players.add(player3);
         players.add(player4);
 
         playersName.add(user);
-        //playersName.add(user);
+        playersName.add(user);
         playersName.add(user);
         playersName.add(user);
 
         assertEquals(true, players.size()== playersName.size());
 
-        /*for (int i=0; i<players.size(); i++){
+        for (int i=0; i<players.size(); i++){
             players.get(i).setText(playersName.get(i));
-        }*/
-        players.get(0).setText(playersName.get(0));
+        }
+        //players.get(0).setText(playersName.get(0));
     }
 
     @FXML

@@ -21,8 +21,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ChooseWPControllerJavaFX.selected;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ChooseWPControllerJavaFX.windowPatternCard;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.selected;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.windowPatternCard;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLobby.playersName;
 
 public class ControllerJavaFXGame extends ControllerJavaFX implements Initializable {
