@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initializable{
 
@@ -43,8 +42,6 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
 
     private GridPane gpSelected = null;
     private int click = 0;
-
-    //TODO risolvere errori nel setup della window pattern e nella selezione
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -118,12 +115,12 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
     }
 
     public void handleWP4selected(MouseEvent mouseEvent) {
-/*        if (!(gpSelected.equals(wp4)) && gpSelected!=null){
+        if (gpSelected!=null && !(gpSelected.equals(wp4))){
             gpSelected.setOpacity(1);
             selected=null;
             click++;
         }
-*/
+
         gpSelected = wp4;
 
         switch (click %2) {
@@ -135,6 +132,75 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
             case 1:
                 selected = null;
                 wp4.setOpacity(1);
+                click++;
+                break;
+        }
+    }
+
+    public void handleWP1selected(MouseEvent mouseEvent) {
+        if (gpSelected!=null && !(gpSelected.equals(wp1))){
+            gpSelected.setOpacity(1);
+            selected=null;
+            click++;
+        }
+
+        gpSelected = wp1;
+
+        switch (click %2) {
+            case 0:
+                selected = wp1Labels;
+                wp1.setOpacity(0.3);
+                click++;
+                break;
+            case 1:
+                selected = null;
+                wp1.setOpacity(1);
+                click++;
+                break;
+        }
+    }
+
+    public void handleWP2selected(MouseEvent mouseEvent) {
+        if (gpSelected!=null && !(gpSelected.equals(wp2))){
+            gpSelected.setOpacity(1);
+            selected=null;
+            click++;
+        }
+
+        gpSelected = wp2;
+
+        switch (click %2) {
+            case 0:
+                selected = wp2Labels;
+                wp2.setOpacity(0.3);
+                click++;
+                break;
+            case 1:
+                selected = null;
+                wp2.setOpacity(1);
+                click++;
+                break;
+        }
+    }
+
+    public void handleWP3selected(MouseEvent mouseEvent) {
+        if (gpSelected!=null && !(gpSelected.equals(wp3))){
+            gpSelected.setOpacity(1);
+            selected=null;
+            click++;
+        }
+
+        gpSelected = wp3;
+
+        switch (click %2) {
+            case 0:
+                selected = wp3Labels;
+                wp3.setOpacity(0.3);
+                click++;
+                break;
+            case 1:
+                selected = null;
+                wp3.setOpacity(1);
                 click++;
                 break;
         }

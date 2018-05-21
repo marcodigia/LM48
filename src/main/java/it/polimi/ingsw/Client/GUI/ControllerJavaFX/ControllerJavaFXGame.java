@@ -21,8 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.selected;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.windowPatternCard;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.*;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLobby.playersName;
 
 public class ControllerJavaFXGame extends ControllerJavaFX implements Initializable {
@@ -38,7 +37,6 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
 
     private int draftpoolindex = -1;
     private boolean put = false;
-    //private WindowPatternCard windowPatternCard;
     private DraftPool draftPool;
 
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
@@ -53,12 +51,12 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
         setBackground(bg4, anchorgame);
 
         setUpGame();
-        //setUpWindowPattern();
+        setUpWindowPattern();
 
         setUpDraftPool();
 
         //populateGridPane(gp4, 4, 5, cells4, "Empty");
-        populateGridPane(gp4, selected);
+        populateGridPane(gp4);
         populateGridPane(gpdraft, 1, 9, draftPoolLabel, "");
         populateGridPane(gpround, 1, 10, round, "#");
 
@@ -84,9 +82,7 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
     private void handleClickWindowPattern(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
         int indice_dado = cells4.indexOf(event);
-        System.out.println("b");
         if (windowPatternCard.getDice(indice_dado) == null && !put) {
-            System.out.println("a");
             windowPatternCard.placeDice(draftPool.getDice(draftpoolindex), indice_dado, true, true, true);
             //event.setGraphic(null);
             updateWindowPattern();
@@ -242,11 +238,11 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
         }
     }
 
-    private void populateGridPane(GridPane gridPane, ArrayList<Label> arrayList) {
+    private void populateGridPane(GridPane gridPane) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
-                l.setGraphic(toImage(windowPatternCard.getRestrictionAtIndex(4*i + j)));
+                l.setGraphic(toImage(windowPatternCard1.getRestrictionAtIndex(4*i + j)));
                 gridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
                 l.setOnMouseClicked(event -> handleClickWindowPattern(event));

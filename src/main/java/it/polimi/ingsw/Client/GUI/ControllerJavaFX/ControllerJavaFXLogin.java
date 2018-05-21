@@ -43,7 +43,7 @@ public class ControllerJavaFXLogin extends ControllerJavaFX implements Initializ
         handleButtonPlay(enter);
     }
 
-    /* Numeric Validation Limit the  characters to maxLenght AND to ONLY Digits and Letters */
+    /* Username limited to max_Lenght AND to only Digits and Letters */
     public EventHandler<KeyEvent> username_Validation(final Integer max_Length) {
         return new EventHandler<KeyEvent>() {
             @Override
