@@ -114,47 +114,47 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
     }
 
     public void handleWP1selected(MouseEvent mouseEvent) {
-        if (gpSelected!=null && !(gpSelected.equals(wp1))){
+        if (gpSelected!=null && !(gpSelected.equals(wp1))) {
             gpSelected.setOpacity(1);
-            selected=null;
-            click++;
+            selected = null;
+            click = 0;
         }
 
-        gpSelected = wp1;
+            gpSelected = wp1;
 
         switch (click %2) {
             case 0:
                 selected = wp1Labels;
                 wp1.setOpacity(0.3);
-                click++;
+                click = 1;
                 break;
             case 1:
                 selected = null;
                 wp1.setOpacity(1);
-                click++;
+                click = 0;
                 break;
         }
     }
 
     public void handleWP2selected(MouseEvent mouseEvent) {
-        if (gpSelected!=null && !(gpSelected.equals(wp2))){
+        if (gpSelected!=null && !(gpSelected.equals(wp2))) {
             gpSelected.setOpacity(1);
-            selected=null;
-            click++;
+            selected = null;
+            click = 0;
         }
 
-        gpSelected = wp2;
+            gpSelected = wp2;
 
         switch (click %2) {
             case 0:
                 selected = wp2Labels;
                 wp2.setOpacity(0.3);
-                click++;
+                click = 1;
                 break;
             case 1:
                 selected = null;
                 wp2.setOpacity(1);
-                click++;
+                click = 0;
                 break;
         }
     }
@@ -163,7 +163,7 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
         if (gpSelected!=null && !(gpSelected.equals(wp3))){
             gpSelected.setOpacity(1);
             selected=null;
-            click++;
+            click = 0;
         }
 
         gpSelected = wp3;
@@ -172,12 +172,12 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
             case 0:
                 selected = wp3Labels;
                 wp3.setOpacity(0.3);
-                click++;
+                click = 1;
                 break;
             case 1:
                 selected = null;
                 wp3.setOpacity(1);
-                click++;
+                click = 0;
                 break;
         }
     }
@@ -186,7 +186,7 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
         if (gpSelected!=null && !(gpSelected.equals(wp4))){
             gpSelected.setOpacity(1);
             selected=null;
-            click++;
+            click = 0;
         }
 
         gpSelected = wp4;
@@ -195,12 +195,12 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
             case 0:
                 selected = wp4Labels;
                 wp4.setOpacity(0.3);
-                click++;
+                click = 1;
                 break;
             case 1:
                 selected = null;
                 wp4.setOpacity(1);
-                click++;
+                click = 0;
                 break;
         }
     }
