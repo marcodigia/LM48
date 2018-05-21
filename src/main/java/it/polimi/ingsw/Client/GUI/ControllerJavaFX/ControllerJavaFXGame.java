@@ -37,13 +37,13 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
 
     private int draftpoolindex = -1;
     private boolean put = false;
+    private boolean firstTourn = true;
     private DraftPool draftPool;
 
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells4 = new ArrayList<>();
     private ArrayList<Label> names = new ArrayList<>();
     private ArrayList<Label> round = new ArrayList<>();
-    private ArrayList<String> pattern = new ArrayList<String>();
     private ArrayList<GridPane> gridPanes = new ArrayList<>();
 
     @Override
@@ -51,8 +51,6 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
         setBackground(bg4, anchorgame);
 
         setUpGame();
-        setUpWindowPattern();
-
         setUpDraftPool();
 
         //populateGridPane(gp4, 4, 5, cells4, "Empty");
@@ -82,14 +80,38 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
     private void handleClickWindowPattern(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
         int indice_dado = cells4.indexOf(event);
-        if (windowPatternCard.getDice(indice_dado) == null && !put) {
-            windowPatternCard.placeDice(draftPool.getDice(draftpoolindex), indice_dado, true, true, true);
-            //event.setGraphic(null);
-            updateWindowPattern();
-            draftToDisable.setDisable(true);
-            put = true;
+        if (windowPatternCard4.getDice(indice_dado) == null && !put) {
+            if (firstTourn){
+                if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)){
+                    windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, true);
+                    updateWindowPattern(windowPatternCard4);
+                    draftToDisable.setDisable(true);
+                    put = true;
+                }
+                else{
+                    createAlertBox("Error!", "Wrong action",
+                            "Restrictions havn't been respected! " +
+                            "Please perform a correct move.");
+                }
+            }
+            else {
+                if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, false)){
+                    windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, false);
+                    updateWindowPattern(windowPatternCard4);
+                    draftToDisable.setDisable(true);
+                    put = true;
+                }
+                else{
+                    createAlertBox("Error!", "Wrong action",
+                            "Restrictions havn't been respected! " +
+                                    "Please perform a correct move.");
+                }
+            }
         } else {
-            createAlertBox("Error!", "Wrong action", "You already placed this dice or in this cell has already been placed a dice! Please perform a correct move.");
+            createAlertBox("Error!", "Wrong action", "You already placed this dice " +
+                    "or in this cell has already been placed a dice " +
+                    "or restrictions havn't been respected! " +
+                    "Please perform a correct move.");
         }
     }
 
@@ -106,39 +128,12 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
         createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
     }
 
-    private void setUpWindowPattern() {
-        pattern.add("2");
-        pattern.add("Via Lux");
-        pattern.add("4");
-        pattern.add("Y");   //0
-        pattern.add("0");   //1
-        pattern.add("6");   //2...
-        pattern.add("0");
-        pattern.add("0");
-        pattern.add("0");
-        pattern.add("1");
-        pattern.add("5");
-        pattern.add("0");
-        pattern.add("2");
-        pattern.add("3");
-        pattern.add("Y");
-        pattern.add("R");
-        pattern.add("P");
-        pattern.add("0");
-        pattern.add("0");
-        pattern.add("0");
-        pattern.add("4");
-        pattern.add("3");
-        pattern.add("R");   //19
-        windowPatternCard = new WindowPatternCard(pattern);
-    }
-
     private void setUpDraftPool() {
         draftPool = new DraftPool(new DiceBag());
         draftPool.extractNdice(9);
     }
 
-    private void updateWindowPattern() {
+    private void updateWindowPattern(WindowPatternCard windowPatternCard) {
         for (int i = 0; i < selected.size(); i++) {
             if (windowPatternCard.getDice(i) != null) {
                 cells4.get(i).setGraphic(toImage(windowPatternCard.getDice(i)));

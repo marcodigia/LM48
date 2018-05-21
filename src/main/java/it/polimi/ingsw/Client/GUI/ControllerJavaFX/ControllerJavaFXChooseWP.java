@@ -20,17 +20,16 @@ import java.util.ResourceBundle;
 public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initializable{
 
     public static ArrayList<Label> selected = new ArrayList<>();
-
-    public static WindowPatternCard windowPatternCard;
-
     public static WindowPatternCard windowPatternCard1;
     public static WindowPatternCard windowPatternCard2;
     public static WindowPatternCard windowPatternCard3;
     public static WindowPatternCard windowPatternCard4;
+
     public ImageView bgChooseWP;
     public AnchorPane anchorChooseWP;
     public Button playbutton;
     public GridPane wp1, wp2, wp3, wp4;
+
     private ArrayList<String> pattern1 = new ArrayList<String>();
     private ArrayList<Label> wp1Labels = new ArrayList<>();
     private ArrayList<String> pattern2 = new ArrayList<String>();
@@ -46,10 +45,10 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bgChooseWP, anchorChooseWP);
-        setUpWindowPattern(pattern1, windowPatternCard1);
-        setUpWindowPattern(pattern2, windowPatternCard2);
-        setUpWindowPattern(pattern3, windowPatternCard3);
-        setUpWindowPattern(pattern4, windowPatternCard4);
+        windowPatternCard1 = setUpWindowPattern(pattern1);
+        windowPatternCard2 = setUpWindowPattern(pattern2);
+        windowPatternCard3 = setUpWindowPattern(pattern3);
+        windowPatternCard4 = setUpWindowPattern(pattern4);
         populateGridPane(wp1, wp1Labels, windowPatternCard1);
         populateGridPane(wp2, wp2Labels, windowPatternCard2);
         populateGridPane(wp3, wp3Labels, windowPatternCard3);
@@ -60,7 +59,7 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
-                l.setGraphic(toImage(windowPatternCard1.getRestrictionAtIndex(4*i + j)));
+                l.setGraphic(toImage(windowPatternCard.getRestrictionAtIndex(4*i + j)));
                 gridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
                 arrayList.add(l);
@@ -68,7 +67,7 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
         }
     }
 
-    private void setUpWindowPattern(ArrayList<String> pattern, WindowPatternCard windowPatternCard) {
+    private WindowPatternCard setUpWindowPattern(ArrayList<String> pattern) {
         pattern.add("2");
         pattern.add("Via Lux");
         pattern.add("4");
@@ -92,7 +91,7 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
         pattern.add("4");
         pattern.add("3");
         pattern.add("R");   //19
-        windowPatternCard1 = new WindowPatternCard(pattern);
+        return new WindowPatternCard(pattern);
     }
 
     public void handlePlayButton(ActionEvent actionEvent) throws IOException{
@@ -112,29 +111,6 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         return imageView;
-    }
-
-    public void handleWP4selected(MouseEvent mouseEvent) {
-        if (gpSelected!=null && !(gpSelected.equals(wp4))){
-            gpSelected.setOpacity(1);
-            selected=null;
-            click++;
-        }
-
-        gpSelected = wp4;
-
-        switch (click %2) {
-            case 0:
-                selected = wp4Labels;
-                wp4.setOpacity(0.3);
-                click++;
-                break;
-            case 1:
-                selected = null;
-                wp4.setOpacity(1);
-                click++;
-                break;
-        }
     }
 
     public void handleWP1selected(MouseEvent mouseEvent) {
@@ -201,6 +177,29 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
             case 1:
                 selected = null;
                 wp3.setOpacity(1);
+                click++;
+                break;
+        }
+    }
+
+    public void handleWP4selected(MouseEvent mouseEvent) {
+        if (gpSelected!=null && !(gpSelected.equals(wp4))){
+            gpSelected.setOpacity(1);
+            selected=null;
+            click++;
+        }
+
+        gpSelected = wp4;
+
+        switch (click %2) {
+            case 0:
+                selected = wp4Labels;
+                wp4.setOpacity(0.3);
+                click++;
+                break;
+            case 1:
+                selected = null;
+                wp4.setOpacity(1);
                 click++;
                 break;
         }
