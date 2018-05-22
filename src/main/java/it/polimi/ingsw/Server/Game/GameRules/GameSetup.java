@@ -30,7 +30,7 @@ public class GameSetup {
     //After that players have send their WP choice
     //conclude the setup process extracting private card
     public void concludeSetUp(HashMap<Player,Boolean> playersLeft){
-        ArrayList<Player> playerBoardRound = new ArrayList<>();
+        ArrayList<Player> playerBoardRound = new ArrayList<Player>();
         privateObjectiveGet(playersLeft.size());
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
