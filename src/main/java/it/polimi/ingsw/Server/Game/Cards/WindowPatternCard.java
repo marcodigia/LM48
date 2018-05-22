@@ -31,8 +31,8 @@ public class WindowPatternCard implements Drawable {
 
     @Override
     public String toString() {
-        String windowpatterncard = "WP " +CONSTANT.delimenter + id;
-        windowpatterncard += matrix + CONSTANT.delimenter;
+        String windowpatterncard = "WP" + CONSTANT.delimenter +id;
+        windowpatterncard += CONSTANT.delimenter + matrix + CONSTANT.delimenter;
         return windowpatterncard;
     }
 

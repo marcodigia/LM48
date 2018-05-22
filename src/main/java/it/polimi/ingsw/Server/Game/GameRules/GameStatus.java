@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.Cards.PublicObjectiveCard;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
+import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class GameStatus implements Packetable {
     ArrayList<PublicObjectiveCard> publicObjectiveCards = null;
     PrivateObjectiveCard privateObjectiveCard = null;
 
+    public GameStatus(){}
     public GameStatus(HashMap<Player, WindowPatternCard> playerWP) {
         this.playerWP = playerWP;
     }
@@ -57,6 +59,55 @@ public class GameStatus implements Packetable {
 
     @Override
     public String toPacket() {
-        return null;
+
+        StringBuilder packet = new StringBuilder();
+        //Setting the number of player , used from the unpacker to know how many element to istantiate
+        packet.append(playerWP.size()).append(CONSTANT.ObjectDelimeter);
+        for (Player p : playerWP.keySet()){
+            packet.append(p.getName()).append(CONSTANT.ObjectDelimeter)
+                    .append(playerWP.get(p)).append(CONSTANT.ObjectDelimeter);
+        }
+
+        // Setting the Draftpool , used from the unpacker to know how many dice to istantiate
+
+        packet.append(draftPool.getDraft().size()).append(CONSTANT.ObjectDelimeter);
+        for (Dice d : draftPool.getDraft()){
+            packet.append(d).append(CONSTANT.ObjectDelimeter);
+        }
+
+
+        return packet.toString();
+    }
+
+    public HashMap<Player, WindowPatternCard> getPlayerWP() {
+        return playerWP;
+    }
+
+    public void setPlayerWP(HashMap<Player, WindowPatternCard> playerWP) {
+        this.playerWP = playerWP;
+    }
+
+    public DraftPool getDraftPool() {
+        return draftPool;
+    }
+
+    public void setDraftPool(DraftPool draftPool) {
+        this.draftPool = draftPool;
+    }
+
+    public ArrayList<ToolCard> getToolCards() {
+        return toolCards;
+    }
+
+    public void setToolCards(ArrayList<ToolCard> toolCards) {
+        this.toolCards = toolCards;
+    }
+
+    public ArrayList<PublicObjectiveCard> getPublicObjectiveCards() {
+        return publicObjectiveCards;
+    }
+
+    public void setPublicObjectiveCards(ArrayList<PublicObjectiveCard> publicObjectiveCards) {
+        this.publicObjectiveCards = publicObjectiveCards;
     }
 }

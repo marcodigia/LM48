@@ -4,6 +4,7 @@ import it.polimi.ingsw.Exceptions.WrongPatternSizeException;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.util.ArrayList;
 
@@ -14,10 +15,10 @@ public class Matrix {
 
     @Override
     public String toString() {
-        StringBuilder matrixString = new StringBuilder( "{" );
+        StringBuilder matrixString = new StringBuilder(CONSTANT.matrixDelimenter);
         for (Cell cell : matrix)
             matrixString.append(cell.toString());
-        matrixString.append("}");
+        matrixString.append(CONSTANT.matrixDelimenter);
         return matrixString.toString();
     }
 
@@ -33,7 +34,7 @@ public class Matrix {
     }
 
 
-    // initialize the matric by linking all the cells whith their neighbour
+    // initialize the matrix by linking all the cells whith their neighbour
 
 
     public void initialize() {
