@@ -71,4 +71,9 @@ public class UI_SIMULATION extends UI {
     public void updateRoundTrack() {
 
     }
+
+    @Override
+    public void activate() {
+
+    }
 }

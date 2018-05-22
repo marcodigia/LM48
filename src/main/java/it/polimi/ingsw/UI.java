@@ -34,4 +34,7 @@ public abstract class UI {
 
     public abstract void updateRoundTrack();
 
+    //UI active
+    public abstract void activate();
+
 }

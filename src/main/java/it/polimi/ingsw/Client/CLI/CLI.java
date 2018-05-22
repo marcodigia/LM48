@@ -184,6 +184,11 @@ public class CLI extends UI implements Runnable{
     }
 
     @Override
+    public void activate() {
+
+    }
+
+    @Override
     public void run() {
 
     }
