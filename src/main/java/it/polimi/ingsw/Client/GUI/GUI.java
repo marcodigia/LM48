@@ -5,44 +5,30 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.io.File;
-import java.net.URL;
+import java.io.IOException;
 
 public class GUI extends Application implements Runnable{
 
     public static Stage stage;
     public static Parent root;
 
-    public void start(Stage primaryStage) throws Exception {
-        Parent root;
+    public void start(Stage primaryStage) {
         stage = primaryStage;
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Login.fxml").toURL();
-        root = FXMLLoader.load(url);
         stage.setTitle("Sagrada");
-        /* stage.setOnCloseRequest(event -> {
-            event.consume();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+        String fxml = "/Login.fxml";
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(fxml));
+            root = loader.load();
 
-            alert.setTitle("Warning");
-            alert.setHeaderText("Closing Window");
-            alert.setContentText("Are You Sure?");
-
-            ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-            ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(buttonTypeOk, buttonTypeCancel);
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == buttonTypeOk) {
-                alert.close();
-                stage.close();
-            } else {
-                alert.close();
-            }
-        }); */
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

@@ -25,14 +25,14 @@ public class ControllerJavaFXConnection extends ControllerJavaFX implements Init
 
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Lobby.fxml").toURL();
-        switchScene(rmibutton, url);
+        String fxml = "/Lobby.fxml";
+        switchScene(fxml);
     }
 
     @FXML
     private void handleButtonSocket(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Lobby.fxml").toURL();
-        switchScene(socketbutton, url);
+        String fxml = "/Lobby.fxml";
+        switchScene(fxml);
     }
 
 }

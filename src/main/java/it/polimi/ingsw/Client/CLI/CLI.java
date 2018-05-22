@@ -23,7 +23,7 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 //Decided to make CLI static , because it just need to print stuff
-public class CLI extends UI implements Runnable{
+public class CLI implements UI,Runnable{
 
     private static final int maxNameSize = 18;
     private static ArrayList<Player> players = new ArrayList<>();

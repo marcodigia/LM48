@@ -51,7 +51,7 @@ public class GeneriClient {
         }
         else{
             try {
-                clientServerSender = (StubServer) Naming.lookup("rmi://127.0.0.1/myabc");
+                clientServerSender = (StubServer) Naming.lookup("rmi://192.168.1.55/myabc");
                 clientServerSender.register(this.username, (SkeletonClient)clientServerReciver);
             } catch (NotBoundException e) {
                 e.printStackTrace();

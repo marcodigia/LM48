@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ServerClientReciver implements Runnable {
@@ -32,23 +33,27 @@ public class ServerClientReciver implements Runnable {
     @Override
     public void run() {
         while(true){
-
-            String command = scanner.next();
-            switch(command){
-                case "R":
-                    username = scanner.next();
-                    waitingRoom.addClient(username, serverClientSenderImp);
-                    break;
-                case "U":
-                    username = scanner.next();
-                    waitingRoom.removeClient(username);
-                    game.setPlayerAsDisconnected(username);
-                    break;
-                case "CWP":
-                    id = scanner.next();
-                    game.setWindowToPlayer(id,username);
-                default:
-                    break;
+            try{
+                String command = scanner.next();
+                switch(command){
+                    case "R":
+                        username = scanner.next();
+                        waitingRoom.addClient(username, serverClientSenderImp);
+                        break;
+                    case "U":
+                        username = scanner.next();
+                        waitingRoom.removeClient(username);
+                        game.setPlayerAsDisconnected(username);
+                        break;
+                    case "CWP":
+                        id = scanner.next();
+                        game.setWindowToPlayer(id,username);
+                    default:
+                        break;
+                }
+            }catch(NoSuchElementException e){
+                System.out.println("[!] Network problem "+username+" client unreachable" );
+                break;
             }
         }
     }
