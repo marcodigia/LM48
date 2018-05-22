@@ -19,8 +19,8 @@ public class GameStatus implements Packetable {
     ArrayList<PublicObjectiveCard> publicObjectiveCards = null;
     PrivateObjectiveCard privateObjectiveCard = null;
 
-    public GameStatus(HashMap<Player, WindowPatternCard> playerWP) {
-        this.playerWP = playerWP;
+    public GameStatus() {
+        playerWP = new HashMap<Player,WindowPatternCard>();
     }
 
     public GameStatus(HashMap<Player, WindowPatternCard> playerWP, DraftPool draftPool) {
@@ -47,8 +47,8 @@ public class GameStatus implements Packetable {
         this.publicObjectiveCards = publicObjectiveCards;
     }
 
-    public void addWindowPatternCard(HashMap<Player,WindowPatternCard> playerWP){
-        this.playerWP = playerWP;
+    public void addWindowPatternCard(Player p, WindowPatternCard wp){
+        playerWP.put(p,wp);
     }
 
     public void addPrivateObjectiveCard(ArrayList<PrivateObjectiveCard> privateObjectiveCards){

@@ -40,7 +40,10 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                          id[i] = scanner.next();
                     }
                     ui.chooseWP(id[0],id[1],id[2],id[3]);
-
+                    break;
+                case "TS":
+                    ui.activate();
+                    break;
                 default:
                     break;
             }
