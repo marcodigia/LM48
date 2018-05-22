@@ -51,7 +51,7 @@ public class ControllerJavaFXLobby extends ControllerJavaFX implements Initializ
 
     @FXML
     private void handleButtonStart(ActionEvent event) throws IOException {
-        URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/ChooseWP.fxml").toURL();
-        switchScene(startbutton, url);
+        String fxml = "/ChooseWP.fxml";
+        switchScene(fxml);
     }
 }

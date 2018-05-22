@@ -31,8 +31,8 @@ public class ControllerJavaFXLogin extends ControllerJavaFX implements Initializ
     private void handleButtonPlay(ActionEvent event) throws IOException {
         if (usernametext.getLength() > 0) {
             saveName();
-            URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/RMI_Socket.fxml").toURL();
-            switchScene(playbutton, url);
+            String fxml = "/RMI_Socket.fxml";
+            switchScene(fxml);
         } else {
             createAlertBox("Error", "Your username should be at least 1 character long.", "Please enter a valid username.");
         }
