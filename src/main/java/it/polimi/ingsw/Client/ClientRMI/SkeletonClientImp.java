@@ -32,7 +32,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void timerStart() throws RemoteException {
-
+        ui.activate();
     }
 
     @Override
