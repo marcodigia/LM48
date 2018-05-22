@@ -19,6 +19,11 @@ public class Dice implements Cloneable{
 
     }
 
+    public Dice(String s){
+        color = DiceColor.resolveColor(s.substring(0,1));
+        value= s.substring(1);
+    }
+
 
 
     public DiceColor getDiceColor() { return color;}

@@ -23,11 +23,10 @@ public enum DiceColor {
             diceColor = DiceColor.YELLOW ;
         else if (s.toLowerCase().equals("blue") || s.toLowerCase().equals("b"))
             diceColor = DiceColor.BLUE;
-        else if (s.toLowerCase().equals("red") || s.equals("r"))
+        else if (s.toLowerCase().equals("red") || s.toLowerCase().equals("r"))
             diceColor = DiceColor.RED ;
-        else if (s.toLowerCase().equals("green") || s.equals("g"))
+        else if (s.toLowerCase().equals("green") || s.toLowerCase().equals("g"))
             diceColor = DiceColor.GREEN;
-
         return diceColor;
     }
 

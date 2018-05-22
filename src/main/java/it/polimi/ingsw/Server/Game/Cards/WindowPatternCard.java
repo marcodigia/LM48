@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
+import it.polimi.ingsw.Packetable;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Matrix;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -8,7 +9,7 @@ import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.util.ArrayList;
 
-public class WindowPatternCard implements Drawable {
+public class WindowPatternCard implements Drawable , Packetable {
     private String name;
     private String id;
     private int difficulty;
@@ -29,12 +30,7 @@ public class WindowPatternCard implements Drawable {
     }
 
 
-    @Override
-    public String toString() {
-        String windowpatterncard = "WP" + CONSTANT.delimenter +id;
-        windowpatterncard += CONSTANT.delimenter + matrix + CONSTANT.delimenter;
-        return windowpatterncard;
-    }
+
 
     public boolean placeDice(Dice dice, int coordinate, boolean ignore_color_restriction, boolean ignore_value_restriction, boolean ignore_adjacency) {
 
@@ -75,5 +71,20 @@ public class WindowPatternCard implements Drawable {
 
     public int getDifficulty(){
         return difficulty;
+    }
+
+    @Override
+    public String toPacket() {
+
+        StringBuilder packet = new StringBuilder();
+        packet.append(id).append(CONSTANT.ObjectDelimeter).append(matrix.toPacket());
+        return packet.toString();
+    }
+
+    @Override
+    public String toString() {
+        String windowpatterncard = "WP" + CONSTANT.delimenter +id;
+        windowpatterncard += CONSTANT.delimenter + matrix + CONSTANT.delimenter;
+        return windowpatterncard;
     }
 }

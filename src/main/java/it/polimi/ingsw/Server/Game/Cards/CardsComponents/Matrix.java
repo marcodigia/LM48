@@ -1,14 +1,15 @@
 package it.polimi.ingsw.Server.Game.Cards.CardsComponents;
 
 import it.polimi.ingsw.Exceptions.WrongPatternSizeException;
+import it.polimi.ingsw.Packetable;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
-import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Matrix {
+public class Matrix implements Packetable {
    private int lenght;
     private int height;
     private ArrayList<Cell> matrix;
@@ -25,7 +26,7 @@ public class Matrix {
     public Matrix(int lenght, int height) {
         this.lenght = lenght;
         this.height = height;
-        matrix = new ArrayList<Cell>();
+        matrix = new ArrayList<>();
 
         for (int i = 0; i < lenght * height; i++) {
 
@@ -222,4 +223,25 @@ public class Matrix {
         return matrix.get(i);
     }
 
+    @Override
+    public String toPacket() {
+        StringBuilder packet = new StringBuilder();
+
+        //Use iterator instead of for each because i need to check when i am at the last element , so i do not append the last delimeter
+        Iterator<Cell> iterator = matrix.iterator();
+
+        while(iterator.hasNext()){
+
+            Cell cell =iterator.next();
+            if (!cell.isEmpty())
+                packet.append(cell.getDice());
+            else
+                packet.append("null");
+
+            if (iterator.hasNext())
+                packet.append(CONSTANT.ElenemtsDelimenter);
+        }
+
+        return packet.toString();
+    }
 }

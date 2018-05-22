@@ -6,7 +6,7 @@ import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import java.util.ArrayList;
 
 public class DraftPool {
-    private ArrayList<Dice> dices ;
+    private ArrayList<Dice> dices = new ArrayList<>() ;
     private DiceBag diceBag;
 
 
@@ -48,5 +48,15 @@ public class DraftPool {
 
     public ArrayList<Dice> getDraft(){
         return new ArrayList<>(dices);
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder dp = new StringBuilder("draftpool: ");
+        for (Dice dice : dices){
+            dp.append(dice);
+        }
+        return dp.toString();
     }
 }
