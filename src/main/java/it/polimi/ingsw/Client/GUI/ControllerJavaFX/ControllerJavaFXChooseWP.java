@@ -97,8 +97,8 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
     public void handlePlayButton(ActionEvent actionEvent) throws IOException{
 
         if (selected != null){
-            URL url = new File("src/main/java/it/polimi/ingsw/Client/GUI/FXMLs/Board.fxml").toURL();
-            switchScene(playbutton, url);
+            String fxml = "/Board.fxml";
+            switchScene(fxml);
         }
         else {
             createAlertBox("Error!", "Select a Window Pattern first", "");

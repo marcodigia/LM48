@@ -29,27 +29,6 @@ public class GUI extends Application implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /* stage.setOnCloseRequest(event -> {
-            event.consume();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-
-            alert.setTitle("Warning");
-            alert.setHeaderText("Closing Window");
-            alert.setContentText("Are You Sure?");
-
-            ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-            ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(buttonTypeOk, buttonTypeCancel);
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == buttonTypeOk) {
-                alert.close();
-                stage.close();
-            } else {
-                alert.close();
-            }
-        }); */
     }
 
     public static void main(String[] args) {

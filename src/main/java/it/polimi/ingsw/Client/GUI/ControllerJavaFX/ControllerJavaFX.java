@@ -64,19 +64,19 @@ public abstract class ControllerJavaFX {
         alert.showAndWait();
     }
 
-    protected void switchScene(Button button, URL url) throws IOException {
-        //get reference to the button's stage
-        stage = (Stage) button.getScene().getWindow();
-        //load up OTHER FXML document
-        root = FXMLLoader.load(url);
-        //create a new scene with root and set the stage
-        Scene scene = new Scene(root);
-        stage.setOnCloseRequest(event -> {
-            event.consume();
-            createWarningBox("Warning", "Closing Window", "Are you sure?");
-        });
-        stage.setScene(scene);
-        stage.show();
+    protected void switchScene(String fxml) throws IOException {
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(fxml));
+            root = loader.load();
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void setBackground(ImageView background, AnchorPane anchorPane){
