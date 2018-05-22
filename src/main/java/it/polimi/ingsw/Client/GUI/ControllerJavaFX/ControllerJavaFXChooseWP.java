@@ -60,7 +60,7 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
                 l.setGraphic(toImage(windowPatternCard.getRestrictionAtIndex(4*i + j)));
-                gridPane.setConstraints(l, j, i);
+                GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
                 arrayList.add(l);
             }

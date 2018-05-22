@@ -214,7 +214,7 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
         for (int i = 0; i < cols; i++) {
             for (int j = 0; j < rows; j++) {
                 Label l = new Label(labelContent);
-                gridPane.setConstraints(l, i, j);
+                GridPane.setConstraints(l, i, j);
                 gridPane.getChildren().add(l);
                 l.setOnMouseClicked((MouseEvent mouseEvent) -> {
                     switch (typeOfGridPane(gridPane)){
@@ -238,7 +238,7 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
                 l.setGraphic(toImage(windowPatternCard1.getRestrictionAtIndex(4*i + j)));
-                gridPane.setConstraints(l, j, i);
+                GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
                 l.setOnMouseClicked(event -> handleClickWindowPattern(event));
                 cells4.add(l);
