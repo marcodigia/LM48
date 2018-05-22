@@ -4,7 +4,7 @@ import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.UI;
 
-public class UI_SIMULATION extends UI {
+public class UI_SIMULATION implements UI {
 
 
     int ammountToChange;
