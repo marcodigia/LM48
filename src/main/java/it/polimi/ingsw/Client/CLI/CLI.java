@@ -172,20 +172,6 @@ public class CLI implements UI,Runnable{
 
     }
 
-    @Override
-    public void UpdateDraftPol() {
-
-    }
-
-    @Override
-    public void updateWindowPattern(Player player) {
-
-    }
-
-    @Override
-    public void updateRoundTrack() {
-
-    }
 
     @Override
     public void activate() {
