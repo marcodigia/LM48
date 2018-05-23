@@ -41,11 +41,11 @@ public class Unpacker {
     /*
     * Geneal Syntax of the packets
     *
-    * <I>       d    <username>     d   <ID_WP>      d      <WP>        d       <ID_pr>     ...     d   <DP>            d       <I>              d         <ALD>            ....    d   <TC> d  <TC>  d <TC>
+    * <I>       d   <username.b.b>  d   <ID_WP>      d      <WP>        d       <ID_pr>     ...     d   <DP>            d       <I>              d         <ALD>            ....    d   <TC> d  <TC>  d <TC>
     *
     *  num of         player            id of               wp                   id of                 the dp                   number of                   ArrayList                      3 id of toolcards
     *  player         username           wp                 to packet            private               to packet                round already               of Dice
-    *  following                                                                 card                                           played                      to packet
+    *  following      and action state                                           card                                           played                      to packet
     * */
 
     //This class returns the game status.
@@ -67,7 +67,13 @@ public class Unpacker {
 
         HashMap<Player,List<Drawable>> playerInfo = new HashMap<>();
         for (int i=0 ; i < num_of_player ; i++){
-            Player p = new Player(objectPacket[1+ i*4],null);
+
+
+           ArrayList<String> pinfo = player_InfoFromPacket(objectPacket[1+ i*4]);
+
+            //
+            Player p = new Player(pinfo.get(0),null);
+            p.setBasicActionState(Boolean.parseBoolean(pinfo.get(1)),Boolean.parseBoolean(pinfo.get(2)));
             WindowPatternCard  wp = WP_fromPacket(objectPacket[2+ i*4],objectPacket[3+ i*4]);
             PrivateObjectiveCard privateObjectiveCard = PR_FromId(objectPacket[4+ i*4]);
 
@@ -138,6 +144,14 @@ public class Unpacker {
 
 
 
+    private static ArrayList<String> player_InfoFromPacket(String packet){
+
+
+        String[] elements =packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+
+        return new ArrayList<>(Arrays.asList(elements));
+
+    }
 
 
    private static WindowPatternCard WP_fromPacket(String id , String packet){

@@ -136,6 +136,14 @@ public class PlaceDiceAction implements Actions {
         return false;
     }
 
+    public void setACTIVE(boolean b){
+        ACTIVE = b;
+    }
+
+    public boolean actionState(){
+        return ACTIVE ;
+    }
+
     @Override
     public String toPacket() {
         return null;

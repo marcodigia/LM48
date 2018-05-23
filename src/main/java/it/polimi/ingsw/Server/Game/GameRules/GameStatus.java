@@ -81,7 +81,10 @@ public class GameStatus implements Packetable {
         //Setting the number of player , used from the unpacker to know how many element to istantiate
         packet.append(playerCards.size()).append(CONSTANT.ObjectDelimeter);
         for (Player p : playerCards.keySet()){
-            packet.append(p.getName()).append(CONSTANT.ObjectDelimeter)
+            packet.append(p.getName()).append(CONSTANT.ElenemtsDelimenter)
+                    .append(p.getPlaceDiceState()).append(CONSTANT.ElenemtsDelimenter)
+                    .append(p.getUseToolCardState())
+                    .append(CONSTANT.ObjectDelimeter)
                     .append( ((WindowPatternCard) playerCards.get(p).get(0) ).toPacket()).append(CONSTANT.ObjectDelimeter);
 
             //If the toolcard is already been chosen append also that to the packet

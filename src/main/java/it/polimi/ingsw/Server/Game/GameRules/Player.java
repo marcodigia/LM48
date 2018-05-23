@@ -27,6 +27,8 @@ public class Player {
         name=username;
         virtualView = new VirtualViewImp(serverClientSender);
         gameContext = new GameContext();
+        placeDiceOfTheTurn = new PlaceDiceAction();
+        useToolCardOfTheTurn = new UseToolCardBasic();
     }
 
     public void startRound(){
@@ -64,4 +66,16 @@ public class Player {
 
     public boolean getConnected(){return isConnected;}
 
+
+
+    public  boolean getPlaceDiceState(){
+        return placeDiceOfTheTurn.actionState();
+    }
+    public boolean getUseToolCardState(){
+        return useToolCardOfTheTurn.actionState();
+    }
+    public void setBasicActionState(boolean tca , boolean pda ){
+        useToolCardOfTheTurn.setACTIVE(tca);
+        placeDiceOfTheTurn.setACTIVE(pda);
+    }
 }
