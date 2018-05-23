@@ -4,11 +4,14 @@ import it.polimi.ingsw.Server.Game.Cards.*;
 import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 import java.io.FileNotFoundException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Unpacker {
@@ -170,6 +173,37 @@ public class Unpacker {
         }
 
         return wp;
+   }
+
+
+   public static Actions ACT_fromPacket(String packet){
+        Actions action = null;
+
+       String[] elements =packet.split("\\"+CONSTANT.ObjectDelimeter);
+
+
+
+       //Create an istance of the class from the className
+       Object o;
+       Constructor constructor;
+       try {
+           o = Class.forName(elements[0]);
+           Class[] types = {};
+
+           constructor = ((Class) o).getConstructor(types);
+
+           action =(Actions) constructor.newInstance();
+       } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+           e.printStackTrace();
+       }
+
+
+       //Setup the Action with the given parameters
+       assert action != null;
+       action.setUpPlaceDiceAction(elements[1]);
+       return action;
+
+
    }
 
    private static DraftPool DP_fromPacket(String packet){

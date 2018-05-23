@@ -66,6 +66,11 @@ public class MoveOneDiceIgnoringValue implements Actions {
 
     }
 
+    @Override
+    public void setUpPlaceDiceAction(String packet) {
+
+    }
+
 
     private boolean existsValidMove(WindowPatternCard windowPatternCard , boolean ignoreValue){
         for (int i =0 ;  i < 20 ; i++){

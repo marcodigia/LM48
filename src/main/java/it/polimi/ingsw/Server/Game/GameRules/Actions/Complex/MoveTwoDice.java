@@ -40,6 +40,11 @@ public class MoveTwoDice implements Actions {
 
     }
 
+    @Override
+    public void setUpPlaceDiceAction(String packet) {
+
+    }
+
 
     private boolean exists2DiceValidMove(GameContext gameContext) {
 

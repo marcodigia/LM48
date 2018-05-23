@@ -76,6 +76,11 @@ public class TakeDiceBasic implements Actions {
     }
 
     @Override
+    public void setUpPlaceDiceAction(String packet) {
+
+    }
+
+    @Override
     public String toPacket() {
         return null;
     }

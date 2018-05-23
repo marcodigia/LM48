@@ -68,6 +68,11 @@ public class RerollDraftedDice implements Actions {
 
     }
 
+    @Override
+    public void setUpPlaceDiceAction(String packet) {
+
+    }
+
 
     @Override
     public String toPacket() {

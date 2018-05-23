@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
@@ -29,6 +30,15 @@ public class PlaceDiceAction implements Actions {
         this.ignoreColor = ignoreColor;
         this.ignoreValue = ignoreValue;
         this.dice = dice;
+    }
+
+
+    public void setUpPlaceDiceAction(String packet){
+        String[] elements =packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+
+        matrixIndexTo = Integer.parseInt(elements[0]);
+        dice = new Dice(elements[1]);
+
     }
 
     //NB if the get to this method it means that the user has already confirm its action so if if is illegal the dice shuld be removed
@@ -126,6 +136,7 @@ public class PlaceDiceAction implements Actions {
 
     }*/
 
+
     @Override
     public void useAction(UI ui, GameContext gameContext){
         if (!ACTIVE)
@@ -149,6 +160,8 @@ public class PlaceDiceAction implements Actions {
     }
 
 
+
+
     private boolean existsValidMove(Dice dice, WindowPatternCard windowPatternCard) {
 
         for (int i = 0; i < MatrixSixe; i++) {
@@ -168,6 +181,10 @@ public class PlaceDiceAction implements Actions {
 
     @Override
     public String toPacket() {
-        return null;
+
+        StringBuilder packet = new StringBuilder();
+        packet.append(PlaceDiceAction.class.getName()).append(CONSTANT.ObjectDelimeter);
+        packet.append(matrixIndexTo).append(CONSTANT.ElenemtsDelimenter).append(dice);
+        return packet.toString();
     }
 }

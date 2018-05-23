@@ -9,7 +9,7 @@ public class UseToolCardBasic implements Actions {
 
     private boolean ACTIVE = true;
 
-    Actions toolCardAction;
+    private Actions toolCardAction;
     public UseToolCardBasic() {
 
     }
@@ -36,6 +36,11 @@ public class UseToolCardBasic implements Actions {
 
 
         //TODO send Action to the Server
+
+    }
+
+    @Override
+    public void setUpPlaceDiceAction(String packet) {
 
     }
 
