@@ -73,8 +73,8 @@ public class BoardRound implements Packetable {
 
         packet.append(roundTrack.size());
 
-
-        packet.append(CONSTANT.ObjectDelimeter);
+        if(roundTrack.size() > 0)
+            packet.append(CONSTANT.ObjectDelimeter);
 
         Iterator<ArrayList<Dice>> arrayListIterator = roundTrack.iterator();
         while (arrayListIterator.hasNext()){

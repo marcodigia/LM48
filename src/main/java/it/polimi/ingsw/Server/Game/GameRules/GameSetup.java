@@ -34,6 +34,7 @@ public class GameSetup {
         privateObjectiveGet(playersLeft.size());
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
+        draftPool.extractNdice(playersLeft.size()*2+1);
         for(Player p : playersLeft.keySet())
             playerBoardRound.add(p);
         boardRound = new BoardRound(playerBoardRound);

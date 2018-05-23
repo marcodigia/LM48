@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.ServerRete;
 
 import it.polimi.ingsw.Server.Game.ServerRMI.ServerRMI;
 import it.polimi.ingsw.Server.Game.ServerSocket.ServerSocketAccept;
+import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 public class MainServer {
@@ -10,6 +11,7 @@ public class MainServer {
     private static final int RMIPORT = 1099;
 
     public static void main(String[] args){
+        Unpacker.setUpUnpacker();
         Game game = new Game();
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setGame(game);

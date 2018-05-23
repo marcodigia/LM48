@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.AbstractClient;
 
 import it.polimi.ingsw.Client.CLI.CLI;
+import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 
 import java.io.PrintStream;
 import java.rmi.RemoteException;
@@ -8,7 +9,11 @@ import java.util.Scanner;
 
 public class MainClientRete {
     public static void main(String[] args){
+
         final int PORTSERVER = 2000;
+
+        Unpacker.setUpUnpacker();
+
 
         GeneriClient generiClient = null;
         Scanner keyboard = new Scanner(System.in);
@@ -20,7 +25,6 @@ public class MainClientRete {
                 case "0":
                     System.out.println("Type server ip");
                     String ipServer = keyboard.next();
-
                     generiClient = new GeneriClient(ipServer,PORTSERVER);
                     repeatInsertion = false;
                     break;
@@ -36,7 +40,7 @@ public class MainClientRete {
 
         //scegli tra
         PrintStream ps = System.out;
-        CLI cli = new CLI(generiClient.getClientServerSender(), ps);
+        CLI cli = new CLI();
         //GUI.clientServerSender = generiClient.getClientServerSender();
         //GUI gui = new GUI(generiClient.getClientServerSender());
         Thread t = new Thread(cli);
@@ -46,16 +50,11 @@ public class MainClientRete {
         String command = keyboard.next();
         generiClient.register(command);
         try {
+            cli.setClientServerSender(generiClient.getClientServerSender());
             generiClient.getClientServerReciver().setUI(cli);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
-
-        command = keyboard.next();
-        generiClient.unregister();
-
-        command = keyboard.next();
 
     }
 }

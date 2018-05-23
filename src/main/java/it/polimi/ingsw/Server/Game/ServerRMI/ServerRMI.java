@@ -32,7 +32,7 @@ public class ServerRMI {
         }while(!bound && port < 2000);
         try {
             StubServerImp stubServer = new StubServerImp(waitingRoom,game);
-            Naming.rebind("rmi://192.168.1.56/myabc",stubServer);
+            Naming.rebind("rmi://127.0.0.1/myabc",stubServer);
         } catch (RemoteException e) {
 
 

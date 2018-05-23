@@ -8,6 +8,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class Game {
@@ -35,9 +36,10 @@ public class Game {
         gameSetup = new GameSetup(players); //TC - PBC - WP
         gameStatus = new GameStatus(gameSetup.getToolCards(),gameSetup.getPublicObjectiveCards());  //TC and PBC will not change also if
                                                                                                     //client will disconnect after WP sending
+
         gameSetup.getPublicObjectiveCards().clear();
         gameSetup.getToolCards().clear();
-        //gameAskClientForWindow();
+        gameAskClientForWindow();
     }
 
     public synchronized  void setPlayerAsDisconnected(String username){
@@ -88,13 +90,39 @@ public class Game {
                 lookForWinner();
                 endGameSetUp();    //End setup with players who are still playing
             }
-        }, timerUtility.readTimerFromFile(40,"timerDelayPlayer.txt"));
+        }, timerUtility.readTimerFromFile(10,"timerDelayPlayer.txt"));
+    }
+
+    private void sendWindowPatternToChoose(){
+        ArrayList<WindowPatternCard> wp = new ArrayList<WindowPatternCard>(gameSetup.getWindowPatternCards());
+        Set<Player> playerToWP;
+        playerToWP = players.keySet();
+        int i=0;
+        for(Player p : playerToWP){
+            String id1, id2 , id3, id4;
+            id1 = wp.remove(0).getID();
+            id2 = wp.remove(0).getID();
+            id3 = wp.remove(0).getID();
+            id4 = wp.remove(0).getID();
+            System.out.println(p.getName());
+            p.getvirtualView().chooseWindowPattern(id1,id2,id3,id4);
+
+        }
     }
 
     private void endGameSetUp(){
         gameSetup.concludeSetUp(players);  //Extract PB card
         gameStatus.addPrivateObjectiveCard(gameSetup.getPrivateObjectiveCards());
         gameSetup.getPrivateObjectiveCards().clear();
+        gameStatus.setDraftPool(gameSetup.getDraftPool());
+        gameStatus.setBoardRound(gameSetup.getBoardRound());
+        for(Player p : players.keySet()){
+            try {
+                p.getvirtualView().getServerClientSender().sendGameStatus(gameStatus);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void manageRound(){
@@ -202,6 +230,7 @@ public class Game {
                 playersToRemove.add(p);
             }
         }
+
         for(Player p : playersToRemove){
             players.remove(p);
         }
@@ -212,23 +241,5 @@ public class Game {
     private void lookForWinner(){
         //TODO implement
     }
-
-    private void sendWindowPatternToChoose(){
-        ArrayList<WindowPatternCard> wp = new ArrayList<WindowPatternCard>(gameSetup.getWindowPatternCards());
-        Set<Player> playerToWP;
-        playerToWP = players.keySet();
-        int i=0;
-        for(Player p : playerToWP){
-            String id1, id2 , id3, id4;
-            id1 = wp.remove(0).getID();
-            id2 = wp.remove(0).getID();
-            id3 = wp.remove(0).getID();
-            id4 = wp.remove(0).getID();
-            System.out.println(id1+id2+id3+id4);
-            System.out.println(wp.size());
-            p.getvirtualView().chooseWindowPattern(id1,id2,id3,id4);
-        }
-    }
-
 
 }

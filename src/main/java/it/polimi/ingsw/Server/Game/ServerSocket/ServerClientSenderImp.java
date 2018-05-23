@@ -52,7 +52,7 @@ public class ServerClientSenderImp implements Runnable, ServerClientSender {
 
     @Override
     public void sendGameStatus(GameStatus gameStatus) throws RemoteException {
-        printWriter.println("SGS £00£"+gameStatus.toString()+"£00£");
+        printWriter.println("SGS £00£"+gameStatus.toPacket()+"£00£");
         printWriter.flush();
     }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 public interface UI {
@@ -28,11 +29,7 @@ public interface UI {
 
     public int getRoundTrackIndex();
 
-    public void UpdateDraftPol();
-
-    public void updateWindowPattern(Player player);
-
-    public void updateRoundTrack();
+    public void updateGameStatus(GameStatus gameStatus);
 
     //UI active
     public void activate();
