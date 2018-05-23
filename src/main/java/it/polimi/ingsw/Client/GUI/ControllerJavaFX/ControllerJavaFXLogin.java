@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,18 +9,18 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerJavaFXLogin extends ControllerJavaFX implements Initializable {
+public class ControllerJavaFXLogin extends GUI implements Initializable {
 
     public Button playbutton;
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
     static String user;
+    private GeneriClient generiClient;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -31,7 +32,7 @@ public class ControllerJavaFXLogin extends ControllerJavaFX implements Initializ
     private void handleButtonPlay(ActionEvent event) throws IOException {
         if (usernametext.getLength() > 0) {
             saveName();
-            String fxml = "/RMI_Socket.fxml";
+            String fxml = "/Lobby.fxml";
             switchScene(fxml);
         } else {
             createAlertBox("Error", "Your username should be at least 1 character long.", "Please enter a valid username.");
@@ -70,6 +71,25 @@ public class ControllerJavaFXLogin extends ControllerJavaFX implements Initializ
 
     private void saveName(){
         user = new String(usernametext.getText());
-        System.out.println(user);
+    }
+
+    @Override
+    public int getWPindexDice() {
+        return 0;
+    }
+
+    @Override
+    public void resetWPindex() {
+
+    }
+
+    @Override
+    public int getDiceClickedindexDraftpool() {
+        return 0;
+    }
+
+    @Override
+    public void resetDraftPoolindex() {
+
     }
 }

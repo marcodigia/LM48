@@ -11,13 +11,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initializable{
+public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
     public static ArrayList<Label> selected = new ArrayList<>();
     public static WindowPatternCard windowPatternCard1;
@@ -203,5 +202,25 @@ public class ControllerJavaFXChooseWP extends ControllerJavaFX implements Initia
                 click = 0;
                 break;
         }
+    }
+
+    @Override
+    public int getWPindexDice() {
+        return 0;
+    }
+
+    @Override
+    public void resetWPindex() {
+
+    }
+
+    @Override
+    public int getDiceClickedindexDraftpool() {
+        return 0;
+    }
+
+    @Override
+    public void resetDraftPoolindex() {
+
     }
 }
