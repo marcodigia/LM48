@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,6 +52,11 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
 
     @Override
     public void resetDraftPoolindex() {
+
+    }
+
+    @Override
+    public void updateGameStatus(GameStatus gameStatus) {
 
     }
 }

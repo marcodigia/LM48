@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -221,6 +222,11 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
     @Override
     public void resetDraftPoolindex() {
+
+    }
+
+    @Override
+    public void updateGameStatus(GameStatus gameStatus) {
 
     }
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -101,7 +102,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println(placeDiceAction.dice);
                 if (firstTourn) {
                     if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)) {
                         windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, true);
@@ -299,5 +299,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     public void resetDraftPoolindex(){
         draftpoolindex = -1;
+    }
+
+    @Override
+    public void updateGameStatus(GameStatus gameStatus) {
+
     }
 }

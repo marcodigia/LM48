@@ -168,20 +168,6 @@ public abstract class GUI implements UI{
         return 0;
     }
 
-    @Override
-    public void UpdateDraftPol() {
-
-    }
-
-    @Override
-    public void updateWindowPattern(Player player) {
-
-    }
-
-    @Override
-    public void updateRoundTrack() {
-
-    }
 
     @Override
     public void activate() {
