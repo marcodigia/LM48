@@ -68,6 +68,15 @@ public class Player {
 
 
 
+    
+    public PlaceDiceAction getPlaceDiceOfTheTurn() {
+        return placeDiceOfTheTurn;
+    }
+
+    public UseToolCardBasic getUseToolCardOfTheTurn() {
+        return useToolCardOfTheTurn;
+    }
+
     public  boolean getPlaceDiceState(){
         return placeDiceOfTheTurn.actionState();
     }
@@ -78,4 +87,6 @@ public class Player {
         useToolCardOfTheTurn.setACTIVE(tca);
         placeDiceOfTheTurn.setACTIVE(pda);
     }
+
+
 }
