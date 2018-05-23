@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Client.ClientSocket;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.UI;
 
 import java.io.IOException;
@@ -28,6 +30,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
 
     @Override
     public void run() {
+
         while(true){
             String command = scanner.next();
             switch(command){
@@ -43,6 +46,11 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                     break;
                 case "TS":
                     ui.activate();
+                    break;
+                case "SGS":
+                    message = scanner.next();
+                    GameStatus gameStatus = Unpacker.getGameStatus(message);
+                    System.out.println(gameStatus.toPacket());
                     break;
                 default:
                     break;

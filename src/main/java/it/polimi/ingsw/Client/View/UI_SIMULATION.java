@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.View;
 
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.UI;
 
@@ -58,18 +59,8 @@ public class UI_SIMULATION implements UI {
     }
 
     @Override
-    public void UpdateDraftPol() {
-
-    }
-
-    @Override
-    public void updateWindowPattern(Player player) {
-
-    }
-
-    @Override
-    public void updateRoundTrack() {
-
+    public void updateGameStatus(GameStatus gameStatus) {
+        
     }
 
     @Override

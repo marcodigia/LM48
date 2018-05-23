@@ -33,8 +33,8 @@ public class GameStatus implements Packetable {
     }
 
     public GameStatus (ArrayList<ToolCard> toolCards, ArrayList<PublicObjectiveCard> publicObjectiveCards ){
-        this.toolCards = toolCards;
-        this.publicObjectiveCards = publicObjectiveCards;
+        this.toolCards = new ArrayList<>(toolCards);
+        this.publicObjectiveCards = new ArrayList<>(publicObjectiveCards);
     }
 
     public void addWindowPatternCard(Player p, WindowPatternCard wp){
@@ -52,7 +52,6 @@ public class GameStatus implements Packetable {
 
     //Assume that size of privateObjectiveCards is the same of players
     public void addPrivateObjectiveCard(ArrayList<PrivateObjectiveCard> privateObjectiveCards){
-
 
         int i =0;
         for (Player p : playerCards.keySet()){
@@ -73,6 +72,8 @@ public class GameStatus implements Packetable {
     public void setDraftPool(DraftPool draftPool) {
         this.draftPool = draftPool;
     }
+
+    public void setBoardRound(BoardRound boardRound){this.boardRound = boardRound;}
 
     @Override
     public String toPacket() {

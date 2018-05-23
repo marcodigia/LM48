@@ -42,8 +42,9 @@ public class WaitingRoom {
             clientList.add(newPlayer);
             if(clientRef instanceof ServerClientSenderImp)
                 System.out.println("Connect Socket: "+username);
-            else
-                System.out.println("Connect RMI: "+username);
+            else {
+                System.out.println("Connect RMI: " + username);
+            }
             try {
                 clientRef.sendMessage("You are currently connected");
                 for(Player p : clientList)

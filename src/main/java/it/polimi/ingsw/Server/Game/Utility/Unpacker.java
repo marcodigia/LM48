@@ -70,7 +70,8 @@ public class Unpacker {
 
 
            ArrayList<String> pinfo = player_InfoFromPacket(objectPacket[1+ i*4]);
-
+           for (int j = 0 ; j < objectPacket.length;j++)
+               System.out.println(objectPacket[j]);
             //
             Player p = new Player(pinfo.get(0),null);
             p.setBasicActionState(Boolean.parseBoolean(pinfo.get(1)),Boolean.parseBoolean(pinfo.get(2)));
