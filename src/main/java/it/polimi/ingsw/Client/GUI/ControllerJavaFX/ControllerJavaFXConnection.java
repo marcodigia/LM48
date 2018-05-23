@@ -6,12 +6,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerJavaFXConnection extends ControllerJavaFX implements Initializable {
+public class ControllerJavaFXConnection extends GUI implements Initializable {
 
     public Button rmibutton, socketbutton;
     public AnchorPane anchorconnection;
@@ -25,14 +24,33 @@ public class ControllerJavaFXConnection extends ControllerJavaFX implements Init
 
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
-        String fxml = "/Lobby.fxml";
+        String fxml = "/Login.fxml";
         switchScene(fxml);
     }
 
     @FXML
     private void handleButtonSocket(ActionEvent event) throws IOException {
-        String fxml = "/Lobby.fxml";
+        String fxml = "/Login.fxml";
         switchScene(fxml);
     }
 
+    @Override
+    public int getWPindexDice() {
+        return 0;
+    }
+
+    @Override
+    public void resetWPindex() {
+
+    }
+
+    @Override
+    public int getDiceClickedindexDraftpool() {
+        return 0;
+    }
+
+    @Override
+    public void resetDraftPoolindex() {
+
+    }
 }

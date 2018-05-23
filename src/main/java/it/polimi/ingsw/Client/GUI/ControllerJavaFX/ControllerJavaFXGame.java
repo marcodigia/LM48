@@ -4,9 +4,12 @@ import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
+import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.layout.*;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -24,9 +27,13 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.*;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLobby.playersName;
 
-public class ControllerJavaFXGame extends ControllerJavaFX implements Initializable {
+public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private static Label draftToDisable;
+
+    private GameContext gameContext;
+
+    private PlaceDiceAction placeDiceAction = new PlaceDiceAction();
 
     public Label p1, p2, p3, p4;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
@@ -35,6 +42,7 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
     public GridPane gp1, gp2, gp3, gp4, gpround, gpdraft;
     public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
 
+    private int indice_dado = -1;
     private int draftpoolindex = -1;
     private boolean put = false;
     private boolean firstTourn = true;
@@ -67,52 +75,65 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
         for (int i = 0; i < 9; i++) {
             draftPoolLabel.get(i).setGraphic(toImage(draftPool.getDraft().get(i)));
         }
+
+        gameContext = new GameContext(draftPool, null, null, windowPatternCard4, null);
+
     }
 
     public void handleClickDraftPool(MouseEvent mouseEvent) {
+        placeDiceAction.useAction(this, gameContext);
         Label eventDraft = (Label) mouseEvent.getSource();
-        createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
-        draftpoolindex = draftPoolLabel.indexOf(eventDraft);
-        draftToDisable = eventDraft;
-        put = false;
+        ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
+        if (clicked.equals(ButtonBar.ButtonData.OK_DONE)){
+            draftpoolindex = draftPoolLabel.indexOf(eventDraft);
+            draftToDisable = eventDraft;
+            put = false;
+        }
     }
 
     private void handleClickWindowPattern(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
-        int indice_dado = cells4.indexOf(event);
-        if (windowPatternCard4.getDice(indice_dado) == null && !put) {
-            if (firstTourn){
-                if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)){
-                    windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, true);
-                    updateWindowPattern(windowPatternCard4);
-                    draftToDisable.setDisable(true);
-                    put = true;
+        indice_dado = cells4.indexOf(event);
+        if(draftpoolindex != -1) {
+            if (windowPatternCard4.getDice(indice_dado) == null && !put) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                else{
-                    createAlertBox("Error!", "Wrong action",
-                            "Restrictions havn't been respected! " +
-                            "Please perform a correct move.");
+                System.out.println(placeDiceAction.dice);
+                if (firstTourn) {
+                    if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)) {
+                        windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, true);
+                        updateWindowPattern(windowPatternCard4);
+                        draftToDisable.setDisable(true);
+                        put = true;
+                    } else {
+                        createAlertBox("Error!", "Wrong action",
+                                "Restrictions havn't been respected! " +
+                                        "Please perform a correct move.");
+                    }
+                } else {
+                    if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, false)) {
+                        windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, false);
+                        updateWindowPattern(windowPatternCard4);
+                        draftToDisable.setDisable(true);
+                        put = true;
+                    } else {
+                        createAlertBox("Error!", "Wrong action",
+                                "Restrictions havn't been respected! " +
+                                        "Please perform a correct move.");
+                    }
                 }
+            } else {
+                createAlertBox("Error!", "Wrong action", "You already placed this dice " +
+                        "or in this cell has already been placed a dice " +
+                        "or restrictions havn't been respected! " +
+                        "Please perform a correct move.");
             }
-            else {
-                if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, false)){
-                    windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, false);
-                    updateWindowPattern(windowPatternCard4);
-                    draftToDisable.setDisable(true);
-                    put = true;
-                }
-                else{
-                    createAlertBox("Error!", "Wrong action",
-                            "Restrictions havn't been respected! " +
-                                    "Please perform a correct move.");
-                }
-            }
-        } else {
-            createAlertBox("Error!", "Wrong action", "You already placed this dice " +
-                    "or in this cell has already been placed a dice " +
-                    "or restrictions havn't been respected! " +
-                    "Please perform a correct move.");
         }
+        resetDraftPoolindex();
+        resetWPindex();
     }
 
     public void handleShow(ActionEvent event) {
@@ -262,5 +283,21 @@ public class ControllerJavaFXGame extends ControllerJavaFX implements Initializa
         if (gridPane.equals(gpdraft))
             return 2;
         return -1;
+    }
+
+    public int getDiceClickedindexDraftpool(){
+        return draftpoolindex;
+    }
+
+    public int getWPindexDice(){
+        return indice_dado;
+    }
+
+    public void resetWPindex(){
+        indice_dado = -1;
+    }
+
+    public void resetDraftPoolindex(){
+        draftpoolindex = -1;
     }
 }

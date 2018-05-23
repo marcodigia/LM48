@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ControllerJavaFXLobby extends ControllerJavaFX implements Initializable{
+public class ControllerJavaFXLobby extends GUI implements Initializable{
 
     public Label player1, player2, player3, player4;
     public Button startbutton;
@@ -53,5 +52,25 @@ public class ControllerJavaFXLobby extends ControllerJavaFX implements Initializ
     private void handleButtonStart(ActionEvent event) throws IOException {
         String fxml = "/ChooseWP.fxml";
         switchScene(fxml);
+    }
+
+    @Override
+    public int getWPindexDice() {
+        return 0;
+    }
+
+    @Override
+    public void resetWPindex() {
+
+    }
+
+    @Override
+    public int getDiceClickedindexDraftpool() {
+        return 0;
+    }
+
+    @Override
+    public void resetDraftPoolindex() {
+
     }
 }
