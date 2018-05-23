@@ -69,7 +69,7 @@ public class PlaceDiceAction implements Actions {
 
     }
 
-    @Override
+   /* @Override
     public void useAction(UI ui, GameContext gameContext) {
 
         //NB the order in this 'if' is important because it is shortcutted
@@ -122,6 +122,28 @@ public class PlaceDiceAction implements Actions {
         if (result[0]) {
             //TODO send the Action to the server to do Do Action
             doAction(gameContext);
+        }
+
+    }*/
+
+    @Override
+    public void useAction(UI ui, GameContext gameContext){
+        if (!ACTIVE)
+            return;
+
+        if (dice != null && existsValidMove(dice, gameContext.getWindowPatternCard())){
+
+            matrixIndexTo = ui.getMatrixIndexTo();
+
+        } else if (dice == null){
+
+            matrixIndexTo = ui.getMatrixIndexTo();
+            int diceIndex = ui.getDraftPoolIndex();
+            dice = gameContext.getDraftPool().getDice(diceIndex);
+
+        }else {
+            ui.printMessage("No possible moves , Putting dice back to Draft Pool ... ");
+            return;
         }
 
     }
