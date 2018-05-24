@@ -60,7 +60,7 @@ public class UI_SIMULATION implements UI {
 
     @Override
     public void updateGameStatus(GameStatus gameStatus) {
-        
+
     }
 
     @Override

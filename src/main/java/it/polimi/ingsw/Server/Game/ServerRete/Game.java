@@ -16,12 +16,30 @@ public class Game {
     private LinkedHashMap<Player,Boolean> players; // True -> associated player turn False -> otherwise
     private GameStatus gameStatus;
     private GameSetup gameSetup;
+
     private boolean back = false;
     private boolean notImmediately = false;
 
-    public Game(){
+    public static void main(String[] args){
+        ArrayList<Player> players = new ArrayList<Player>();
+        Player p1 = new Player("maria",null);
+        p1.setIsConnected();
+        Player p2 = new Player("lucio",null);
+        p2.setIsConnected();
+        Player p3 = new Player("carlo",null);
+        p3.setIsConnected();
+        Player p4 = new Player("stefania",null);
+        p4.setIsConnected();
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        players.add(p4);
+        Game game = new Game(players);
+        game.manageRound();
     }
 
+    public Game(){
+    }
 
     public Game(ArrayList<Player> playerToAdd){
         players = new LinkedHashMap<Player,Boolean>();
@@ -57,28 +75,26 @@ public class Game {
 
     //TODO control if idWP belongs to WPs send to client
     public synchronized void setWindowToPlayer(String idWp, String username){
-        HashMap<Player,WindowPatternCard> playerWP = new HashMap<Player,WindowPatternCard>();
         WindowPatternCard windowToRemove = null;
         Player playerRecived = null;    //Used to modify HashMap. Set true mapped value to denote
         //that the player is still playing
         for(Player p : players.keySet()) {
             if (p.getName().equals(username)) {
                 playerRecived = p;
-                for (WindowPatternCard w : gameSetup.getWindowPatternCards()) {
-                    if (w.getID().equals(idWp)) {
+                for (WindowPatternCard w : gameSetup.getWindowPatternCards())
+                    if (w.getID().equals(idWp))
                         windowToRemove = w;
-                        playerWP.put(p, w);                              //Add tuple Player WP
-                    }
-                }
+
             }
         }
         if(playerRecived!=null)  //Now after scan data structure, it can be modified
             playerRecived.setIsConnected();
-        if(windowToRemove!=null)
-            gameSetup.getWindowPatternCards().remove(windowToRemove);
+        /*if(windowToRemove!=null)
+            gameSetup.getWindowPatternCards().remove(windowToRemove);*/
         gameStatus.addWindowPatternCard(playerRecived, windowToRemove);  //Add tuples of players and WP to GameStatus
     }
 
+    //TODO change timervalue
     private void gameAskClientForWindow(){
         sendWindowPatternToChoose();
         Timer timer = new Timer();
@@ -125,92 +141,14 @@ public class Game {
         }
     }
 
+    //TODO this method should be activated in a thread. Change turn timer value
     private void manageRound(){
-        for(int i=0;i< CONSTANT.numberOfRound;i++){
-            for(int j=0;j<players.size()*2;j++){
-                manageTurn();
-            }
-            ArrayList<Player> p = new ArrayList(players.keySet());
-            Player q = p.get(0);
-            p.remove(0);
-            players.remove(q);
-            players.put(q,false);
-        }
+
+        TimerUtility timerUtility = new TimerUtility();
+        Timer timer = new Timer();
+        timer.schedule(new Turn(players, gameStatus),0,timerUtility.readTimerFromFile(1,"timerTurnPlayer.txt"));
     }
-
-    private void manageTurn(){
-        //Forth
-        if(!back){
-            for(Map.Entry<Player,Boolean> entry : players.entrySet()){
-                if(!entry.getValue()){
-                    back = true;
-                    notImmediately = true;
-                    entry.setValue(true);
-                    if(entry.getKey().getConnected()){
-                        entry.getKey().getvirtualView().timerStart();   //Say player that his/her turn is started
-                        Timer timer = new Timer();
-                        TimerUtility timerUtility= new TimerUtility();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                entry.getKey().getvirtualView().timerEnd(); //Say player that timer is expired
-                                for(Map.Entry<Player,Boolean> entry : players.entrySet())   //Send to each player who result connected
-                                                                                            //new GameStatus
-                                    if(entry.getKey().getConnected())
-                                        entry.getKey().getvirtualView().sendGameStatus(gameStatus);
-                            }
-                        }, timerUtility.readTimerFromFile(60,"timerTurnPlayer.txt"));
-                        break;
-                    }
-                    //If player is not connected timer will not be started
-                }
-            }
-            for(Map.Entry<Player,Boolean> entry : players.entrySet()){
-                if(!entry.getValue())
-                    back = false;
-            }
-        }
-
-        //Back
-        if(!notImmediately && back){
-            ArrayList keyList = new ArrayList(players.keySet());
-            for (int i = keyList.size() - 1; i >= 0; i--) {
-                Player key = (Player) keyList.get(i);
-                if(players.get(key)){
-                    back = false;
-                    notImmediately = true;
-                    players.put(key, false);
-                    if(key.getConnected()){
-                        key.getvirtualView().timerStart();   //Say player that his/her turn is started
-                        Timer timer = new Timer();
-                        TimerUtility timerUtility= new TimerUtility();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                key.getvirtualView().timerEnd(); //Say player that timer is expired
-                                for(Player p : players.keySet())   //Send to each player who result connected
-                                                                                            //new GameStatus
-                                    if(p.getConnected())
-                                        p.getvirtualView().sendGameStatus(gameStatus);
-                            }
-                        }, timerUtility.readTimerFromFile(60,"timerTurnPlayer.txt"));
-                        break;
-                    }
-                    //If player is not connected timer will not be started
-                }
-            }
-            for(Map.Entry<Player,Boolean> entry : players.entrySet()){
-                if(entry.getValue()) {
-                    back = true;
-                    notImmediately = false;
-                }
-            }
-        }
-        else{
-            notImmediately = false;
-        }
-    }
-
+    
     //Add player to game
     private void addPlayer(ArrayList<Player> playersToAdd){
         String s = "Welcome to Sagrada";
