@@ -40,18 +40,19 @@ public class ClientServerSenderImp implements Runnable, ClientServerSender {
     }
 
     @Override
-    public void choosenWindowPattern(String id) throws RemoteException {
+    public void choosenWindowPattern(String id, String username) throws RemoteException {
         printWriter.println("CWP £00£ "+id+" £00£");
         printWriter.flush();
     }
 
     @Override
-    public void sendAction(Actions action) throws RemoteException {
-
+    public void sendAction(Actions action, String username) throws RemoteException {
+        printWriter.println("A £00£ "+action.toPacket()+" £00£");
+        printWriter.flush();
     }
 
     @Override
-    public void endOfTurn() throws RemoteException {
+    public void endOfTurn(String username) throws RemoteException {
         printWriter.println("ET £00£ ");
         printWriter.flush();
     }

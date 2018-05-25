@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Server.Game.ServerSocket;
 
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
+import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 import java.io.IOException;
@@ -15,7 +17,7 @@ public class ServerClientReciver implements Runnable {
     private Scanner scanner;
     private ServerClientSenderImp serverClientSenderImp;
     private String username;
-    private String id;
+    private String message;
     private WaitingRoom waitingRoom;
 
     public ServerClientReciver(Socket socket, ServerClientSenderImp serverClientSenderImp, WaitingRoom waitingRoom, Game game){
@@ -46,8 +48,14 @@ public class ServerClientReciver implements Runnable {
                         game.setPlayerAsDisconnected(username);
                         break;
                     case "CWP":
-                        id = scanner.next();
-                        game.setWindowToPlayer(id,username);
+                        message = scanner.next();
+                        game.setWindowToPlayer(message,username);
+                        break;
+                    case "A":
+                        message = scanner.next();
+                        Actions a = Unpacker.ACT_fromPacket(username);
+                        System.out.println(a.toPacket());
+                        break;
                     default:
                         break;
                 }

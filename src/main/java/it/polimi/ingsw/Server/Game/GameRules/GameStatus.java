@@ -73,7 +73,11 @@ public class GameStatus implements Packetable {
         this.draftPool = draftPool;
     }
 
+    public DraftPool getDraftPool(){return draftPool;}
+
     public void setBoardRound(BoardRound boardRound){this.boardRound = boardRound;}
+
+    public BoardRound getBoardRound(){return boardRound;}
 
     @Override
     public String toPacket() {

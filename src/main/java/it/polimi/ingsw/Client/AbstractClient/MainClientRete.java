@@ -1,15 +1,15 @@
 package it.polimi.ingsw.Client.AbstractClient;
 
-import it.polimi.ingsw.Client.CLI.CLI;
+import it.polimi.ingsw.Client.GUI.GUIimpl;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 
-import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class MainClientRete {
     public static void main(String[] args){
 
+        String username;
         final int PORTSERVER = 2000;
 
         Unpacker.setUpUnpacker();
@@ -39,22 +39,34 @@ public class MainClientRete {
         }while(repeatInsertion);
 
         //scegli tra
-        PrintStream ps = System.out;
-        CLI cli = new CLI();
-        //GUI.clientServerSender = generiClient.getClientServerSender();
-        //GUI gui = new GUI(generiClient.getClientServerSender());
-        Thread t = new Thread(cli);
-        t.start();
+
+        //CLI cli = new CLI();
+        //Thread t = new Thread(cli);
+        //t.start();
 
         System.out.println("Type your username");
-        String command = keyboard.next();
-        generiClient.register(command);
+        username = keyboard.next();
+        generiClient.register(username);
+
+        GUIimpl gui = new GUIimpl();
+        gui.setClientServerSender(generiClient.getClientServerSender());
+        gui.setClientServerReciver(generiClient.getClientServerReciver());
+        gui.setUsername(username);
+        Thread t = new Thread(gui);
+        t.start();
+
         try {
+            generiClient.getClientServerReciver().setUI(gui);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        /*try {
             cli.setClientServerSender(generiClient.getClientServerSender());
             generiClient.getClientServerReciver().setUI(cli);
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 }

@@ -27,4 +27,6 @@ public class ClientRMI extends LinkClientServer{
     public ClientServerReciver getClientServerReciver() {
         return skeletonClient;
     }
+
+
 }

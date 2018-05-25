@@ -26,7 +26,19 @@ public class Turn extends TimerTask {
 
     @Override
     public void run() {
-        System.out.println("Round " +round);
+        if(turn==numberOfTurn){
+            //Move dices from draftpool to boardRound
+            gameStatus.getBoardRound().addDices(gameStatus.getDraftPool().getDraft());
+            //Extract new dices from DraftPool
+            gameStatus.getDraftPool().extractNdice(players.keySet().size()*2+1);
+            turn=0;
+            round++;
+            ArrayList<Player> p = new ArrayList<Player>(players.keySet());
+            Player q = p.get(0);
+            p.remove(0);
+            players.remove(q);
+            players.put(q,false);
+        }
         if(round<numberOfRound){
             if(currentPlayer!=null){
                 currentPlayer.getvirtualView().timerEnd();
@@ -39,16 +51,6 @@ public class Turn extends TimerTask {
             }
             currentPlayer=manageTurn();
             turn++;
-            if(turn==numberOfTurn){
-                //TODO extract dices from draftpool
-                turn=0;
-                round++;
-                ArrayList<Player> p = new ArrayList<Player>(players.keySet());
-                Player q = p.get(0);
-                p.remove(0);
-                players.remove(q);
-                players.put(q,false);
-            }
         }
         else{
             //TODO segnala fine gioco

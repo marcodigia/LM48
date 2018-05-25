@@ -5,7 +5,7 @@ import java.io.InputStream;
 public enum Restriction {
     ONE("1"), TWO("2"), THREE("3"), FOUR("4"),
     FIVE("5"), SIX("6"), GREEN("G"), YELLOW("Y"),
-    BLUE("B"), RED("R"), PURPLE("P"), NONE(" ");
+    BLUE("B"), RED("R"), PURPLE("P"), NONE("0");
 
     String restrictionType;
 
@@ -57,7 +57,6 @@ public enum Restriction {
     }
 
     public InputStream getRestrictionImage(){
-
         String resImageName = "res" + (restrictionType + ".png");
         return getClass().getClassLoader().getResourceAsStream(resImageName);
     }

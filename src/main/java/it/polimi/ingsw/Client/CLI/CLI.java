@@ -16,7 +16,6 @@ import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -145,7 +144,7 @@ public class CLI implements UI,Runnable{
             players.add(p);
             print_boards();
             try {
-                clientServerSender.choosenWindowPattern(Integer.toString(chose));
+                clientServerSender.choosenWindowPattern(Integer.toString(chose), "aaa");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

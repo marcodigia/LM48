@@ -20,23 +20,7 @@ public class Game {
     private boolean back = false;
     private boolean notImmediately = false;
 
-    public static void main(String[] args){
-        ArrayList<Player> players = new ArrayList<Player>();
-        Player p1 = new Player("maria",null);
-        p1.setIsConnected();
-        Player p2 = new Player("lucio",null);
-        p2.setIsConnected();
-        Player p3 = new Player("carlo",null);
-        p3.setIsConnected();
-        Player p4 = new Player("stefania",null);
-        p4.setIsConnected();
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-        players.add(p4);
-        Game game = new Game(players);
-        game.manageRound();
-    }
+
 
     public Game(){
     }
@@ -139,16 +123,17 @@ public class Game {
                 e.printStackTrace();
             }
         }
+        //TODO manageRound call
     }
 
-    //TODO this method should be activated in a thread. Change turn timer value
+    //TODO Change turn timer value
     private void manageRound(){
 
         TimerUtility timerUtility = new TimerUtility();
         Timer timer = new Timer();
         timer.schedule(new Turn(players, gameStatus),0,timerUtility.readTimerFromFile(1,"timerTurnPlayer.txt"));
     }
-    
+
     //Add player to game
     private void addPlayer(ArrayList<Player> playersToAdd){
         String s = "Welcome to Sagrada";

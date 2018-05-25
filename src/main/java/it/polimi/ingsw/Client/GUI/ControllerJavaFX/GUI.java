@@ -16,6 +16,11 @@ import java.util.Optional;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.root;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.stage;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id1;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id2;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id3;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id4;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
 
 public abstract class GUI implements UI{
 
@@ -84,6 +89,7 @@ public abstract class GUI implements UI{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(fxml));
             root = loader.load();
+            clientServerReciver.setUI(this);
             // Show the scene containing the root layout.
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -160,6 +166,7 @@ public abstract class GUI implements UI{
 
     @Override
     public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+
         return null;
     }
 

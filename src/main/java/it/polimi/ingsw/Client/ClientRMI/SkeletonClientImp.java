@@ -43,7 +43,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void sendGameStatus(GameStatus gameStatus) throws RemoteException {
-
+        ui.updateGameStatus(gameStatus);
     }
 
     @Override

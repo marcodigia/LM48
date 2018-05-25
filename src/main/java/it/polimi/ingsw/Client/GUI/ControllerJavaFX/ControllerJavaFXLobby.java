@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,11 +11,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
 
 public class ControllerJavaFXLobby extends GUI implements Initializable{
 
@@ -29,6 +32,12 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
+        try {
+            clientServerReciver.setUI(this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         setBackground(bg3, anchorlobby);
 
         players.add(player1);
@@ -79,4 +88,21 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     public void updateGameStatus(GameStatus gameStatus) {
 
     }
+
+    @Override
+    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+        
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    handleButtonStart(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return  null;
+    }
+
 }

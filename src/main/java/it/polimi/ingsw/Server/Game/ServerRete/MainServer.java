@@ -11,7 +11,9 @@ public class MainServer {
     private static final int RMIPORT = 1099;
 
     public static void main(String[] args){
+
         Unpacker.setUpUnpacker();
+
         Game game = new Game();
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setGame(game);

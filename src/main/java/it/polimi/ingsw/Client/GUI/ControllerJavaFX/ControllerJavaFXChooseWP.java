@@ -1,8 +1,12 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Server.Game.Cards.AbstractCardFactory;
+import it.polimi.ingsw.Server.Game.Cards.Drawable;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
+import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,9 +16,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.ResourceBundle;
 
 public class ControllerJavaFXChooseWP extends GUI implements Initializable{
@@ -42,14 +50,32 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
     private GridPane gpSelected = null;
     private int click = 0;
 
+    private Hashtable<String,Drawable> deck = new Hashtable<>();
+    static String id1 = "1";
+    static String id2 = "2";
+    static String id4 = "4";
+    static String id3 = "5";
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
+
+
+
+        try {
+            deck = factory.getNewCardDeck();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         setBackground(bgChooseWP, anchorChooseWP);
-        windowPatternCard1 = setUpWindowPattern(pattern1);
-        windowPatternCard2 = setUpWindowPattern(pattern2);
-        windowPatternCard3 = setUpWindowPattern(pattern3);
-        windowPatternCard4 = setUpWindowPattern(pattern4);
+        windowPatternCard1 = (WindowPatternCard) deck.get(id1);//setUpWindowPattern(pattern1);
+        windowPatternCard2 = (WindowPatternCard) deck.get(id2);//setUpWindowPattern(pattern2);
+        windowPatternCard3 = (WindowPatternCard) deck.get(id3);//setUpWindowPattern(pattern3);
+        windowPatternCard4 = (WindowPatternCard) deck.get(id4);//setUpWindowPattern(pattern4);
+
+
+
         populateGridPane(wp1, wp1Labels, windowPatternCard1);
+
         populateGridPane(wp2, wp2Labels, windowPatternCard2);
         populateGridPane(wp3, wp3Labels, windowPatternCard3);
         populateGridPane(wp4, wp4Labels, windowPatternCard4);
@@ -59,6 +85,7 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
+                System.out.println("pop wp "+windowPatternCard.getRestrictionAtIndex(4*i + j));
                 l.setGraphic(toImage(windowPatternCard.getRestrictionAtIndex(4*i + j)));
                 GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);

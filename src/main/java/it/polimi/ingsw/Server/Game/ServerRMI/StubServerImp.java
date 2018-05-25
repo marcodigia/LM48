@@ -31,17 +31,17 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
     }
 
     @Override
-    public void choosenWindowPattern(String id) throws RemoteException {
+    public void choosenWindowPattern(String id, String username) throws RemoteException {
+        game.setWindowToPlayer(id,username);
+    }
+
+    @Override
+    public void sendAction(Actions action, String username) throws RemoteException {
 
     }
 
     @Override
-    public void sendAction(Actions action) throws RemoteException {
-
-    }
-
-    @Override
-    public void endOfTurn() throws RemoteException {
+    public void endOfTurn(String username) throws RemoteException {
 
     }
 }

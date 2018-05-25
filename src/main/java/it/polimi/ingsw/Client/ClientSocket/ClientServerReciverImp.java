@@ -1,10 +1,12 @@
 package it.polimi.ingsw.Client.ClientSocket;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.UI;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
@@ -50,7 +52,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                 case "SGS":
                     message = scanner.next();
                     GameStatus gameStatus = Unpacker.getGameStatus(message);
-                    System.out.println(gameStatus.toPacket());
+                    ui.updateGameStatus(gameStatus);
                     break;
                 default:
                     break;
