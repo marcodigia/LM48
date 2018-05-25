@@ -184,13 +184,13 @@ public class Unpacker {
 
 
        //Create an istance of the class from the className
-       Object o;
-       Constructor constructor;
+       Class<?> o;
+       Constructor<?> constructor;
        try {
            o = Class.forName(elements[0]);
-           Class[] types = {};
+           Class<?>[] types = new Class<?>[]{};
 
-           constructor = ((Class) o).getConstructor(types);
+           constructor = ((Class<?>) o).getConstructor(types);
 
            action =(Actions) constructor.newInstance();
        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {

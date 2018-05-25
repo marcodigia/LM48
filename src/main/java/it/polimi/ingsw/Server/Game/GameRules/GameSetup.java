@@ -25,6 +25,7 @@ public class GameSetup {
         toolCardsGet();
         publicObjectiveGet();
         windowPatternGet();
+
     }
 
     //After that players have send their WP choice
@@ -116,6 +117,7 @@ public class GameSetup {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private  <T> ArrayList<T> extractRandom(Hashtable<String, Drawable> deck, int upperBound, int numcard){
         Random random = new Random();
         ArrayList<T> result = new ArrayList<>();
