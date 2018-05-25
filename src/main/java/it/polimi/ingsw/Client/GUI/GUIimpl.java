@@ -20,7 +20,7 @@ public class GUIimpl extends Application implements Runnable, UI {
     public static ClientServerReciver clientServerReciver;
 
     public GUIimpl(){
-//
+        
     }
 
     public void setClientServerSender(ClientServerSender cs){
