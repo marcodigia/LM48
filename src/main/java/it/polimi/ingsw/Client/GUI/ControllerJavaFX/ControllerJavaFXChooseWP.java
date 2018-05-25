@@ -7,6 +7,7 @@ import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -20,10 +21,16 @@ import javafx.scene.layout.GridPane;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
+
+import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerSender;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXGame.gameStatus;
 
 public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
@@ -50,13 +57,24 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
     private GridPane gpSelected = null;
     private int click = 0;
 
+    String fxml = "/Board.fxml";
+
+    private WindowPatternCard windowPatternCardSelected;
+
     private Hashtable<String,Drawable> deck = new Hashtable<>();
-    static String id1 = "1";
-    static String id2 = "2";
-    static String id4 = "4";
-    static String id3 = "5";
+    static String id1;
+    static String id2;
+    static String id4;
+    static String id3;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        try {
+            clientServerReciver.setUI(this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
         AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
 
 
@@ -124,8 +142,8 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
     public void handlePlayButton(ActionEvent actionEvent) throws IOException{
 
         if (selected != null){
-            String fxml = "/Board.fxml";
-            switchScene(fxml);
+            //switchScene(fxml);
+            clientServerSender.choosenWindowPattern(windowPatternCardSelected.getID(), username);
         }
         else {
             createAlertBox("Error!", "Select a Window Pattern first", "");
@@ -144,6 +162,7 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         if (gpSelected!=null && !(gpSelected.equals(wp1))) {
             gpSelected.setOpacity(1);
             selected = null;
+            windowPatternCardSelected = null;
             click = 0;
         }
 
@@ -152,11 +171,14 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         switch (click %2) {
             case 0:
                 selected = wp1Labels;
+                windowPatternCardSelected = windowPatternCard1;
                 wp1.setOpacity(0.3);
                 click = 1;
                 break;
             case 1:
                 selected = null;
+
+                windowPatternCardSelected = null;
                 wp1.setOpacity(1);
                 click = 0;
                 break;
@@ -167,6 +189,8 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         if (gpSelected!=null && !(gpSelected.equals(wp2))) {
             gpSelected.setOpacity(1);
             selected = null;
+
+            windowPatternCardSelected = null;
             click = 0;
         }
 
@@ -175,11 +199,14 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         switch (click %2) {
             case 0:
                 selected = wp2Labels;
+                windowPatternCardSelected = windowPatternCard2;
                 wp2.setOpacity(0.3);
                 click = 1;
                 break;
             case 1:
                 selected = null;
+
+                windowPatternCardSelected = null;
                 wp2.setOpacity(1);
                 click = 0;
                 break;
@@ -190,6 +217,8 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         if (gpSelected!=null && !(gpSelected.equals(wp3))){
             gpSelected.setOpacity(1);
             selected=null;
+
+            windowPatternCardSelected = null;
             click = 0;
         }
 
@@ -198,11 +227,14 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         switch (click %2) {
             case 0:
                 selected = wp3Labels;
+                windowPatternCardSelected = windowPatternCard3;
                 wp3.setOpacity(0.3);
                 click = 1;
                 break;
             case 1:
                 selected = null;
+
+                windowPatternCardSelected = null;
                 wp3.setOpacity(1);
                 click = 0;
                 break;
@@ -212,6 +244,8 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
     public void handleWP4selected(MouseEvent mouseEvent) {
         if (gpSelected!=null && !(gpSelected.equals(wp4))){
             gpSelected.setOpacity(1);
+
+            windowPatternCardSelected = null;
             selected=null;
             click = 0;
         }
@@ -221,11 +255,13 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         switch (click %2) {
             case 0:
                 selected = wp4Labels;
+                windowPatternCardSelected = windowPatternCard4;
                 wp4.setOpacity(0.3);
                 click = 1;
                 break;
             case 1:
                 selected = null;
+                windowPatternCardSelected = null;
                 wp4.setOpacity(1);
                 click = 0;
                 break;
@@ -253,7 +289,18 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
     }
 
     @Override
-    public void updateGameStatus(GameStatus gameStatus) {
-
+    public void updateGameStatus(GameStatus gameStat) {
+        System.out.println("CWP");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    gameStatus = gameStat;
+                    switchScene(fxml);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

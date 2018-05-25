@@ -33,6 +33,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
     @Override
     public void choosenWindowPattern(String id, String username) throws RemoteException {
         game.setWindowToPlayer(id,username);
+        System.out.println(id + username);
     }
 
     @Override

@@ -25,6 +25,7 @@ public class Game {
     public Game(){
     }
 
+
     public Game(ArrayList<Player> playerToAdd){
         players = new LinkedHashMap<Player,Boolean>();
         for(Player p : playerToAdd){
@@ -90,7 +91,7 @@ public class Game {
                 lookForWinner();
                 endGameSetUp();    //End setup with players who are still playing
             }
-        }, timerUtility.readTimerFromFile(10,"timerDelayPlayer.txt"));
+        }, timerUtility.readTimerFromFile(30,"timerDelayPlayer.txt"));
     }
 
     private void sendWindowPatternToChoose(){

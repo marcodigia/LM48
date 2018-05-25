@@ -68,14 +68,13 @@ public class Unpacker {
 
 
 
-        HashMap<Player,List<Drawable>> playerInfo = new HashMap<>();
+        LinkedHashMap<Player,List<Drawable>> playerInfo = new LinkedHashMap<>();
         for (int i=0 ; i < num_of_player ; i++){
 
 
            ArrayList<String> pinfo = player_InfoFromPacket(objectPacket[1+ i*4]);
-           for (int j = 0 ; j < objectPacket.length;j++)
-               System.out.println(objectPacket[j]);
-            //
+           //for (int j = 0 ; j < objectPacket.length;j++)
+               //System.out.println(objectPacket[j]);
             Player p = new Player(pinfo.get(0),null);
             p.setBasicActionState(Boolean.parseBoolean(pinfo.get(1)),Boolean.parseBoolean(pinfo.get(2)));
             WindowPatternCard  wp = WP_fromPacket(objectPacket[2+ i*4],objectPacket[3+ i*4]);

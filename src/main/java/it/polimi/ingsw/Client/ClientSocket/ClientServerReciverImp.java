@@ -50,8 +50,10 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                     ui.activate();
                     break;
                 case "SGS":
+                    System.out.println("Client server receiver");
                     message = scanner.next();
                     GameStatus gameStatus = Unpacker.getGameStatus(message);
+
                     ui.updateGameStatus(gameStatus);
                     break;
                 default:

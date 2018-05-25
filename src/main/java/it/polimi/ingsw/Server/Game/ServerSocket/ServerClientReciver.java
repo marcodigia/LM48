@@ -50,11 +50,12 @@ public class ServerClientReciver implements Runnable {
                     case "CWP":
                         message = scanner.next();
                         game.setWindowToPlayer(message,username);
+                        System.out.println(message + username);
                         break;
                     case "A":
                         message = scanner.next();
                         Actions a = Unpacker.ACT_fromPacket(username);
-                        System.out.println(a.toPacket());
+                        //a.doAction();
                         break;
                     default:
                         break;
