@@ -125,11 +125,7 @@ public class Game {
         gameStatus.setDraftPool(gameSetup.getDraftPool());
         gameStatus.setBoardRound(gameSetup.getBoardRound());
         for(Player p : players.keySet()){
-            try {
-                p.getvirtualView().getServerClientSender().sendGameStatus(gameStatus);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            p.getvirtualView().sendGameStatus(gameStatus);
         }
         //TODO manageRound call
     }
