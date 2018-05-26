@@ -16,9 +16,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id1;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id2;
@@ -54,9 +52,7 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         playersName.add(username);
         playersName.add(username);
         //playersName.add(username);
-
-        assertEquals(true, players.size()== playersName.size());
-
+        
         for (int i=0; i<players.size(); i++){
             players.get(i).setText(playersName.get(i));
         }
