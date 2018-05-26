@@ -1,10 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
-import it.polimi.ingsw.Server.Game.GameRules.Player;
-import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,9 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
@@ -120,7 +113,7 @@ public abstract class GUI implements UI{
 
     @Override
     public void allCurrentPlayers(String players){
-        Platform.runLater(new Runnable() {
+        /*Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 String[] result = new String[2];
@@ -134,7 +127,7 @@ public abstract class GUI implements UI{
                 for(String s : items)
                     System.out.println(s);
             }
-        });
+        });*/
 
     }
 
@@ -183,12 +176,6 @@ public abstract class GUI implements UI{
     @Override
     public int getRoundTrackIndex() {
         return 0;
-    }
-
-
-    @Override
-    public void activate() {
-
     }
 
     public abstract int getWPindexDice();

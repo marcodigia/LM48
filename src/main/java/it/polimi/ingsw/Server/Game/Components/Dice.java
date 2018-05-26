@@ -3,9 +3,10 @@ package it.polimi.ingsw.Server.Game.Components;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Dice implements Cloneable{
+public class Dice implements Cloneable,Serializable{
 
     private DiceColor color;
     private String value;

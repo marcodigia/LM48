@@ -22,7 +22,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -32,6 +31,7 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.*;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.stage;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 
 public class ControllerJavaFXGame extends GUI implements Initializable {
@@ -54,6 +54,8 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     private boolean put = false;
     private boolean firstTourn = true;
     private DraftPool draftPool;
+
+    private static boolean attivo = false;
 
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells4 = new ArrayList<>();
@@ -89,6 +91,12 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
         gameContext = new GameContext(draftPool, null, null, windowPatternCard4, null);
 
+        if(attivo){
+            anchorgame.setDisable(false);
+        }
+        else {
+            anchorgame.setDisable(true);
+        }
     }
 
     public void handleClickDraftPool(MouseEvent mouseEvent) {
@@ -111,7 +119,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                     if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)) {
                         windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, true);
                         updateWindowPattern(windowPatternCard4);
-                        draftToDisable.setGraphic(null);
                         put = true;
                     } else {
                         createAlertBox("Error!", "Wrong action",
@@ -122,7 +129,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                     if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, false)) {
                         windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, false);
                         updateWindowPattern(windowPatternCard4);
-                        draftToDisable.setDisable(true);
                         put = true;
                     } else {
                         createAlertBox("Error!", "Wrong action",
@@ -160,7 +166,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     }
 
     private void updateWindowPattern(WindowPatternCard windowPatternCard) {
-        for (int i = 0; i < selected.size(); i++) {
+        for (int i = 0; i < 20; i++) {
             if (windowPatternCard.getDice(i) != null) {
                 cells4.get(i).setGraphic(toImage(windowPatternCard.getDice(i)));
                 cells4.get(i).toFront();
@@ -193,10 +199,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private void setUpGame() {
 
-        //TODO fare come caso tre a tutti
+        int i = 0;
 
         switch (gameStatus.getPlayer().size()) {
-            case 1:
+        /*    case 1:
                 hboxgp1.getChildren().remove(gp1);
                 hboxl1.getChildren().remove(p1);
                 hboxgp2.getChildren().remove(gp2);
@@ -207,6 +213,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 p4.setText(gameStatus.getPlayer().get(0).getName());
                 populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
                 break;
+                */
             case 2:
                 hboxgp2.getChildren().remove(gp2);
                 hboxl2.getChildren().remove(p2);
@@ -214,10 +221,15 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 hboxl3.getChildren().remove(p3);
                 gridPanes.add(gp1);
                 gridPanes.add(gp4);
-                p1.setText(gameStatus.getPlayer().get(1).getName());
-                populateGridPane(gp1, gameStatus.getPlayerByName(p1.getText()));
-                p4.setText(gameStatus.getPlayer().get(0).getName());
+
+                p4.setText(username);
+                if (gameStatus.getPlayer().get(i).getName().equals(username))
+                    i++;
+                p1.setText(gameStatus.getPlayer().get(i).getName() );
+                i++;
+
                 populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
+                populateGridPane(gp1, gameStatus.getPlayerByName(p1.getText()));
                 break;
             case 3:
                 hboxgp1.getChildren().remove(gp1);
@@ -227,7 +239,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 gridPanes.add(gp4);
 
                 p4.setText(username);
-                int i = 0;
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p2.setText(gameStatus.getPlayer().get(i).getName() );
@@ -246,14 +257,26 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 gridPanes.add(gp2);
                 gridPanes.add(gp3);
                 gridPanes.add(gp4);
-                p1.setText(gameStatus.getPlayer().get(3).getName());
+
+                p4.setText(username);
+
+                if (gameStatus.getPlayer().get(i).getName().equals(username))
+                    i++;
+                p1.setText(gameStatus.getPlayer().get(i).getName() );
+                i++;
+                if (gameStatus.getPlayer().get(i).getName().equals(username))
+                    i++;
+                p2.setText(gameStatus.getPlayer().get(i).getName() );
+                i++;
+                if (gameStatus.getPlayer().get(i).getName().equals(username))
+                    i++;
+                p3.setText(gameStatus.getPlayer().get(i).getName());
+
                 populateGridPane(gp1, gameStatus.getPlayerByName(p1.getText()));
-                p2.setText(gameStatus.getPlayer().get(2).getName());
-                populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));
-                p3.setText(gameStatus.getPlayer().get(1).getName());
-                populateGridPane(gp3, gameStatus.getPlayerByName(p3.getText()));
-                p4.setText(gameStatus.getPlayer().get(0).getName());
                 populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
+                populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));
+                populateGridPane(gp3, gameStatus.getPlayerByName(p3.getText()));
+
                 break;
         }
     }
@@ -286,6 +309,8 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
                 l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(4*i + j)));
+                if (((WindowPatternCard) gameStatus.getPlayerCards().get(player).get(0)).getDice(4*i + j) != null)
+                    l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getDice(4*i + j)));
                 GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
                 l.setOnMouseClicked(event -> handleClickWindowPattern(event));
@@ -340,6 +365,36 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                     System.out.println("Game controller 3");
                     switchScene("/Board.fxml");
                     System.out.println("Game controller 4");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void activate(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                attivo = true;
+                try {
+                    switchScene("/Board.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void disable() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                attivo = false;
+                try {
+                    switchScene("/Board.fxml");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

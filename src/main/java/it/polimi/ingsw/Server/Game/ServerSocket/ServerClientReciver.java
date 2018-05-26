@@ -59,11 +59,7 @@ public class ServerClientReciver implements Runnable {
                         Actions a = Unpacker.ACT_fromPacket(message);
                         a.doAction(game.getGameStatus());
                         for(Player p : game.getPlayers().keySet()) {
-                            try {
-                                p.getvirtualView().getServerClientSender().sendGameStatus(game.getGameStatus());
-                            } catch (RemoteException e) {
-                                e.printStackTrace();
-                            }
+                            p.getvirtualView().sendGameStatus(game.getGameStatus());
                         }
                         break;
                     default:

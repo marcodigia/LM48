@@ -55,6 +55,16 @@ public class ServerIPController extends GUI implements Initializable {
 
     }
 
+    @Override
+    public void activate() {
+
+    }
+
+    @Override
+    public void disable() {
+
+    }
+
     @FXML
     private void handleEnter(ActionEvent enter) throws IOException {
         handleClickButton(enter);

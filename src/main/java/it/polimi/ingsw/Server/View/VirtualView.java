@@ -4,9 +4,10 @@ import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Score;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public interface VirtualView {
+public interface VirtualView extends Serializable{
 
     void sendCurrentPlayers(ArrayList<String> player);
     void sendMessage(String message);

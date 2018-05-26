@@ -44,12 +44,12 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
 
         players.add(player1);
         players.add(player2);
-        players.add(player3);
+        //players.add(player3);
        // players.add(player4);
 
         playersName.add(username);
         playersName.add(username);
-        playersName.add(username);
+        //playersName.add(username);
         //playersName.add(username);
 
         for (int i=0; i<players.size(); i++){
@@ -88,6 +88,16 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     public void updateGameStatus(GameStatus gameStatus) {
 
         System.out.println("lobby");
+    }
+
+    @Override
+    public void activate() {
+
+    }
+
+    @Override
+    public void disable() {
+
     }
 
     @Override

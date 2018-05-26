@@ -3,9 +3,10 @@ package it.polimi.ingsw.Server.Game.Components.Boards;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DraftPool {
+public class DraftPool implements Serializable{
     private ArrayList<Dice> dices = new ArrayList<>() ;
     private DiceBag diceBag;
 

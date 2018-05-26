@@ -111,6 +111,16 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     }
 
     @Override
+    public void activate() {
+
+    }
+
+    @Override
+    public void disable() {
+
+    }
+
+    @Override
     public void printMessage(String s) {
         Platform.runLater(new Runnable() {
             @Override

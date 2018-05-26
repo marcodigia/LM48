@@ -8,10 +8,11 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.PlayerUtility.PlayerColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //moved player in game rules so doAction is package friendly
-public class Player {
+public class Player implements Serializable{
 
     private GameContext gameContext;
     private VirtualViewImp virtualView;    //Server send packets to client through virualView

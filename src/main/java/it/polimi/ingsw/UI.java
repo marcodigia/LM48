@@ -36,5 +36,7 @@ public interface UI {
     //UI active
     public void activate();
 
+    public void disable();
+
     public void allCurrentPlayers(String players);
 }

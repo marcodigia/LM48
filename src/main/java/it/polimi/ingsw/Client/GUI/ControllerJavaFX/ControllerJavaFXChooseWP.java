@@ -300,4 +300,14 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
             }
         });
     }
+
+    @Override
+    public void activate() {
+
+    }
+
+    @Override
+    public void disable() {
+
+    }
 }

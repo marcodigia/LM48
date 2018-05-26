@@ -127,7 +127,7 @@ public class Game {
         for(Player p : players.keySet()){
             p.getvirtualView().sendGameStatus(gameStatus);
         }
-        //TODO manageRound call
+        manageRound();
     }
 
     //TODO Change turn timer value

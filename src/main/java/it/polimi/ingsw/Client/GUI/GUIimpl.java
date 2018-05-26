@@ -106,6 +106,11 @@ public class GUIimpl extends Application implements Runnable, UI {
     }
 
     @Override
+    public void disable() {
+        
+    }
+
+    @Override
     public void allCurrentPlayers(String players) {
 
     }
