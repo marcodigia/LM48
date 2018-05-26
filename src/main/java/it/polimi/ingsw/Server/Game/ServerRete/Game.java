@@ -25,6 +25,14 @@ public class Game {
     public Game(){
     }
 
+    public LinkedHashMap<Player,Boolean> getPlayers(){
+        return players;
+    }
+
+    public GameStatus getGameStatus(){
+        return gameStatus;
+    }
+
     public Game(ArrayList<Player> playerToAdd){
         players = new LinkedHashMap<Player,Boolean>();
         for(Player p : playerToAdd){
@@ -90,7 +98,7 @@ public class Game {
                 lookForWinner();
                 endGameSetUp();    //End setup with players who are still playing
             }
-        }, timerUtility.readTimerFromFile(10,"timerDelayPlayer.txt"));
+        }, timerUtility.readTimerFromFile(30,"timerDelayPlayer.txt"));
     }
 
     private void sendWindowPatternToChoose(){
@@ -127,7 +135,7 @@ public class Game {
 
         TimerUtility timerUtility = new TimerUtility();
         Timer timer = new Timer();
-        timer.schedule(new Turn(players, gameStatus),0,timerUtility.readTimerFromFile(1,"timerTurnPlayer.txt"));
+        timer.schedule(new Turn(players, gameStatus),0,timerUtility.readTimerFromFile(30,"timerTurnPlayer.txt"));
     }
 
     //Add player to game

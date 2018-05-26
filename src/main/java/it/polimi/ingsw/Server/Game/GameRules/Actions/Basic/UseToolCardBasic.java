@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
 
 public class UseToolCardBasic implements Actions {
@@ -15,24 +15,24 @@ public class UseToolCardBasic implements Actions {
     }
 
     @Override
-    public void doAction(GameContext gameContext) {
+    public void doAction(GameStatus gameStatus) {
 
         if (!ACTIVE)
             return;
 
-        toolCardAction.doAction(gameContext);
+        toolCardAction.doAction(gameStatus);
         ACTIVE = false;
     }
 
     @Override
-    public void useAction(UI ui, GameContext gameContext) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
-        if (!ACTIVE)
+       /* if (!ACTIVE)
             return;
 
         toolCardAction = gameContext.getChoosenToolCard().getActions();
 
-            toolCardAction.useAction(ui,gameContext);
+            toolCardAction.useAction(ui, gamestatus);*/
 
 
         //TODO send Action to the Server
@@ -41,6 +41,11 @@ public class UseToolCardBasic implements Actions {
 
     @Override
     public void setUpPlaceDiceAction(String packet) {
+
+    }
+
+    @Override
+    public void setUserName(String userName) {
 
     }
 

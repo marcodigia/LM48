@@ -1,10 +1,8 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions;
 
 import it.polimi.ingsw.Packetable;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
-
-import java.io.Serializable;
 
 //UI use useAction to setup the action and then sends Action to the Server
 public interface Actions extends Packetable {
@@ -12,10 +10,10 @@ public interface Actions extends Packetable {
     //GameContext as paramenter because this method is executed on the server so need to use the correct Data
     //If the user Did any modification to the state before use the toolcard it must be send to the server prior to
     // use the toolcard
-    void doAction(GameContext gameContext);
+    void doAction(GameStatus gameStatus);
 
     //To be used by UI
-    void useAction(UI ui, GameContext gameContext);
+    void useAction(UI ui, GameStatus gameStatus, String userName);
 
 
     /*
@@ -27,5 +25,7 @@ public interface Actions extends Packetable {
 
 
     //Used to rebuild the action from packet
-    public void setUpPlaceDiceAction(String packet);
+    void setUpPlaceDiceAction(String packet);
+
+    void setUserName(String userName);
 }

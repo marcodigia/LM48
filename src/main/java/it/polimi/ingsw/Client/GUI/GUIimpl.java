@@ -15,12 +15,12 @@ public class GUIimpl extends Application implements Runnable, UI {
 
     public static Stage stage;
     public static Parent root;
-    private static String username;
+    public static String username;
     public static ClientServerSender clientServerSender;
     public static ClientServerReciver clientServerReciver;
 
     public GUIimpl(){
-        
+
     }
 
     public void setClientServerSender(ClientServerSender cs){
@@ -60,7 +60,7 @@ public class GUIimpl extends Application implements Runnable, UI {
 
     @Override
     public void run() {
-        launch(null);
+        main(null);
     }
 
 
@@ -91,7 +91,6 @@ public class GUIimpl extends Application implements Runnable, UI {
 
     @Override
     public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
-        System.out.println("pd");
         return null;
     }
 

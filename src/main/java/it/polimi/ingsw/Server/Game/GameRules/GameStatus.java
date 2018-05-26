@@ -7,27 +7,22 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class GameStatus implements Packetable {
 
-    private HashMap<Player,WindowPatternCard> playerWP;
-
-    private HashMap<Player, List<Drawable> > playerCards = new HashMap<>();
-
+    private LinkedHashMap<Player, List<Drawable> > playerCards = new LinkedHashMap<Player, List<Drawable>>();
     private DraftPool draftPool = null;
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
     private ArrayList<PublicObjectiveCard> publicObjectiveCards = null;
     private BoardRound boardRound = null;
 
     public GameStatus() {
-        playerWP = new HashMap<>();
+
     }
 
-    public GameStatus(HashMap<Player, List<Drawable>> playerCards , BoardRound boardRound) {
+
+    public GameStatus(LinkedHashMap<Player, List<Drawable>> playerCards , BoardRound boardRound) {
         this.playerCards = playerCards;
         this.boardRound = boardRound;
     }
@@ -122,5 +117,20 @@ public class GameStatus implements Packetable {
         }
 
         return packet.toString();
+    }
+
+    public HashMap<Player, List<Drawable>> getPlayerCards() {
+        return playerCards;
+    }
+
+    public Player getPlayerByName(String name){
+
+        Player player = null;
+        for (Player p: playerCards.keySet()
+             ) {
+            if (p.getName().equals(name))
+                player = p;
+        }
+        return player;
     }
 }

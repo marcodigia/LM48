@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,9 +16,13 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.user;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id1;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id2;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id3;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id4;
+
 
 public class ControllerJavaFXLobby extends GUI implements Initializable{
 
@@ -28,10 +33,8 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     protected static ArrayList<Label> players = new ArrayList<>();
     protected static ArrayList<String> playersName = new ArrayList<>();
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
 
         try {
             clientServerReciver.setUI(this);
@@ -43,15 +46,13 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         players.add(player1);
         players.add(player2);
         players.add(player3);
-        players.add(player4);
+       // players.add(player4);
 
-        playersName.add(user);
-        playersName.add(user);
-        playersName.add(user);
-        playersName.add(user);
-
-        assertEquals(true, players.size()== playersName.size());
-
+        playersName.add(username);
+        playersName.add(username);
+        playersName.add(username);
+        //playersName.add(username);
+        
         for (int i=0; i<players.size(); i++){
             players.get(i).setText(playersName.get(i));
         }
@@ -87,11 +88,17 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     @Override
     public void updateGameStatus(GameStatus gameStatus) {
 
+        System.out.println("lobby");
     }
 
     @Override
     public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
-        
+
+        id1 = wp1fronte;
+        id2 = wp2retro;
+        id3 = wp3fronte;
+        id4 = wp4retro;
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

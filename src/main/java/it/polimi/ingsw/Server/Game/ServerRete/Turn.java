@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.ServerRete;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class Turn extends TimerTask {
@@ -45,7 +46,12 @@ public class Turn extends TimerTask {
                 //Send to each player who result connected new GameStatus
                 for(Map.Entry<Player,Boolean> entry : players.entrySet()) {
                     if (entry.getKey().getConnected()) {
-                        entry.getKey().getvirtualView().sendGameStatus(gameStatus);
+                        System.out.println("Turn ");
+                        try {
+                            entry.getKey().getvirtualView().getServerClientSender().sendGameStatus(gameStatus);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -69,7 +75,11 @@ public class Turn extends TimerTask {
                     notImmediately = true;
                     entry.setValue(true);
                     if(entry.getKey().getConnected()){
-                        entry.getKey().getvirtualView().timerStart();   //Say player that his/her turn is started
+                        try {
+                            entry.getKey().getvirtualView().getServerClientSender().timerStart();   //Say player that his/her turn is started
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                         player = entry.getKey();
                         break;
                     }
@@ -92,7 +102,11 @@ public class Turn extends TimerTask {
                     notImmediately = true;
                     players.put(key, false);
                     if(key.getConnected()){
-                        key.getvirtualView().timerStart();   //Say player that his/her turn is started
+                        try {
+                            key.getvirtualView().getServerClientSender().timerStart();   //Say player that his/her turn is started
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                         player = key;
                         break;
                     }

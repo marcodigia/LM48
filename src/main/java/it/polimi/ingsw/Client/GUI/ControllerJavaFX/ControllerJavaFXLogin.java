@@ -13,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
+
 
 public class ControllerJavaFXLogin extends GUI implements Initializable {
 
@@ -20,7 +22,6 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
-    static String user;
     private GeneriClient generiClient;
 
     @Override
@@ -71,7 +72,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     }
 
     private void saveName(){
-        user = new String(usernametext.getText());
+        username = new String(usernametext.getText());
     }
 
     @Override

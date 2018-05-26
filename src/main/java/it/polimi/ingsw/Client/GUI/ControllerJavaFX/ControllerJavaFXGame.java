@@ -3,11 +3,12 @@ package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
-import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.ButtonBar;
@@ -21,19 +22,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.*;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLobby.playersName;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerSender;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 
 public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private static Label draftToDisable;
 
     private GameContext gameContext;
-
+    public static GameStatus gameStatus;
     private PlaceDiceAction placeDiceAction = new PlaceDiceAction();
 
     public Label p1, p2, p3, p4;
@@ -57,13 +63,17 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            clientServerReciver.setUI(this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
         setBackground(bg4, anchorgame);
 
         setUpGame();
-        setUpDraftPool();
+        draftPool = gameStatus.getDraftPool();
 
-        //populateGridPane(gp4, 4, 5, cells4, "Empty");
-        populateGridPane(gp4);
         populateGridPane(gpdraft, 1, 9, draftPoolLabel, "");
         populateGridPane(gpround, 1, 10, round, "#");
 
@@ -73,7 +83,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         names.add(p4);
 
         //show dices image in DraftPool
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < draftPool.getDraft().size(); i++) {
             draftPoolLabel.get(i).setGraphic(toImage(draftPool.getDraft().get(i)));
         }
 
@@ -82,10 +92,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     }
 
     public void handleClickDraftPool(MouseEvent mouseEvent) {
-        placeDiceAction.useAction(this, gameContext);
         Label eventDraft = (Label) mouseEvent.getSource();
         ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
-        if (clicked.equals(ButtonBar.ButtonData.OK_DONE)){
+        if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
             draftpoolindex = draftPoolLabel.indexOf(eventDraft);
             draftToDisable = eventDraft;
             put = false;
@@ -96,17 +105,13 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         Label event = (Label) mouseEvent.getSource();
         indice_dado = cells4.indexOf(event);
         if(draftpoolindex != -1) {
+            placeDiceAction.useAction(this, gameStatus, username);
             if (windowPatternCard4.getDice(indice_dado) == null && !put) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 if (firstTourn) {
                     if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)) {
                         windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, true);
                         updateWindowPattern(windowPatternCard4);
-                        draftToDisable.setDisable(true);
+                        draftToDisable.setGraphic(null);
                         put = true;
                     } else {
                         createAlertBox("Error!", "Wrong action",
@@ -131,6 +136,11 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                         "or restrictions havn't been respected! " +
                         "Please perform a correct move.");
             }
+            try {
+                clientServerSender.sendAction(placeDiceAction, username);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
         resetDraftPoolindex();
         resetWPindex();
@@ -147,11 +157,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     public void handleCopyright(ActionEvent event) {
         createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
-    }
-
-    private void setUpDraftPool() {
-        draftPool = new DraftPool(new DiceBag());
-        draftPool.extractNdice(9);
     }
 
     private void updateWindowPattern(WindowPatternCard windowPatternCard) {
@@ -187,7 +192,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     }
 
     private void setUpGame() {
-        switch (playersName.size()) {
+
+        //TODO fare come caso tre a tutti
+
+        switch (gameStatus.getPlayer().size()) {
             case 1:
                 hboxgp1.getChildren().remove(gp1);
                 hboxl1.getChildren().remove(p1);
@@ -196,7 +204,8 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 hboxgp3.getChildren().remove(gp3);
                 hboxl3.getChildren().remove(p3);
                 gridPanes.add(gp4);
-                p4.setText(playersName.get(0) + " (You)");
+                p4.setText(gameStatus.getPlayer().get(0).getName());
+                populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
                 break;
             case 2:
                 hboxgp2.getChildren().remove(gp2);
@@ -205,8 +214,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 hboxl3.getChildren().remove(p3);
                 gridPanes.add(gp1);
                 gridPanes.add(gp4);
-                p1.setText(playersName.get(1) + " (Opponent)");
-                p4.setText(playersName.get(0) + " (You)");
+                p1.setText(gameStatus.getPlayer().get(1).getName());
+                populateGridPane(gp1, gameStatus.getPlayerByName(p1.getText()));
+                p4.setText(gameStatus.getPlayer().get(0).getName());
+                populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
                 break;
             case 3:
                 hboxgp1.getChildren().remove(gp1);
@@ -214,19 +225,35 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 gridPanes.add(gp2);
                 gridPanes.add(gp3);
                 gridPanes.add(gp4);
-                p2.setText(playersName.get(2) + " (Opponent)");
-                p3.setText(playersName.get(1) + " (Opponent)");
-                p4.setText(playersName.get(0) + " (You)");
+
+                p4.setText(username);
+                int i = 0;
+                if (gameStatus.getPlayer().get(i).getName().equals(username))
+                    i++;
+                p2.setText(gameStatus.getPlayer().get(i).getName() );
+                i++;
+                if (gameStatus.getPlayer().get(i).getName().equals(username))
+                    i++;
+                p3.setText(gameStatus.getPlayer().get(i).getName());
+
+                populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
+                populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));
+                populateGridPane(gp3, gameStatus.getPlayerByName(p3.getText()));
+
                 break;
             case 4:
                 gridPanes.add(gp1);
                 gridPanes.add(gp2);
                 gridPanes.add(gp3);
                 gridPanes.add(gp4);
-                p1.setText(playersName.get(3) + " (Opponent)");
-                p2.setText(playersName.get(2) + " (Opponent)");
-                p3.setText(playersName.get(1) + " (Opponent)");
-                p4.setText(playersName.get(0) + " (You)");
+                p1.setText(gameStatus.getPlayer().get(3).getName());
+                populateGridPane(gp1, gameStatus.getPlayerByName(p1.getText()));
+                p2.setText(gameStatus.getPlayer().get(2).getName());
+                populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));
+                p3.setText(gameStatus.getPlayer().get(1).getName());
+                populateGridPane(gp3, gameStatus.getPlayerByName(p3.getText()));
+                p4.setText(gameStatus.getPlayer().get(0).getName());
+                populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
                 break;
         }
     }
@@ -254,11 +281,11 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
     }
 
-    private void populateGridPane(GridPane gridPane) {
+    private void populateGridPane(GridPane gridPane, Player player) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
-                l.setGraphic(toImage(windowPatternCard1.getRestrictionAtIndex(4*i + j)));
+                l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(4*i + j)));
                 GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
                 l.setOnMouseClicked(event -> handleClickWindowPattern(event));
@@ -302,7 +329,21 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     }
 
     @Override
-    public void updateGameStatus(GameStatus gameStatus) {
-
+    public void updateGameStatus(GameStatus gameStat) {
+        System.out.println("Game controller 1");
+        gameStatus = gameStat;
+        System.out.println("Game controller 2");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Game controller 3");
+                    switchScene("/Board.fxml");
+                    System.out.println("Game controller 4");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

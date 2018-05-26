@@ -1,35 +1,43 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class MoveOneDieIgnoringColor implements Actions {
 
     private int from, to;
     private boolean ACTIVE = true;
 
+    String userName;
     @Override
-    public void doAction(GameContext gameContext) {
+    public void doAction(GameStatus gameStatus) {
+        Player activePlayer = gameStatus.getPlayerByName(userName);
+        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
+
         if (!ACTIVE)
             return;
 
-        if (gameContext.getWindowPatternCard().moveDice(from, to, true, false, false))
+        if (activePlayerWP.moveDice(from, to, true, false, false))
         {ACTIVE = false;}
 
     }
 
 
     @Override
-    public void useAction(UI ui, GameContext gameContext) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+
+        this.userName = userName;
+        Player activePlayer = gameStatus.getPlayerByName(userName) ;
+        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
         if (!ACTIVE)
             return;
 
-        if (!existsValidMove(gameContext.getWindowPatternCard(), true)) {
+        if (!existsValidMove(activePlayerWP, true)) {
             ui.printMessage("No possible moves");
             return;
         } else {
@@ -68,6 +76,11 @@ public class MoveOneDieIgnoringColor implements Actions {
 
     @Override
     public void setUpPlaceDiceAction(String packet) {
+
+    }
+
+    @Override
+    public void setUserName(String userName) {
 
     }
 
