@@ -13,8 +13,13 @@ import java.util.ArrayList;
 public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonClient{
 
     private UI ui;
+    private String username;
 
      public SkeletonClientImp() throws RemoteException {
+    }
+
+    public void setUsername(String username){
+         this.username = username;
     }
 
     @Override

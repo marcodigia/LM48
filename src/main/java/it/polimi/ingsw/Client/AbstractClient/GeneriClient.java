@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.AbstractClient;
 
 import it.polimi.ingsw.Client.ClientRMI.ClientRMI;
+import it.polimi.ingsw.Client.ClientRMI.SkeletonClientImp;
 import it.polimi.ingsw.Client.ClientSocket.ClientSocketHandler;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
@@ -65,8 +66,10 @@ public class GeneriClient {
         }
         else{
             try {
+                SkeletonClientImp sc = (SkeletonClientImp)clientServerReciver;
+                sc.setUsername(username);
                 clientServerSender = (StubServer) Naming.lookup("rmi://127.0.0.1/myabc");
-                clientServerSender.register(this.username, (SkeletonClient)clientServerReciver);
+                clientServerSender.register(this.username, sc);
             } catch (NotBoundException e) {
                 e.printStackTrace();
             } catch (MalformedURLException e) {
