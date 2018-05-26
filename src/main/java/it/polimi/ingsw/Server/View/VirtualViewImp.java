@@ -45,21 +45,37 @@ public class VirtualViewImp implements VirtualView {
 
     @Override
     public void timerEnd() {
-
+        try {
+            serverClientSender.timerEnd();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void timerStart() {
-
+        try {
+            serverClientSender.timerStart();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void sendGameStatus(GameStatus gameStatus) {
-
+        try {
+            serverClientSender.sendGameStatus(gameStatus);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void sendScore(Score score) {
-
+        try {
+            serverClientSender.sendScore(score);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }
