@@ -1,11 +1,10 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class TakeDiceBasic implements Actions {
 
@@ -31,7 +30,7 @@ public class TakeDiceBasic implements Actions {
     }
 
     @Override
-    public void doAction(GameContext gameContext) {
+    public void doAction(GameStatus gameStatus) {
         if (active) {
             windowPatternCard.placeDice(draftPool.getDice(from), to, false, false, true);
         }
@@ -39,7 +38,7 @@ public class TakeDiceBasic implements Actions {
 
 
     @Override
-    public void useAction(UI ui, GameContext gameContext) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
         final boolean[] result = new boolean[1]; // necessary to pass information between thread
         //UI must allow only valid values
@@ -77,6 +76,11 @@ public class TakeDiceBasic implements Actions {
 
     @Override
     public void setUpPlaceDiceAction(String packet) {
+
+    }
+
+    @Override
+    public void setUserName(String userName) {
 
     }
 

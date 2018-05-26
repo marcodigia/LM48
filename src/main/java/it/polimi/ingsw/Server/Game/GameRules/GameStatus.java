@@ -12,7 +12,6 @@ import java.util.*;
 public class GameStatus implements Packetable {
 
     private LinkedHashMap<Player, List<Drawable> > playerCards = new LinkedHashMap<Player, List<Drawable>>();
-
     private DraftPool draftPool = null;
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
     private ArrayList<PublicObjectiveCard> publicObjectiveCards = null;
@@ -21,6 +20,7 @@ public class GameStatus implements Packetable {
     public GameStatus() {
 
     }
+
 
     public GameStatus(LinkedHashMap<Player, List<Drawable>> playerCards , BoardRound boardRound) {
         this.playerCards = playerCards;

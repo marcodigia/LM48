@@ -3,12 +3,12 @@ package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
-import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.ButtonBar;
@@ -22,10 +22,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.*;
@@ -82,7 +83,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         names.add(p4);
 
         //show dices image in DraftPool
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < draftPool.getDraft().size(); i++) {
             draftPoolLabel.get(i).setGraphic(toImage(draftPool.getDraft().get(i)));
         }
 
@@ -101,10 +102,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     }
 
     private void handleClickWindowPattern(MouseEvent mouseEvent) {
-        placeDiceAction.useAction(this, gameContext);
         Label event = (Label) mouseEvent.getSource();
         indice_dado = cells4.indexOf(event);
         if(draftpoolindex != -1) {
+            placeDiceAction.useAction(this, gameStatus, username);
             if (windowPatternCard4.getDice(indice_dado) == null && !put) {
                 if (firstTourn) {
                     if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)) {
@@ -134,6 +135,11 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                         "or in this cell has already been placed a dice " +
                         "or restrictions havn't been respected! " +
                         "Please perform a correct move.");
+            }
+            try {
+                clientServerSender.sendAction(placeDiceAction, username);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         }
         resetDraftPoolindex();
@@ -324,6 +330,20 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     @Override
     public void updateGameStatus(GameStatus gameStat) {
+        System.out.println("Game controller 1");
         gameStatus = gameStat;
+        System.out.println("Game controller 2");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Game controller 3");
+                    switchScene("/Board.fxml");
+                    System.out.println("Game controller 4");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

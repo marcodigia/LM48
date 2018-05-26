@@ -33,7 +33,7 @@ public class WindowPatternCard implements Drawable , Packetable {
 
 
     public boolean placeDice(Dice dice, int coordinate, boolean ignore_color_restriction, boolean ignore_value_restriction, boolean ignore_adjacency) {
-
+        System.out.println("Window Pattern Card : "+dice.toString());
         return matrix.setDice(dice, coordinate, ignore_color_restriction, ignore_value_restriction, ignore_adjacency);
     }
 

@@ -1,12 +1,14 @@
 package it.polimi.ingsw.Server.Game.ServerSocket;
 
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -54,8 +56,15 @@ public class ServerClientReciver implements Runnable {
                         break;
                     case "A":
                         message = scanner.next();
-                        Actions a = Unpacker.ACT_fromPacket(username);
-                        //a.doAction();
+                        Actions a = Unpacker.ACT_fromPacket(message);
+                        a.doAction(game.getGameStatus());
+                        for(Player p : game.getPlayers().keySet()) {
+                            try {
+                                p.getvirtualView().getServerClientSender().sendGameStatus(game.getGameStatus());
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         break;
                     default:
                         break;

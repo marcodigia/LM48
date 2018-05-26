@@ -1,11 +1,10 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class RerollDraftedDice implements Actions {
 
@@ -18,18 +17,18 @@ public class RerollDraftedDice implements Actions {
     }
 
     @Override
-    public void doAction(GameContext gameContext) {
+    public void doAction(GameStatus gameStatus) {
 
         if (!ACTIVE)
             return;
-        Dice diceToReroll = gameContext.getDraftPool().getDice(diceIndex);
+        Dice diceToReroll = gameStatus.getDraftPool().getDice(diceIndex);
         diceToReroll.reroll();
 
         ACTIVE = false;
     }
 
     @Override
-    public void useAction(UI ui, GameContext gameContext) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName) {
         if (!ACTIVE)
             return;
 
@@ -53,15 +52,15 @@ public class RerollDraftedDice implements Actions {
         //TODO send action to the Server
         Actions nextAction = null;
         //To be done on Server but at the moment is done here because there is no server implementation yet
-        doAction(gameContext);
+        doAction(gameStatus);
         //An action shuld be return by the server
         // reupdate the UI
-        nextAction = new PlaceDiceAction(gameContext.getDraftPool().getDice(diceIndex), false, false, false);
+        nextAction = new PlaceDiceAction(gameStatus.getDraftPool().getDice(diceIndex), false, false, false);
 
         if (nextAction != null)
-            nextAction.useAction(ui, gameContext);
+            nextAction.useAction(ui, gameStatus, userName);
 
-        nextAction.doAction(gameContext);
+        nextAction.doAction(gameStatus);
 
 
 
@@ -70,6 +69,11 @@ public class RerollDraftedDice implements Actions {
 
     @Override
     public void setUpPlaceDiceAction(String packet) {
+
+    }
+
+    @Override
+    public void setUserName(String userName) {
 
     }
 

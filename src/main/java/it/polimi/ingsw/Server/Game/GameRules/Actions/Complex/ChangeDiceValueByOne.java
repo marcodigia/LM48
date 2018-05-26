@@ -1,11 +1,10 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class ChangeDiceValueByOne implements Actions {
 
@@ -14,8 +13,8 @@ public class ChangeDiceValueByOne implements Actions {
     private int ammount;
     private int draftPoolIndex;
     @Override
-    public void doAction(GameContext gameContext) {
-        draftPool = gameContext.getDraftPool();
+    public void doAction(GameStatus gameStatus) {
+        draftPool = gameStatus.getDraftPool();
         Dice diceToChange = draftPool.getDice(draftPoolIndex);
 
 
@@ -33,7 +32,7 @@ public class ChangeDiceValueByOne implements Actions {
     }
 
     @Override
-    public void useAction(UI ui, GameContext gameContext) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
         final boolean[] result = new boolean[1];
         do {
@@ -66,6 +65,11 @@ public class ChangeDiceValueByOne implements Actions {
 
     @Override
     public void setUpPlaceDiceAction(String packet) {
+
+    }
+
+    @Override
+    public void setUserName(String userName) {
 
     }
 

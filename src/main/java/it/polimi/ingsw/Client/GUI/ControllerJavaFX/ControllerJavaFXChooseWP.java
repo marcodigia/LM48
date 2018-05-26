@@ -35,6 +35,7 @@ import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXGame.g
 public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
     public static ArrayList<Label> selected = new ArrayList<>();
+
     public static WindowPatternCard windowPatternCard1;
     public static WindowPatternCard windowPatternCard2;
     public static WindowPatternCard windowPatternCard3;
@@ -45,13 +46,9 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
     public Button playbutton;
     public GridPane wp1, wp2, wp3, wp4;
 
-    private ArrayList<String> pattern1 = new ArrayList<String>();
     private ArrayList<Label> wp1Labels = new ArrayList<>();
-    private ArrayList<String> pattern2 = new ArrayList<String>();
     private ArrayList<Label> wp2Labels = new ArrayList<>();
-    private ArrayList<String> pattern3 = new ArrayList<String>();
     private ArrayList<Label> wp3Labels = new ArrayList<>();
-    private ArrayList<String> pattern4 = new ArrayList<String>();
     private ArrayList<Label> wp4Labels = new ArrayList<>();
 
     private GridPane gpSelected = null;

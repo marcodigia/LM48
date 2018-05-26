@@ -1,12 +1,12 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 
 public class PlaceDiceAction implements Actions {
 
@@ -18,6 +18,8 @@ public class PlaceDiceAction implements Actions {
     private boolean ignoreColor;
     private boolean ignoreAdjacency;
     private boolean isFirstRound;
+
+    private String userName;
 
     //This is called in TakeDiceBasicAction
     public PlaceDiceAction() {
@@ -41,22 +43,29 @@ public class PlaceDiceAction implements Actions {
 
     }
 
+    @Override
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     //NB if the get to this method it means that the user has already confirm its action so if if is illegal the dice shuld be removed
     @Override
-    public void doAction(GameContext gameContext) {
+    public void doAction(GameStatus gameStatus) {
 
+        Player activePlayer = gameStatus.getPlayerByName(userName) ;
+        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
         if (!ACTIVE)
             return;
-        if (gameContext.isFirstRound()) {
+        if ((activePlayerWP).getAllDices().size() == 0) {
             //Check if matrixIndexTo is not on border
             if ((matrixIndexTo > 5 && matrixIndexTo < 9) || (matrixIndexTo > 10 && matrixIndexTo < 14)) {
                 return;
             }
             //Try to place the Dice without adjacency restriction
 
-            if (gameContext.getWindowPatternCard().isPlaceable(dice, matrixIndexTo, false, false, true)) {
-                gameContext.getWindowPatternCard().placeDice(dice, matrixIndexTo, false, false, true);
-                gameContext.getDraftPool().removeDice(dice);
+            if (activePlayerWP.isPlaceable(dice, matrixIndexTo, false, false, true)) {
+                activePlayerWP.placeDice(dice, matrixIndexTo, false, false, true);
+                gameStatus.getDraftPool().removeDice(dice);
                 ACTIVE = false;
             } else {
                 ACTIVE = true;
@@ -68,9 +77,9 @@ public class PlaceDiceAction implements Actions {
 
         //Try to place the Dice
 
-        if (gameContext.getWindowPatternCard().isPlaceable(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency)) {
-            gameContext.getWindowPatternCard().placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
-            gameContext.getDraftPool().removeDice(dice);
+        if (activePlayerWP.isPlaceable(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency)) {
+            activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
+            gameStatus.getDraftPool().removeDice(dice);
             ACTIVE = false;
         } else {
             ACTIVE = true;
@@ -138,11 +147,16 @@ public class PlaceDiceAction implements Actions {
 
 
     @Override
-    public void useAction(UI ui, GameContext gameContext){
+    public void useAction(UI ui, GameStatus gameStatus, String userName){
+
+        this.userName = userName;
+        Player activePlayer = gameStatus.getPlayerByName(userName) ;
+        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
+
         if (!ACTIVE)
             return;
 
-        if (dice != null && existsValidMove(dice, gameContext.getWindowPatternCard())){
+        if (dice != null && existsValidMove(dice, activePlayerWP)){
 
             matrixIndexTo = ui.getMatrixIndexTo();
 
@@ -150,7 +164,7 @@ public class PlaceDiceAction implements Actions {
 
             matrixIndexTo = ui.getMatrixIndexTo();
             int diceIndex = ui.getDraftPoolIndex();
-            dice = gameContext.getDraftPool().getDice(diceIndex);
+            dice = gameStatus.getDraftPool().getDice(diceIndex);
 
         }else {
             ui.printMessage("No possible moves , Putting dice back to Draft Pool ... ");
@@ -185,6 +199,7 @@ public class PlaceDiceAction implements Actions {
         StringBuilder packet = new StringBuilder();
         packet.append(PlaceDiceAction.class.getName()).append(CONSTANT.ObjectDelimeter);
         packet.append(matrixIndexTo).append(CONSTANT.ElenemtsDelimenter).append(dice);
+        packet.append(CONSTANT.ObjectDelimeter).append(userName);
         return packet.toString();
     }
 }

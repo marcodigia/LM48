@@ -53,7 +53,6 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                     System.out.println("Client server receiver");
                     message = scanner.next();
                     GameStatus gameStatus = Unpacker.getGameStatus(message);
-
                     ui.updateGameStatus(gameStatus);
                     break;
                 default:

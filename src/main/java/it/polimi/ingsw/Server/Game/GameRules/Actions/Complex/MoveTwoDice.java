@@ -1,30 +1,35 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.UI;
 
 public class MoveTwoDice implements Actions {
 
 
     private int from1, from2, to1, to2;
-
+    String userName;
 
     @Override
-    public void doAction(GameContext gameContext) {
-        if (gameContext.getWindowPatternCard().moveDice(from1, to1, false, false, false))
-            if (!gameContext.getWindowPatternCard().moveDice(from2, to2, false, false, false))
-                gameContext.getWindowPatternCard().moveDice(to1, from1, true, true, true);
+    public void doAction(GameStatus gameStatus) {
+        Player activePlayer = gameStatus.getPlayerByName(userName) ;
+        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
+
+        if (activePlayerWP.moveDice(from1, to1, false, false, false))
+            if (!activePlayerWP.moveDice(from2, to2, false, false, false))
+                activePlayerWP.moveDice(to1, from1, true, true, true);
 
     }
 
     @Override
-    public void useAction(UI ui, GameContext gameContext) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
-
+        this.userName = userName;
+        Player activePlayer = gameStatus.getPlayerByName(userName) ;
         Thread getUserInputThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -42,6 +47,11 @@ public class MoveTwoDice implements Actions {
 
     @Override
     public void setUpPlaceDiceAction(String packet) {
+
+    }
+
+    @Override
+    public void setUserName(String userName) {
 
     }
 

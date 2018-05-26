@@ -176,6 +176,8 @@ public class Unpacker {
 
 
    public static Actions ACT_fromPacket(String packet){
+
+        System.out.println("Act from packet " + packet);
         Actions action = null;
 
        String[] elements =packet.split("\\"+CONSTANT.ObjectDelimeter);
@@ -200,6 +202,7 @@ public class Unpacker {
        //Setup the Action with the given parameters
        assert action != null;
        action.setUpPlaceDiceAction(elements[1]);
+       action.setUserName(elements[2]);
        return action;
 
 
