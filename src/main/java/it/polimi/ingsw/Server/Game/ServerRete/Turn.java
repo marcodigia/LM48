@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.ServerRete;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -17,7 +18,6 @@ public class Turn extends TimerTask {
     private static boolean notImmediately = false;
     private static int turn=0;
     private static int round=0;
-    private static final int numberOfRound = 10;
 
     public Turn(LinkedHashMap<Player, Boolean> players, GameStatus gameStatus){
         this.players=players;
@@ -40,7 +40,7 @@ public class Turn extends TimerTask {
             players.remove(q);
             players.put(q,false);
         }
-        if(round<numberOfRound){
+        if(round< CONSTANT.numberOfRound){
             if(currentPlayer!=null){
                 currentPlayer.getvirtualView().timerEnd();
                 //Send to each player who result connected new GameStatus

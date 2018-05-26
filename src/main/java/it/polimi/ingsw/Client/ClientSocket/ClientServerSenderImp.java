@@ -3,6 +3,7 @@ package it.polimi.ingsw.Client.ClientSocket;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,31 +30,31 @@ public class ClientServerSenderImp implements Runnable, ClientServerSender {
 
     @Override
     public void register(String username, ServerClientSender clientRef) throws RemoteException {
-        printWriter.println("R £00£ "+username+" £00£");
+        printWriter.println("R"+ CONSTANT.delimenter + username + CONSTANT.delimenter);
         printWriter.flush();
     }
 
     @Override
     public void unregister(String username) throws RemoteException {
-        printWriter.println("U £00£ "+username+" £00£");
+        printWriter.println("U" + CONSTANT.delimenter + username + CONSTANT.delimenter);
         printWriter.flush();
     }
 
     @Override
     public void choosenWindowPattern(String id, String username) throws RemoteException {
-        printWriter.println("CWP £00£ "+id+" £00£");
+        printWriter.println("CWP" + CONSTANT.delimenter + id + CONSTANT.delimenter);
         printWriter.flush();
     }
 
     @Override
     public void sendAction(Actions action, String username) throws RemoteException {
-        printWriter.println("A £00£ "+action.toPacket()+" £00£");
+        printWriter.println("A" + CONSTANT.delimenter + action.toPacket() + CONSTANT.delimenter);
         printWriter.flush();
     }
 
     @Override
     public void endOfTurn(String username) throws RemoteException {
-        printWriter.println("ET £00£ ");
+        printWriter.println("ET" + CONSTANT.delimenter);
         printWriter.flush();
     }
 }

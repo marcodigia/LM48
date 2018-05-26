@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 
 //Virtual view is an Observer of the Model , and through ServerClientSender notify the changes to the ClientView
 public class VirtualViewImp implements VirtualView {
+
     ServerClientSender serverClientSender;
 
     public VirtualViewImp(ServerClientSender serverClientSender) {
@@ -19,11 +20,6 @@ public class VirtualViewImp implements VirtualView {
     public ServerClientSender getServerClientSender() {
         return serverClientSender;
     }
-
-    public void update(){
-
-    }
-
 
     @Override
     public void sendMessage(String message) {
