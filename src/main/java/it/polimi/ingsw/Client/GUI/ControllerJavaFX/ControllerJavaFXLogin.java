@@ -1,7 +1,11 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
+import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
+import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,10 +16,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
-
+import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 
 public class ControllerJavaFXLogin extends GUI implements Initializable {
 
@@ -23,23 +29,26 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
-    private GeneriClient generiClient;
+    private String fxml;
+
+
+    public static ClientServerSender clientServerSender ;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            clientServerReciver.setUI(this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         setBackground(bg1, anchorlogin);
         usernametext.addEventFilter(KeyEvent.KEY_TYPED, username_Validation(20));
     }
 
     @FXML
     private void handleButtonPlay(ActionEvent event) throws IOException {
-        if (usernametext.getLength() > 0) {
-            saveName();
-            String fxml = "/Lobby.fxml";
-            switchScene(fxml);
-        } else {
-            createAlertBox("Error", "Your username should be at least 1 character long.", "Please enter a valid username.");
-        }
+        saveName();
+        generiClient.register(username);
     }
 
     @FXML
@@ -99,5 +108,34 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     @Override
     public void updateGameStatus(GameStatus gameStatus) {
 
+    }
+
+    @Override
+    public void printMessage(String s) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                createInfoBox("", s, "");
+                switch (s) {
+                    case CONSTANT.usernameAlreadyUsed:
+                        fxml = "/Login.fxml";
+                        try {
+                            switchScene(fxml);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case CONSTANT.correctUsername:
+                        fxml = "/Lobby.fxml";
+                        clientServerSender = generiClient.getClientServerSender();
+                        try {
+                            switchScene(fxml);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            }
+        });
     }
 }

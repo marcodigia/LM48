@@ -2,11 +2,13 @@ package it.polimi.ingsw.Client.ClientRMI;
 
 import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.SkeletonClient;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Score;
 import it.polimi.ingsw.UI;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonClient{
 
@@ -49,6 +51,11 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
     @Override
     public void sendScore(Score score) throws RemoteException {
 
+    }
+
+    @Override
+    public void sendCurrentPlayers(ArrayList<String> player) throws RemoteException {
+        ui.allCurrentPlayers(player.toString());
     }
 
     @Override

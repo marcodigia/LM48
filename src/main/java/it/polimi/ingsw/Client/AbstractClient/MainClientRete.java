@@ -15,7 +15,7 @@ public class MainClientRete {
 
         Unpacker.setUpUnpacker();
 
-        GeneriClient generiClient = null;
+        GeneriClient generiClient = new GeneriClient();
         Scanner keyboard = new Scanner(System.in);
         boolean repeatInsertion = true;
         do{
@@ -24,7 +24,7 @@ public class MainClientRete {
             switch(choice){
                 case "0":
                     GUIimpl gui = new GUIimpl();
-                    gui.setGenericClient(generiClient);
+                    gui.setGeneriClient(generiClient);
                     Thread tu = new Thread(gui);
                     tu.start();
                     repeatInsertion = false;

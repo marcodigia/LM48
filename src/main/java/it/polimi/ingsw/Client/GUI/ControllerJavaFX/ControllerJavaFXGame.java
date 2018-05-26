@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.*;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerSender;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 
 public class ControllerJavaFXGame extends GUI implements Initializable {

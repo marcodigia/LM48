@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerSocket.ServerClientSenderImp;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class WaitingRoom {
             if(scanForSameUsername(username)){
                 try {
                     System.out.println("Username is already used");
-                    clientRef.sendMessage("This username is already used");
+                    clientRef.sendMessage(CONSTANT.usernameAlreadyUsed);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -46,9 +47,12 @@ public class WaitingRoom {
                 System.out.println("Connect RMI: " + username);
             }
             try {
-                clientRef.sendMessage("You are currently connected");
+                clientRef.sendMessage(CONSTANT.correctUsername);
+                ArrayList<String> names = new ArrayList<String>();
                 for(Player p : clientList)
-                    p.getvirtualView().sendMessage(username+" connect ");
+                    names.add(p.getName());
+                for(Player p : clientList)
+                    p.getvirtualView().sendCurrentPlayers(names);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

@@ -28,8 +28,8 @@ import java.util.Hashtable;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerSender;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXGame.gameStatus;
 
 public class ControllerJavaFXChooseWP extends GUI implements Initializable{

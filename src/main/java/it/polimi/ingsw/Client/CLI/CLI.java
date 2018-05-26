@@ -178,6 +178,11 @@ public class CLI implements UI,Runnable{
     }
 
     @Override
+    public void allCurrentPlayers(String players) {
+
+    }
+
+    @Override
     public void run() {
 
     }

@@ -17,4 +17,6 @@ public class CONSTANT {
     public final static int windowCardNumber = 24;
     public final static int privateCardNumber = 6;
     public final static int numberOfRound = 10;
+    public final static String usernameAlreadyUsed = "This username is already used";
+    public final static String correctUsername = "You are currently connected";
 }

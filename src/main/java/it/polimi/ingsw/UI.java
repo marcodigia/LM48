@@ -4,6 +4,8 @@ import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 
+import java.util.ArrayList;
+
 public interface UI {
 
     //THOSE METHOD SHOULD UNLOCK A SPECIFC ZONE IN THE GUI IN ORDER TO ALLOW THE INPUT, AND JUST PRINT THE MESSAGE IN THE CLI
@@ -34,4 +36,5 @@ public interface UI {
     //UI active
     public void activate();
 
+    public void allCurrentPlayers(String players);
 }

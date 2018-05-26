@@ -38,7 +38,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
             switch(command){
                 case "S":
                      message = scanner.next();
-                     System.out.println(message);
+                     ui.printMessage(message);
                     break;
                 case "CW":
                     for(int i=0;i<4;i++){
@@ -50,11 +50,13 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                     ui.activate();
                     break;
                 case "SGS":
-                    System.out.println("Client server receiver");
                     message = scanner.next();
                     GameStatus gameStatus = Unpacker.getGameStatus(message);
                     ui.updateGameStatus(gameStatus);
                     break;
+                case "ALL":
+                    message = scanner.next();
+                    ui.allCurrentPlayers(message);
                 default:
                     break;
             }

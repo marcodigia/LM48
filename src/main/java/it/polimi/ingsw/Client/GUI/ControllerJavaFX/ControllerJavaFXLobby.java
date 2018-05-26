@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id1;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id2;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id3;

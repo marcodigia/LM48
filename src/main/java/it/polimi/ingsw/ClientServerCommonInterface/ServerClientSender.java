@@ -2,9 +2,11 @@ package it.polimi.ingsw.ClientServerCommonInterface;
 
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Score;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public interface ServerClientSender {
     void sendMessage(String message) throws RemoteException;
@@ -13,5 +15,6 @@ public interface ServerClientSender {
     void timerStart() throws RemoteException;
     void sendGameStatus(GameStatus gameStatus) throws RemoteException;
     void sendScore(Score score) throws RemoteException;
+    void sendCurrentPlayers(ArrayList<String> player) throws RemoteException;
     //In severclientsenderImp metti ping per gestione disconnessioni
 }

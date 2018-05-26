@@ -1,8 +1,10 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,11 +14,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.root;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.stage;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 
 public abstract class GUI implements UI{
 
@@ -110,6 +116,26 @@ public abstract class GUI implements UI{
         background.fitWidthProperty().bind(anchorPane.widthProperty());
         background.fitHeightProperty().bind(anchorPane.heightProperty());
         background.toBack();
+    }
+
+    @Override
+    public void allCurrentPlayers(String players){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                String[] result = new String[2];
+                List<String> items;
+
+                items = Arrays.asList(players.split("["));
+                System.out.println(items.get(1));
+                items = Arrays.asList(items.get(1).split("]"));
+                System.out.println(items.get(0));
+                items = Arrays.asList(items.get(0).split("\\s*,\\s*"));
+                for(String s : items)
+                    System.out.println(s);
+            }
+        });
+
     }
 
     @Override

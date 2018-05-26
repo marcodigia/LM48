@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
-import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
-import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
 import javafx.application.Application;
@@ -18,24 +16,16 @@ public class GUIimpl extends Application implements Runnable, UI {
     public static Parent root;
     public static String username;
     public static GeneriClient generiClient;
-    public static ClientServerSender clientServerSender;
-    public static ClientServerReciver clientServerReciver;
 
     public GUIimpl(){
 
     }
 
-    public void setGenericClient(GeneriClient gc){generiClient = gc;}
+    public void setGeneriClient(GeneriClient generiClient){
+        this.generiClient = generiClient;
+    }
 
     public GeneriClient getGeneriClient(){return generiClient;}
-
-    public void setClientServerSender(ClientServerSender cs){
-        clientServerSender = cs;
-    }
-
-    public void setClientServerReciver(ClientServerReciver cr){
-        clientServerReciver = cr;
-    }
 
     public void setUsername(String u){
         username = u;
@@ -112,6 +102,11 @@ public class GUIimpl extends Application implements Runnable, UI {
 
     @Override
     public void activate() {
+
+    }
+
+    @Override
+    public void allCurrentPlayers(String players) {
 
     }
 }

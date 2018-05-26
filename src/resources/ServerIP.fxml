@@ -29,7 +29,7 @@
             </Label>
          </top>
          <center>
-            <TextField fx:id="serverIP" alignment="CENTER" promptText="server IP..." BorderPane.alignment="CENTER">
+            <TextField fx:id="serverIP" alignment="CENTER" onAction="#handleEnter" promptText="server IP..." BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
                </BorderPane.margin>

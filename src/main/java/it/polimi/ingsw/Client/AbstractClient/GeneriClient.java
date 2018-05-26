@@ -21,13 +21,27 @@ public class GeneriClient {
     private LinkClientServer linkClientServer;
     private String username;
 
-    public GeneriClient(String ipServer, int portServer){
+    public GeneriClient(){
+
+    }
+
+    public void setLinkClientServer(String ipServer, int portServer){
         linkClientServer = new ClientSocketHandler(ipServer, portServer);
+    }
+
+    public void setClientServerReciver(){
         clientServerReciver = linkClientServer.getClientServerReciver();
+    }
+
+    public void setClientServerSender(){
         clientServerSender = linkClientServer.getClientServerSender();
     }
-    public GeneriClient(){
+
+    public void setLinkClientServerRMI(){
         linkClientServer = new ClientRMI();
+    }
+
+    public void setClientServerReciverRMI(){
         clientServerReciver = linkClientServer.getClientServerReciver();
     }
 

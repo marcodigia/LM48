@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
+import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,13 +11,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+
+import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
+
 
 public class ControllerJavaFXConnection extends GUI implements Initializable {
 
     public Button rmibutton, socketbutton;
     public AnchorPane anchorconnection;
     public ImageView bg2;
+    public static ClientServerReciver clientServerReciver;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -26,6 +33,10 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
         String fxml = "/Login.fxml";
+        generiClient = new GeneriClient();
+        generiClient.setLinkClientServerRMI();
+        generiClient.setClientServerReciverRMI();
+        clientServerReciver = generiClient.getClientServerReciver();
         switchScene(fxml);
     }
 
