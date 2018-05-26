@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -52,7 +51,7 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         playersName.add(username);
         playersName.add(username);
         //playersName.add(username);
-        
+
         for (int i=0; i<players.size(); i++){
             players.get(i).setText(playersName.get(i));
         }

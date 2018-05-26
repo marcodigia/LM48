@@ -38,7 +38,7 @@ public class GUIimpl extends Application implements Runnable, UI {
     public void start(Stage primaryStage) {
         stage = primaryStage;
         stage.setTitle("Sagrada");
-        String fxml = "/Lobby.fxml";
+        String fxml = "/RMI_Socket.fxml";
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
