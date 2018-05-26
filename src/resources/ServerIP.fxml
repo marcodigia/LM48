@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorip" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.ControllerJavaFX.ServerIPController">
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+   <children>
+      <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Label alignment="CENTER" text="Insert Server IP:" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <TextField fx:id="serverIP" alignment="CENTER" promptText="server IP..." BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+               </BorderPane.margin>
+            </TextField>
+         </center>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <bottom>
+            <Button fx:id="button" mnemonicParsing="false" onAction="#handleClickButton" text="Insert" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+      <ImageView fx:id="bg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
