@@ -46,7 +46,6 @@ public class Turn extends TimerTask {
                 //Send to each player who result connected new GameStatus
                 for(Map.Entry<Player,Boolean> entry : players.entrySet()) {
                     if (entry.getKey().getConnected()) {
-                        System.out.println("Turn ");
                         try {
                             entry.getKey().getvirtualView().getServerClientSender().sendGameStatus(gameStatus);
                         } catch (RemoteException e) {

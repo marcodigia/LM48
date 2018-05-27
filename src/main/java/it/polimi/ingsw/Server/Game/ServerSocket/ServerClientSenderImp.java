@@ -68,8 +68,11 @@ public class ServerClientSenderImp implements Runnable, ServerClientSender {
 
     @Override
     public void sendCurrentPlayers(ArrayList<String> player) throws RemoteException {
-        System.out.println(player.toString());
-        printWriter.println("ALL" + CONSTANT.delimenter + player.toString() + CONSTANT.delimenter);
+        String message = new String("");
+        for(String s : player){
+            message = message + s + ", ";
+        }
+        printWriter.println("ALL" + CONSTANT.delimenter + message + CONSTANT.delimenter);
         printWriter.flush();
     }
 }

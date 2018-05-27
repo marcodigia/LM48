@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
@@ -30,7 +31,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     public ImageView bg1;
     public AnchorPane anchorlogin;
     private String fxml;
-
+    public static ArrayList<String> playersName = new ArrayList<>();
 
     public static ClientServerSender clientServerSender ;
 
@@ -111,6 +112,41 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     }
 
     @Override
+    public void activate() {
+
+    }
+
+    @Override
+    public void disable() {
+
+    }
+
+    @Override
+    public void allCurrentPlayers(String players) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                System.out.println(players);
+
+                String[] names = players.split("\\s*,\\s*");
+
+                playersName = new ArrayList<String>();
+
+                for (int i = 0 ; i < names.length ; i++){
+                    System.out.println(names[i]);
+                    playersName.add(new String(names[i]));
+                }
+                try {
+                    switchScene("/Lobby.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
     public void printMessage(String s) {
         Platform.runLater(new Runnable() {
             @Override
@@ -126,13 +162,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                         }
                         break;
                     case CONSTANT.correctUsername:
-                        fxml = "/Lobby.fxml";
                         clientServerSender = generiClient.getClientServerSender();
-                        try {
-                            switchScene(fxml);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                         break;
                 }
             }

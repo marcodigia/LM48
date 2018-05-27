@@ -7,8 +7,10 @@ import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
 
+import java.io.Serializable;
 
-public class GameContext {
+
+public class GameContext implements Serializable {
 
     private PrivateObjectiveCard privateObjectiveCard;
     private DraftPool draftPool;

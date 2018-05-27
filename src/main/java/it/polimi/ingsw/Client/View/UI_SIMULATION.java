@@ -69,6 +69,11 @@ public class UI_SIMULATION implements UI {
     }
 
     @Override
+    public void disable() {
+
+    }
+
+    @Override
     public void allCurrentPlayers(String players) {
 
     }

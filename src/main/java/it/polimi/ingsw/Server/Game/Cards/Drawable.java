@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
-public interface Drawable {
+import java.io.Serializable;
+
+public interface Drawable extends Serializable{
 
     String getID();
 }

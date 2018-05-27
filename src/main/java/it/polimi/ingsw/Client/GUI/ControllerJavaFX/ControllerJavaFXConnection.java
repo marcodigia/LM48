@@ -70,4 +70,19 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
     public void updateGameStatus(GameStatus gameStatus) {
 
     }
+
+    @Override
+    public void activate() {
+
+    }
+
+    @Override
+    public void disable() {
+
+    }
+
+    @Override
+    public void allCurrentPlayers(String players) {
+
+    }
 }

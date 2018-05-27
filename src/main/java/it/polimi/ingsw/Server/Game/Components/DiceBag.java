@@ -2,10 +2,11 @@ package it.polimi.ingsw.Server.Game.Components;
 
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class DiceBag {
+public class DiceBag implements Serializable{
 
     private ArrayList<Dice> dices;
     private final int MAX_N = 6;
