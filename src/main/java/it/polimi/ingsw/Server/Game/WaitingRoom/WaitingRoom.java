@@ -42,7 +42,7 @@ public class WaitingRoom {
             Player newPlayer = new Player(username,clientRef);
             clientList.add(newPlayer);
             if(clientRef instanceof ServerClientSenderImp)
-                System.out.println("Connect Socket: "+username);
+                System.out.println("Connect Socket: " + username);
             else {
                 System.out.println("Connect RMI: " + username);
             }
@@ -51,8 +51,10 @@ public class WaitingRoom {
                 ArrayList<String> names = new ArrayList<String>();
                 for(Player p : clientList)
                     names.add(p.getName());
-                for(Player p : clientList)
+                for(Player p : clientList) {
+                    System.out.println("1");
                     p.getvirtualView().sendCurrentPlayers(names);
+                }
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

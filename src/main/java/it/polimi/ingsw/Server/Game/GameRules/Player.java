@@ -66,9 +66,6 @@ public class Player implements Serializable{
     public void setIsConnected(){this.isConnected = true;}
 
     public boolean getConnected(){return isConnected;}
-
-
-
     
     public PlaceDiceAction getPlaceDiceOfTheTurn() {
         return placeDiceOfTheTurn;

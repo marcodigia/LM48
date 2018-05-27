@@ -401,4 +401,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             }
         });
     }
+
+    @Override
+    public void allCurrentPlayers(String players) {
+
+    }
 }

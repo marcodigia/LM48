@@ -65,6 +65,11 @@ public class ServerIPController extends GUI implements Initializable {
 
     }
 
+    @Override
+    public void allCurrentPlayers(String players) {
+
+    }
+
     @FXML
     private void handleEnter(ActionEvent enter) throws IOException {
         handleClickButton(enter);

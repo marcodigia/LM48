@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +14,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.playersName;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id1;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id2;
@@ -29,8 +32,7 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     public Button startbutton;
     public AnchorPane anchorlobby;
     public ImageView bg3;
-    protected static ArrayList<Label> players = new ArrayList<>();
-    protected static ArrayList<String> playersName = new ArrayList<>();
+    private ArrayList<Label> players = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,18 +46,12 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
 
         players.add(player1);
         players.add(player2);
-        //players.add(player3);
-       // players.add(player4);
+        players.add(player3);
+        players.add(player4);
 
-        playersName.add(username);
-        playersName.add(username);
-        //playersName.add(username);
-        //playersName.add(username);
-
-        for (int i=0; i<players.size(); i++){
+       for (int i=0; i<playersName.size(); i++){
             players.get(i).setText(playersName.get(i));
         }
-        //players.get(0).setText(playersName.get(0));
     }
 
     @FXML
@@ -121,4 +117,10 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         return  null;
     }
 
+    @Override
+    public void allCurrentPlayers(String players){
+        for (int i=0; i<playersName.size(); i++){
+            this.players.get(i).setText(playersName.get(i));
+        }
+    }
 }

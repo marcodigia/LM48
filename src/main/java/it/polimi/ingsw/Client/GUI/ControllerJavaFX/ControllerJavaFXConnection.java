@@ -80,4 +80,9 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
     public void disable() {
 
     }
+
+    @Override
+    public void allCurrentPlayers(String players) {
+
+    }
 }

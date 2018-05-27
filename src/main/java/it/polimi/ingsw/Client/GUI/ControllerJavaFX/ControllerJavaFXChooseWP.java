@@ -174,7 +174,6 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
                 break;
             case 1:
                 selected = null;
-
                 windowPatternCardSelected = null;
                 wp1.setOpacity(1);
                 click = 0;
@@ -186,7 +185,6 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         if (gpSelected!=null && !(gpSelected.equals(wp2))) {
             gpSelected.setOpacity(1);
             selected = null;
-
             windowPatternCardSelected = null;
             click = 0;
         }
@@ -308,6 +306,11 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
     @Override
     public void disable() {
+
+    }
+
+    @Override
+    public void allCurrentPlayers(String players) {
 
     }
 }
