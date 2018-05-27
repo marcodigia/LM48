@@ -24,17 +24,23 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void sendMessage(String message) throws RemoteException {
-        ui.printMessage(message);
+        System.out.println(message);
     }
 
     @Override
     public void chooseWindowPattern(String id1, String id2, String id3, String id4) throws RemoteException {
-        ui.chooseWP(id1,id2,id3,id4);
+         Thread t = new Thread(new Runnable() {
+             @Override
+             public void run() {
+                 ui.chooseWP(id1,id2,id3,id4);
+             }
+         });
+         t.start();
     }
 
     @Override
     public void timerEnd() throws RemoteException {
-        ui.disable();
+
     }
 
     @Override
