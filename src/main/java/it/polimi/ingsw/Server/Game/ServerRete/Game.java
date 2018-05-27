@@ -98,7 +98,7 @@ public class Game {
                 lookForWinner();
                 endGameSetUp();    //End setup with players who are still playing
             }
-        }, timerUtility.readTimerFromFile(30,"timerDelayPlayer.txt"));
+        }, timerUtility.readTimerFromFile(10,"timerDelayPlayer.txt"));
     }
 
     private void sendWindowPatternToChoose(){

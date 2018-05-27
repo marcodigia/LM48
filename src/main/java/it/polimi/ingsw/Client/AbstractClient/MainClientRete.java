@@ -11,7 +11,6 @@ public class MainClientRete {
     public static void main(String[] args){
 
         String username;
-        final int PORTSERVER = 2000;
 
         Unpacker.setUpUnpacker();
 
@@ -40,39 +39,6 @@ public class MainClientRete {
                     break;
             }
         }while(repeatInsertion);
-
-        /*System.out.println("Type server ip");
-        String ipServer = keyboard.next();
-        generiClient = new GeneriClient(ipServer,PORTSERVER);
-
-        generiClient = new GeneriClient();
-
-        //scegli tra
-
-
-
-        System.out.println("Type your username");
-        username = keyboard.next();
-        generiClient.register(username);
-
-
-        gui.setClientServerSender(generiClient.getClientServerSender());
-        gui.setClientServerReciver(generiClient.getClientServerReciver());
-        gui.setUsername(username);
-
-
-        try {
-            generiClient.getClientServerReciver().setUI(gui);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            cli.setClientServerSender(generiClient.getClientServerSender());
-            generiClient.getClientServerReciver().setUI(cli);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }*/
 
     }
 }

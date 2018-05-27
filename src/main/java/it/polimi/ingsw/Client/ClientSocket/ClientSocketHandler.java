@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ClientSocketHandler extends LinkClientServer{
+
     private String ipServer;
     private int portServer;
     private Socket serverSocket;

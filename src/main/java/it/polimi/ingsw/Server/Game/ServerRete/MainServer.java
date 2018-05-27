@@ -7,7 +7,7 @@ import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 public class MainServer {
 
-    private static final int SERVERSOCKETPORT = 2000;
+    private static final int SERVERSOCKETPORT = 2001;
     private static final int RMIPORT = 1099;
 
     public static void main(String[] args){

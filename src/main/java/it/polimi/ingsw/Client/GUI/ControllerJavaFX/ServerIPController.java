@@ -22,7 +22,7 @@ public class ServerIPController extends GUI implements Initializable {
     public ImageView bg;
     public Button button;
     public TextField serverIP;
-    public static final int portServer = 2000;
+    public static final int portServer = 2001;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

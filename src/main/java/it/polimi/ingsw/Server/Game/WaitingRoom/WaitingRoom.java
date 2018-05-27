@@ -52,7 +52,6 @@ public class WaitingRoom {
                 for(Player p : clientList)
                     names.add(p.getName());
                 for(Player p : clientList) {
-                    System.out.println("1");
                     p.getvirtualView().sendCurrentPlayers(names);
                 }
             } catch (RemoteException e) {
@@ -106,6 +105,7 @@ public class WaitingRoom {
     }
 
     private void waitForGame(){
+        System.out.println("waitingForGame");
         if(clientList.size()>=2){
             if(clientList.size() == 4){
                 timer.cancel();

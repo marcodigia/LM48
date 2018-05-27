@@ -46,11 +46,7 @@ public class Turn extends TimerTask {
                 //Send to each player who result connected new GameStatus
                 for(Map.Entry<Player,Boolean> entry : players.entrySet()) {
                     if (entry.getKey().getConnected()) {
-                        try {
-                            entry.getKey().getvirtualView().getServerClientSender().sendGameStatus(gameStatus);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
+                        entry.getKey().getvirtualView().sendGameStatus(gameStatus);
                     }
                 }
             }
@@ -74,11 +70,7 @@ public class Turn extends TimerTask {
                     notImmediately = true;
                     entry.setValue(true);
                     if(entry.getKey().getConnected()){
-                        try {
-                            entry.getKey().getvirtualView().getServerClientSender().timerStart();   //Say player that his/her turn is started
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
+                        entry.getKey().getvirtualView().timerStart();   //Say player that his/her turn is started
                         player = entry.getKey();
                         break;
                     }
@@ -101,11 +93,7 @@ public class Turn extends TimerTask {
                     notImmediately = true;
                     players.put(key, false);
                     if(key.getConnected()){
-                        try {
-                            key.getvirtualView().getServerClientSender().timerStart();   //Say player that his/her turn is started
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
+                        key.getvirtualView().timerStart();   //Say player that his/her turn is started
                         player = key;
                         break;
                     }

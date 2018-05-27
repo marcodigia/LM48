@@ -24,7 +24,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void sendMessage(String message) throws RemoteException {
-        System.out.println(message);
+        ui.printMessage(message);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void timerEnd() throws RemoteException {
-
+        ui.disable();
     }
 
     @Override
@@ -60,7 +60,11 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void sendCurrentPlayers(ArrayList<String> player) throws RemoteException {
-        ui.allCurrentPlayers(player.toString());
+        String message = new String("");
+        for(String s : player){
+            message = message + s + ", ";
+        }
+        ui.allCurrentPlayers(message);
     }
 
     @Override
