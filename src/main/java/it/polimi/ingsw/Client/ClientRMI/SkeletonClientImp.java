@@ -40,7 +40,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void timerEnd() throws RemoteException {
-        //TODO
+
     }
 
     @Override
