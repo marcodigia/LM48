@@ -57,7 +57,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
         handleButtonPlay(enter);
     }
 
-    /* Username limited to max_Lenght AND to only Digits and Letters */
+    // Username limited to max_Lenght AND to only Digits and Letters
     public EventHandler<KeyEvent> username_Validation(final Integer max_Length) {
         return new EventHandler<KeyEvent>() {
             @Override

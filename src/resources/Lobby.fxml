@@ -37,21 +37,21 @@
                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                       </padding>
                    </Label>
-                   <Label fx:id="player4" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                   <Label fx:id="player4" text="" GridPane.columnIndex="1" GridPane.rowIndex="3">
                       <GridPane.margin>
                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                       </GridPane.margin>
                       <padding>
                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                       </padding></Label>
-                   <Label fx:id="player3" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                   <Label fx:id="player3" text="" GridPane.columnIndex="1" GridPane.rowIndex="2">
                       <GridPane.margin>
                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                       </GridPane.margin>
                       <padding>
                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                       </padding></Label>
-                   <Label fx:id="player2" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                   <Label fx:id="player2" text="" GridPane.columnIndex="1" GridPane.rowIndex="1">
                       <GridPane.margin>
                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                       </GridPane.margin>
@@ -79,7 +79,7 @@
                       <GridPane.margin>
                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                       </GridPane.margin></Label>
-                   <Label fx:id="player1" text="Label" GridPane.columnIndex="1">
+                   <Label fx:id="player1" text="" GridPane.columnIndex="1">
                       <GridPane.margin>
                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                       </GridPane.margin>

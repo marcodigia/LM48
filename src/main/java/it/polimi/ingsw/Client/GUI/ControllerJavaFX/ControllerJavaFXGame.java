@@ -118,8 +118,8 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 if (firstTourn) {
                     if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)) {
                         windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, true);
-                        updateWindowPattern(windowPatternCard4);
                         put = true;
+                        firstTourn = false;
                     } else {
                         createAlertBox("Error!", "Wrong action",
                                 "Restrictions havn't been respected! " +
@@ -128,7 +128,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 } else {
                     if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, false)) {
                         windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, false);
-                        updateWindowPattern(windowPatternCard4);
                         put = true;
                     } else {
                         createAlertBox("Error!", "Wrong action",
@@ -139,7 +138,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             } else {
                 createAlertBox("Error!", "Wrong action", "You already placed this dice " +
                         "or in this cell has already been placed a dice " +
-                        "or restrictions havn't been respected! " +
                         "Please perform a correct move.");
             }
             try {
@@ -163,15 +161,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     public void handleCopyright(ActionEvent event) {
         createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
-    }
-
-    private void updateWindowPattern(WindowPatternCard windowPatternCard) {
-        for (int i = 0; i < 20; i++) {
-            if (windowPatternCard.getDice(i) != null) {
-                cells4.get(i).setGraphic(toImage(windowPatternCard.getDice(i)));
-                cells4.get(i).toFront();
-            }
-        }
     }
 
     private ImageView toImage(Dice dice) {
@@ -275,9 +264,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 p3.setText(gameStatus.getPlayer().get(i).getName());
 
                 populateGridPane(gp1, gameStatus.getPlayerByName(p1.getText()));
-                populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
                 populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));
                 populateGridPane(gp3, gameStatus.getPlayerByName(p3.getText()));
+                populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
 
                 break;
         }
@@ -316,7 +305,8 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
                 l.setOnMouseClicked(event -> handleClickWindowPattern(event));
-                cells4.add(l);
+                if (player.getName().equals(username))
+                    cells4.add(l);
             }
         }
     }
@@ -357,16 +347,12 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     @Override
     public void updateGameStatus(GameStatus gameStat) {
-        System.out.println("Game controller 1");
         gameStatus = gameStat;
-        System.out.println("Game controller 2");
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    System.out.println("Game controller 3");
                     switchScene("/Board.fxml");
-                    System.out.println("Game controller 4");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

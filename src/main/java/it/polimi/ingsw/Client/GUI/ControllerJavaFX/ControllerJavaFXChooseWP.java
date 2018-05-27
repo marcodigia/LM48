@@ -17,13 +17,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
 
@@ -72,25 +70,22 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
             e.printStackTrace();
         }
 
+        setBackground(bgChooseWP, anchorChooseWP);
+
         AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
-
-
 
         try {
             deck = factory.getNewCardDeck();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        setBackground(bgChooseWP, anchorChooseWP);
+
         windowPatternCard1 = (WindowPatternCard) deck.get(id1);//setUpWindowPattern(pattern1);
         windowPatternCard2 = (WindowPatternCard) deck.get(id2);//setUpWindowPattern(pattern2);
         windowPatternCard3 = (WindowPatternCard) deck.get(id3);//setUpWindowPattern(pattern3);
         windowPatternCard4 = (WindowPatternCard) deck.get(id4);//setUpWindowPattern(pattern4);
 
-
-
         populateGridPane(wp1, wp1Labels, windowPatternCard1);
-
         populateGridPane(wp2, wp2Labels, windowPatternCard2);
         populateGridPane(wp3, wp3Labels, windowPatternCard3);
         populateGridPane(wp4, wp4Labels, windowPatternCard4);
@@ -100,7 +95,6 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
-                System.out.println("pop wp "+windowPatternCard.getRestrictionAtIndex(4*i + j));
                 l.setGraphic(toImage(windowPatternCard.getRestrictionAtIndex(4*i + j)));
                 GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
