@@ -233,7 +233,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 break;
             case 3:
                 hboxgp1.getChildren().remove(gp1);
+
                 hboxl1.getChildren().remove(p1);
+
                 gridPanes.add(gp2);
                 gridPanes.add(gp3);
                 gridPanes.add(gp4);
