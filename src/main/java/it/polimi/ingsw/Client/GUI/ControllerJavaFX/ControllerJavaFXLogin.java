@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
-import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
-import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
@@ -26,7 +24,7 @@ import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnec
 
 public class ControllerJavaFXLogin extends GUI implements Initializable {
 
-    public Button playbutton;
+    public Button loginButton;
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
@@ -47,14 +45,14 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     }
 
     @FXML
-    private void handleButtonPlay(ActionEvent event) throws IOException {
+    private void handleLoginButton(ActionEvent event) throws IOException {
         saveName();
         generiClient.register(username);
     }
 
     @FXML
     private void handleEnter(ActionEvent enter) throws IOException {
-        handleButtonPlay(enter);
+        handleLoginButton(enter);
     }
 
     // Username limited to max_Lenght AND to only Digits and Letters

@@ -62,7 +62,6 @@ public class VirtualViewImp implements VirtualView {
     @Override
     public void timerStart() {
         try {
-            System.out.println("VirtualView");
             serverClientSender.timerStart();
         } catch (RemoteException e) {
             e.printStackTrace();

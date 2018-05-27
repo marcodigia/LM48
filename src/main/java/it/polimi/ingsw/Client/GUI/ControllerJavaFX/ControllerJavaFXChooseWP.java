@@ -41,7 +41,7 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
     public ImageView bgChooseWP;
     public AnchorPane anchorChooseWP;
-    public Button playbutton;
+    public Button selectButton;
     public GridPane wp1, wp2, wp3, wp4;
 
     private ArrayList<Label> wp1Labels = new ArrayList<>();
@@ -130,7 +130,7 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         return new WindowPatternCard(pattern);
     }
 
-    public void handlePlayButton(ActionEvent actionEvent) throws IOException{
+    public void handleSelectButton(ActionEvent actionEvent) throws IOException{
 
         if (selected != null){
             //switchScene(fxml);
@@ -295,7 +295,17 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
     @Override
     public void activate() {
-
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ControllerJavaFXGame.attivo = true;
+                try {
+                    switchScene("/Board.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

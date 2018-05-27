@@ -57,7 +57,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <bottom>
-            <Button fx:id="playbutton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonPlay" text="Play!" BorderPane.alignment="CENTER">
+            <Button fx:id="loginButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleLoginButton" text="Login" BorderPane.alignment="CENTER">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>

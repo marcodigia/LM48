@@ -55,7 +55,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     private boolean firstTourn = true;
     private DraftPool draftPool;
 
-    private static boolean attivo = false;
+    public static boolean attivo = false;
 
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells4 = new ArrayList<>();

@@ -22,7 +22,7 @@ public class ServerIPController extends GUI implements Initializable {
     public ImageView bg;
     public Button button;
     public TextField serverIP;
-    public static final int portServer = 2001;
+    public TextField serverPort;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,31 +71,18 @@ public class ServerIPController extends GUI implements Initializable {
     }
 
     @FXML
-    private void handleEnter(ActionEvent enter) throws IOException {
-        handleClickButton(enter);
-    }
-
-    @FXML
     public void handleClickButton(ActionEvent event) {
-        if (ipValido(serverIP.getText())) {
-            String fxml = "/Login.fxml";
-            generiClient = new GeneriClient();
-            generiClient.setLinkClientServer(serverIP.getText(),portServer);
-            generiClient.setClientServerReciver();
-            generiClient.setClientServerSender();
-            clientServerReciver = generiClient.getClientServerReciver();
-
-            try {
-                switchScene(fxml);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            createAlertBox("Error", "Wrong server", "Please enter a valid one");
+        String fxml = "/Login.fxml";
+        generiClient = new GeneriClient();
+        generiClient.setLinkClientServer(serverIP.getText(), Integer.parseInt(serverPort.getText()));
+        generiClient.setClientServerReciver();
+        generiClient.setClientServerSender();
+        clientServerReciver = generiClient.getClientServerReciver();
+        try {
+            switchScene(fxml);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private boolean ipValido(String ip){
-        return true;
-    }
 }
