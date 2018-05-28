@@ -1,9 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
-import it.polimi.ingsw.Server.Game.Cards.AbstractCardFactory;
-import it.polimi.ingsw.Server.Game.Cards.Drawable;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
+import it.polimi.ingsw.Server.Game.Cards.*;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
@@ -316,5 +313,10 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
     @Override
     public void allCurrentPlayers(String players) {
 
+    }
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return null;
     }
 }

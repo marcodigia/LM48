@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
 import javafx.application.Application;
@@ -113,5 +114,10 @@ public class GUIimpl extends Application implements Runnable, UI {
     @Override
     public void allCurrentPlayers(String players) {
 
+    }
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return null;
     }
 }

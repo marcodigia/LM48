@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -373,5 +374,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     @Override
     public void allCurrentPlayers(String players) {
 
+    }
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return null;
     }
 }

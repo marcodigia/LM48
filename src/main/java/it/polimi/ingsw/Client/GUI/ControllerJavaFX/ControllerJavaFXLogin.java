@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import javafx.application.Platform;
@@ -142,6 +143,11 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                 }
             }
         });
+    }
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return null;
     }
 
     @Override

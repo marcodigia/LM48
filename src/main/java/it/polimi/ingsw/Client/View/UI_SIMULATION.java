@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.View;
 
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.UI;
@@ -76,5 +77,10 @@ public class UI_SIMULATION implements UI {
     @Override
     public void allCurrentPlayers(String players) {
 
+    }
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return null;
     }
 }
