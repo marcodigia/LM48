@@ -11,6 +11,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.layout.*;
 import javafx.fxml.Initializable;
@@ -269,12 +270,15 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     }
 
     private void populateGridPane(GridPane gridPane, Player player) {
+        Node grid = gridPane.getChildren().get(0);
+        gridPane.getChildren().clear();
+        gridPane.getChildren().add(0, grid);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
-                l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(4*i + j)));
+                l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(5 * i + j)));
                 if (((WindowPatternCard) gameStatus.getPlayerCards().get(player).get(0)).getDice(4*i + j) != null)
-                    l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getDice(4*i + j)));
+                    l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * i + j)));
                 GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
                 l.setOnMouseClicked(event -> handleClickWindowPattern(event));
