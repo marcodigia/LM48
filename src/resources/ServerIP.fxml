@@ -48,8 +48,8 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="serverIP" alignment="CENTER" promptText="server IP..." GridPane.columnIndex="1" />
-                  <TextField fx:id="serverPort" alignment="CENTER" promptText="server port..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="serverIP" alignment="CENTER" text ="127.0.0.1" promptText="server IP..." GridPane.columnIndex="1" />
+                  <TextField fx:id="serverPort" alignment="CENTER" text="2001" promptText="server port..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label alignment="CENTER" text="Server IP:" />
                   <Label alignment="CENTER" text="Server Port:" GridPane.rowIndex="1" />
                </children>
