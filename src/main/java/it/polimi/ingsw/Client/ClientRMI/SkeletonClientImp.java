@@ -50,6 +50,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void sendGameStatus(GameStatus gameStatus) throws RemoteException {
+        System.out.println("ServerClientSender " + gameStatus.toPacket());
         ui.updateGameStatus(gameStatus);
     }
 
