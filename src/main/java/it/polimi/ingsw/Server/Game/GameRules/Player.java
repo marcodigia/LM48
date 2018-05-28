@@ -15,8 +15,8 @@ import java.io.Serializable;
 public class Player implements Serializable{
 
     private GameContext gameContext;
-    private PlaceDiceAction placeDiceOfTheTurn;
-    private UseToolCardBasic useToolCardOfTheTurn;
+    public PlaceDiceAction placeDiceOfTheTurn;
+    public UseToolCardBasic useToolCardOfTheTurn;
 
     private String name;
     private PlayerColor color;
