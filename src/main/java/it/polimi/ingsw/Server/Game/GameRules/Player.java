@@ -34,6 +34,7 @@ public class Player implements Serializable{
 
     public void startRound(){
         placeDiceOfTheTurn = new PlaceDiceAction();
+        System.out.println(placeDiceOfTheTurn.actionState());
         useToolCardOfTheTurn = new UseToolCardBasic();
     }
 

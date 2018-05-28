@@ -24,6 +24,7 @@ public class PlaceDiceAction implements Actions {
     //This is called in TakeDiceBasicAction
     public PlaceDiceAction() {
         dice = null;
+        ACTIVE = true;
     }
 
     //This is called in RerollDraftedDiceAction
