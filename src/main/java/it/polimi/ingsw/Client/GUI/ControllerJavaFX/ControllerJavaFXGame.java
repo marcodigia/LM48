@@ -37,7 +37,7 @@ import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 public class ControllerJavaFXGame extends GUI implements Initializable {
 
     public static GameStatus gameStatus;
-    private PlaceDiceAction placeDiceAction;
+    public static boolean attivo = false;
 
     public Label p1, p2, p3, p4;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
@@ -46,11 +46,14 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     public GridPane gp1, gp2, gp3, gp4, gpround, gpdraft;
     public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
 
+    private final static int ROWS = 4;
+    private final static int COLUMNS = 5;
+
     private int indice_dado = -1;
     private int draftpoolindex = -1;
-    private DraftPool draftPool;
 
-    public static boolean attivo = false;
+    private DraftPool draftPool;
+    private PlaceDiceAction placeDiceAction;
 
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells4 = new ArrayList<>();
@@ -273,13 +276,13 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         Node grid = gridPane.getChildren().get(0);
         gridPane.getChildren().clear();
         gridPane.getChildren().add(0, grid);
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
                 Label l = new Label();
-                l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(5 * i + j)));
-                if (((WindowPatternCard) gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * i + j) != null)
-                    l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * i + j)));
-                GridPane.setConstraints(l, j, i);
+                l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(5 * row + column)));
+                if (((WindowPatternCard) gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * row + column) != null)
+                    l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * row + column)));
+                GridPane.setConstraints(l, column, row);
                 gridPane.getChildren().add(l);
                 l.setOnMouseClicked(event -> handleClickWindowPattern(event));
                 if (player.getName().equals(username))
