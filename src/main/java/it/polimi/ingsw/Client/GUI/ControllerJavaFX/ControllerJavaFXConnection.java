@@ -32,11 +32,7 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
 
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
-        String fxml = "/Login.fxml";
-        generiClient = new GeneriClient();
-        generiClient.setLinkClientServerRMI();
-        generiClient.setClientServerReciverRMI();
-        clientServerReciver = generiClient.getClientServerReciver();
+        String fxml = "/IP_RMI.fxml";
         switchScene(fxml);
     }
 

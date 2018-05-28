@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 
-public class ServerIPController extends GUI implements Initializable {
+public class ServerIPSocketController extends GUI implements Initializable {
 
     public AnchorPane anchorip;
     public ImageView bg;
