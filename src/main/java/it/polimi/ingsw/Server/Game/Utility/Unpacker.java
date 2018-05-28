@@ -54,6 +54,7 @@ public class Unpacker {
     //This class returns the game status.
     //NB this should be used only on to rebuild the gamestatus on the client because the player in this gamestatu are not totally setup
     public static GameStatus getGameStatus(String packet){
+        System.out.println("Unpacker GS "+packet);
         GameStatus gameStatus ;
         String[] objectPacket = packet.split(CONSTANT.ObjectDelimeter);
 
@@ -177,7 +178,7 @@ public class Unpacker {
 
    public static Actions ACT_fromPacket(String packet){
 
-        System.out.println("Act from packet " + packet);
+        System.out.println("Act_fromPacket " + packet);
         Actions action = null;
 
        String[] elements =packet.split("\\"+CONSTANT.ObjectDelimeter);
@@ -203,6 +204,7 @@ public class Unpacker {
        assert action != null;
        action.setUpPlaceDiceAction(elements[1]);
        action.setUserName(elements[2]);
+       action.setACTIVE(Boolean.parseBoolean(elements[3]));
        return action;
 
 

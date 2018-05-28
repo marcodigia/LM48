@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Server.Game.ServerSocket;
 
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
@@ -52,18 +54,21 @@ public class ServerClientReciver implements Runnable {
                     case "CWP":
                         message = scanner.next();
                         game.setWindowToPlayer(message,username);
-                        System.out.println(message + username);
                         break;
                     case "A":
                         message = scanner.next();
                         Actions a = Unpacker.ACT_fromPacket(message);
+                        String[] name = a.getClass().getName().split("\\.");
+
+                        System.out.println("Server Client Receiver " + name[name.length-1]);
+                        if (name[name.length-1].equals("PlaceDiceAction"))
+                            game.getGameStatus().getPlayerByName(username).setPlaceDiceOfTheTurn( (PlaceDiceAction) a) ;
+                        else
+                            game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn( (UseToolCardBasic) a); ;
+
                         a.doAction(game.getGameStatus());
                         for(Player p : game.getPlayers().keySet()) {
-                            try {
-                                p.getvirtualView().getServerClientSender().sendGameStatus(game.getGameStatus());
-                            } catch (RemoteException e) {
-                                e.printStackTrace();
-                            }
+                            p.getvirtualView().sendGameStatus(game.getGameStatus());
                         }
                         break;
                     default:

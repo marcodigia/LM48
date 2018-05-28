@@ -21,6 +21,7 @@ public interface Actions extends Packetable {
     In case Socekt is in use View on the Client will just update the virtual view on the Server and then virutalview will use useAction
     */
 
+    void setACTIVE(boolean b);
 
 
 

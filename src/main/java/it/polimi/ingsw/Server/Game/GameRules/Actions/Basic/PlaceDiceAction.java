@@ -67,8 +67,7 @@ public class PlaceDiceAction implements Actions {
                 activePlayerWP.placeDice(dice, matrixIndexTo, false, false, true);
                 gameStatus.getDraftPool().removeDice(dice);
                 ACTIVE = false;
-            } else {
-                ACTIVE = true;
+                return;
             }
 
 
@@ -81,69 +80,10 @@ public class PlaceDiceAction implements Actions {
             activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
             gameStatus.getDraftPool().removeDice(dice);
             ACTIVE = false;
-        } else {
-            ACTIVE = true;
         }
 
 
     }
-
-   /* @Override
-    public void useAction(UI ui, GameContext gameContext) {
-
-        //NB the order in this 'if' is important because it is shortcutted
-        if (!ACTIVE)
-            return;
-        final boolean[] result = new boolean[1];
-        if (dice != null && existsValidMove(dice, gameContext.getWindowPatternCard())) {
-
-            Thread getUserInputThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    matrixIndexTo = ui.getMatrixIndexTo();
-                }
-            });
-
-            getUserInputThread.start();
-            try {
-                getUserInputThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return;
-            }
-            if (!result[0]) {
-                return;
-            }
-        } else if (dice == null) {
-            Thread getUserInputThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    matrixIndexTo = ui.getMatrixIndexTo();
-                    int diceIndex = ui.getDraftPoolIndex();
-                    dice = gameContext.getDraftPool().getDice(diceIndex);
-                }
-            });
-
-            getUserInputThread.start();
-
-            try {
-                getUserInputThread.join();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return;
-            }
-        } else {
-            ui.printMessage("No possible moves , Putting dice back to Draft Pool ... ");
-            return;
-        }
-
-        if (result[0]) {
-            //TODO send the Action to the server to do Do Action
-            doAction(gameContext);
-        }
-
-    }*/
 
 
     @Override
@@ -200,6 +140,7 @@ public class PlaceDiceAction implements Actions {
         packet.append(PlaceDiceAction.class.getName()).append(CONSTANT.ObjectDelimeter);
         packet.append(matrixIndexTo).append(CONSTANT.ElenemtsDelimenter).append(dice);
         packet.append(CONSTANT.ObjectDelimeter).append(userName);
+        packet.append(CONSTANT.ObjectDelimeter).append(ACTIVE);
         return packet.toString();
     }
 }

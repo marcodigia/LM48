@@ -86,5 +86,11 @@ public class Player implements Serializable{
         placeDiceOfTheTurn.setACTIVE(pda);
     }
 
+    public void setPlaceDiceOfTheTurn(PlaceDiceAction placeDiceOfTheTurn) {
+        this.placeDiceOfTheTurn = placeDiceOfTheTurn;
+    }
 
+    public void setUseToolCardOfTheTurn(UseToolCardBasic useToolCardOfTheTurn) {
+        this.useToolCardOfTheTurn = useToolCardOfTheTurn;
+    }
 }

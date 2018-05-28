@@ -31,16 +31,12 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.*;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.stage;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 
 public class ControllerJavaFXGame extends GUI implements Initializable {
 
-    private static Label draftToDisable;
-
-    private GameContext gameContext;
     public static GameStatus gameStatus;
-    private PlaceDiceAction placeDiceAction = new PlaceDiceAction();
+    private PlaceDiceAction placeDiceAction;
 
     public Label p1, p2, p3, p4;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
@@ -51,8 +47,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private int indice_dado = -1;
     private int draftpoolindex = -1;
-    private boolean put = false;
-    private boolean firstTourn = true;
     private DraftPool draftPool;
 
     public static boolean attivo = false;
@@ -89,14 +83,21 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             draftPoolLabel.get(i).setGraphic(toImage(draftPool.getDraft().get(i)));
         }
 
-        gameContext = new GameContext(draftPool, null, null, windowPatternCard4, null);
-
         if(attivo){
             anchorgame.setDisable(false);
+            for (GridPane gp : gridPanes
+                 ) {
+                if (!gp.equals(gp4))
+                    gp.setDisable(true);
+            }
         }
         else {
             anchorgame.setDisable(true);
         }
+
+
+        placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
+
     }
 
     public void handleClickDraftPool(MouseEvent mouseEvent) {
@@ -104,8 +105,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
         if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
             draftpoolindex = draftPoolLabel.indexOf(eventDraft);
-            draftToDisable = eventDraft;
-            put = false;
         }
     }
 
@@ -114,32 +113,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         indice_dado = cells4.indexOf(event);
         if(draftpoolindex != -1) {
             placeDiceAction.useAction(this, gameStatus, username);
-            if (windowPatternCard4.getDice(indice_dado) == null && !put) {
-                if (firstTourn) {
-                    if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, true)) {
-                        windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, true);
-                        put = true;
-                        firstTourn = false;
-                    } else {
-                        createAlertBox("Error!", "Wrong action",
-                                "Restrictions havn't been respected! " +
-                                        "Please perform a correct move.");
-                    }
-                } else {
-                    if (windowPatternCard4.isPlaceable(draftPool.getDice(draftpoolindex), indice_dado, false, false, false)) {
-                        windowPatternCard4.placeDice(draftPool.getDice(draftpoolindex), indice_dado, false, false, false);
-                        put = true;
-                    } else {
-                        createAlertBox("Error!", "Wrong action",
-                                "Restrictions havn't been respected! " +
-                                        "Please perform a correct move.");
-                    }
-                }
-            } else {
-                createAlertBox("Error!", "Wrong action", "You already placed this dice " +
-                        "or in this cell has already been placed a dice " +
-                        "Please perform a correct move.");
-            }
             try {
                 clientServerSender.sendAction(placeDiceAction, username);
             } catch (RemoteException e) {

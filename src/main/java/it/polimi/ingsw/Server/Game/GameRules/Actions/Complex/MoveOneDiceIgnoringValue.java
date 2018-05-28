@@ -77,6 +77,11 @@ public class MoveOneDiceIgnoringValue implements Actions {
     }
 
     @Override
+    public void setACTIVE(boolean b) {
+
+    }
+
+    @Override
     public void setUpPlaceDiceAction(String packet) {
 
     }

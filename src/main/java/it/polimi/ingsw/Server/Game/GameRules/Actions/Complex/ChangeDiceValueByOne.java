@@ -64,6 +64,11 @@ public class ChangeDiceValueByOne implements Actions {
     }
 
     @Override
+    public void setACTIVE(boolean b) {
+
+    }
+
+    @Override
     public void setUpPlaceDiceAction(String packet) {
 
     }
