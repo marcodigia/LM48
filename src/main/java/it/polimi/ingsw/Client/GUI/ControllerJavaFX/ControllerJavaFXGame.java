@@ -277,7 +277,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             for (int j = 0; j < 5; j++) {
                 Label l = new Label();
                 l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(5 * i + j)));
-                if (((WindowPatternCard) gameStatus.getPlayerCards().get(player).get(0)).getDice(4*i + j) != null)
+                if (((WindowPatternCard) gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * i + j) != null)
                     l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * i + j)));
                 GridPane.setConstraints(l, j, i);
                 gridPane.getChildren().add(l);
