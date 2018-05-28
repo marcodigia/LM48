@@ -47,7 +47,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     @FXML
     private void handleLoginButton(ActionEvent event) throws IOException {
         saveName();
-        generiClient.register(username);
+        generiClient.register(username, new String ());
     }
 
     @FXML
