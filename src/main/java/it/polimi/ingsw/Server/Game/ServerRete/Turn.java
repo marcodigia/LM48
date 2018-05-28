@@ -112,6 +112,7 @@ public class Turn extends TimerTask {
             notImmediately = false;
         }
 
-        return player;
+
+        return gameStatus.getPlayerByName(player.getName());
     }
 }
