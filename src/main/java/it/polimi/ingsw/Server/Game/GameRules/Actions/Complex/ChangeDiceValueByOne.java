@@ -35,31 +35,10 @@ public class ChangeDiceValueByOne implements Actions {
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
         final boolean[] result = new boolean[1];
-        do {
 
-            result[0] = true;
-            Thread getUserInputThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    draftPoolIndex = ui.getDraftPoolIndex();
-                    ammount = ui.getAmmountToChange();
-                }
-            });
+        draftPoolIndex = ui.getDraftPoolIndex();
+        ammount = ui.getAmmountToChange();
 
-            getUserInputThread.start();
-
-            try {
-                getUserInputThread.join();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (!result[0])
-                return;
-        } while (ammount != -1 && ammount != 1);
-
-        //TODO send the action to the server !!
 
     }
 

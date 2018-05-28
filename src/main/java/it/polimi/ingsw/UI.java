@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Exceptions.EndOfTurnException;
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 
@@ -39,4 +40,6 @@ public interface UI {
     public void disable();
 
     public void allCurrentPlayers(String players);
+
+    ToolCard getChoosenToolCard();
 }

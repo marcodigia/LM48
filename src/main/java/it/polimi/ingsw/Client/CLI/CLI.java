@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Client.CLI;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
-import it.polimi.ingsw.Server.Game.Cards.AbstractCardFactory;
-import it.polimi.ingsw.Server.Game.Cards.Drawable;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCardFactory;
+import it.polimi.ingsw.Server.Game.Cards.*;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
@@ -185,6 +182,11 @@ public class CLI implements UI,Runnable{
     @Override
     public void allCurrentPlayers(String players) {
 
+    }
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return null;
     }
 
     @Override

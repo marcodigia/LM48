@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 
 public class UseToolCardBasic implements Actions {
@@ -10,6 +11,7 @@ public class UseToolCardBasic implements Actions {
     private boolean ACTIVE = true;
 
     private Actions toolCardAction;
+    private String userName;
     public UseToolCardBasic() {
 
     }
@@ -27,15 +29,13 @@ public class UseToolCardBasic implements Actions {
     @Override
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
-       /* if (!ACTIVE)
-            return;
+        this.userName = userName;
+      if(!ACTIVE)
+          return;
 
-        toolCardAction = gameContext.getChoosenToolCard().getActions();
+     toolCardAction= ui.getChoosenToolCard().getActions();
 
-            toolCardAction.useAction(ui, gamestatus);*/
-
-
-        //TODO send Action to the Server
+     toolCardAction.useAction(ui,gameStatus,userName);
 
     }
 
@@ -59,6 +59,16 @@ public class UseToolCardBasic implements Actions {
 
     @Override
     public String toPacket() {
+
+        StringBuilder packet = new StringBuilder();
+        packet.append(PlaceDiceAction.class.getName()).append(CONSTANT.ObjectDelimeter);
+
+
+        packet.append(CONSTANT.ObjectDelimeter).append(userName);
+        packet.append(CONSTANT.ObjectDelimeter).append(ACTIVE);
+
+        packet.append(toolCardAction.toPacket()).append(CONSTANT.ObjectDelimeter);
+
         return null;
     }
 }

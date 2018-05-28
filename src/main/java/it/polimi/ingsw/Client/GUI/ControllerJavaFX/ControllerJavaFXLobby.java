@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -119,5 +120,10 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         for (int i=0; i<playersName.size(); i++){
             this.players.get(i).setText(playersName.get(i));
         }
+    }
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return null;
     }
 }
