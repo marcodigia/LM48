@@ -175,7 +175,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         System.out.println(gameStatus.getPlayer() + " players");
 
         switch (gameStatus.getPlayer().size()) {
-        /*    case 1:
+            /* case 1:
                 hboxgp1.getChildren().remove(gp1);
                 hboxl1.getChildren().remove(p1);
                 hboxgp2.getChildren().remove(gp2);
@@ -185,8 +185,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 gridPanes.add(gp4);
                 p4.setText(gameStatus.getPlayer().get(0).getName());
                 populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
-                break;
-                */
+                break; */
             case 2:
                 hboxgp2.getChildren().remove(gp2);
                 hboxl2.getChildren().remove(p2);

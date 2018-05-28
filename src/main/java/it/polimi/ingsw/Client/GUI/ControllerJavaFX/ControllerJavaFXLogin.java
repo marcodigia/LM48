@@ -74,6 +74,11 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                     }
                 }
                 else if (e.getCharacter().matches("[A-Za-z]")){
+                    if(textField.getText().contains(".") && e.getCharacter().matches("[.]")){
+                        e.consume();
+                    }else if(textField.getText().length() == 0 && e.getCharacter().matches("[.]")){
+                        e.consume();
+                    }
                 }
                 else{
                     e.consume();
