@@ -33,10 +33,6 @@ public class IPRMIController extends GUI implements Initializable{
     public void hanldeClickButton(ActionEvent event) {
         rmiIP = RMIIP.getText();
         String fxml = "/Login.fxml";
-        generiClient = new GeneriClient();
-        generiClient.setLinkClientServerRMI();
-        generiClient.setClientServerReciverRMI();
-        clientServerReciver = generiClient.getClientServerReciver();
         try {
             switchScene(fxml);
         } catch (IOException e) {
