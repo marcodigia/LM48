@@ -53,6 +53,7 @@ public class ServerClientReciver implements Runnable {
                         break;
                     case "CWP":
                         message = scanner.next();
+                        System.out.println(message+username);
                         game.setWindowToPlayer(message,username);
                         break;
                     case "A":
