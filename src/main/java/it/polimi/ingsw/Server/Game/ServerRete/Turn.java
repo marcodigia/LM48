@@ -51,7 +51,7 @@ public class Turn extends TimerTask {
                 }
             }
             currentPlayer=manageTurn();
-            currentPlayer.startRound();
+            gameStatus.getPlayerByName(currentPlayer.getName()).startRound();
             turn++;
         }
         else{
