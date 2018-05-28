@@ -132,11 +132,11 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     public void handleShow(ActionEvent event) {
         if (event.getSource().equals(showtool))
-            openWindowFromMenu("Tool Cards");
+            openToolCards("Tool Cards", null);
         if (event.getSource().equals(showpublic))
-            openWindowFromMenu("Public Objective Cards");
-        if (event.getSource().equals(showprivate))
-            openWindowFromMenu("Private Objective Cards");
+            //openWindowFromMenu("Public Objective Cards");
+        if (event.getSource().equals(showprivate)){}
+            //openWindowFromMenu("Private Objective Cards");
     }
 
     public void handleCopyright(ActionEvent event) {
@@ -151,12 +151,13 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         return imageView;
     }
 
-    private void openWindowFromMenu(String string) {
+    private void openToolCards(String string, ArrayList<ToolCard> toolCards) {
         Stage window = new Stage();
         window.initStyle(StageStyle.UTILITY);
         window.setTitle(string);
         window.setMinWidth(250);
         window.setMinHeight(100);
+        BorderPane borderPane = new BorderPane();
         Label label = new Label(string);
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label);
@@ -169,6 +170,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     private void setUpGame() {
 
         int i = 0;
+
+        System.out.println(gameStatus + " setUpGame");
+        System.out.println(gameStatus.getPlayer() + " players");
 
         switch (gameStatus.getPlayer().size()) {
         /*    case 1:
@@ -202,7 +206,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 break;
             case 3:
                 hboxgp1.getChildren().remove(gp1);
-
                 hboxl1.getChildren().remove(p1);
 
                 gridPanes.add(gp2);
