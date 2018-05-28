@@ -81,7 +81,7 @@ public class Player implements Serializable{
     public boolean getUseToolCardState(){
         return useToolCardOfTheTurn.actionState();
     }
-    public void setBasicActionState(boolean tca , boolean pda ){
+    public void setBasicActionState(boolean pda , boolean tca ){
         useToolCardOfTheTurn.setACTIVE(tca);
         placeDiceOfTheTurn.setACTIVE(pda);
     }
