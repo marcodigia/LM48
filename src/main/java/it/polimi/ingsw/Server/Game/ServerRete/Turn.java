@@ -43,8 +43,7 @@ public class Turn extends TimerTask {
         if(round< CONSTANT.numberOfRound){
             if(currentPlayer!=null){
                 currentPlayer.getvirtualView().timerEnd();
-                currentPlayer.placeDiceOfTheTurn.setACTIVE(true);
-                currentPlayer.useToolCardOfTheTurn.setACTIVE(true);
+                currentPlayer.startRound();
                 //Send to each player who result connected new GameStatus
                 for(Map.Entry<Player,Boolean> entry : players.entrySet()) {
                     if (entry.getKey().getConnected()) {
