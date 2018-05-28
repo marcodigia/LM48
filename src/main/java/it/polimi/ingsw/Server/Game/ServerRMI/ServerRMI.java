@@ -11,15 +11,17 @@ import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 public class ServerRMI {
 
+    private String ip;
     private int port;
     private boolean bound = false;
     private WaitingRoom waitingRoom;
     private Game game;
 
-    public ServerRMI(int port, WaitingRoom waitingRoom, Game game){
+    public ServerRMI(int port, WaitingRoom waitingRoom, Game game, String ipRMI){
         this.port = port;
         this.waitingRoom = waitingRoom;
         this.game = game;
+        ip = ipRMI;
     }
     public void start(){
         do{
@@ -32,7 +34,7 @@ public class ServerRMI {
         }while(!bound && port < 2000);
         try {
             StubServerImp stubServer = new StubServerImp(waitingRoom,game);
-            Naming.rebind("rmi://127.0.0.1/myabc",stubServer);
+            Naming.rebind("rmi://"+ip+"/myabc",stubServer);
         } catch (RemoteException e) {
 
 

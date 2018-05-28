@@ -5,12 +5,9 @@ import it.polimi.ingsw.Client.ClientRMI.SkeletonClientImp;
 import it.polimi.ingsw.Client.ClientSocket.ClientSocketHandler;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
-import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.SkeletonClient;
 import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.StubServer;
 
-import java.io.*;
 import java.net.MalformedURLException;
-import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -54,7 +51,7 @@ public class GeneriClient {
         return clientServerReciver;
     }
 
-    public void register(String username){
+    public void register(String username, String ipRMI){
         this.username = username;
         if(linkClientServer instanceof ClientSocketHandler){
             try {
@@ -68,7 +65,7 @@ public class GeneriClient {
             try {
                 SkeletonClientImp sc = (SkeletonClientImp)clientServerReciver;
                 sc.setUsername(username);
-                clientServerSender = (StubServer) Naming.lookup("rmi://127.0.0.1/myabc");
+                clientServerSender = (StubServer) Naming.lookup("rmi://"+ipRMI+"/myabc");
                 clientServerSender.register(this.username, sc);
             } catch (NotBoundException e) {
                 e.printStackTrace();

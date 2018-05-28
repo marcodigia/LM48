@@ -1,46 +1,34 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
-import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 
+public class ServerIPSocketController extends GUI implements Initializable {
 
-public class ControllerJavaFXConnection extends GUI implements Initializable {
-
-    public Button rmibutton, socketbutton;
-    public AnchorPane anchorconnection;
-    public ImageView bg2;
-    public static ClientServerReciver clientServerReciver;
+    public AnchorPane anchorip;
+    public ImageView bg;
+    public Button button;
+    public TextField serverIP;
+    public TextField serverPort;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBackground(bg2, anchorconnection);
-        bg2.autosize();
-    }
-
-    @FXML
-    private void handleButtonRMI(ActionEvent event) throws IOException {
-        String fxml = "/IP_RMI.fxml";
-        switchScene(fxml);
-    }
-
-    @FXML
-    private void handleButtonSocket(ActionEvent event) throws IOException {
-        String fxml = "/ServerIP.fxml";
-        switchScene(fxml);
+        setBackground(bg, anchorip);
+        bg.autosize();
     }
 
     @Override
@@ -87,4 +75,20 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
     public ToolCard getChoosenToolCard() {
         return null;
     }
+
+    @FXML
+    public void handleClickButton(ActionEvent event) {
+        String fxml = "/Login.fxml";
+        generiClient = new GeneriClient();
+        generiClient.setLinkClientServer(serverIP.getText(), Integer.parseInt(serverPort.getText()));
+        generiClient.setClientServerReciver();
+        generiClient.setClientServerSender();
+        clientServerReciver = generiClient.getClientServerReciver();
+        try {
+            switchScene(fxml);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

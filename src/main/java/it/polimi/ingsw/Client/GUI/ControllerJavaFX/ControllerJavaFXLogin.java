@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.IPRMIController.rmiIP;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 
 public class ControllerJavaFXLogin extends GUI implements Initializable {
@@ -48,7 +49,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     @FXML
     private void handleLoginButton(ActionEvent event) throws IOException {
         saveName();
-        generiClient.register(username);
+        generiClient.register(username, rmiIP);
     }
 
     @FXML

@@ -24,6 +24,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -151,7 +153,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private void openWindowFromMenu(String string) {
         Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
+        window.initStyle(StageStyle.UTILITY);
         window.setTitle(string);
         window.setMinWidth(250);
         window.setMinHeight(100);

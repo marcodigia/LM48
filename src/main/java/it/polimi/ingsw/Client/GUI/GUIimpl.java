@@ -43,7 +43,7 @@ public class GUIimpl extends Application implements Runnable, UI {
             root = loader.load();
 
             // Show the scene containing the root layout.
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 250, 150);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
