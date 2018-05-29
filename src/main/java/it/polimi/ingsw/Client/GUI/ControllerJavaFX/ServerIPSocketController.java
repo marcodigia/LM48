@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.port;
 
 public class ServerIPSocketController extends GUI implements Initializable {
 
@@ -29,6 +31,8 @@ public class ServerIPSocketController extends GUI implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg, anchorip);
         bg.autosize();
+        serverIP.setText(ip);
+        serverPort.setText(port);
     }
 
     @Override
@@ -80,6 +84,7 @@ public class ServerIPSocketController extends GUI implements Initializable {
     public void handleClickButton(ActionEvent event) {
         String fxml = "/Login.fxml";
         generiClient = new GeneriClient();
+
         generiClient.setLinkClientServer(serverIP.getText(), Integer.parseInt(serverPort.getText()));
         generiClient.setClientServerReciver();
         generiClient.setClientServerSender();

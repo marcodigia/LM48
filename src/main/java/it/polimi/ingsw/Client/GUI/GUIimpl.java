@@ -18,8 +18,18 @@ public class GUIimpl extends Application implements Runnable, UI {
     public static String username;
     public static GeneriClient generiClient;
 
+    public static String ip;
+    public static String port;
     public GUIimpl(){
 
+    }
+
+    public static void setIp(String ip) {
+        GUIimpl.ip = ip;
+    }
+
+    public static void setPort(String port) {
+        GUIimpl.port = port;
     }
 
     public void setGeneriClient(GeneriClient generiClient){
