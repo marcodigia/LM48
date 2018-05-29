@@ -13,6 +13,7 @@ public class ToolCard implements Drawable {
     private Id id;
     private String effect;
     private String restriction;
+    private int cost;
 
     //The Id of the toolcard must be in Id
     public ToolCard(ArrayList<String> pattern) {
@@ -23,7 +24,16 @@ public class ToolCard implements Drawable {
 
         effect = pattern.get(3);
         restriction = pattern.get(4);
+        cost = 0;
+    }
 
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
 
@@ -34,15 +44,18 @@ public class ToolCard implements Drawable {
 
     public Actions getActions() {
 
+        if (cost == 0 )
+            cost++;
+
         Actions action = null;
         switch (id) {
 
             case _13:
                 System.out.println("Did nothing");
-                action = new ChangeDiceValueByOne();
+                action = new ChangeDiceValue(0);
                 break;
             case _1:
-                action = new ChangeDiceValueByOne();
+                action = new ChangeDiceValue(0);
                 break;
             case _2:
                 action = new MoveOneDieIgnoringColor();
@@ -54,7 +67,13 @@ public class ToolCard implements Drawable {
                 action = new MoveTwoDice();
                 break;
             case _6:
-                action = new RerollDraftedDice();
+                action = new RerollDraftedDice(0);
+                break;
+            case _7:
+                action = new RerollDraftedDice(-1);
+                break;
+            case _10:
+                action = new ChangeDiceValue(7);
                 break;
             default:
                 break;

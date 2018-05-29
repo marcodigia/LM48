@@ -134,7 +134,11 @@ public class Unpacker {
     }
 
     private static ToolCard TC_FromId(String id){
-        return (ToolCard) TCDeck.get(id);
+
+        String[] element = id.split("\\"+CONSTANT.ElenemtsDelimenter);
+        ToolCard t =(ToolCard) TCDeck.get(element[0]);
+        t.setCost(Integer.parseInt(element[1]));
+        return t;
     }
 
     public static PublicObjectiveCard PB_FromId(String id){

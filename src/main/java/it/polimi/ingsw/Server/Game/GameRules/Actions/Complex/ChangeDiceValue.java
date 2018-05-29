@@ -7,12 +7,17 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 
-public class ChangeDiceValueByOne implements Actions {
+public class ChangeDiceValue implements Actions {
 
     private DraftPool draftPool;
 
-    private int ammount;
+    private int ammount=0;
     private int draftPoolIndex;
+
+    public ChangeDiceValue(int ammount) {
+        this.ammount = ammount;
+    }
+
     @Override
     public void doAction(GameStatus gameStatus) {
         draftPool = gameStatus.getDraftPool();
@@ -29,14 +34,18 @@ public class ChangeDiceValueByOne implements Actions {
                 diceToChange.setValue(Integer.parseInt(diceToChange.getValue()) + ammount);
             }
 
-        }
+
+        } else
+            diceToChange.setValue(ammount-Integer.parseInt(diceToChange.getValue()) );   //This will turn the dice on opposite face
     }
 
     @Override
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
+
         draftPoolIndex = ui.getDraftPoolIndex();
-        ammount = ui.getAmmountToChange();
+        if (ammount!=7)
+            ammount = ui.getAmmountToChange();
 
 
     }
@@ -51,8 +60,6 @@ public class ChangeDiceValueByOne implements Actions {
 
         String[] elements = packet.split("\\"+CONSTANT.ElenemtsDelimenter);
 
-
-        System.out.println("Change Dice VAl by one " + packet );
         ammount = Integer.parseInt(elements[0]);
         draftPoolIndex=Integer.parseInt(elements[1]);
     }
@@ -67,7 +74,7 @@ public class ChangeDiceValueByOne implements Actions {
     public String toPacket() {
 
         StringBuilder packet = new StringBuilder();
-        packet.append(ChangeDiceValueByOne.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
+        packet.append(ChangeDiceValue.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
         packet.append(ammount).append(CONSTANT.ElenemtsDelimenter).append(draftPoolIndex);
         return packet.toString();
     }

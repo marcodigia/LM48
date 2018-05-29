@@ -114,6 +114,7 @@ public class GameStatus implements Packetable {
         for (ToolCard t: toolCards )
         {
             packet.append(CONSTANT.ObjectDelimeter).append(t.getID());
+            packet.append(CONSTANT.ElenemtsDelimenter).append(t.getCost());
 
         }
 
