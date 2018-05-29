@@ -66,6 +66,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         try {
             clientServerReciver.setUI(this);
         } catch (RemoteException e) {
@@ -73,13 +74,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
 
         setBackground(bg4, anchorgame);
-
         setUpGame();
         draftPool = gameStatus.getDraftPool();
-
         populateGridPane(gpdraft, 1, 9, draftPoolLabel, "");
         populateGridPane(gpround, 1, 10, round, "#");
-
         names.add(p1);
         names.add(p2);
         names.add(p3);
@@ -101,10 +99,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         else {
             anchorgame.setDisable(true);
         }
-
-
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
-
     }
 
     public void handleClickDraftPool(MouseEvent mouseEvent) {
@@ -153,7 +148,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private void openToolCards(String string, ArrayList<ToolCard> toolCards) {
         Stage window = new Stage();
-        window.initStyle(StageStyle.UTILITY);
+        window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(string);
         window.setMinWidth(250);
         window.setMinHeight(100);

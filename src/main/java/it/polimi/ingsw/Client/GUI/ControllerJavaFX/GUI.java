@@ -10,6 +10,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -23,6 +25,7 @@ public abstract class GUI implements UI{
 
     protected void createAlertBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
@@ -32,6 +35,7 @@ public abstract class GUI implements UI{
     public ButtonBar.ButtonData createWarningBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
+        alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
@@ -53,6 +57,10 @@ public abstract class GUI implements UI{
 
     protected void createInfoBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.initModality(Modality.APPLICATION_MODAL);
+
+
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
@@ -61,6 +69,10 @@ public abstract class GUI implements UI{
 
     protected ButtonBar.ButtonData createConfirmationBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.initModality(Modality.APPLICATION_MODAL);
+
+
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
