@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import com.sun.media.sound.RIFFInvalidDataException;
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
@@ -15,6 +16,7 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
 
 public class IPRMIController extends GUI implements Initializable{
 
@@ -27,6 +29,7 @@ public class IPRMIController extends GUI implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg, anchorip);
+        RMIIP.setText(ip);
         bg.autosize();
     }
 
