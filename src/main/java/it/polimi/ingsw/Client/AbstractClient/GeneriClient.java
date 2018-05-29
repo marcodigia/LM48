@@ -51,29 +51,28 @@ public class GeneriClient {
         return clientServerReciver;
     }
 
+    public void register(String username){
+        this.username = username;
+        try {
+            clientServerSender.register(this.username,null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void register(String username, String ipRMI, int portRMI){
         this.username = username;
-        if(linkClientServer instanceof ClientSocketHandler){
-            try {
-                //Reference to ServerClientSender is not going to be used
-                clientServerSender.register(this.username,null);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-        else{
-            try {
-                SkeletonClientImp sc = (SkeletonClientImp)clientServerReciver;
-                sc.setUsername(username);
-                clientServerSender = (StubServer) Naming.lookup("rmi://"+ipRMI+":"+portRMI+"/myabc");
-                clientServerSender.register(this.username, sc);
-            } catch (NotBoundException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        try {
+            SkeletonClientImp sc = (SkeletonClientImp)clientServerReciver;
+            sc.setUsername(username);
+            clientServerSender = (StubServer) Naming.lookup("rmi://"+ipRMI+":"+portRMI+"/myabc");
+            clientServerSender.register(this.username, sc);
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 

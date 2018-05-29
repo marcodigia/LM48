@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
@@ -21,7 +22,9 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.IPRMIController.rmiIP;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.port;
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.rmi;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 
 public class ControllerJavaFXLogin extends GUI implements Initializable {
@@ -37,11 +40,6 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            clientServerReciver.setUI(this);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
         setBackground(bg1, anchorlogin);
         usernametext.addEventFilter(KeyEvent.KEY_TYPED, username_Validation(20));
     }
@@ -49,7 +47,23 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     @FXML
     private void handleLoginButton(ActionEvent event) throws IOException {
         saveName();
-        generiClient.register(username, rmiIP);
+        if (rmi) {
+            generiClient = new GeneriClient();
+            generiClient.setLinkClientServerRMI();
+            generiClient.setClientServerReciverRMI();
+            clientServerReciver = generiClient.getClientServerReciver();
+            clientServerReciver.setUI(this);
+            generiClient.register(username, ip, Integer.parseInt(port));
+        }
+        else {
+            generiClient = new GeneriClient();
+            generiClient.setLinkClientServer(ip, Integer.parseInt(port));
+            generiClient.setClientServerReciver();
+            generiClient.setClientServerSender();
+            clientServerReciver = generiClient.getClientServerReciver();
+            clientServerReciver.setUI(this);
+            generiClient.register(username);
+        }
     }
 
     @FXML

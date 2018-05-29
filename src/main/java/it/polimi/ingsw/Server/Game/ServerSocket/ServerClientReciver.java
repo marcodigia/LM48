@@ -77,6 +77,13 @@ public class ServerClientReciver implements Runnable {
                 }
             }catch(NoSuchElementException e){
                 System.out.println("[!] Network problem "+username+" client unreachable" );
+                if(game.getGameStatus()!=null)
+                    if(game.getGameStatus().getPlayerCards()!=null)
+                        if(game.getGameStatus().getPlayerByName(username)!=null)
+                            game.getGameStatus().getPlayerByName(username).setIsNotConnected();
+
+                waitingRoom.removeClient(username);
+
                 break;
             }
         }

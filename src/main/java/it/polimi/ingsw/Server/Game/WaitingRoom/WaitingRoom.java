@@ -105,7 +105,6 @@ public class WaitingRoom {
     }
 
     private void waitForGame(){
-        System.out.println("waitingForGame");
         if(clientList.size()>=2){
             if(clientList.size() == 4){
                 timer.cancel();

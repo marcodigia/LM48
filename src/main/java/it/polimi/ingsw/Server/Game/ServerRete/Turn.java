@@ -27,7 +27,7 @@ public class Turn extends TimerTask {
 
     @Override
     public void run() {
-        if(turn==numberOfTurn){
+        if(turn>=numberOfTurn){
             //Move dices from draftpool to boardRound
             gameStatus.getBoardRound().addDices(gameStatus.getDraftPool().getDraft());
             //Extract new dices from DraftPool
@@ -42,6 +42,7 @@ public class Turn extends TimerTask {
         }
         if(round< CONSTANT.numberOfRound){
             if(currentPlayer!=null){
+                System.out.println("ROUND 1");
                 currentPlayer.getvirtualView().timerEnd();
                 currentPlayer.startRound();
                 //Send to each player who result connected new GameStatus

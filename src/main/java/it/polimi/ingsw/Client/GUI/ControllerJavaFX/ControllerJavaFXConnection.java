@@ -15,15 +15,20 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.port;
 
 
 public class ControllerJavaFXConnection extends GUI implements Initializable {
 
+    private final static String fxml = "/Login.fxml";
+    public static boolean rmi = false;
     public Button rmibutton, socketbutton;
     public AnchorPane anchorconnection;
     public ImageView bg2;
     public TextField serverIP, serverPort;
     public static ClientServerReciver clientServerReciver;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -33,17 +38,16 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
 
     @FXML
     private void handleButtonRMI(ActionEvent event) throws IOException {
-        String fxml = "/IP_RMI.fxml";
-        generiClient = new GeneriClient();
-        generiClient.setLinkClientServerRMI();
-        generiClient.setClientServerReciverRMI();
-        clientServerReciver = generiClient.getClientServerReciver();
+        rmi = true;
+        ip = serverIP.getText();
+        port = serverPort.getText();
         switchScene(fxml);
     }
 
     @FXML
     private void handleButtonSocket(ActionEvent event) throws IOException {
-        String fxml = "/ServerIP.fxml";
+        ip = serverIP.getText();
+        port = serverPort.getText();
         switchScene(fxml);
     }
 
