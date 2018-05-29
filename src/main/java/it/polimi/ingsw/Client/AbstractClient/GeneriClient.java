@@ -51,7 +51,7 @@ public class GeneriClient {
         return clientServerReciver;
     }
 
-    public void register(String username, String ipRMI){
+    public void register(String username, String ipRMI, int portRMI){
         this.username = username;
         if(linkClientServer instanceof ClientSocketHandler){
             try {
@@ -65,7 +65,7 @@ public class GeneriClient {
             try {
                 SkeletonClientImp sc = (SkeletonClientImp)clientServerReciver;
                 sc.setUsername(username);
-                clientServerSender = (StubServer) Naming.lookup("rmi://"+ipRMI+"/myabc");
+                clientServerSender = (StubServer) Naming.lookup("rmi://"+ipRMI+":"+portRMI+"/myabc");
                 clientServerSender.register(this.username, sc);
             } catch (NotBoundException e) {
                 e.printStackTrace();

@@ -30,6 +30,7 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     public Button startbutton;
     public AnchorPane anchorlobby;
     public ImageView bg3;
+    public final static String fxml = "/ChooseWP.fxml";
     private ArrayList<Label> players = new ArrayList<>();
 
     @Override
@@ -54,7 +55,6 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
 
     @FXML
     private void handleButtonStart(ActionEvent event) throws IOException {
-        String fxml = "/ChooseWP.fxml";
         switchScene(fxml);
     }
 
@@ -81,7 +81,6 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     @Override
     public void updateGameStatus(GameStatus gameStatus) {
 
-        System.out.println("lobby");
     }
 
     @Override

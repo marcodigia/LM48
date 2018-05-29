@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
 import it.polimi.ingsw.UI;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,15 +10,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Optional;
 
-import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.root;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.stage;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 
 public abstract class GUI implements UI{
 
