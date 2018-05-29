@@ -22,6 +22,7 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
     public Button rmibutton, socketbutton;
     public AnchorPane anchorconnection;
     public ImageView bg2;
+    public TextField serverIP, serverPort;
     public static ClientServerReciver clientServerReciver;
 
     @Override
