@@ -11,6 +11,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
@@ -57,6 +58,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private DraftPool draftPool;
     private PlaceDiceAction placeDiceAction;
+    private ArrayList<ArrayList<Dice>> roundTrack;
 
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells4 = new ArrayList<>();
@@ -76,10 +78,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         setBackground(bg4, anchorgame);
         setUpGame();
         draftPool = gameStatus.getDraftPool();
-        //round = gameStatus.getBoardRound().getDices();
+        roundTrack = gameStatus.getBoardRound().getDices();
 
         populateGridPane(gpdraft, 1, 9, draftPoolLabel, "");
-        populateGridPane(gpround, 1, 10, round, "#");
+        populateGridPane(gpround, 1, 10, round, "");
         names.add(p1);
         names.add(p2);
         names.add(p3);
@@ -88,6 +90,11 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         //show dices image in DraftPool
         for (int i = 0; i < draftPool.getDraft().size(); i++) {
             draftPoolLabel.get(i).setGraphic(toImage(draftPool.getDraft().get(i)));
+        }
+
+        //show round in Roundtrack
+        for (int i = 0; i < round.size(); i++) {
+            round.get(i).setText(String.valueOf(i));
         }
 
         if(attivo){
@@ -138,14 +145,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     public void handleCopyright(ActionEvent event) {
         createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
-    }
-
-    private ImageView toImage(Dice dice) {
-        Image image = new Image(dice.getDiceImage());
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
-        return imageView;
     }
 
     private void openToolCards(String string, ArrayList<ToolCard> toolCards) {
@@ -263,6 +262,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                             handleClickWindowPattern(mouseEvent);
                             break;
                         case 1:
+                            handleClickBoardRound(mouseEvent);
                             break;
                         case 2:
                             handleClickDraftPool(mouseEvent);
@@ -271,6 +271,31 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 });
                 arrayList.add(l);
             }
+        }
+    }
+
+    private void handleClickBoardRound(MouseEvent mouseEvent) {
+        int roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
+        if (roundTrack.get(roundIndex).size() > 0){
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Dices");
+            window.setMinWidth(250);
+            window.setMinHeight(100);
+            VBox layout = new VBox(10);
+            layout.setPadding(new Insets(10,10,10,10));
+            for (int j = 0; j < roundTrack.get(roundIndex).size(); j++) {
+                Label label = new Label();
+                label.setGraphic(toImage(roundTrack.get(roundIndex).get(j)));
+                layout.getChildren().add(label);
+            }
+            layout.setAlignment(Pos.TOP_CENTER);
+            Scene scene = new Scene(layout);
+            window.setScene(scene);
+            window.showAndWait();
+        }
+        else{
+            createAlertBox("Error", "This turn has to be played", "No dices");
         }
     }
 
@@ -295,6 +320,14 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private ImageView toImage(Restriction restriction) {
         Image image = new Image(restriction.getRestrictionImage());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        return imageView;
+    }
+
+    private ImageView toImage(Dice dice) {
+        Image image = new Image(dice.getDiceImage());
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
