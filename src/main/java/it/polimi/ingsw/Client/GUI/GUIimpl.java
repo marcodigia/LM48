@@ -17,7 +17,8 @@ public class GUIimpl extends Application implements Runnable, UI {
     public static Parent root;
     public static String username;
     public static GeneriClient generiClient;
-
+    public static final String title = "Sagrada";
+    public static final String fxml = "/RMI_Socket.fxml";
     public static String ip;
     public static String port;
     public GUIimpl(){
@@ -44,8 +45,7 @@ public class GUIimpl extends Application implements Runnable, UI {
 
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        stage.setTitle("Sagrada");
-        String fxml = "/RMI_Socket.fxml";
+        stage.setTitle(title);
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();

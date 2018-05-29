@@ -30,7 +30,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
-    private String fxml;
+    private static String fxml;
     public static ArrayList<String> playersName = new ArrayList<>();
 
     public static ClientServerSender clientServerSender ;
@@ -133,9 +133,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
             public void run() {
 
                 System.out.println(players);
-
                 String[] names = players.split("\\s*,\\s*");
-
                 playersName = new ArrayList<String>();
 
                 for (int i = 0 ; i < names.length ; i++){
@@ -143,7 +141,8 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                     playersName.add(new String(names[i]));
                 }
                 try {
-                    switchScene("/Lobby.fxml");
+                    fxml = "/Lobby.fxml";
+                    switchScene(fxml);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

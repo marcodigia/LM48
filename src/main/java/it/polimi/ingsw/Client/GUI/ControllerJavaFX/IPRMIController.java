@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
-import com.sun.media.sound.RIFFInvalidDataException;
-import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.event.ActionEvent;
@@ -9,19 +7,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
 
 public class IPRMIController extends GUI implements Initializable{
 
     public static String rmiIP = new String("");
-
+    public static final String fxml = "/Login.fxml";
     public TextField RMIIP;
     public ImageView bg;
     public AnchorPane anchorip;
@@ -35,7 +30,6 @@ public class IPRMIController extends GUI implements Initializable{
 
     public void hanldeClickButton(ActionEvent event) {
         rmiIP = RMIIP.getText();
-        String fxml = "/Login.fxml";
         try {
             switchScene(fxml);
         } catch (IOException e) {

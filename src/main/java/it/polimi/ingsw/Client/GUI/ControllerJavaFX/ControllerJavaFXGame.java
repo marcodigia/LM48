@@ -52,6 +52,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private final static int ROWS = 4;
     private final static int COLUMNS = 5;
+    private final static String fxml = "/Board.fxml";
 
     private int indice_dado = -1;
     private int draftpoolindex = -1;
@@ -276,7 +277,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private void handleClickBoardRound(MouseEvent mouseEvent) {
         int roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
-        if (roundTrack.get(roundIndex).size() > 0){
+        if (roundTrack.size() > roundIndex){
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);
             window.setTitle("Dices");
@@ -367,7 +368,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             @Override
             public void run() {
                 try {
-                    switchScene("/Board.fxml");
+                    switchScene(fxml);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -382,7 +383,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             public void run() {
                 attivo = true;
                 try {
-                    switchScene("/Board.fxml");
+                    switchScene(fxml);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -397,7 +398,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             public void run() {
                 attivo = false;
                 try {
-                    switchScene("/Board.fxml");
+                    switchScene(fxml);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

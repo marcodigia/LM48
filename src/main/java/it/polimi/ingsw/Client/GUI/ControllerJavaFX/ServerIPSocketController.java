@@ -26,6 +26,7 @@ public class ServerIPSocketController extends GUI implements Initializable {
     public Button button;
     public TextField serverIP;
     public TextField serverPort;
+    public static final String fxml = "/Login.fxml";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -82,9 +83,7 @@ public class ServerIPSocketController extends GUI implements Initializable {
 
     @FXML
     public void handleClickButton(ActionEvent event) {
-        String fxml = "/Login.fxml";
         generiClient = new GeneriClient();
-
         generiClient.setLinkClientServer(serverIP.getText(), Integer.parseInt(serverPort.getText()));
         generiClient.setClientServerReciver();
         generiClient.setClientServerSender();
