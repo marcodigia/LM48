@@ -13,7 +13,6 @@ public class ServerRMI {
 
     private String ip;
     private int port;
-    private boolean bound = false;
     private WaitingRoom waitingRoom;
     private Game game;
 
@@ -24,25 +23,23 @@ public class ServerRMI {
         ip = ipRMI;
     }
     public void start(){
+        boolean bound = false;
         do{
             try{
                 java.rmi.registry.LocateRegistry.createRegistry(port);
+                bound = true;
             }  catch(RemoteException e){
                 if(e instanceof ExportException)
                     port++;
             }
-        }while(!bound && port < 2000);
+        }while(!bound && port < 1108);
         try {
             StubServerImp stubServer = new StubServerImp(waitingRoom,game);
-            Naming.rebind("rmi://"+ip+"/myabc",stubServer);
+            Naming.rebind("rmi://"+ip+":"+port+"/myabc",stubServer);
         } catch (RemoteException e) {
-
-
             e.printStackTrace();
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
-
         }
     }
 }
