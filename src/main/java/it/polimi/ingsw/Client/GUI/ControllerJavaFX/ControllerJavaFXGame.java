@@ -76,6 +76,8 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         setBackground(bg4, anchorgame);
         setUpGame();
         draftPool = gameStatus.getDraftPool();
+        //round = gameStatus.getBoardRound().getDices();
+
         populateGridPane(gpdraft, 1, 9, draftPoolLabel, "");
         populateGridPane(gpround, 1, 10, round, "#");
         names.add(p1);

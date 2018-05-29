@@ -59,6 +59,7 @@ public class BoardRound implements Packetable {
         return scoreboard.get(player);
     }
 
+    public ArrayList<ArrayList<Dice>> getDices(){ return new ArrayList<ArrayList<Dice>>(roundTrack);}
 
     public void addDices(ArrayList<Dice> dices){
         roundTrack.add(dices);
