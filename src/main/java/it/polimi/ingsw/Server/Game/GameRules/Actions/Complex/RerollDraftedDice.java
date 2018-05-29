@@ -73,7 +73,7 @@ public class RerollDraftedDice implements Actions {
     }
 
     @Override
-    public void setUpPlaceDiceAction(String packet) {
+    public void setUpAction(String packet) {
 
     }
 
@@ -81,6 +81,8 @@ public class RerollDraftedDice implements Actions {
     public void setUserName(String userName) {
 
     }
+
+
 
 
     @Override

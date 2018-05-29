@@ -80,7 +80,7 @@ public class MoveOneDieIgnoringColor implements Actions {
     }
 
     @Override
-    public void setUpPlaceDiceAction(String packet) {
+    public void setUpAction(String packet) {
 
     }
 

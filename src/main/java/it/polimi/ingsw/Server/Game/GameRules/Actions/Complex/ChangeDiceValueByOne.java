@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -34,8 +35,6 @@ public class ChangeDiceValueByOne implements Actions {
     @Override
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
-        final boolean[] result = new boolean[1];
-
         draftPoolIndex = ui.getDraftPoolIndex();
         ammount = ui.getAmmountToChange();
 
@@ -48,8 +47,14 @@ public class ChangeDiceValueByOne implements Actions {
     }
 
     @Override
-    public void setUpPlaceDiceAction(String packet) {
+    public void setUpAction(String packet) {
 
+        String[] elements = packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+
+
+        System.out.println("Change Dice VAl by one " + packet );
+        ammount = Integer.parseInt(elements[0]);
+        draftPoolIndex=Integer.parseInt(elements[1]);
     }
 
     @Override
@@ -60,6 +65,10 @@ public class ChangeDiceValueByOne implements Actions {
 
     @Override
     public String toPacket() {
-        return null;
+
+        StringBuilder packet = new StringBuilder();
+        packet.append(ChangeDiceValueByOne.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
+        packet.append(ammount).append(CONSTANT.ElenemtsDelimenter).append(draftPoolIndex);
+        return packet.toString();
     }
 }

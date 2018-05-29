@@ -4,6 +4,7 @@ public class CONSTANT {
 
     public final static String delimenter = " £00£ ";
     public final static String ObjectDelimeter = " <_> ";
+    public final static String ObjectDelimeterComplex = " <@> ";
     public final static String ElenemtsDelimenter =".";
     public final static String matrixDelimenter = "<m>";
     public final static String toolcardfile = "toolCards.csv";

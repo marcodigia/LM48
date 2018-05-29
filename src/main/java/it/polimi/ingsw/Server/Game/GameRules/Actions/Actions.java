@@ -26,7 +26,7 @@ public interface Actions extends Packetable {
 
 
     //Used to rebuild the action from packet
-    void setUpPlaceDiceAction(String packet);
+    void setUpAction(String packet);
 
     void setUserName(String userName);
 }

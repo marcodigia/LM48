@@ -80,7 +80,7 @@ public class TakeDiceBasic implements Actions {
     }
 
     @Override
-    public void setUpPlaceDiceAction(String packet) {
+    public void setUpAction(String packet) {
 
     }
 
@@ -88,6 +88,8 @@ public class TakeDiceBasic implements Actions {
     public void setUserName(String userName) {
 
     }
+
+
 
     @Override
     public String toPacket() {
