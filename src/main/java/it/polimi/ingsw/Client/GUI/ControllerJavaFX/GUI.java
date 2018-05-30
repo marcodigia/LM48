@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -166,11 +168,44 @@ public abstract class GUI implements UI{
         return 0;
     }
 
-    public abstract int getWPindexDice();
+    @Override
+    public void updateGameStatus(GameStatus gameStatus) {
 
-    public abstract void resetWPindex();
+    }
 
-    public abstract int getDiceClickedindexDraftpool();
+    @Override
+    public void activate() {
 
-    public abstract void resetDraftPoolindex();
+    }
+
+    @Override
+    public void disable() {
+
+    }
+
+    @Override
+    public void allCurrentPlayers(String players) {
+
+    }
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return null;
+    }
+
+    public int getWPindexDice(){
+        return 0;
+    }
+
+    public void resetWPindex(){
+
+    }
+
+    public int getDiceClickedindexDraftpool(){
+        return 0;
+    }
+
+    public void resetDraftPoolindex(){
+
+    }
 }

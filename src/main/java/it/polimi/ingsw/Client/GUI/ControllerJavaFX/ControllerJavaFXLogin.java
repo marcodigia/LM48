@@ -107,41 +107,6 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     }
 
     @Override
-    public int getWPindexDice() {
-        return 0;
-    }
-
-    @Override
-    public void resetWPindex() {
-
-    }
-
-    @Override
-    public int getDiceClickedindexDraftpool() {
-        return 0;
-    }
-
-    @Override
-    public void resetDraftPoolindex() {
-
-    }
-
-    @Override
-    public void updateGameStatus(GameStatus gameStatus) {
-
-    }
-
-    @Override
-    public void activate() {
-
-    }
-
-    @Override
-    public void disable() {
-
-    }
-
-    @Override
     public void allCurrentPlayers(String players) {
         Platform.runLater(new Runnable() {
             @Override
@@ -162,11 +127,6 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                 }
             }
         });
-    }
-
-    @Override
-    public ToolCard getChoosenToolCard() {
-        return null;
     }
 
     @Override

@@ -52,49 +52,4 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
         port = serverPort.getText();
         switchScene(Login);
     }
-
-    @Override
-    public int getWPindexDice() {
-        return 0;
-    }
-
-    @Override
-    public void resetWPindex() {
-
-    }
-
-    @Override
-    public int getDiceClickedindexDraftpool() {
-        return 0;
-    }
-
-    @Override
-    public void resetDraftPoolindex() {
-
-    }
-
-    @Override
-    public void updateGameStatus(GameStatus gameStatus) {
-
-    }
-
-    @Override
-    public void activate() {
-
-    }
-
-    @Override
-    public void disable() {
-
-    }
-
-    @Override
-    public void allCurrentPlayers(String players) {
-
-    }
-
-    @Override
-    public ToolCard getChoosenToolCard() {
-        return null;
-    }
 }

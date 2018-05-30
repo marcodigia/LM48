@@ -59,41 +59,6 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     }
 
     @Override
-    public int getWPindexDice() {
-        return 0;
-    }
-
-    @Override
-    public void resetWPindex() {
-
-    }
-
-    @Override
-    public int getDiceClickedindexDraftpool() {
-        return 0;
-    }
-
-    @Override
-    public void resetDraftPoolindex() {
-
-    }
-
-    @Override
-    public void updateGameStatus(GameStatus gameStatus) {
-
-    }
-
-    @Override
-    public void activate() {
-
-    }
-
-    @Override
-    public void disable() {
-
-    }
-
-    @Override
     public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
 
         id1 = wp1fronte;
@@ -119,10 +84,5 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         for (int i=0; i<playersName.size(); i++){
             this.players.get(i).setText(playersName.get(i));
         }
-    }
-
-    @Override
-    public ToolCard getChoosenToolCard() {
-        return null;
     }
 }

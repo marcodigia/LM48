@@ -27,6 +27,9 @@ public class GUIimpl extends Application implements Runnable, UI {
 
     }
 
+    /**
+     * @param ip
+     */
     public static void setIp(String ip) {
         GUIimpl.ip = ip;
     }
@@ -71,7 +74,6 @@ public class GUIimpl extends Application implements Runnable, UI {
     public void run() {
         main(null);
     }
-
 
     @Override
     public void printMessage(String s) {

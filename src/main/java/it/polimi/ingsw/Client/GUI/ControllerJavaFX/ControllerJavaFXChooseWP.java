@@ -99,33 +99,6 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         }
     }
 
-    private WindowPatternCard setUpWindowPattern(ArrayList<String> pattern) {
-        pattern.add("2");
-        pattern.add("Via Lux");
-        pattern.add("4");
-        pattern.add("Y");   //0
-        pattern.add("0");   //1
-        pattern.add("6");   //2...
-        pattern.add("0");
-        pattern.add("0");
-        pattern.add("0");
-        pattern.add("1");
-        pattern.add("5");
-        pattern.add("0");
-        pattern.add("2");
-        pattern.add("3");
-        pattern.add("Y");
-        pattern.add("R");
-        pattern.add("P");
-        pattern.add("0");
-        pattern.add("0");
-        pattern.add("0");
-        pattern.add("4");
-        pattern.add("3");
-        pattern.add("R");   //19
-        return new WindowPatternCard(pattern);
-    }
-
     public void handleSelectButton(ActionEvent actionEvent) throws IOException{
 
         if (selected != null){
@@ -254,26 +227,6 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
     }
 
     @Override
-    public int getWPindexDice() {
-        return 0;
-    }
-
-    @Override
-    public void resetWPindex() {
-
-    }
-
-    @Override
-    public int getDiceClickedindexDraftpool() {
-        return 0;
-    }
-
-    @Override
-    public void resetDraftPoolindex() {
-
-    }
-
-    @Override
     public void updateGameStatus(GameStatus gameStat) {
         System.out.println("CWP");
         Platform.runLater(new Runnable() {
@@ -302,20 +255,5 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
                 }
             }
         });
-    }
-
-    @Override
-    public void disable() {
-
-    }
-
-    @Override
-    public void allCurrentPlayers(String players) {
-
-    }
-
-    @Override
-    public ToolCard getChoosenToolCard() {
-        return null;
     }
 }

@@ -5,7 +5,6 @@ import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
@@ -15,7 +14,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
-import javafx.scene.control.MenuBar;
 import javafx.scene.layout.*;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -26,15 +24,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.*;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
@@ -53,7 +48,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     public AnchorPane anchorgame;
     public GridPane gp1, gp2, gp3, gp4, gpround, gpdraft;
     public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
-    
+
     private int indice_dado = -1;
     private int draftpoolindex = -1;
 
@@ -139,17 +134,55 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         resetWPindex();
     }
 
+    public void handleCopyright(ActionEvent event) {
+        createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
+    }
+
     public void handleShow(ActionEvent event) {
         if (event.getSource().equals(showtool))
             openToolCards("Tool Cards", null);
         if (event.getSource().equals(showpublic))
-            //openWindowFromMenu("Public Objective Cards");
+            openPublicCards("Public Objective Cards");
         if (event.getSource().equals(showprivate)){}
-            //openWindowFromMenu("Private Objective Cards");
+            openPrivateCards("Private Objective Cards");
     }
 
-    public void handleCopyright(ActionEvent event) {
-        createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
+    private void openPrivateCards(String private_objective_cards) {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(private_objective_cards);
+        window.setMinWidth(250);
+        window.setMinHeight(100);
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10,10,10,10));
+        /* for (int j = 0; j < gameStatus.get; j++) {
+            Label label = new Label();
+            label.setGraphic(toImage());
+            layout.getChildren().add(label);
+        } */
+        layout.setAlignment(Pos.TOP_CENTER);
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    private void openPublicCards(String public_objective_cards) {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(public_objective_cards);
+        window.setMinWidth(250);
+        window.setMinHeight(100);
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10,10,10,10));
+        /* for (int j = 0; j < gameStatus.get; j++) {
+            Label label = new Label();
+            label.setGraphic(toImage());
+            layout.getChildren().add(label);
+        } */
+        layout.setAlignment(Pos.TOP_CENTER);
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     private void openToolCards(String string, ArrayList<ToolCard> toolCards) {
@@ -255,30 +288,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
     }
 
-    private void populateGridPane(GridPane gridPane, int rows, int cols, ArrayList<Label> arrayList, String labelContent) {
-        for (int i = 0; i < cols; i++) {
-            for (int j = 0; j < rows; j++) {
-                Label l = new Label(labelContent);
-                GridPane.setConstraints(l, i, j);
-                gridPane.getChildren().add(l);
-                l.setOnMouseClicked((MouseEvent mouseEvent) -> {
-                    switch (typeOfGridPane(gridPane)){
-                        case 0:
-                            handleClickWindowPattern(mouseEvent);
-                            break;
-                        case 1:
-                            handleClickBoardRound(mouseEvent);
-                            break;
-                        case 2:
-                            handleClickDraftPool(mouseEvent);
-                            break;
-                    }
-                });
-                arrayList.add(l);
-            }
-        }
-    }
-
     private void handleClickBoardRound(MouseEvent mouseEvent) {
         int roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
         if (roundTrack.size() > roundIndex){
@@ -301,6 +310,30 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
         else{
             createAlertBox("Error", "This turn has to be played", "No dices");
+        }
+    }
+
+    private void populateGridPane(GridPane gridPane, int rows, int cols, ArrayList<Label> arrayList, String labelContent) {
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
+                Label l = new Label(labelContent);
+                GridPane.setConstraints(l, i, j);
+                gridPane.getChildren().add(l);
+                l.setOnMouseClicked((MouseEvent mouseEvent) -> {
+                    switch (typeOfGridPane(gridPane)){
+                        case 0:
+                            handleClickWindowPattern(mouseEvent);
+                            break;
+                        case 1:
+                            handleClickBoardRound(mouseEvent);
+                            break;
+                        case 2:
+                            handleClickDraftPool(mouseEvent);
+                            break;
+                    }
+                });
+                arrayList.add(l);
+            }
         }
     }
 
@@ -410,13 +443,4 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         });
     }
 
-    @Override
-    public void allCurrentPlayers(String players) {
-
-    }
-
-    @Override
-    public ToolCard getChoosenToolCard() {
-        return null;
-    }
 }
