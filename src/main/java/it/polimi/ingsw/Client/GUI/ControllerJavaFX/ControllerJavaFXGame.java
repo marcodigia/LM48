@@ -15,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.*;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -52,7 +53,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     public AnchorPane anchorgame;
     public GridPane gp1, gp2, gp3, gp4, gpround, gpdraft;
     public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
-
+    
     private int indice_dado = -1;
     private int draftpoolindex = -1;
 
@@ -106,7 +107,11 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             }
         }
         else {
-            anchorgame.setDisable(true);
+            gpdraft.setDisable(true);
+            for (GridPane gp: gridPanes
+                 ) {
+                gp.setDisable(true);
+            }
         }
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
     }

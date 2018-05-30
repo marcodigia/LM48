@@ -15,14 +15,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorgame" prefHeight="657.0" prefWidth="668.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXGame">
+<AnchorPane fx:id="anchorgame" prefHeight="657.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXGame">
    <children>
       <ImageView fx:id="bg4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
       <BorderPane prefHeight="757.0" prefWidth="668.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <VBox spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <MenuBar>
+                  <MenuBar fx:id="menuBar">
                     <menus>
                       <Menu mnemonicParsing="false" text="Show">
                         <items>
