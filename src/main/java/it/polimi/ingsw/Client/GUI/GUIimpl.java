@@ -21,9 +21,7 @@ public class GUIimpl extends Application implements Runnable, UI {
     public static final String fxml = "/RMI_Socket.fxml";
     public static String ip;
     public static String port;
-    public GUIimpl(){
-
-    }
+    public GUIimpl(){}
 
     public static void setIp(String ip) {
         GUIimpl.ip = ip;
