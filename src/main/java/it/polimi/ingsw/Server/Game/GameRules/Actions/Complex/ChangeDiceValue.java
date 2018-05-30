@@ -1,17 +1,23 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 
-public class ChangeDiceValueByOne implements Actions {
+public class ChangeDiceValue implements Actions {
 
     private DraftPool draftPool;
 
-    private int ammount;
+    private int ammount=0;
     private int draftPoolIndex;
+
+    public ChangeDiceValue(int ammount) {
+        this.ammount = ammount;
+    }
+
     @Override
     public void doAction(GameStatus gameStatus) {
         draftPool = gameStatus.getDraftPool();
@@ -28,16 +34,18 @@ public class ChangeDiceValueByOne implements Actions {
                 diceToChange.setValue(Integer.parseInt(diceToChange.getValue()) + ammount);
             }
 
-        }
+
+        } else
+            diceToChange.setValue(ammount-Integer.parseInt(diceToChange.getValue()) );   //This will turn the dice on opposite face
     }
 
     @Override
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
-        final boolean[] result = new boolean[1];
 
         draftPoolIndex = ui.getDraftPoolIndex();
-        ammount = ui.getAmmountToChange();
+        if (ammount!=7)
+            ammount = ui.getAmmountToChange();
 
 
     }
@@ -48,8 +56,12 @@ public class ChangeDiceValueByOne implements Actions {
     }
 
     @Override
-    public void setUpPlaceDiceAction(String packet) {
+    public void setUpAction(String packet) {
 
+        String[] elements = packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+
+        ammount = Integer.parseInt(elements[0]);
+        draftPoolIndex=Integer.parseInt(elements[1]);
     }
 
     @Override
@@ -60,6 +72,10 @@ public class ChangeDiceValueByOne implements Actions {
 
     @Override
     public String toPacket() {
-        return null;
+
+        StringBuilder packet = new StringBuilder();
+        packet.append(ChangeDiceValue.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
+        packet.append(ammount).append(CONSTANT.ElenemtsDelimenter).append(draftPoolIndex);
+        return packet.toString();
     }
 }

@@ -31,7 +31,7 @@ class ChangeDiceValueByOneTest {}/*
     @ParameterizedTest(name = " dice at index: {index} of draftpool")
     @ValueSource(ints = {1, 2, 3, 4, 5, 6})
     void doAction(int n) {
-        increaseDiceAction = new ChangeDiceValueByOne();
+        increaseDiceAction = new ChangeDiceValue();
         draftPool.getDice(0).setValue(n);
 
         if (n == 6) {
@@ -60,7 +60,7 @@ class ChangeDiceValueByOneTest {}/*
     @ParameterizedTest(name = " dice at index: {index} of draftpool")
     @ValueSource(ints = {1, 2, 3, 4, 5, 6})
     void doAction2(int n) {
-        increaseDiceAction = new ChangeDiceValueByOne();
+        increaseDiceAction = new ChangeDiceValue();
         draftPool.getDice(0).setValue(n);
 
 

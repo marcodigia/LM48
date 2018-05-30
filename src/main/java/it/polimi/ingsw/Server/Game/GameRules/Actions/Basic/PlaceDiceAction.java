@@ -12,7 +12,7 @@ public class PlaceDiceAction implements Actions {
 
     private boolean ACTIVE = true;
     private final int MatrixSixe = 20;
-    private Dice dice;
+    public Dice dice;
     private int matrixIndexTo;
     private boolean ignoreValue;
     private boolean ignoreColor;
@@ -36,7 +36,7 @@ public class PlaceDiceAction implements Actions {
     }
 
 
-    public void setUpPlaceDiceAction(String packet){
+    public void setUpAction(String packet){
         String[] elements =packet.split("\\"+CONSTANT.ElenemtsDelimenter);
 
         matrixIndexTo = Integer.parseInt(elements[0]);
@@ -48,6 +48,8 @@ public class PlaceDiceAction implements Actions {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+
 
     //NB if the get to this method it means that the user has already confirm its action so if if is illegal the dice shuld be removed
     @Override
@@ -138,10 +140,11 @@ public class PlaceDiceAction implements Actions {
     public String toPacket() {
 
         StringBuilder packet = new StringBuilder();
-        packet.append(PlaceDiceAction.class.getName()).append(CONSTANT.ObjectDelimeter);
-        packet.append(matrixIndexTo).append(CONSTANT.ElenemtsDelimenter).append(dice);
+        packet.append(PlaceDiceAction.class.getName());
         packet.append(CONSTANT.ObjectDelimeter).append(userName);
         packet.append(CONSTANT.ObjectDelimeter).append(ACTIVE);
+        packet.append(CONSTANT.ObjectDelimeter).append(matrixIndexTo)
+                .append(CONSTANT.ElenemtsDelimenter).append(dice);
         return packet.toString();
     }
 }

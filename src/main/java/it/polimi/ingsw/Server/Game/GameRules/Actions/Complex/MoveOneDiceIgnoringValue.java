@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -11,8 +12,7 @@ public class MoveOneDiceIgnoringValue implements Actions {
 
 
   private  int from , to;
-  private boolean ACTIVE = true;
-  String userName;
+  private String userName;
     @Override
     public void doAction(GameStatus gameStatus) {
 
@@ -20,11 +20,8 @@ public class MoveOneDiceIgnoringValue implements Actions {
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
-        if (!ACTIVE)
-            return;
+         activePlayerWP.moveDice(from, to, false, true, false);
 
-           if( activePlayerWP.moveDice(from, to, false, true, false))
-            ACTIVE = false;
 
     }
 
@@ -36,40 +33,13 @@ public class MoveOneDiceIgnoringValue implements Actions {
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
-        if (!ACTIVE)
-            return;
-
         if (!existsValidMove(activePlayerWP,true)){
             ui.printMessage("No possible moves");
             return;
         } else {
 
-            final boolean[] result = new boolean[1];
-
-            result[0] = true;
-            //If the user interupt the action because he decide to do something else the action remains active
-                Thread getUserInputThread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        from = ui.getMatrixIndexFrom();
-                        to = ui.getMatrixIndexTo();
-
-                    }
-                });
-                getUserInputThread.start();
-                try {
-                    getUserInputThread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    result[0]=false;
-
-                }
-
-            if (!result[0]){
-                return;
-            }
-
-            //TODO send action to the server
+            from = ui.getMatrixIndexFrom();
+            to = ui.getMatrixIndexTo();
 
         }
 
@@ -82,13 +52,16 @@ public class MoveOneDiceIgnoringValue implements Actions {
     }
 
     @Override
-    public void setUpPlaceDiceAction(String packet) {
+    public void setUpAction(String packet) {
 
+        String[] elements = packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+        from = Integer.parseInt(elements[0]);
+        to = Integer.parseInt(elements[1]);
     }
 
     @Override
     public void setUserName(String userName) {
-
+        this.userName = userName;
     }
 
 
@@ -111,6 +84,10 @@ public class MoveOneDiceIgnoringValue implements Actions {
 
     @Override
     public String toPacket() {
-        return null;
+
+        StringBuilder packet = new StringBuilder();
+        packet.append(MoveOneDiceIgnoringValue.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
+        packet.append(from).append(CONSTANT.ElenemtsDelimenter).append(to);
+        return packet.toString();
     }
 }

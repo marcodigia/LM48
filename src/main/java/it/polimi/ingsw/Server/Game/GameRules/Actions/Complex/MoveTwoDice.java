@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 
 public class MoveTwoDice implements Actions {
@@ -19,9 +20,14 @@ public class MoveTwoDice implements Actions {
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
+
+        //TODO review this method. because first one dice is moved and than the other
+
         if (activePlayerWP.moveDice(from1, to1, false, false, false))
             if (!activePlayerWP.moveDice(from2, to2, false, false, false))
                 activePlayerWP.moveDice(to1, from1, true, true, true);
+
+
 
     }
 
@@ -51,8 +57,13 @@ public class MoveTwoDice implements Actions {
     }
 
     @Override
-    public void setUpPlaceDiceAction(String packet) {
+    public void setUpAction(String packet) {
 
+        String[] elements = packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+        from1 = Integer.parseInt(elements[0]);
+        to1 = Integer.parseInt(elements[1]);
+        from2 = Integer.parseInt(elements[2]);
+        to2 = Integer.parseInt(elements[3]);
     }
 
     @Override
@@ -100,6 +111,12 @@ public class MoveTwoDice implements Actions {
 
     @Override
     public String toPacket() {
-        return null;
+
+
+        StringBuilder packet = new StringBuilder();
+        packet.append(MoveTwoDice.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
+        packet.append(from1).append(CONSTANT.ElenemtsDelimenter).append(to1).append(CONSTANT.ElenemtsDelimenter);
+        packet.append(from2).append(CONSTANT.ElenemtsDelimenter).append(to2);
+        return packet.toString();
     }
 }
