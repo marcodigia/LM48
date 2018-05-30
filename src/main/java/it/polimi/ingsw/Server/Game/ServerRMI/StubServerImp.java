@@ -24,6 +24,11 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
     }
 
     @Override
+    public void pingBack(String username) throws RemoteException {
+
+    }
+
+    @Override
     public void register(String username, ServerClientSender clientRef) throws RemoteException {
         waitingRoom.addClient(username, clientRef);
     }

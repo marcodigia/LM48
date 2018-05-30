@@ -25,6 +25,11 @@ public class ClientServerSenderImp implements ClientServerSender {
     }
 
     @Override
+    public void pingBack(String username) throws RemoteException {
+
+    }
+
+    @Override
     public void register(String username, ServerClientSender clientRef) throws RemoteException {
         printWriter.println("R"+ CONSTANT.delimenter + username + CONSTANT.delimenter);
         printWriter.flush();

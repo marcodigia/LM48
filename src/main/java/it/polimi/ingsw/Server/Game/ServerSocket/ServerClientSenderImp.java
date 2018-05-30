@@ -27,6 +27,12 @@ public class ServerClientSenderImp implements ServerClientSender {
     }
 
     @Override
+    public void ping() throws RemoteException {
+        printWriter.println("PING" + CONSTANT.delimenter);
+        printWriter.flush();
+    }
+
+    @Override
     public void sendMessage(String message) throws RemoteException {
         printWriter.println("S" + CONSTANT.delimenter + message + CONSTANT.delimenter);
         printWriter.flush();
