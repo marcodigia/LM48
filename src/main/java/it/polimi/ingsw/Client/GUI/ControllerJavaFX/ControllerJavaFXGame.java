@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
@@ -58,8 +59,12 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
     private DraftPool draftPool;
     private PlaceDiceAction placeDiceAction;
+    private UseToolCardBasic useTCAction;
     private Actions actions;
     private ArrayList<ArrayList<Dice>> roundTrack;
+
+
+    private int indiceToolCard;
 
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
     private ArrayList<Label> toolCardsLabel = new ArrayList<>();
@@ -117,7 +122,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
         }
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
-
+        useTCAction = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
         toolCards = gameStatus.getToolCards();
     }
 
@@ -206,12 +211,22 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         window.showAndWait();
     }
 
+
+
+
+    @Override
+    public ToolCard getChoosenToolCard() {
+        return toolCards.get(indiceToolCard);
+    }
+
     private void handleClickToolCard(MouseEvent mouseEvent) {
         System.out.println("handle toolcard");
 
         Label event = (Label) mouseEvent.getSource();
-        int indiceToolCard = toolCardsLabel.indexOf(event);
-        actions = toolCards.get(indiceToolCard).getActions();
+
+        indiceToolCard = toolCardsLabel.indexOf(event);
+
+
 
         UI ui = this;
         Thread t = new Thread(new Runnable() {
@@ -219,10 +234,11 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             public void run() {
                 synchronized (lock){
                     System.out.println("prima use");
-                    actions.useAction(ui, gameStatus, username);
+                    useTCAction.useAction(ui, gameStatus, username);
                     System.out.println("dopo use");
+                    System.out.println(useTCAction.toPacket());
                     try {
-                        clientServerSender.sendAction(actions, username);
+                        clientServerSender.sendAction(useTCAction, username);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

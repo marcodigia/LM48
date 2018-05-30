@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
@@ -58,7 +59,7 @@ public class ServerClientReciver implements Runnable {
                         break;
                     case "A":
                         message = scanner.next();
-                        Actions a = Unpacker.ACT_fromPacket(message);
+                        Actions a = Unpacker.ACT_fromPacket(message,CONSTANT.ObjectDelimeter);
                         String[] name = a.getClass().getName().split("\\.");
 
                         System.out.println("Server Client Receiver " + name[name.length-1]);

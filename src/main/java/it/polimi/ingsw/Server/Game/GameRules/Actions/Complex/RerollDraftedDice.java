@@ -14,6 +14,10 @@ public class RerollDraftedDice implements Actions {
     private int diceIndex;
     private String userName;
 
+
+    public RerollDraftedDice() {
+    }
+
     public RerollDraftedDice(int diceIndex) {
         this.diceIndex = diceIndex;
     }

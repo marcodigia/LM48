@@ -235,12 +235,12 @@ public class Unpacker {
      * @param packet rappresent the action and ther attributes it follows this syntax ClassName <_> params.params ..  where ClassName is the Name of the Action and params are all the necessary parameters
      * @return returns an Actions initialized with all the given params
      */
-   public static Actions ACT_fromPacket(String packet){
+   public static Actions ACT_fromPacket(String packet,String delimeter){
 
         System.out.println("Act_fromPacket " + packet);
         Actions action = null;
 
-       String[] elements =packet.split("\\"+CONSTANT.ObjectDelimeter);
+       String[] elements =packet.split(delimeter);
 
 
 

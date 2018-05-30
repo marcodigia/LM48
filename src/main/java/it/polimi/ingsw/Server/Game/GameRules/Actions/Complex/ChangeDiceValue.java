@@ -14,6 +14,10 @@ public class ChangeDiceValue implements Actions {
     private int ammount=0;
     private int draftPoolIndex;
 
+
+    public ChangeDiceValue() {
+    }
+
     public ChangeDiceValue(int ammount) {
         this.ammount = ammount;
     }
