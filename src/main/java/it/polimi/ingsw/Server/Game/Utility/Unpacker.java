@@ -23,6 +23,10 @@ public class Unpacker {
     public static Hashtable<String,Drawable>   PRDeck;
     private static GameStatus gs;
 
+    /**
+     * setUpUnpacker must be called before the first usage of the static class.
+     * Its aim is to load all the decks of the card, in order to rebuild the cards from the net-packet
+     */
     public static void setUpUnpacker(){
         AbstractCardFactory WPfactory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
         AbstractCardFactory TCFactory = new ToolCardFactory(CONSTANT.toolcardfile);
@@ -51,6 +55,23 @@ public class Unpacker {
     *  following      and action state                                           card                                           played                      to packet
     * */
 
+    /**
+     * @param packet is the net-packet cointaining all the necessary information required to rebuild the GameStatus. it has the following syntax
+     *
+     * General Syntax of the packets
+     *
+     * <I>       d   <username.b.b>  d   <ID_WP>      d      <WP>        d       <ID_pr>     ...     d   <DP>            d       <I>              d         <ALD>            ....    d   <TC> d  <TC>  d <TC>
+     *
+     *  num of         player            id of               wp                   id of                 the dp                   number of                   ArrayList                      3 id of toolcards
+     *  player         username           wp                 to packet            private               to packet                round already               of Dice
+     *  following      and action state                                           card                                           played                      to packet
+
+     *                  where b,b are
+     *                  boolean
+     *
+     *
+     *@return the method returns a GameStatus object rebuilt from the net-packet
+     */
     //This class returns the game status.
     //NB this should be used only on to rebuild the gamestatus on the client because the player in this gamestatu are not totally setup
     public static GameStatus getGameStatus(String packet){
@@ -139,6 +160,11 @@ public class Unpacker {
         return (WindowPatternCard) WPDeck.get(id);
     }
 
+
+    /**
+     * @param id is the id of the ToolCard to rebuilt
+     * @return returns a ToolCard whith the given id
+     */
     private static ToolCard TC_FromId(String id){
 
         String[] element = id.split("\\"+CONSTANT.ElenemtsDelimenter);
@@ -147,6 +173,10 @@ public class Unpacker {
         return t;
     }
 
+    /**
+     * @param id is the id of the PublicObjectiveCard to rebuilt
+     * @return returns a ToolCard whith the given id
+     */
     private static PublicObjectiveCard PB_FromId(String id){
 
         System.out.println(id.length());
@@ -154,13 +184,20 @@ public class Unpacker {
         return (PublicObjectiveCard) PODeck.get(id);
     }
 
+
+    /**
+     * @param id is the id of the PrivateObjectiveCard to rebuilt
+     * @return returns a ToolCard whith the given id
+     */
     private static PrivateObjectiveCard PR_FromId(String id){
         return (PrivateObjectiveCard) PRDeck.get(id);
     }
 
 
-
-
+    /**
+     * @param packet follow this syntax rules <username.b.b> where b.b are two boolean indicating the active state of the player actions
+     * @return an Arraylist with the info of about the player
+     */
     private static ArrayList<String> player_InfoFromPacket(String packet){
 
 
@@ -171,6 +208,11 @@ public class Unpacker {
     }
 
 
+    /**
+     * @param id id is the id of the WindowPatternCard to rebuilt
+     * @param packet rappresents the dice an their position on the WindowPatternCard it follows this syntax null.null.Y3 ... where null indicates that the dice is not present and Y3 is a yellow dice with value 3
+     * @return the WindowPatternCard with all the dices placed
+     */
    private static WindowPatternCard WP_fromPacket(String id , String packet){
 
         WindowPatternCard wp = (WindowPatternCard) WPDeck.get(id);
@@ -189,6 +231,10 @@ public class Unpacker {
    }
 
 
+    /**
+     * @param packet rappresent the action and ther attributes it follows this syntax ClassName <_> params.params ..  where ClassName is the Name of the Action and params are all the necessary parameters
+     * @return returns an Actions initialized with all the given params
+     */
    public static Actions ACT_fromPacket(String packet){
 
         System.out.println("Act_fromPacket " + packet);
@@ -223,6 +269,10 @@ public class Unpacker {
 
    }
 
+    /**
+     * @param packet rappresent the DraftPool
+     * @return a DraftPool with all the dices
+     */
    private static DraftPool DP_fromPacket(String packet){
         DraftPool draftPool = new DraftPool(null);
 
@@ -236,6 +286,10 @@ public class Unpacker {
         return draftPool;
    }
 
+    /**
+     * @param packet rappresent an ArrayList of dices
+     * @return returns an ArrayList of dices
+     */
    private static ArrayList<Dice> arrayList_FromPacket(String packet){
 
         ArrayList<Dice> ar = new ArrayList<>();
