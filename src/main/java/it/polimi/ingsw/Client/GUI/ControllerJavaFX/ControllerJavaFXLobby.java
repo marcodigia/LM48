@@ -22,6 +22,7 @@ import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChoose
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id2;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id3;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id4;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.ChooseWP;
 
 
 public class ControllerJavaFXLobby extends GUI implements Initializable{
@@ -30,7 +31,6 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
     public Button startbutton;
     public AnchorPane anchorlobby;
     public ImageView bg3;
-    public final static String fxml = "/ChooseWP.fxml";
     private ArrayList<Label> players = new ArrayList<>();
 
     @Override
@@ -55,7 +55,7 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
 
     @FXML
     private void handleButtonStart(ActionEvent event) throws IOException {
-        switchScene(fxml);
+        switchScene(ChooseWP);
     }
 
     @Override

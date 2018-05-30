@@ -11,17 +11,21 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.RMI_Socket;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.title;
+
 public class GUIimpl extends Application implements Runnable, UI {
 
     public static Stage stage;
     public static Parent root;
     public static String username;
     public static GeneriClient generiClient;
-    public static final String title = "Sagrada";
-    public static final String fxml = "/RMI_Socket.fxml";
     public static String ip;
     public static String port;
-    public GUIimpl(){}
+
+    public GUIimpl(){
+
+    }
 
     public static void setIp(String ip) {
         GUIimpl.ip = ip;
@@ -47,7 +51,7 @@ public class GUIimpl extends Application implements Runnable, UI {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource(fxml));
+            loader.setLocation(getClass().getResource(RMI_Socket));
             root = loader.load();
 
             // Show the scene containing the root layout.

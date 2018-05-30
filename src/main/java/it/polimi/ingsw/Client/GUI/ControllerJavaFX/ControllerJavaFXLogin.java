@@ -26,6 +26,8 @@ import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.port;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.rmi;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Lobby;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Login;
 
 public class ControllerJavaFXLogin extends GUI implements Initializable {
 
@@ -33,7 +35,6 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
-    private static String fxml;
     public static ArrayList<String> playersName = new ArrayList<>();
 
     public static ClientServerSender clientServerSender ;
@@ -155,8 +156,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                     playersName.add(new String(names[i]));
                 }
                 try {
-                    fxml = "/Lobby.fxml";
-                    switchScene(fxml);
+                    switchScene(Lobby);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -177,9 +177,8 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                 createInfoBox("", s, "");
                 switch (s) {
                     case CONSTANT.usernameAlreadyUsed:
-                        fxml = "/Login.fxml";
                         try {
-                            switchScene(fxml);
+                            switchScene(Login);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

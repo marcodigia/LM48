@@ -26,6 +26,7 @@ import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXGame.gameStatus;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
 
 public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
@@ -48,8 +49,6 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
 
     private GridPane gpSelected = null;
     private int click = 0;
-
-    String fxml = "/Board.fxml";
 
     private WindowPatternCard windowPatternCardSelected;
 
@@ -282,7 +281,7 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
             public void run() {
                 try {
                     gameStatus = gameStat;
-                    switchScene(fxml);
+                    switchScene(Board);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -297,7 +296,7 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
             public void run() {
                 ControllerJavaFXGame.attivo = true;
                 try {
-                    switchScene("/Board.fxml");
+                    switchScene(Board);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -37,6 +37,9 @@ import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChoose
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.COLUMNS;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.ROWS;
 
 public class ControllerJavaFXGame extends GUI implements Initializable {
 
@@ -49,10 +52,6 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     public AnchorPane anchorgame;
     public GridPane gp1, gp2, gp3, gp4, gpround, gpdraft;
     public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
-
-    private final static int ROWS = 4;
-    private final static int COLUMNS = 5;
-    private final static String fxml = "/Board.fxml";
 
     private int indice_dado = -1;
     private int draftpoolindex = -1;
@@ -368,7 +367,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             @Override
             public void run() {
                 try {
-                    switchScene(fxml);
+                    switchScene(Board);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -383,7 +382,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             public void run() {
                 attivo = true;
                 try {
-                    switchScene(fxml);
+                    switchScene(Board);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -398,7 +397,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             public void run() {
                 attivo = false;
                 try {
-                    switchScene(fxml);
+                    switchScene(Board);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

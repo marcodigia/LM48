@@ -20,4 +20,15 @@ public class CONSTANT {
     public final static int numberOfRound = 10;
     public final static String usernameAlreadyUsed = "This username is already used";
     public final static String correctUsername = "You are currently connected";
+    public final static int ROWS = 4;
+    public final static int COLUMNS = 5;
+    public final static String Board = "/Board.fxml";
+    public static final String title = "Sagrada";
+    public static final String RMI_Socket = "/RMI_Socket.fxml";
+    public final static String Login = "/Login.fxml";
+    public final static String ChooseWP = "/ChooseWP.fxml";
+    public final static String Lobby = "/Lobby.fxml";
+
+
+
 }

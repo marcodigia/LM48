@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+
+import javax.security.auth.login.LoginContext;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,11 +19,11 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.port;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Login;
 
 
 public class ControllerJavaFXConnection extends GUI implements Initializable {
 
-    private final static String fxml = "/Login.fxml";
     public static boolean rmi = false;
     public Button rmibutton, socketbutton;
     public AnchorPane anchorconnection;
@@ -41,14 +43,14 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
         rmi = true;
         ip = serverIP.getText();
         port = serverPort.getText();
-        switchScene(fxml);
+        switchScene(Login);
     }
 
     @FXML
     private void handleButtonSocket(ActionEvent event) throws IOException {
         ip = serverIP.getText();
         port = serverPort.getText();
-        switchScene(fxml);
+        switchScene(Login);
     }
 
     @Override
