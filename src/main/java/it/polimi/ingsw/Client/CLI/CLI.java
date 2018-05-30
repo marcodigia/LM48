@@ -128,7 +128,7 @@ public class CLI implements UI,Runnable{
     }
 
     @Override
-    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
 
         System.out.println("chose wp " + wp1fronte + " " + wp2retro + " " + wp3fronte +  " " + wp4retro);
         Scanner scanner = new Scanner(System.in);
@@ -148,7 +148,6 @@ public class CLI implements UI,Runnable{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
 

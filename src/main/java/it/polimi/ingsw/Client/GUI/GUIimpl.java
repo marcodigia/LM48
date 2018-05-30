@@ -27,27 +27,43 @@ public class GUIimpl extends Application implements Runnable, UI {
 
     }
 
+
     /**
-     * @param ip
+     * @param ip String which represents server ip
      */
     public static void setIp(String ip) {
         GUIimpl.ip = ip;
     }
 
+    /**
+     * @param port String which represents server port
+     */
     public static void setPort(String port) {
         GUIimpl.port = port;
     }
 
+    /**
+     * @param generiClient GeneriClient which represents an RMI or Socket client
+     */
     public void setGeneriClient(GeneriClient generiClient){
         this.generiClient = generiClient;
     }
 
+    /**
+     * @return GeneriClient getter
+     */
     public GeneriClient getGeneriClient(){return generiClient;}
 
+    /**
+     * @param u String which represents username's name
+     */
     public void setUsername(String u){
         username = u;
     }
 
+    /**
+     * @param primaryStage Stage used to start the GUI
+     */
     public void start(Stage primaryStage) {
         stage = primaryStage;
         stage.setTitle(title);
@@ -75,6 +91,9 @@ public class GUIimpl extends Application implements Runnable, UI {
         main(null);
     }
 
+    /**
+     * @param s String that represent a message sent from server to client
+     */
     @Override
     public void printMessage(String s) {
 
@@ -101,8 +120,8 @@ public class GUIimpl extends Application implements Runnable, UI {
     }
 
     @Override
-    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
-        return null;
+    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+
     }
 
     @Override

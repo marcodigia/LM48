@@ -1,11 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
-import it.polimi.ingsw.Server.Game.GameRules.Player;
-
-import java.util.ArrayList;
 
 public interface UI {
 
@@ -28,7 +24,7 @@ public interface UI {
     //UI must verify that value is in between bounds
     public int getMatrixIndexTo();
 
-    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro);
+    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro);
 
     public int getRoundTrackIndex();
 

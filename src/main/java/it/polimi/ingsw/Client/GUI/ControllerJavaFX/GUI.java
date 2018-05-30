@@ -20,6 +20,11 @@ import static it.polimi.ingsw.Client.GUI.GUIimpl.stage;
 
 public abstract class GUI implements UI{
 
+    /**
+     * @param title string representing the title of the box
+     * @param header string representing the header of the box
+     * @param content string representing the content of the box
+     */
     protected void createAlertBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -29,6 +34,12 @@ public abstract class GUI implements UI{
         alert.showAndWait();
     }
 
+    /**
+     * @param title string representing the title of the box
+     * @param header string representing the header of the box
+     * @param content string representing the content of the box
+     * @return button bar containing OK / CANCEL type buttons
+     */
     public ButtonBar.ButtonData createWarningBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
@@ -52,6 +63,11 @@ public abstract class GUI implements UI{
         }
     }
 
+    /**
+     * @param title string representing the title of the box
+     * @param header string representing the header of the box
+     * @param content string representing the content of the box
+     */
     protected void createInfoBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
@@ -64,6 +80,12 @@ public abstract class GUI implements UI{
         alert.showAndWait();
     }
 
+    /**
+     * @param title string representing the title of the box
+     * @param header string representing the header of the box
+     * @param content string representing the content of the box
+     * @return button bar containing OK / CANCEL type buttons
+     */
     protected ButtonBar.ButtonData createConfirmationBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
@@ -89,14 +111,15 @@ public abstract class GUI implements UI{
         }
     }
 
-    protected void switchScene(String fxml) throws IOException {
+    /**
+     * @param fxml String representing the fxml name that has to be charged
+     */
+    protected void switchScene(String fxml){
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(fxml));
             root = loader.load();
-            //clientServerReciver.setUI(this);
-            // Show the scene containing the root layout.
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setOnCloseRequest(event -> { event.consume();
@@ -109,6 +132,10 @@ public abstract class GUI implements UI{
         }
     }
 
+    /**
+     * @param background imageview of the background
+     * @param anchorPane layout pane whose background has to be set
+     */
     protected void setBackground(ImageView background, AnchorPane anchorPane){
         Image image = new Image(getClass().getClassLoader().getResourceAsStream("sfondo.png"));
         background.setImage(image);
@@ -121,16 +148,25 @@ public abstract class GUI implements UI{
         background.toBack();
     }
 
+    /**
+     * @param s String that represent a message sent from server to client
+     */
     @Override
     public void printMessage(String s) {
 
     }
 
+    /**
+     * @return
+     */
     @Override
     public int getAmmountToChange() {
         return 0;
     }
 
+    /**
+     * @return
+     */
     @Override
     public int getDraftPoolIndex() {
         while (getDiceClickedindexDraftpool() == -1) {
@@ -142,11 +178,17 @@ public abstract class GUI implements UI{
         return toReturn;
     }
 
+    /**
+     * @return
+     */
     @Override
     public int getMatrixIndexFrom() {
         return 0;
     }
 
+    /**
+     * @return
+     */
     @Override
     public int getMatrixIndexTo() {
         while (getWPindexDice() == -1) {
@@ -158,16 +200,28 @@ public abstract class GUI implements UI{
         return toReturn;
     }
 
+    /**
+     * @param wp1fronte
+     * @param wp2retro
+     * @param wp3fronte
+     * @param wp4retro
+     */
     @Override
-    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
-        return null;
+    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+
     }
 
+    /**
+     * @return
+     */
     @Override
     public int getRoundTrackIndex() {
         return 0;
     }
 
+    /**
+     * @param gameStatus
+     */
     @Override
     public void updateGameStatus(GameStatus gameStatus) {
 
@@ -183,16 +237,25 @@ public abstract class GUI implements UI{
 
     }
 
+    /**
+     * @param players
+     */
     @Override
     public void allCurrentPlayers(String players) {
 
     }
 
+    /**
+     * @return
+     */
     @Override
     public ToolCard getChoosenToolCard() {
         return null;
     }
 
+    /**
+     * @return
+     */
     public int getWPindexDice(){
         return 0;
     }
@@ -201,6 +264,9 @@ public abstract class GUI implements UI{
 
     }
 
+    /**
+     * @return
+     */
     public int getDiceClickedindexDraftpool(){
         return 0;
     }

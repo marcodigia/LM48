@@ -111,6 +111,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
     }
 
+    /**
+     * @param mouseEvent event caused by the user (eg. clicking mouse)
+     */
     public void handleClickDraftPool(MouseEvent mouseEvent) {
         Label eventDraft = (Label) mouseEvent.getSource();
         ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
@@ -119,6 +122,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
     }
 
+    /**
+     * @param mouseEvent event caused by the user (eg. clicking mouse)
+     */
     private void handleClickWindowPattern(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
         indice_dado = cells4.indexOf(event);
@@ -134,10 +140,16 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         resetWPindex();
     }
 
+    /**
+     * @param event event caused by the user (eg. clicking button)
+     */
     public void handleCopyright(ActionEvent event) {
         createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
     }
 
+    /**
+     * @param event event caused by the user (eg. clicking button)
+     */
     public void handleShow(ActionEvent event) {
         if (event.getSource().equals(showtool))
             openToolCards("Tool Cards", null);
@@ -147,6 +159,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             openPrivateCards("Private Objective Cards");
     }
 
+    /**
+     * @param private_objective_cards string used to set the title of the stage
+     */
     private void openPrivateCards(String private_objective_cards) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -166,6 +181,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         window.showAndWait();
     }
 
+    /**
+     * @param public_objective_cards string used to set the title of the stage
+     */
     private void openPublicCards(String public_objective_cards) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -185,14 +203,18 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         window.showAndWait();
     }
 
-    private void openToolCards(String string, ArrayList<ToolCard> toolCards) {
+    /**
+     * @param title string used to set the title of the stage
+     * @param toolCards arrayList containing the toolCards that can be used during the game
+     */
+    private void openToolCards(String title, ArrayList<ToolCard> toolCards) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(string);
+        window.setTitle(title);
         window.setMinWidth(250);
         window.setMinHeight(100);
         BorderPane borderPane = new BorderPane();
-        Label label = new Label(string);
+        Label label = new Label();
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label);
         layout.setAlignment(Pos.TOP_CENTER);
@@ -288,6 +310,9 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
     }
 
+    /**
+     * @param mouseEvent event caused by the user (eg. clicking mouse)
+     */
     private void handleClickBoardRound(MouseEvent mouseEvent) {
         int roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
         if (roundTrack.size() > roundIndex){
@@ -313,6 +338,13 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
     }
 
+    /**
+     * @param gridPane gridPane that has to be populated with labels
+     * @param rows number of rows of the gridpane
+     * @param cols number of columns of the gridpane
+     * @param arrayList arrayList containing labels that have to populate the gridPane
+     * @param labelContent string representing the content of the label
+     */
     private void populateGridPane(GridPane gridPane, int rows, int cols, ArrayList<Label> arrayList, String labelContent) {
         for (int i = 0; i < cols; i++) {
             for (int j = 0; j < rows; j++) {
@@ -337,6 +369,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
     }
 
+    /**
+     * @param gridPane gridPane that has to be populated with labels
+     * @param player player owning this gridpane(window pattern card)
+     */
     private void populateGridPane(GridPane gridPane, Player player) {
         Node grid = gridPane.getChildren().get(0);
         gridPane.getChildren().clear();
@@ -356,6 +392,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         }
     }
 
+    /**
+     * @param restriction restriction whose image is required
+     * @return imageview of the restriction
+     */
     private ImageView toImage(Restriction restriction) {
         Image image = new Image(restriction.getRestrictionImage());
         ImageView imageView = new ImageView(image);
@@ -364,6 +404,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         return imageView;
     }
 
+    /**
+     * @param dice dice whose image is required
+     * @return imageview of the dice
+     */
     private ImageView toImage(Dice dice) {
         Image image = new Image(dice.getDiceImage());
         ImageView imageView = new ImageView(image);
@@ -372,6 +416,10 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         return imageView;
     }
 
+    /**
+     * @param gridPane gridpane that has to be identified (ed. round track, draft pool, window pattern card)
+     * @return int representing the type (0 --> window pattern card, 1 --> round track, 2 --> draft pool)
+     */
     private int typeOfGridPane(GridPane gridPane){
         if (gridPane.equals(gp1) || gridPane.equals(gp2) || gridPane.equals(gp3) || gridPane.equals(gp4))
             return 0;
@@ -382,10 +430,16 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         return -1;
     }
 
+    /**
+     * @return index of the dice taken from draft pool
+     */
     public int getDiceClickedindexDraftpool(){
         return draftpoolindex;
     }
 
+    /**
+     * @return index of window pattern card's cell clicked
+     */
     public int getWPindexDice(){
         return indice_dado;
     }
@@ -398,17 +452,16 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         draftpoolindex = -1;
     }
 
+    /**
+     * @param gameStat status of the game (window pattern cards, draft pool, dice bag, round track, ...)
+     */
     @Override
     public void updateGameStatus(GameStatus gameStat) {
         gameStatus = gameStat;
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    switchScene(Board);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                switchScene(Board);
             }
         });
     }
@@ -419,11 +472,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             @Override
             public void run() {
                 attivo = true;
-                try {
-                    switchScene(Board);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                switchScene(Board);
             }
         });
     }
@@ -434,11 +483,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             @Override
             public void run() {
                 attivo = false;
-                try {
-                    switchScene(Board);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                switchScene(Board);
             }
         });
     }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
-import it.polimi.ingsw.Server.Game.Cards.ToolCard;
-import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,13 +51,22 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         }
     }
 
+    /**
+     * @param event user event (eg. user clicks a button)
+     */
     @FXML
-    private void handleButtonStart(ActionEvent event) throws IOException {
+    private void handleButtonStart(ActionEvent event){
         switchScene(ChooseWP);
     }
 
+    /**
+     * @param wp1fronte front side of 1st window pattern card that player has to choose
+     * @param wp2retro back side of 1st window pattern card that player has to choose
+     * @param wp3fronte front side of 2nd window pattern card that player has to choose
+     * @param wp4retro back side of 2nd window pattern card that player has to choose
+     */
     @Override
-    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
 
         id1 = wp1fronte;
         id2 = wp2retro;
@@ -68,17 +75,13 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
 
         Platform.runLater(new Runnable() {
             @Override
-            public void run() {
-                try {
-                    handleButtonStart(new ActionEvent());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            public void run() { handleButtonStart( new ActionEvent()); }
         });
-        return  null;
     }
 
+    /**
+     * @param players string containing all players
+     */
     @Override
     public void allCurrentPlayers(String players){
         for (int i=0; i<playersName.size(); i++){

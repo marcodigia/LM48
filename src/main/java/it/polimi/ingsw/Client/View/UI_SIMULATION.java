@@ -1,9 +1,7 @@
 package it.polimi.ingsw.Client.View;
 
-import it.polimi.ingsw.Exceptions.EndOfTurnException;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
-import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.UI;
 
 public class UI_SIMULATION implements UI {
@@ -50,8 +48,8 @@ public class UI_SIMULATION implements UI {
     }
 
     @Override
-    public String chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
-        return null;
+    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+
     }
 
     @Override

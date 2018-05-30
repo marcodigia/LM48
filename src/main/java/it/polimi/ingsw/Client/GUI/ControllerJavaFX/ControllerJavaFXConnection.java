@@ -1,22 +1,16 @@
 package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
 
-import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
-import it.polimi.ingsw.Server.Game.Cards.ToolCard;
-import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
-import javax.security.auth.login.LoginContext;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.port;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Login;
@@ -38,16 +32,22 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
         bg2.autosize();
     }
 
+    /**
+     * @param event user event (eg. user clicks a button)
+     */
     @FXML
-    private void handleButtonRMI(ActionEvent event) throws IOException {
+    private void handleButtonRMI(ActionEvent event){
         rmi = true;
         ip = serverIP.getText();
         port = serverPort.getText();
         switchScene(Login);
     }
 
+    /**
+     * @param event user event (eg. user clicks a button)
+     */
     @FXML
-    private void handleButtonSocket(ActionEvent event) throws IOException {
+    private void handleButtonSocket(ActionEvent event){
         ip = serverIP.getText();
         port = serverPort.getText();
         switchScene(Login);

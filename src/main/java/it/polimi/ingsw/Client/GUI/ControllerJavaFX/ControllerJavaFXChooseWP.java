@@ -87,6 +87,11 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         populateGridPane(wp4, wp4Labels, windowPatternCard4);
     }
 
+    /**
+     * @param gridPane gridPane that has to be populated with labels
+     * @param arrayList arrayList containing labels that have to populate the gridPane
+     * @param windowPatternCard window pattern card that has the restrictions needed to populate the gridPane
+     */
     private void populateGridPane(GridPane gridPane, ArrayList<Label> arrayList, WindowPatternCard windowPatternCard) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
@@ -99,17 +104,28 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         }
     }
 
-    public void handleSelectButton(ActionEvent actionEvent) throws IOException{
+    /**
+     * @param actionEvent event caused by the user (eg. clicking a button)
+     */
+    public void handleSelectButton(ActionEvent actionEvent){
 
         if (selected != null){
             //switchScene(fxml);
-            clientServerSender.choosenWindowPattern(windowPatternCardSelected.getID(), username);
+            try {
+                clientServerSender.choosenWindowPattern(windowPatternCardSelected.getID(), username);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
         else {
             createAlertBox("Error!", "Select a Window Pattern first", "");
         }
     }
 
+    /**
+     * @param restriction restriction whose image is required
+     * @return imageview of the restriction
+     */
     private ImageView toImage(Restriction restriction) {
         Image image = new Image(restriction.getRestrictionImage());
         ImageView imageView = new ImageView(image);
@@ -118,6 +134,9 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         return imageView;
     }
 
+    /**
+     * @param mouseEvent event caused by the user (eg. clicking mouse)
+     */
     public void handleWP1selected(MouseEvent mouseEvent) {
         if (gpSelected!=null && !(gpSelected.equals(wp1))) {
             gpSelected.setOpacity(1);
@@ -144,6 +163,9 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         }
     }
 
+    /**
+     * @param mouseEvent event caused by the user (eg. clicking mouse)
+     */
     public void handleWP2selected(MouseEvent mouseEvent) {
         if (gpSelected!=null && !(gpSelected.equals(wp2))) {
             gpSelected.setOpacity(1);
@@ -171,6 +193,9 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         }
     }
 
+    /**
+     * @param mouseEvent event caused by the user (eg. clicking mouse)
+     */
     public void handleWP3selected(MouseEvent mouseEvent) {
         if (gpSelected!=null && !(gpSelected.equals(wp3))){
             gpSelected.setOpacity(1);
@@ -199,6 +224,9 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         }
     }
 
+    /**
+     * @param mouseEvent event caused by the user (eg. clicking mouse)
+     */
     public void handleWP4selected(MouseEvent mouseEvent) {
         if (gpSelected!=null && !(gpSelected.equals(wp4))){
             gpSelected.setOpacity(1);
@@ -226,18 +254,17 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
         }
     }
 
+    /**
+     * @param gameStat status of the game (window pattern cards, draft pool, dice bag, round track, ...)
+     */
     @Override
     public void updateGameStatus(GameStatus gameStat) {
         System.out.println("CWP");
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    gameStatus = gameStat;
-                    switchScene(Board);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                gameStatus = gameStat;
+                switchScene(Board);
             }
         });
     }
@@ -248,11 +275,7 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
             @Override
             public void run() {
                 ControllerJavaFXGame.attivo = true;
-                try {
-                    switchScene(Board);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                switchScene(Board);
             }
         });
     }
