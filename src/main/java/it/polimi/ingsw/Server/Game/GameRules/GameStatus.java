@@ -14,7 +14,7 @@ public class GameStatus implements Packetable {
     private LinkedHashMap<Player, List<Drawable> > playerCards = new LinkedHashMap<Player, List<Drawable>>();
     private DraftPool draftPool = null;
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
-    private ArrayList<PublicObjectiveCard> publicObjectiveCards = null;
+    private ArrayList<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
     private BoardRound boardRound = null;
 
     public GameStatus() {
@@ -42,6 +42,12 @@ public class GameStatus implements Packetable {
     public void addTC(ToolCard toolCard){
 
         toolCards.add(toolCard);
+    }
+
+
+    public void addP(PublicObjectiveCard publicObjectiveCard ){
+
+        publicObjectiveCards.add(publicObjectiveCard);
     }
 
 
@@ -118,6 +124,11 @@ public class GameStatus implements Packetable {
 
         }
 
+
+        for (PublicObjectiveCard p : publicObjectiveCards){
+
+            packet.append(CONSTANT.ObjectDelimeter).append(p.getID());
+        }
         return packet.toString();
     }
 

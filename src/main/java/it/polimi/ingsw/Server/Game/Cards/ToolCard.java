@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.*;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ToolCard implements Drawable {
@@ -80,6 +81,11 @@ public class ToolCard implements Drawable {
 
         }
         return action;
+    }
+
+    public InputStream getToolCardImage(){
+        String tcImageName = "tc"+id + ".png";
+        return getClass().getClassLoader().getResourceAsStream(tcImageName);
     }
 
 }

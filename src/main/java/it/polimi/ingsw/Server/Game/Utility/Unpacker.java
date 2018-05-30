@@ -120,6 +120,12 @@ public class Unpacker {
         gameStatus.addTC( TC_FromId(objectPacket[TC_cursor+3]));
 
 
+        System.out.println("id  "+objectPacket[TC_cursor+4]);
+        gameStatus.addP( PB_FromId(objectPacket[TC_cursor+4]));
+        gameStatus.addP( PB_FromId(objectPacket[TC_cursor+5]));
+        gameStatus.addP( PB_FromId(objectPacket[TC_cursor+6]));
+
+
         return gameStatus;
     }
 
@@ -141,7 +147,10 @@ public class Unpacker {
         return t;
     }
 
-    public static PublicObjectiveCard PB_FromId(String id){
+    private static PublicObjectiveCard PB_FromId(String id){
+
+        System.out.println(id.length());
+        System.out.println(PODeck.get(id));
         return (PublicObjectiveCard) PODeck.get(id);
     }
 
