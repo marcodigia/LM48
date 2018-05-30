@@ -84,7 +84,7 @@ public class ToolCard implements Drawable {
     }
 
     public InputStream getToolCardImage(){
-        String tcImageName = "tc"+id + ".png";
+        String tcImageName = "tc"+id.name() + ".png";
         return getClass().getClassLoader().getResourceAsStream(tcImageName);
     }
 
