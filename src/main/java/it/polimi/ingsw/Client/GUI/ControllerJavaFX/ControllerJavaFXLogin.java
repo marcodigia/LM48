@@ -45,15 +45,22 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
         usernametext.addEventFilter(KeyEvent.KEY_TYPED, username_Validation(20));
     }
 
+    /**
+     * @param event user event (eg. user clicks a button)
+     */
     @FXML
-    private void handleLoginButton(ActionEvent event) throws IOException {
+    private void handleLoginButton(ActionEvent event){
         saveName();
         if (rmi) {
             generiClient = new GeneriClient();
             generiClient.setLinkClientServerRMI();
             generiClient.setClientServerReciverRMI();
             clientServerReciver = generiClient.getClientServerReciver();
-            clientServerReciver.setUI(this);
+            try {
+                clientServerReciver.setUI(this);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             generiClient.register(username, ip, Integer.parseInt(port));
         }
         else {
@@ -62,17 +69,27 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
             generiClient.setClientServerReciver();
             generiClient.setClientServerSender();
             clientServerReciver = generiClient.getClientServerReciver();
-            clientServerReciver.setUI(this);
+            try {
+                clientServerReciver.setUI(this);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             generiClient.register(username);
         }
     }
 
+    /**
+     * @param enter user event (eg. user clicks a button)
+     */
     @FXML
-    private void handleEnter(ActionEvent enter) throws IOException {
+    private void handleEnter(ActionEvent enter){
         handleLoginButton(enter);
     }
 
-    // Username limited to max_Lenght AND to only Digits and Letters
+    /**
+     * @param max_Length Integer that represents the maximum length of a string
+     * @return EventHandler used to validate a string to max_Length and to only digits and letters
+     */
     public EventHandler<KeyEvent> username_Validation(final Integer max_Length) {
         return new EventHandler<KeyEvent>() {
             @Override
@@ -106,6 +123,9 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
         username = new String(usernametext.getText());
     }
 
+    /**
+     * @param players String containing all players
+     */
     @Override
     public void allCurrentPlayers(String players) {
         Platform.runLater(new Runnable() {
@@ -120,15 +140,14 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                     System.out.println(names[i]);
                     playersName.add(new String(names[i]));
                 }
-                try {
-                    switchScene(Lobby);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                switchScene(Lobby);
             }
         });
     }
 
+    /**
+     * @param s String that represent a message sent from server to client
+     */
     @Override
     public void printMessage(String s) {
         Platform.runLater(new Runnable() {
@@ -137,11 +156,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                 createInfoBox("", s, "");
                 switch (s) {
                     case CONSTANT.usernameAlreadyUsed:
-                        try {
-                            switchScene(Login);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        switchScene(Login);
                         break;
                     case CONSTANT.correctUsername:
                         clientServerSender = generiClient.getClientServerSender();
