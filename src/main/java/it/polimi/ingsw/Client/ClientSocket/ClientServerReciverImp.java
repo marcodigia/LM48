@@ -36,6 +36,9 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
         while(true){
             String command = scanner.next();
             switch(command){
+                case "PING":
+
+                    break;
                 case "S":
                      message = scanner.next();
                      ui.printMessage(message);
@@ -60,6 +63,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                 case "ALL":
                     message = scanner.next();
                     ui.allCurrentPlayers(message);
+                    break;
                 default:
                     break;
             }

@@ -12,7 +12,8 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class ServerClientSenderImp implements Runnable, ServerClientSender {
+public class ServerClientSenderImp implements ServerClientSender {
+
     private Socket socket;
     private PrintWriter printWriter;
 
@@ -24,9 +25,11 @@ public class ServerClientSenderImp implements Runnable, ServerClientSender {
             e.printStackTrace();
         }
     }
-    @Override
-    public void run() {
 
+    @Override
+    public void ping() throws RemoteException {
+        printWriter.println("PING" + CONSTANT.delimenter);
+        printWriter.flush();
     }
 
     @Override
@@ -75,4 +78,5 @@ public class ServerClientSenderImp implements Runnable, ServerClientSender {
         printWriter.println("ALL" + CONSTANT.delimenter + message + CONSTANT.delimenter);
         printWriter.flush();
     }
+
 }

@@ -23,6 +23,11 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
     }
 
     @Override
+    public void ping() throws RemoteException {
+
+    }
+
+    @Override
     public void sendMessage(String message) throws RemoteException {
         ui.printMessage(message);
     }

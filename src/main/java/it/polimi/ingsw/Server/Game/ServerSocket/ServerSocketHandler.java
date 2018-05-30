@@ -21,9 +21,7 @@ public class ServerSocketHandler implements Runnable {
     public void run() {
         ServerClientSenderImp serverClientSender = new ServerClientSenderImp(socket);
         ServerClientReciver serverClientReciver = new ServerClientReciver(socket, serverClientSender, waitingRoom, game);
-        Thread t = new Thread(serverClientSender);
         Thread t1 = new Thread(serverClientReciver);
-        t.start();
         t1.start();
     }
 }

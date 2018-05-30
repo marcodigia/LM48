@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
-public class ClientServerSenderImp implements Runnable, ClientServerSender {
+public class ClientServerSenderImp implements ClientServerSender {
 
     private Socket socket;
     private PrintWriter printWriter;
@@ -23,8 +23,9 @@ public class ClientServerSenderImp implements Runnable, ClientServerSender {
             e.printStackTrace();
         }
     }
+
     @Override
-    public void run() {
+    public void pingBack(String username) throws RemoteException {
 
     }
 

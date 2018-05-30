@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface ServerClientSender {
+    void ping() throws RemoteException;
     void sendMessage(String message) throws RemoteException;
     void chooseWindowPattern(String id1, String id2, String id3, String id4) throws RemoteException;
     void timerEnd() throws RemoteException;

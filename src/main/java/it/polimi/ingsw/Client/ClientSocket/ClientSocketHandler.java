@@ -23,9 +23,7 @@ public class ClientSocketHandler extends LinkClientServer{
             clientServerReciver = new ClientServerReciverImp(serverSocket);
             clientServerSenderImp = new ClientServerSenderImp(serverSocket);
             Thread t = new Thread(clientServerReciver);
-            Thread t1 = new Thread(clientServerSenderImp);
             t.start();
-            t1.start();
         }catch(IOException e){
             System.err.println(e.getMessage());
         }
