@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import java.io.IOException;
 import java.util.Optional;
@@ -134,17 +135,17 @@ public abstract class GUI implements UI{
 
     /**
      * @param background imageview of the background
-     * @param anchorPane layout pane whose background has to be set
+     * @param pane layout pane whose background has to be set
      */
-    protected void setBackground(ImageView background, AnchorPane anchorPane){
+    protected void setBackground(ImageView background, Pane pane){
         Image image = new Image(getClass().getClassLoader().getResourceAsStream("sfondo.png"));
         background.setImage(image);
         background.setOpacity(0.25);
         background.setCache(true);
         background.setSmooth(true);
         background.setPreserveRatio(false);
-        background.fitWidthProperty().bind(anchorPane.widthProperty());
-        background.fitHeightProperty().bind(anchorPane.heightProperty());
+        background.fitWidthProperty().bind(pane.widthProperty());
+        background.fitHeightProperty().bind(pane.heightProperty());
         background.toBack();
     }
 

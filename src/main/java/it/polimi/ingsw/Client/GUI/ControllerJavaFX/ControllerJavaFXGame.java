@@ -56,6 +56,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     private PlaceDiceAction placeDiceAction;
     private ArrayList<ArrayList<Dice>> roundTrack;
 
+    private ArrayList<ToolCard> toolCards = new ArrayList<>();
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells4 = new ArrayList<>();
     private ArrayList<Label> names = new ArrayList<>();
@@ -109,6 +110,8 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             }
         }
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
+
+        toolCards = gameStatus.getToolCards();
     }
 
     /**
@@ -152,72 +155,43 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
      */
     public void handleShow(ActionEvent event) {
         if (event.getSource().equals(showtool))
-            openToolCards("Tool Cards", null);
+            openToolCards("Tool Cards");
         if (event.getSource().equals(showpublic))
             openPublicCards("Public Objective Cards");
-        if (event.getSource().equals(showprivate)){}
+        if (event.getSource().equals(showprivate))
             openPrivateCards("Private Objective Cards");
     }
 
     /**
-     * @param private_objective_cards string used to set the title of the stage
+     * @param title string used to set the title of the stage
      */
-    private void openPrivateCards(String private_objective_cards) {
-        Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(private_objective_cards);
-        window.setMinWidth(250);
-        window.setMinHeight(100);
-        VBox layout = new VBox(10);
-        layout.setPadding(new Insets(10,10,10,10));
-        /* for (int j = 0; j < gameStatus.get; j++) {
-            Label label = new Label();
-            label.setGraphic(toImage());
-            layout.getChildren().add(label);
-        } */
-        layout.setAlignment(Pos.TOP_CENTER);
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.showAndWait();
-    }
+    private void openPrivateCards(String title) {
 
-    /**
-     * @param public_objective_cards string used to set the title of the stage
-     */
-    private void openPublicCards(String public_objective_cards) {
-        Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(public_objective_cards);
-        window.setMinWidth(250);
-        window.setMinHeight(100);
-        VBox layout = new VBox(10);
-        layout.setPadding(new Insets(10,10,10,10));
-        /* for (int j = 0; j < gameStatus.get; j++) {
-            Label label = new Label();
-            label.setGraphic(toImage());
-            layout.getChildren().add(label);
-        } */
-        layout.setAlignment(Pos.TOP_CENTER);
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.showAndWait();
     }
 
     /**
      * @param title string used to set the title of the stage
-     * @param toolCards arrayList containing the toolCards that can be used during the game
      */
-    private void openToolCards(String title, ArrayList<ToolCard> toolCards) {
+    private void openPublicCards(String title) {
+
+    }
+
+    /**
+     * @param title string used to set the title of the stage
+     */
+    private void openToolCards(String title) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
         window.setMinHeight(100);
-        BorderPane borderPane = new BorderPane();
-        Label label = new Label();
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(label);
-        layout.setAlignment(Pos.TOP_CENTER);
+        HBox layout = new HBox(30);
+        layout.setAlignment(Pos.CENTER);
+        for (ToolCard tc : toolCards) {
+            Label label = new Label();
+            label.setGraphic(toImage(tc));
+            layout.getChildren().add(label);
+        }
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
@@ -417,6 +391,18 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     }
 
     /**
+     * @param toolCard toolcard whose image is required
+     * @return imageview of the toolcard
+     */
+    private ImageView toImage(ToolCard toolCard) {
+        Image image = new Image(toolCard.getToolCardImage());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(300);
+        imageView.setFitWidth(200);
+        return imageView;
+    }
+
+    /**
      * @param gridPane gridpane that has to be identified (ed. round track, draft pool, window pattern card)
      * @return int representing the type (0 --> window pattern card, 1 --> round track, 2 --> draft pool)
      */
@@ -486,6 +472,14 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                 switchScene(Board);
             }
         });
+    }
+
+    public void pingBack(){
+        try {
+            clientServerSender.pingBack(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 }

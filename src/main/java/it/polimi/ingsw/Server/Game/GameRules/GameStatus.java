@@ -147,4 +147,7 @@ public class GameStatus implements Packetable {
         return player;
     }
 
+    public ArrayList<ToolCard> getToolCards() {
+        return toolCards;
+    }
 }
