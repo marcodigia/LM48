@@ -279,4 +279,12 @@ public class ControllerJavaFXChooseWP extends GUI implements Initializable{
             }
         });
     }
+
+    public void pingBack(){
+        try {
+            clientServerSender.pingBack(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -63,4 +63,9 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
     public void endOfTurn(String username) throws RemoteException {
 
     }
+
+    @Override
+    public void close() throws RemoteException {
+
+    }
 }

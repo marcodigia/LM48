@@ -26,7 +26,8 @@ public class ClientServerSenderImp implements ClientServerSender {
 
     @Override
     public void pingBack(String username) throws RemoteException {
-
+        printWriter.println("PINGBACK"+ CONSTANT.delimenter + username + CONSTANT.delimenter);
+        printWriter.flush();
     }
 
     @Override
@@ -57,5 +58,15 @@ public class ClientServerSenderImp implements ClientServerSender {
     public void endOfTurn(String username) throws RemoteException {
         printWriter.println("ET" + CONSTANT.delimenter);
         printWriter.flush();
+    }
+
+    @Override
+    public void close() throws RemoteException {
+        printWriter.close();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

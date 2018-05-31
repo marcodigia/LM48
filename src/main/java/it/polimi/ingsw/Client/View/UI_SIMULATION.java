@@ -73,6 +73,11 @@ public class UI_SIMULATION implements UI {
     }
 
     @Override
+    public void pingBack() {
+
+    }
+
+    @Override
     public void allCurrentPlayers(String players) {
 
     }

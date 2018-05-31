@@ -14,12 +14,14 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.playersName;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id1;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id2;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id3;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id4;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.ChooseWP;
 
 
@@ -77,6 +79,14 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
             @Override
             public void run() { handleButtonStart( new ActionEvent()); }
         });
+    }
+
+    public void pingBack(){
+        try {
+            clientServerSender.pingBack(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

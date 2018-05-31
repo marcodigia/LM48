@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import java.io.IOException;
 import java.util.Optional;
 
+import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.root;
 import static it.polimi.ingsw.Client.GUI.GUIimpl.stage;
 
@@ -126,6 +127,8 @@ public abstract class GUI implements UI{
             stage.setOnCloseRequest(event -> { event.consume();
             ButtonBar.ButtonData closing = createWarningBox("Warning", "Closing window", "Are you sure?");
             if (closing.equals(ButtonBar.ButtonData.OK_DONE))
+                if (generiClient != null)
+                    generiClient.close();
                 stage.close(); } );
             stage.show();
         } catch (IOException e) {

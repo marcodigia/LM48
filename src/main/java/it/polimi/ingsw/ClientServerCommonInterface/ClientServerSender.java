@@ -11,4 +11,5 @@ public interface ClientServerSender {
     public void choosenWindowPattern(String id, String username) throws RemoteException;
     public void sendAction(Actions action, String username) throws RemoteException;
     public void endOfTurn(String username) throws RemoteException;
+    public void close() throws RemoteException;
 }

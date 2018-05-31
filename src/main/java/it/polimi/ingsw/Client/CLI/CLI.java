@@ -179,6 +179,11 @@ public class CLI implements UI,Runnable{
     }
 
     @Override
+    public void pingBack() {
+
+    }
+
+    @Override
     public void allCurrentPlayers(String players) {
 
     }

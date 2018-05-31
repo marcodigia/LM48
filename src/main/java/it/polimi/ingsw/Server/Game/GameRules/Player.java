@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
+import it.polimi.ingsw.Server.Game.ServerRete.Turn;
+import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 import it.polimi.ingsw.Server.View.VirtualView;
 import it.polimi.ingsw.Server.View.VirtualViewImp;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
@@ -10,6 +12,8 @@ import it.polimi.ingsw.Server.Game.GameRules.PlayerUtility.PlayerColor;
 import it.polimi.ingsw.Server.View.VirtualViewManager;
 
 import java.io.Serializable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //moved player in game rules so doAction is package friendly
 public class Player implements Serializable{
@@ -21,15 +25,26 @@ public class Player implements Serializable{
     private String name;
     private PlayerColor color;
 
+    private Boolean stillAlive = true;
     private Boolean isConnected = false;    //Set this variable to true if connected
 
     public Player(String username, ServerClientSender serverClientSender){
         name=username;
 
         VirtualViewManager.addVirtualView(this, new VirtualViewImp(serverClientSender));
+
         gameContext = new GameContext();
         placeDiceOfTheTurn = new PlaceDiceAction();
         useToolCardOfTheTurn = new UseToolCardBasic();
+    }
+
+    public synchronized Boolean getStillAlive(){
+        return stillAlive;
+    }
+
+
+    public synchronized void setStillAlive(Boolean value){
+        stillAlive = value;
     }
 
     public void startRound(){
