@@ -132,7 +132,6 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
             @Override
             public void run() {
 
-                System.out.println(players);
                 String[] names = players.split("\\s*,\\s*");
                 playersName = new ArrayList<String>();
 

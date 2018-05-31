@@ -211,6 +211,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
         Label event = (Label) mouseEvent.getSource();
         int indiceToolCard = toolCardsLabel.indexOf(event);
+        System.out.println(indiceToolCard);
         actions = toolCards.get(indiceToolCard).getActions();
 
         UI ui = this;
@@ -218,15 +219,13 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
             @Override
             public void run() {
                 synchronized (lock){
-                    System.out.println("prima use");
-                    actions.useAction(ui, gameStatus, username);
-                    System.out.println("dopo use");
-                    try {
-                        clientServerSender.sendAction(actions, username);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    resetDraftPoolindex();
+                System.out.println("dopo use");
+                try {
+                    clientServerSender.sendAction(actions, username);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                resetDraftPoolindex();
                 }
             }
         });
