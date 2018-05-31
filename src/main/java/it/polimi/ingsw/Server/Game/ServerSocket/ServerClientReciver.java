@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
+import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
@@ -14,6 +15,8 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerClientReciver implements Runnable {
 
@@ -43,9 +46,51 @@ public class ServerClientReciver implements Runnable {
             try{
                 String command = scanner.next();
                 switch(command){
+                    case "PINGBACK":
+                        if(waitingRoom.scanForSameUsername(username)!=null) //Still alive in waiting room
+                            waitingRoom.scanForSameUsername(username).setStillAlive(true);
+                        else
+                            game.scanForUsername(username).setStillAlive(true); //Still alive in game
+                        break;
                     case "R":
                         username = scanner.next();
                         waitingRoom.addClient(username, serverClientSenderImp);
+                        TimerUtility timerUtility = new TimerUtility();
+                        Timer timeraaa = new Timer();
+                        timeraaa.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                //If player is in waiting room & alive ping him
+                                if(waitingRoom.scanForSameUsername(username)!=null) {
+                                    if (waitingRoom.scanForSameUsername(username).getStillAlive()) {
+                                        waitingRoom.scanForSameUsername(username).setStillAlive(false);
+                                        waitingRoom.scanForSameUsername(username).getvirtualView().ping();
+                                    }
+                                }
+                                else{
+                                    //If player is in game & alive ping him
+                                    if(game.scanForUsername(username)!=null) {
+                                        if (game.scanForUsername(username).getStillAlive()) {
+                                            game.scanForUsername(username).setStillAlive(false);
+                                            game.scanForUsername(username).getvirtualView().ping();
+                                        }
+                                    }
+                                    else{ //Not in waiting room or in game
+                                        if(waitingRoom.scanForSameUsername(username)!=null){
+                                            if(!waitingRoom.scanForSameUsername(username).getStillAlive()) {
+                                                waitingRoom.removeClient(username);
+                                            }
+                                        }
+                                        if(game.scanForUsername(username)!=null) {
+                                            if (!game.scanForUsername(username).getStillAlive()) {
+                                                game.scanForUsername(username).setIsNotConnected();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }, 0, timerUtility.readTimerFromFile(5, "timerDelayPing.txt"));
+
                         break;
                     case "U":
                         username = scanner.next();
@@ -59,7 +104,7 @@ public class ServerClientReciver implements Runnable {
                         break;
                     case "A":
                         message = scanner.next();
-                        Actions a = Unpacker.ACT_fromPacket(message,CONSTANT.ObjectDelimeter);
+                        Actions a = Unpacker.ACT_fromPacket(message, CONSTANT.ObjectDelimeter);
                         String[] name = a.getClass().getName().split("\\.");
 
                         System.out.println("Server Client Receiver " + name[name.length-1]);
@@ -78,11 +123,9 @@ public class ServerClientReciver implements Runnable {
                 }
             }catch(NoSuchElementException e){
                 System.out.println("[!] Network problem "+username+" client unreachable" );
-                if(game.getGameStatus()!=null)
-                    if(game.getGameStatus().getPlayerCards()!=null)
-                        if(game.getGameStatus().getPlayerByName(username)!=null)
-                            game.getGameStatus().getPlayerByName(username).setIsNotConnected();
-
+                if(game.scanForUsername(username)!=null) {
+                        game.scanForUsername(username).setIsNotConnected();
+                }
                 waitingRoom.removeClient(username);
 
                 break;
