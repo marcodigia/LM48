@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Client.CLI;
 
+import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
+import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.*;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
@@ -19,22 +21,60 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 //Decided to make CLI static , because it just need to print stuff
-public class CLI implements UI,Runnable{
+public class CLI implements UI, Runnable{
 
-    private static final int maxNameSize = 18;
+    private static final int maxNameSize = 20;
     private static ArrayList<Player> players = new ArrayList<>();
+    private static ArrayList<String> playersNames = new ArrayList<>();
     private static int height = 4;
     private static DraftPool draftPool;
+    private static String ip;
+    private static String port;
+    private GameStatus gameStatus;
     private ClientServerSender clientServerSender;
-
+    private ClientServerReciver clientServerReciver;
+    private GeneriClient generiClient;
+    private String username;
+    private boolean rmi = false;
 
     public CLI(){
     }
-    
-    public void setClientServerSender(ClientServerSender cl){this.clientServerSender=cl;}
+
+    /**
+     * @param ip String which represents server ip
+     */
+    public static void setIp(String ip) {
+        CLI.ip = ip;
+    }
+
+    /**
+     * @param port String which represents server port
+     */
+    public static void setPort(String port) {
+        CLI.port = port;
+    }
+
+    /**
+     * @param generiClient GeneriClient which represents an RMI or Socket client
+     */
+    public void setGeneriClient(GeneriClient generiClient){
+        this.generiClient = generiClient;
+    }
+
+    /**
+     * @return GeneriClient getter
+     */
+    public GeneriClient getGeneriClient(){return generiClient;}
+
+    /**
+     * @param u String which represents username's name
+     */
+    public void setUsername(String u){
+        username = u;
+    }
 
     public void print_boards() {
-        System.out.println("Players Board :\n");
+        System.out.println(ANSI_COLOR.BOLD + "Players Board:" + ANSI_COLOR.ANSI_RESET);
         StringBuilder line = new StringBuilder();
         for (int i = 0; i < height; i++) {
             //System.out.println(i);
@@ -185,7 +225,12 @@ public class CLI implements UI,Runnable{
 
     @Override
     public void allCurrentPlayers(String players) {
-
+        String[] names = players.split("\\s*,\\s*");
+        System.out.println("\nPlayers currently connected:");
+        for (int i = 0 ; i < names.length ; i++) {
+            playersNames.add(new String(names[i]));
+            System.out.println(names[i]);
+        }
     }
 
     @Override
@@ -195,6 +240,98 @@ public class CLI implements UI,Runnable{
 
     @Override
     public void run() {
-
+        System.out.println(ANSI_COLOR.ANSI_RED + ANSI_COLOR.BOLD + "Welcome to Sagrada!" + ANSI_COLOR.ANSI_RESET);
+        handleConnection();
+        username_Validation(maxNameSize);
+        handleLogin();
+        handleLobby();
     }
+
+    private void handleLobby() {
+    }
+
+    private void handleConnection(){
+        Scanner input = new Scanner(System.in);
+        boolean repeatInsertion = true;
+
+        do{
+            String choice;
+            System.out.println("Choose connection type:\n0->RMI\n1->Socket");
+            choice = input.nextLine();
+
+            switch(choice){
+                case "0":
+                    rmi = true;
+                    //get server ip from input
+                    System.out.println("Insert server IP: ");
+                    input = new Scanner(System.in);
+                    setIp(input.nextLine());
+                    //get server port from input
+                    System.out.println("Insert server port: ");
+                    input = new Scanner(System.in);
+                    setPort(input.nextLine());repeatInsertion = false;
+                    break;
+                case "1":
+                    //get server ip from input
+                    System.out.println("Insert server IP: ");
+                    input = new Scanner(System.in);
+                    setIp(input.nextLine());
+                    //get server port from input
+                    System.out.println("Insert server port: ");
+                    input = new Scanner(System.in);
+                    setPort(input.nextLine());
+                    repeatInsertion = false;
+                    break;
+                default:
+                    System.out.println("Value typed is not valid");
+                    break;
+            }
+        }while(repeatInsertion);
+    }
+
+    private void handleLogin() {
+        if (rmi) {
+            generiClient = new GeneriClient();
+            generiClient.setLinkClientServerRMI();
+            generiClient.setClientServerReciverRMI();
+            clientServerReciver = generiClient.getClientServerReciver();
+            try {
+                clientServerReciver.setUI(this);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            generiClient.register(username, ip, Integer.parseInt(port));
+        }
+        else {
+            generiClient = new GeneriClient();
+            generiClient.setLinkClientServer(ip, Integer.parseInt(port));
+            generiClient.setClientServerReciver();
+            generiClient.setClientServerSender();
+            clientServerReciver = generiClient.getClientServerReciver();
+            try {
+                clientServerReciver.setUI(this);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            generiClient.register(username);
+        }
+    }
+
+    /**
+     * @param max_Length Integer that represents the maximum length of a string
+     * @return EventHandler used to validate a string to max_Length and to only digits and letters
+     */
+    public void username_Validation(final Integer max_Length) {
+        //return new
+        Scanner keyboard = new Scanner(System.in);
+        do {
+            System.out.println("Enter username:");
+            setUsername(keyboard.nextLine());
+            if (username.contains("."))
+                System.out.println("Your username can't contain char '.'");
+            if (username.length() > max_Length)
+                System.out.println("Your username is too long");
+        } while (username.contains(".") || username.length()>max_Length);
+    }
+
 }

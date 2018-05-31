@@ -10,7 +10,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import java.io.IOException;
@@ -173,13 +172,30 @@ public abstract class GUI implements UI{
      */
     @Override
     public int getDraftPoolIndex() {
-        while (getDiceClickedindexDraftpool() == -1) {
-                System.out.println("waiting DP...");
+        System.out.println(" get draft pool index to");
+        final Integer[] toReturn = new Integer[1];
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (getDiceClickedIndexDraftpool() == -1) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                toReturn[0] = getDiceClickedIndexDraftpool();
+                System.out.println(toReturn[0]);
+            }
+        });
+
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        int toReturn = getDiceClickedindexDraftpool();
-        System.out.println(toReturn);
-        //resetDraftPoolindex();
-        return toReturn;
+        return toReturn[0];
     }
 
     /**
@@ -187,7 +203,30 @@ public abstract class GUI implements UI{
      */
     @Override
     public int getMatrixIndexFrom() {
-        return 0;
+        System.out.println(" get matrix index from");
+        final Integer[] toReturn = new Integer[1];
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (getWPindexDice() == -1) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                toReturn[0] = getWPindexDice();
+                System.out.println(toReturn[0]);
+            }
+        });
+
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return toReturn[0];
     }
 
     /**
@@ -195,14 +234,33 @@ public abstract class GUI implements UI{
      */
     @Override
     public int getMatrixIndexTo() {
-        while (getWPindexDice() == -1) {
-                System.out.println("waiting WP...");
+        System.out.println(" get matrix index to");
+        final Integer[] toReturn = new Integer[1];
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (getWPindexDice() == -1) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                toReturn[0] = getWPindexDice();
+                System.out.println(toReturn[0]);
+            }
+        });
+
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        int toReturn = getWPindexDice();
-        System.out.println(toReturn);
-        //resetWPindex();
-        return toReturn;
+        return toReturn[0];
     }
+
+
 
     /**
      * @param wp1fronte
@@ -271,7 +329,7 @@ public abstract class GUI implements UI{
     /**
      * @return
      */
-    public int getDiceClickedindexDraftpool(){
+    public int getDiceClickedIndexDraftpool(){
         return 0;
     }
 

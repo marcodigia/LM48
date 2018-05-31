@@ -4,10 +4,12 @@ import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import it.polimi.ingsw.UI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -52,11 +54,15 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     private int indice_dado = -1;
     private int draftpoolindex = -1;
 
+    public Object lock = new Object();
+
     private DraftPool draftPool;
     private PlaceDiceAction placeDiceAction;
+    private Actions actions;
     private ArrayList<ArrayList<Dice>> roundTrack;
 
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
+    private ArrayList<Label> toolCardsLabel = new ArrayList<>();
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells4 = new ArrayList<>();
     private ArrayList<Label> names = new ArrayList<>();
@@ -108,6 +114,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                  ) {
                 gp.setDisable(true);
             }
+
         }
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
 
@@ -181,20 +188,48 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
      */
     private void openToolCards(String title) {
         Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
+        //window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMinWidth(250);
-        window.setMinHeight(100);
         HBox layout = new HBox(30);
         layout.setAlignment(Pos.CENTER);
         for (ToolCard tc : toolCards) {
             Label label = new Label();
             label.setGraphic(toImage(tc));
+            label.setOnMouseClicked(e -> handleClickToolCard(e));
             layout.getChildren().add(label);
+            toolCardsLabel.add(label);
         }
         Scene scene = new Scene(layout);
         window.setScene(scene);
+        window.setMinHeight(400);
+        window.setMinWidth(700);
         window.showAndWait();
+    }
+
+    private void handleClickToolCard(MouseEvent mouseEvent) {
+        System.out.println("handle toolcard");
+
+        Label event = (Label) mouseEvent.getSource();
+        int indiceToolCard = toolCardsLabel.indexOf(event);
+        System.out.println(indiceToolCard);
+        actions = toolCards.get(indiceToolCard).getActions();
+
+        UI ui = this;
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (lock){
+                System.out.println("dopo use");
+                try {
+                    clientServerSender.sendAction(actions, username);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                resetDraftPoolindex();
+                }
+            }
+        });
+        t.start();
     }
 
     private void setUpGame() {
@@ -419,7 +454,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     /**
      * @return index of the dice taken from draft pool
      */
-    public int getDiceClickedindexDraftpool(){
+    public int getDiceClickedIndexDraftpool(){
         return draftpoolindex;
     }
 

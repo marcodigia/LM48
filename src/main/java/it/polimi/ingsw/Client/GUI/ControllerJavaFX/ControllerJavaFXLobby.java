@@ -53,13 +53,6 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         }
     }
 
-    /**
-     * @param event user event (eg. user clicks a button)
-     */
-    @FXML
-    private void handleButtonStart(ActionEvent event){
-        switchScene(ChooseWP);
-    }
 
     /**
      * @param wp1fronte front side of 1st window pattern card that player has to choose
@@ -77,7 +70,7 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
 
         Platform.runLater(new Runnable() {
             @Override
-            public void run() { handleButtonStart( new ActionEvent()); }
+            public void run() { switchScene(ChooseWP); }
         });
     }
 
