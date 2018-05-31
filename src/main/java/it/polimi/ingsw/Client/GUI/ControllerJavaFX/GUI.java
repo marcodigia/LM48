@@ -41,7 +41,7 @@ public abstract class GUI implements UI{
      * @param content string representing the content of the box
      * @return button bar containing OK / CANCEL type buttons
      */
-    public ButtonBar.ButtonData createWarningBox(String title, String header, String content){
+    public void createWarningBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -49,18 +49,18 @@ public abstract class GUI implements UI{
         alert.setHeaderText(header);
         alert.setContentText(content);
 
-        ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType buttonOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        alert.getButtonTypes().setAll(buttonTypeOk, buttonTypeCancel);
+        alert.getButtonTypes().setAll(buttonOk, buttonCancel);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeOk) {
-            alert.close();
-            return ButtonBar.ButtonData.OK_DONE;
+        if (result.get() == buttonOk) {
+            if (generiClient != null)
+                generiClient.close();
+            stage.close();
         } else {
-            alert.close();
-            return ButtonBar.ButtonData.CANCEL_CLOSE;
+            System.out.println("cancel");
         }
     }
 
@@ -71,10 +71,7 @@ public abstract class GUI implements UI{
      */
     protected void createInfoBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
         alert.initModality(Modality.APPLICATION_MODAL);
-
-
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
@@ -89,10 +86,7 @@ public abstract class GUI implements UI{
      */
     protected ButtonBar.ButtonData createConfirmationBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-
         alert.initModality(Modality.APPLICATION_MODAL);
-
-
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
@@ -104,10 +98,8 @@ public abstract class GUI implements UI{
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeOk) {
-            alert.close();
             return ButtonBar.ButtonData.OK_DONE;
         } else {
-            alert.close();
             return ButtonBar.ButtonData.CANCEL_CLOSE;
         }
     }
@@ -123,12 +115,10 @@ public abstract class GUI implements UI{
             root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setOnCloseRequest(event -> { event.consume();
-            ButtonBar.ButtonData closing = createWarningBox("Warning", "Closing window", "Are you sure?");
-            if (closing.equals(ButtonBar.ButtonData.OK_DONE))
-                if (generiClient != null)
-                    generiClient.close();
-                stage.close(); } );
+            stage.setOnCloseRequest(event -> {
+                event.consume();
+                createWarningBox("Warning", "Closing window", "Are you sure?");
+            } );
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
