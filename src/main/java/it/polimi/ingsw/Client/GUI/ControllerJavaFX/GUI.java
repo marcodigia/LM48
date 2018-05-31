@@ -41,7 +41,7 @@ public abstract class GUI implements UI{
      * @param content string representing the content of the box
      * @return button bar containing OK / CANCEL type buttons
      */
-    public void createWarningBox(String title, String header, String content){
+    public ButtonBar.ButtonData createWarningBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -56,11 +56,9 @@ public abstract class GUI implements UI{
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonOk) {
-            if (generiClient != null)
-                generiClient.close();
-            stage.close();
+            return ButtonBar.ButtonData.OK_DONE;
         } else {
-            System.out.println("cancel");
+            return ButtonBar.ButtonData.CANCEL_CLOSE;
         }
     }
 
@@ -117,7 +115,12 @@ public abstract class GUI implements UI{
             stage.setScene(scene);
             stage.setOnCloseRequest(event -> {
                 event.consume();
-                createWarningBox("Warning", "Closing window", "Are you sure?");
+                ButtonBar.ButtonData buttonData = createWarningBox("Warning", "Closing window", "Are you sure?");
+                if (buttonData.equals(ButtonBar.ButtonData.OK_DONE)){
+                    if (generiClient != null)
+                        generiClient.close();
+                    stage.close();
+                }
             } );
             stage.show();
         } catch (IOException e) {
