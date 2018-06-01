@@ -22,6 +22,13 @@ public class GameSetup {
 
     public GameSetup(LinkedHashMap<Player,Boolean> players){
         this.players = players;
+
+        try {
+            CardManager.setWPCards(CONSTANT.windowPatternfile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         toolCardsGet();
         publicObjectiveGet();
         windowPatternGet();

@@ -2,8 +2,11 @@ package it.polimi.ingsw.Client.AbstractClient;
 
 import it.polimi.ingsw.Client.CLI.CLI;
 import it.polimi.ingsw.Client.GUI.GUIimpl;
+import it.polimi.ingsw.Server.Game.Cards.CardManager;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 
+import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
@@ -18,6 +21,12 @@ public class MainClientRete {
         String username;
 
         Unpacker.setUpUnpacker();
+        try {
+            CardManager.setWPCards(CONSTANT.windowPatternfile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
 
         GeneriClient generiClient = new GeneriClient();
         Scanner keyboard = new Scanner(System.in);
