@@ -46,6 +46,7 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
      */
     @FXML
     private void handleLoginButton(ActionEvent event){
+        validateUsername();
         saveName();
         if (ControllerConnection.rmi) {
             generiClient = new GeneriClient();
@@ -71,6 +72,13 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
                 e.printStackTrace();
             }
             generiClient.register(username);
+        }
+    }
+
+    private void validateUsername() {
+        if (usernametext.getText().contains(".")){
+            printMessage("'.' can't be included in your username!");
+            switchScene(Login);
         }
     }
 

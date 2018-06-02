@@ -182,7 +182,6 @@ public abstract class AbstractGUI extends Application implements UI{
             toReturn[0] = getDiceClickedIndexDraftpool();
             System.out.println(toReturn[0]);
         });
-
         t.start();
         try {
             t.join();
@@ -210,7 +209,6 @@ public abstract class AbstractGUI extends Application implements UI{
             toReturn[0] = getWPindexDice();
             System.out.println(toReturn[0]);
         });
-
         t.start();
         try {
             t.join();
@@ -334,7 +332,7 @@ public abstract class AbstractGUI extends Application implements UI{
     public int getDiceIndexFromRound(){
         return 0;
     }
-    
+
     public ToolCard getToolCard(){
         return null;
     }
