@@ -6,6 +6,9 @@ import it.polimi.ingsw.UI;
 
 public class SwapDiceFromRoundTrack implements Actions {
 
+
+    private int roundIndex;
+    private int diceIndex;
     @Override
     public void doAction(GameStatus gameStatus) {
 
@@ -13,6 +16,8 @@ public class SwapDiceFromRoundTrack implements Actions {
 
     @Override
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
+
+
 
     }
 

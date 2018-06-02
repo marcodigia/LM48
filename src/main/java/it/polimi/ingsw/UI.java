@@ -40,4 +40,7 @@ public interface UI {
     public void allCurrentPlayers(String players);
 
     ToolCard getChoosenToolCard();
+
+    int getRoundIndex();
+    int getDiceIndexFromRound();
 }

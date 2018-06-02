@@ -4,6 +4,7 @@ import it.polimi.ingsw.Packetable;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -16,6 +17,8 @@ public class BoardRound implements Packetable {
     private ArrayList<ArrayList<Dice>> roundTrack;
 
 
+
+    private ArrayList<DiceColor> colors = new ArrayList<>();
     public BoardRound(ArrayList<Player> players) {
         scoreboard = new Hashtable<>();
         for (Player p : players)
@@ -63,6 +66,16 @@ public class BoardRound implements Packetable {
 
     public void addDices(ArrayList<Dice> dices){
         roundTrack.add(dices);
+    }
+
+
+    public ArrayList<DiceColor> getColors() {
+
+        for(ArrayList<Dice> ar : roundTrack)
+            for (Dice d : ar)
+                if (!colors.contains(d.getDiceColor()))
+                    colors.add(d.getDiceColor());
+        return colors;
     }
 
     @Override
