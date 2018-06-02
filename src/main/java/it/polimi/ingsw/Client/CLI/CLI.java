@@ -4,8 +4,10 @@ import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.*;
+import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
@@ -79,8 +81,11 @@ public class CLI implements UI, Runnable{
         for (int i = 0; i < height; i++) {
             //System.out.println(i);
             for (Player p : players) {
-                //ArrayList<Cell> cells = p.getRow(i);
-
+                ArrayList<Restriction> cells = p.getWindowPatternCard().getRow(i);
+                for (Restriction r : cells
+                     ) {
+                    System.out.println(r.name());
+                }
                 line.append("   ");
             }
             line.append("\n");
@@ -99,6 +104,19 @@ public class CLI implements UI, Runnable{
         System.out.println(line);
     }
 
+    private void printBoard(WindowPatternCard windowPatternCard){
+        StringBuilder line = new StringBuilder();
+        for (int i = 0; i < height; i++) {
+                ArrayList<Restriction> cells = windowPatternCard.getRow(i);
+                for (Restriction r : cells
+                        ) {
+                    System.out.println(r.name());
+                }
+                line.append("   ");
+            }
+            line.append("\n");
+    }
+
     public void print_draftboard(ArrayList<Dice> draft) {
 
         System.out.println("Draft Pool : \n");
@@ -114,6 +132,10 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void printMessage(String s){
+        if(s.equals((CONSTANT.correctUsername))){
+            clientServerSender = generiClient.getClientServerSender();
+            pingBack();
+        }
         System.out.println(s);
     }
 
@@ -170,18 +192,37 @@ public class CLI implements UI, Runnable{
     @Override
     public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
 
-        System.out.println("chose wp " + wp1fronte + " " + wp2retro + " " + wp3fronte +  " " + wp4retro);
-        Scanner scanner = new Scanner(System.in);
-        int chose = scanner.nextInt();
-        AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
-        Player p = new Player("aa", null);
+    /*    AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
         try {
             Hashtable<String , Drawable> deck =factory.getNewCardDeck();
+            WindowPatternCard wp1 = (WindowPatternCard) deck.get(Integer.parseInt(wp1fronte));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    */
+
+        System.out.println("Choose Window Pattern: " + wp1fronte + " " + wp2retro + " " + wp3fronte + " " + wp4retro);
+
+        Scanner scanner = new Scanner(System.in);
+        int chose = scanner.nextInt();
+
+        AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
+
+        Player p = new Player(username, null);
+        try {
+            Hashtable<String , Drawable> deck =factory.getNewCardDeck();
+            deck.get(Integer.parseInt(wp1fronte));
+            //printBoard();
+            deck.get(Integer.parseInt(wp2retro));
+            deck.get(Integer.parseInt(wp3fronte));
+            deck.get(Integer.parseInt(wp4retro));
+
             p.setGameContext(new GameContext(null,null,null, (WindowPatternCard) deck.get(Integer.toString(chose)),null));
             players.add(p);
             print_boards();
             try {
-                clientServerSender.choosenWindowPattern(Integer.toString(chose), "aaa");
+                clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -189,6 +230,8 @@ public class CLI implements UI, Runnable{
             e.printStackTrace();
         }
     }
+
+
 
 
     @Override
@@ -220,7 +263,13 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void pingBack() {
-
+        if(clientServerSender!=null){
+            try {
+                clientServerSender.pingBack(username);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

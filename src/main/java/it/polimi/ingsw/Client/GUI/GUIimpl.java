@@ -1,14 +1,18 @@
 package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
+import it.polimi.ingsw.Server.Game.Cards.CardManager;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.RMI_Socket;
@@ -24,7 +28,11 @@ public class GUIimpl extends Application implements Runnable, UI {
     public static String port;
 
     public GUIimpl(){
-
+        try {
+            CardManager.setWPCards(CONSTANT.windowPatternfile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -29,8 +29,13 @@ public class WindowPatternCard implements Drawable , Packetable {
         matrix.initialize_restricions(pattern);
     }
 
-
-
+    public ArrayList<Restriction> getRow(int index){
+        ArrayList<Restriction> restriction = new ArrayList<Restriction>();
+        for(int i=0;i<5;i++){
+            restriction.add(matrix.getRestrictionAt(5*index+i));
+        }
+        return restriction;
+    }
 
     public boolean placeDice(Dice dice, int coordinate, boolean ignore_color_restriction, boolean ignore_value_restriction, boolean ignore_adjacency) {
         System.out.println("Window Pattern Card : "+dice.toString());
