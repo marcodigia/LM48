@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
-import it.polimi.ingsw.Client.View.UI_SIMULATION;
 import it.polimi.ingsw.Server.Game.Cards.Drawable;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.ToolCardFactory;

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
-import it.polimi.ingsw.Client.View.UI_SIMULATION;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
