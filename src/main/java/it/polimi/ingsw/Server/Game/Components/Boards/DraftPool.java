@@ -20,6 +20,11 @@ public class DraftPool implements Serializable{
     }
 
 
+    public void setDiceAtIndex(int index , Dice dice){
+        dices.add(index,dice);
+    }
+
+
     public void rerollAllDices(){
 
         for (Dice d : dices)
