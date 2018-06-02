@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.Cards;
 
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Id;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.*;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
@@ -75,6 +76,9 @@ public class ToolCard implements Drawable {
                 break;
             case _7:
                 action = new RerollDraftedDice(-1);
+                break;
+            case _9:
+                action = new PlaceDiceAction(null,false,false,true);
                 break;
             case _10:
                 action = new ChangeDiceValue(7);

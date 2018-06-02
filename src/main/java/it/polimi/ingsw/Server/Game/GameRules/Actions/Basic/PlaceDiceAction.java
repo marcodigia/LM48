@@ -40,6 +40,7 @@ public class PlaceDiceAction implements Actions {
     public void setUpAction(String packet){
         String[] elements =packet.split(    "\\"+CONSTANT.ElenemtsDelimenter);
 
+
         matrixIndexTo = Integer.parseInt(elements[0]);
         dice = new Dice(elements[1]);
         ignoreColor = Boolean.parseBoolean(elements[2]);
@@ -153,10 +154,11 @@ public class PlaceDiceAction implements Actions {
         packet.append(CONSTANT.ObjectDelimeter).append(userName);
         packet.append(CONSTANT.ObjectDelimeter).append(ACTIVE);
         packet.append(CONSTANT.ObjectDelimeter).append(matrixIndexTo)
-                .append(CONSTANT.ElenemtsDelimenter).append(dice);
+                .append(CONSTANT.ElenemtsDelimenter).append(dice).append(CONSTANT.ElenemtsDelimenter);
         packet.append(ignoreColor).append(CONSTANT.ElenemtsDelimenter);
         packet.append(ignoreValue).append(CONSTANT.ElenemtsDelimenter);
         packet.append(ignoreAdjacency);
+
         return packet.toString();
     }
 }

@@ -98,6 +98,7 @@ public class Game {
     //TODO control if idWP belongs to WPs send to client
     public synchronized void setWindowToPlayer(String idWp, String username){
         synchronized (lock){
+            System.out.println("setWP to plater GAME" + idWp);
             WindowPatternCard windowToRemove = null;
             Player playerRecived = null;    //Used to modify HashMap. Set true mapped value to denote
             //that the player is still playing
@@ -161,6 +162,7 @@ public class Game {
             gameStatus.addPrivateObjectiveCard(gameSetup.getPrivateObjectiveCards());
             gameStatus.setDraftPool(gameSetup.getDraftPool());
             gameStatus.setBoardRound(gameSetup.getBoardRound());
+            System.out.println("endGameSetup" + gameStatus );
             for(Player p : players.keySet()){
                 p.getvirtualView().sendGameStatus(gameStatus);
             }
