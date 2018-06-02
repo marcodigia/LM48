@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
@@ -37,11 +38,13 @@ public class PlaceDiceAction implements Actions {
 
 
     public void setUpAction(String packet){
-        String[] elements =packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+        String[] elements =packet.split(    "\\"+CONSTANT.ElenemtsDelimenter);
 
         matrixIndexTo = Integer.parseInt(elements[0]);
         dice = new Dice(elements[1]);
-
+        ignoreColor = Boolean.parseBoolean(elements[2]);
+        ignoreValue = Boolean.parseBoolean(elements[3]);
+        ignoreAdjacency = Boolean.parseBoolean(elements[4]);
     }
 
     @Override
@@ -57,6 +60,10 @@ public class PlaceDiceAction implements Actions {
 
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
+
+        if (matrixIndexTo==-1)
+            return;
+
         if (!ACTIVE)
             return;
         if ((activePlayerWP).getAllDices().size() == 0) {
@@ -64,6 +71,7 @@ public class PlaceDiceAction implements Actions {
             if ((matrixIndexTo > 5 && matrixIndexTo < 9) || (matrixIndexTo > 10 && matrixIndexTo < 14)) {
                 return;
             }
+
             //Try to place the Dice without adjacency restriction
 
             if (activePlayerWP.isPlaceable(dice, matrixIndexTo, false, false, true)) {
@@ -111,6 +119,7 @@ public class PlaceDiceAction implements Actions {
 
         }else {
             ui.printMessage("No possible moves , Putting dice back to Draft Pool ... ");
+            matrixIndexTo = -1;
             return;
         }
 
@@ -145,6 +154,9 @@ public class PlaceDiceAction implements Actions {
         packet.append(CONSTANT.ObjectDelimeter).append(ACTIVE);
         packet.append(CONSTANT.ObjectDelimeter).append(matrixIndexTo)
                 .append(CONSTANT.ElenemtsDelimenter).append(dice);
+        packet.append(ignoreColor).append(CONSTANT.ElenemtsDelimenter);
+        packet.append(ignoreValue).append(CONSTANT.ElenemtsDelimenter);
+        packet.append(ignoreAdjacency);
         return packet.toString();
     }
 }
