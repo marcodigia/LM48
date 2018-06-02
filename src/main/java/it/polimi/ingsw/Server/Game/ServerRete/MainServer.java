@@ -16,6 +16,7 @@ public class MainServer {
 
         Scanner keyboard = new Scanner(System.in);
         Unpacker.setUpUnpacker();
+        
         try {
             CardManager.setWPCards(CONSTANT.windowPatternfile);
         } catch (FileNotFoundException e) {
