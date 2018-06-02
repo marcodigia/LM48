@@ -32,7 +32,11 @@ public class Unpacker {
         AbstractCardFactory TCFactory = new ToolCardFactory(CONSTANT.toolcardfile);
         AbstractCardFactory PBOFactory = new PublicObjectiveCardFactory(CONSTANT.publicObjectivefile);
         AbstractCardFactory PROFactory = new PrivateObjectiveCardFactory(CONSTANT.privateObjectivefile);
-
+        try {
+            CardManager.setWPCards(CONSTANT.windowPatternfile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         try {
             WPDeck= WPfactory.getNewCardDeck();
             TCDeck =TCFactory.getNewCardDeck();
