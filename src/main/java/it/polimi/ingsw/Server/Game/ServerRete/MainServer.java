@@ -1,10 +1,13 @@
 package it.polimi.ingsw.Server.Game.ServerRete;
 
+import it.polimi.ingsw.Server.Game.Cards.CardManager;
 import it.polimi.ingsw.Server.Game.ServerRMI.ServerRMI;
 import it.polimi.ingsw.Server.Game.ServerSocket.ServerSocketAccept;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class MainServer {
@@ -13,7 +16,11 @@ public class MainServer {
 
         Scanner keyboard = new Scanner(System.in);
         Unpacker.setUpUnpacker();
-
+        try {
+            CardManager.setWPCards(CONSTANT.windowPatternfile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         Game game = new Game();
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setGame(game);
