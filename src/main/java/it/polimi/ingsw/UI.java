@@ -43,4 +43,6 @@ public interface UI {
 
     int getRoundIndex();
     int getDiceIndexFromRound();
+
+
 }
