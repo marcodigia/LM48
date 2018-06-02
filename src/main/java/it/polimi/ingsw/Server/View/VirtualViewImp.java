@@ -8,6 +8,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Score;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 
 //Virtual view is an Observer of the Model , and through ServerClientSender notify the changes to the ClientView
@@ -21,6 +22,15 @@ public class VirtualViewImp implements VirtualView {
 
     public ServerClientSender getServerClientSender() {
         return serverClientSender;
+    }
+
+    @Override
+    public void ping() {
+        try {
+            serverClientSender.ping();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -35,6 +35,8 @@ public interface UI {
 
     public void disable();
 
+    public void pingBack();
+
     public void allCurrentPlayers(String players);
 
     ToolCard getChoosenToolCard();

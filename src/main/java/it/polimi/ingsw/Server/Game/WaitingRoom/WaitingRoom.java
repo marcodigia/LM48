@@ -29,7 +29,7 @@ public class WaitingRoom {
 
     public synchronized  boolean addClient(String username, ServerClientSender clientRef){
         if(!noMorePlayerAccepted){
-            if(scanForSameUsername(username)){
+            if(scanForSameUsername(username) != null){
                 try {
                     System.out.println("Username is already used");
                     clientRef.sendMessage(CONSTANT.usernameAlreadyUsed);
@@ -70,16 +70,14 @@ public class WaitingRoom {
     }
     //True if there is another player with same name
     //False if there is not  a player with same name
-    private boolean scanForSameUsername(String username){
+    public Player scanForSameUsername(String username){
         Player playerSameUsername = null;
         if(clientList.size()>0){
             for(Player p : clientList)
                 if(p.getName().equals(username))
                     playerSameUsername = p;
-            if(playerSameUsername!=null)
-                return true;
         }
-        return false;
+        return playerSameUsername;
     }
     //Remove client form ClientList if game is not start. This method will be called
     //also if game is started but will not have effect because clientList will be empty

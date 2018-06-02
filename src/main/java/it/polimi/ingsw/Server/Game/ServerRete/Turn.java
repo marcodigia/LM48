@@ -12,6 +12,7 @@ public class Turn extends TimerTask {
     private LinkedHashMap<Player,Boolean> players;
     private GameStatus gameStatus;
 
+    private boolean winnerFind = false;
     private static int numberOfTurn;
     private static Player currentPlayer = null;
     private static boolean back = false;
@@ -27,36 +28,46 @@ public class Turn extends TimerTask {
 
     @Override
     public void run() {
-        if(turn>=numberOfTurn){
-            //Move dices from draftpool to boardRound
-            gameStatus.getBoardRound().addDices(gameStatus.getDraftPool().getDraft());
-            //Extract new dices from DraftPool
-            gameStatus.getDraftPool().extractNdice(players.keySet().size()*2+1);
-            turn=0;
-            round++;
-            ArrayList<Player> p = new ArrayList<Player>(players.keySet());
-            Player q = p.get(0);
-            p.remove(0);
-            players.remove(q);
-            players.put(q,false);
-        }
-        if(round< CONSTANT.numberOfRound){
-            if(currentPlayer!=null){
-                System.out.println("ROUND 1");
-                currentPlayer.getvirtualView().timerEnd();
-                currentPlayer.startRound();
-                //Send to each player who result connected new GameStatus
-                for(Map.Entry<Player,Boolean> entry : players.entrySet()) {
-                    if (entry.getKey().getConnected()) {
-                        entry.getKey().getvirtualView().sendGameStatus(gameStatus);
+        synchronized (players){
+            if(!winnerFind){
+                if(turn>=numberOfTurn){
+                    //Move dices from draftpool to boardRound
+                    gameStatus.getBoardRound().addDices(gameStatus.getDraftPool().getDraft());
+                    //Extract new dices from DraftPool
+                    gameStatus.getDraftPool().extractNdice(players.keySet().size()*2+1);
+                    turn=0;
+                    round++;
+                    ArrayList<Player> p = new ArrayList<Player>(players.keySet());
+                    Player q = p.get(0);
+                    p.remove(0);
+                    players.remove(q);
+                    players.put(q,false);
+                }
+                if(round< CONSTANT.numberOfRound){
+                    if(currentPlayer!=null){
+                        System.out.println("ROUND: " + round + "\n" + "Turn: " + turn);
+                        currentPlayer.getvirtualView().timerEnd();
+                        currentPlayer.startRound();
+                        //Send to each player who result connected new GameStatus
+                        for(Map.Entry<Player,Boolean> entry : players.entrySet()) {
+                            if (entry.getKey().getConnected()) {
+                                entry.getKey().getvirtualView().sendGameStatus(gameStatus);
+                            }
+                        }
+                    }
+                    if(lookForWinner() == null){
+                        currentPlayer=manageTurn();
+                        turn++;
+                    }
+                    else{
+                        //TODO there is a winner
+                        System.out.println("There is a winner");
                     }
                 }
+                else{
+                    //TODO segnala fine gioco
+                }
             }
-            currentPlayer=manageTurn();
-            turn++;
-        }
-        else{
-            //TODO segnala fine gioco
         }
     }
 
@@ -115,5 +126,21 @@ public class Turn extends TimerTask {
 
 
         return gameStatus.getPlayerByName(player.getName());
+    }
+
+    private Player lookForWinner(){
+        int i = 0;
+        Player winner = null;
+        for(Player p : players.keySet()){
+            if(p.getConnected()) {
+                winner = p;
+                i++;
+            }
+        }
+        if(i==1){
+            winnerFind = true;
+            return winner;
+        }
+        return null;
     }
 }

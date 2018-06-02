@@ -32,6 +32,10 @@ public class GameStatus implements Packetable {
         this.publicObjectiveCards = new ArrayList<>(publicObjectiveCards);
     }
 
+    public void deleteWindowPatternCard(Player p){
+        playerCards.remove(p);
+    }
+
     public void addWindowPatternCard(Player p, WindowPatternCard wp){
 
         ArrayList<Drawable> list = new ArrayList<>();

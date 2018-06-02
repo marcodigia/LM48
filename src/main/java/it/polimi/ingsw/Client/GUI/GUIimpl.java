@@ -19,7 +19,7 @@ public class GUIimpl extends Application implements Runnable, UI {
     public static Stage stage;
     public static Parent root;
     public static String username;
-    public static GeneriClient generiClient;
+    public static GeneriClient generiClient = null;
     public static String ip;
     public static String port;
 
@@ -142,6 +142,11 @@ public class GUIimpl extends Application implements Runnable, UI {
     @Override
     public void disable() {
         
+    }
+
+    @Override
+    public void pingBack() {
+
     }
 
     @Override

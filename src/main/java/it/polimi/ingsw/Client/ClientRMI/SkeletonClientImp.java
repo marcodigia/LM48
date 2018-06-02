@@ -78,4 +78,9 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
         this.ui = ui;
     }
 
+    @Override
+    public void close() throws RemoteException {
+
+    }
+
 }

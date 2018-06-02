@@ -84,4 +84,24 @@ public class GeneriClient {
         }
     }
 
+    public void close(){
+        if(clientServerSender!=null) {
+            try {
+                clientServerSender.close();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        if(clientServerReciver != null) {
+            try {
+                clientServerReciver.close();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        clientServerSender = null;
+        clientServerReciver = null;
+        linkClientServer = null;
+    }
+
 }

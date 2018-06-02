@@ -52,4 +52,9 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
         port = serverPort.getText();
         switchScene(Login);
     }
+
+    @Override
+    public void pingBack() {
+
+    }
 }

@@ -9,6 +9,8 @@ import it.polimi.ingsw.UI;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.RemoteException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ClientServerReciverImp implements Runnable, ClientServerReciver {
@@ -18,6 +20,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
     private String message;
     private String[] id = new String[4];
     private UI ui;
+    private boolean connect = true;
 
     public ClientServerReciverImp(Socket socket){
         this.socket = socket;
@@ -33,39 +36,45 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
     @Override
     public void run() {
 
-        while(true){
-            String command = scanner.next();
-            switch(command){
-                case "PING":
+        while(connect && true){
+            try{
+                String command = scanner.next();
+                switch(command){
+                    case "PING":
+                        ui.pingBack();
+                        break;
+                    case "S":
+                        message = scanner.next();
+                        ui.printMessage(message);
+                        break;
+                    case "CW":
+                        for(int i=0;i<4;i++){
+                            id[i] = scanner.next();
+                        }
+                        ui.chooseWP(id[0],id[1],id[2],id[3]);
+                        break;
+                    case "TS":
+                        ui.activate();
+                        break;
+                    case "TE":
+                        ui.disable();
+                        break;
+                    case "SGS":
+                        message = scanner.next();
+                        GameStatus gameStatus = Unpacker.getGameStatus(message);
+                        ui.updateGameStatus(gameStatus);
+                        break;
+                    case "ALL":
+                        message = scanner.next();
+                        ui.allCurrentPlayers(message);
+                        break;
+                    default:
+                        break;
+                }
+            }catch(NoSuchElementException e){
 
-                    break;
-                case "S":
-                     message = scanner.next();
-                     ui.printMessage(message);
-                    break;
-                case "CW":
-                    for(int i=0;i<4;i++){
-                         id[i] = scanner.next();
-                    }
-                    ui.chooseWP(id[0],id[1],id[2],id[3]);
-                    break;
-                case "TS":
-                    ui.activate();
-                    break;
-                case "TE":
-                    ui.disable();
-                    break;
-                case "SGS":
-                    message = scanner.next();
-                    GameStatus gameStatus = Unpacker.getGameStatus(message);
-                    ui.updateGameStatus(gameStatus);
-                    break;
-                case "ALL":
-                    message = scanner.next();
-                    ui.allCurrentPlayers(message);
-                    break;
-                default:
-                    break;
+            }catch (IllegalStateException i){
+
             }
         }
     }
@@ -73,5 +82,16 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
     @Override
     public void setUI(UI ui) {
         this.ui = ui;
+    }
+
+    @Override
+    public void close() throws RemoteException {
+        connect = false;
+        scanner.close();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

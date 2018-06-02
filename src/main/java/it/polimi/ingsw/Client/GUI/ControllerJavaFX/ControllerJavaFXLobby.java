@@ -14,12 +14,14 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.playersName;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id1;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id2;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id3;
 import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXChooseWP.id4;
+import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.ChooseWP;
 
 
@@ -51,13 +53,6 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
         }
     }
 
-    /**
-     * @param event user event (eg. user clicks a button)
-     */
-    @FXML
-    private void handleButtonStart(ActionEvent event){
-        switchScene(ChooseWP);
-    }
 
     /**
      * @param wp1fronte front side of 1st window pattern card that player has to choose
@@ -75,8 +70,16 @@ public class ControllerJavaFXLobby extends GUI implements Initializable{
 
         Platform.runLater(new Runnable() {
             @Override
-            public void run() { handleButtonStart( new ActionEvent()); }
+            public void run() { switchScene(ChooseWP); }
         });
+    }
+
+    public void pingBack(){
+        try {
+            clientServerSender.pingBack(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

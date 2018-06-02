@@ -48,8 +48,6 @@ public class MainClientRete {
                         GUIimpl.setIp(args[0]);
                         GUIimpl.setPort(args[1]);
                     }
-
-
                     gui.setGeneriClient(generiClient);
                     Thread tu = new Thread(gui);
                     tu.start();
@@ -57,6 +55,7 @@ public class MainClientRete {
                     break;
                 case "1":
                     CLI cli = new CLI();
+                    cli.setGeneriClient(generiClient);
                     Thread t = new Thread(cli);
                     t.start();
                     repeatInsertion = false;

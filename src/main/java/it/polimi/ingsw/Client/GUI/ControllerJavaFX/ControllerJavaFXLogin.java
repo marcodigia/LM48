@@ -37,7 +37,7 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     public AnchorPane anchorlogin;
     public static ArrayList<String> playersName = new ArrayList<>();
 
-    public static ClientServerSender clientServerSender ;
+    public static ClientServerSender clientServerSender = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -132,7 +132,6 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
             @Override
             public void run() {
 
-                System.out.println(players);
                 String[] names = players.split("\\s*,\\s*");
                 playersName = new ArrayList<String>();
 
@@ -160,9 +159,20 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
                         break;
                     case CONSTANT.correctUsername:
                         clientServerSender = generiClient.getClientServerSender();
+                        pingBack();
                         break;
                 }
             }
         });
+    }
+
+    public void pingBack(){
+        if(clientServerSender!=null){
+            try {
+                clientServerSender.pingBack(username);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
