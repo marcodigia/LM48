@@ -54,6 +54,10 @@ public class BoardRound implements Packetable {
         return winners;
     }
 
+    public void setDiceAtIndex(int round, int diceIndex , Dice dice){
+        roundTrack.get(round).add(diceIndex,dice);
+    }
+
     public Hashtable<Player, Integer> getScoreboard() {
         return new Hashtable<>(scoreboard);
     }

@@ -67,6 +67,9 @@ public class ToolCard implements Drawable {
             case _4:
                 action = new MoveTwoDice();
                 break;
+            case _5:
+                action = new SwapDiceFromRoundTrack();
+                break;
             case _6:
                 action = new RerollDraftedDice(0);
                 break;
