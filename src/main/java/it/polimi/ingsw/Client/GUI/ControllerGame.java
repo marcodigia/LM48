@@ -501,4 +501,16 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         }
     }
 
+    @Override
+    public int getRoundIndex(){
+        
+
+        return 0;
+    }
+
+    @Override
+    public int getDiceIndexFromRound(){
+        return 0;
+    }
+
 }

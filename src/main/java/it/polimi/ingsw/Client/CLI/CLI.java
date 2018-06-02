@@ -288,6 +288,16 @@ public class CLI implements UI, Runnable{
     }
 
     @Override
+    public int getRoundIndex() {
+        return 0;
+    }
+
+    @Override
+    public int getDiceIndexFromRound() {
+        return 0;
+    }
+
+    @Override
     public void run() {
         System.out.println(ANSI_COLOR.ANSI_RED + ANSI_COLOR.BOLD + "Welcome to Sagrada!" + ANSI_COLOR.ANSI_RESET);
         handleConnection();

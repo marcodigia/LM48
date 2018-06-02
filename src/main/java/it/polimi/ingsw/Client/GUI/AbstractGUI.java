@@ -328,4 +328,12 @@ public abstract class AbstractGUI extends Application implements UI{
     public void pingBack(){
 
     }
+
+    public int getRoundIndex(){
+        return 0;
+    }
+
+    public int getDiceIndexFromRound(){
+        return 0;
+    }
 }
