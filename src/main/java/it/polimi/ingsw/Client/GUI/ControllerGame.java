@@ -59,7 +59,9 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     private PlaceDiceAction placeDiceAction;
     private UseToolCardBasic useToolCardBasic;
+
     private ArrayList<ArrayList<Dice>> roundTrack;
+    private ArrayList<ArrayList<Label>> roundTrackLabel;
 
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
     private ArrayList<Label> toolCardsLabel = new ArrayList<>();
@@ -117,7 +119,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
         }
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
-
+        useToolCardBasic = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
         toolCards = gameStatus.getToolCards();
     }
 
@@ -332,8 +334,10 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             layout.setPadding(new Insets(10,10,10,10));
             for (int j = 0; j < roundTrack.get(roundIndex).size(); j++) {
                 Label label = new Label();
+                label.setOnMouseClicked(this::handleClickDiceRound);
                 label.setGraphic(toImage(roundTrack.get(roundIndex).get(j)));
                 layout.getChildren().add(label);
+                roundTrackLabel.get(roundIndex).add(label);
             }
             layout.setAlignment(Pos.TOP_CENTER);
             Scene scene = new Scene(layout);
@@ -343,6 +347,19 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         else{
             createAlertBox("Error", "This turn has to be played", "No dices");
         }
+        resetRoundIndex();
+    }
+
+    private void handleClickDiceRound(MouseEvent mouseEvent){
+        Label eventDraft = (Label) mouseEvent.getSource();
+        ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to choose this dice?", "y/n");
+        if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
+            diceRoundIndex = roundTrackLabel.indexOf(eventDraft);
+        }
+    }
+
+    private void resetRoundIndex() {
+        roundIndex = -1;
     }
 
     /**
@@ -511,7 +528,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     @Override
     public int getDiceIndexFromRound(){
-        return 0;
+        return diceRoundIndex;
     }
 
 }
