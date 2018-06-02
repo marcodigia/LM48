@@ -124,8 +124,9 @@ public class Turn extends TimerTask {
             notImmediately = false;
         }
 
-
-        return gameStatus.getPlayerByName(player.getName());
+        if(player!=null)
+            return gameStatus.getPlayerByName(player.getName());
+        return null;
     }
 
     private Player lookForWinner(){
