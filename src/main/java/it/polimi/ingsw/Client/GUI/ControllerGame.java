@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
@@ -52,11 +53,12 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     private int indice_dado = -1;
     private int draftpoolindex = -1;
-
+    private int roundIndex = -1;
+    private int diceRoundIndex = -1;
     private final Object lock = new Object();
 
     private PlaceDiceAction placeDiceAction;
-    private Actions actions;
+    private UseToolCardBasic useToolCardBasic;
     private ArrayList<ArrayList<Dice>> roundTrack;
 
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
@@ -210,14 +212,15 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         Label event = (Label) mouseEvent.getSource();
         int indiceToolCard = toolCardsLabel.indexOf(event);
         System.out.println(indiceToolCard);
-        actions = toolCards.get(indiceToolCard).getActions();
+
+        useToolCardBasic.useAction(this, gameStatus, username);
 
         UI ui = this;
         Thread t = new Thread(() -> {
             synchronized (lock){
             System.out.println("dopo use");
             try {
-                clientServerSender.sendAction(actions, username);
+                clientServerSender.sendAction(useToolCardBasic, username);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -318,7 +321,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      * @param mouseEvent event caused by the user (eg. clicking mouse)
      */
     private void handleClickBoardRound(MouseEvent mouseEvent) {
-        int roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
+        roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
         if (roundTrack.size() > roundIndex){
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);
@@ -503,9 +506,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     @Override
     public int getRoundIndex(){
-        
-
-        return 0;
+        return roundIndex;
     }
 
     @Override
