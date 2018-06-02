@@ -33,14 +33,14 @@ public class UseToolCardBasic implements Actions {
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
         this.userName = userName;
-      if(!ACTIVE){
+        if(!ACTIVE){
           ui.printMessage("UUUeeè Cumpà , hai gia usato la toolcard in questo turno!");
           return;
-      }
+        }
 
 
-     toolCardAction= ui.getChoosenToolCard().getActions();
-     toolCardAction.useAction(ui,gameStatus,userName);
+        toolCardAction= ui.getChoosenToolCard().getActions();
+        toolCardAction.useAction(ui,gameStatus,userName);
 
     }
 

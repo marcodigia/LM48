@@ -226,7 +226,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      */
     private void openToolCards(String title) {
         Stage window = new Stage();
-        //window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         HBox layout = new HBox(30);
         layout.setAlignment(Pos.CENTER);
@@ -241,24 +240,22 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         window.setScene(scene);
         window.setMinHeight(400);
         window.setMinWidth(700);
-        window.showAndWait();
+        window.show();
     }
 
     private void handleClickToolCard(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
-
         toolCardSelected = toolCardsLabel.indexOf(event);
-
-        useToolCardBasic.useAction(this, gameStatus, username);
 
         Thread t = new Thread(() -> {
             synchronized (lock){
-            try {
-                clientServerSender.sendAction(useToolCardBasic, username);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            resetDraftPoolindex();
+                useToolCardBasic.useAction(this, gameStatus, username);
+                try {
+                    clientServerSender.sendAction(useToolCardBasic, username);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                resetDraftPoolindex();
             }
         });
         t.start();
@@ -567,7 +564,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     @Override
     public ToolCard getToolCard(){
-
         return gameStatus.getToolCards().get(toolCardSelected);
     }
 

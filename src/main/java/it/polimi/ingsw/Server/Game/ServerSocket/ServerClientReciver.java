@@ -40,6 +40,44 @@ public class ServerClientReciver implements Runnable {
         }
     }
 
+    private void manageDisconnection(){
+        TimerUtility timerUtility = new TimerUtility();
+        Timer timeraaa = new Timer();
+        timeraaa.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //If player is in waiting room & alive ping him
+                if(waitingRoom.scanForSameUsername(username)!=null) {
+                    if (waitingRoom.scanForSameUsername(username).getStillAlive()) {
+                        waitingRoom.scanForSameUsername(username).setStillAlive(false);
+                        waitingRoom.scanForSameUsername(username).getvirtualView().ping();
+                    }
+                }
+                else{
+                    //If player is in game & alive ping him
+                    if(game.scanForUsername(username)!=null) {
+                        if (game.scanForUsername(username).getStillAlive()) {
+                            game.scanForUsername(username).setStillAlive(false);
+                            game.scanForUsername(username).getvirtualView().ping();
+                        }
+                    }
+                    else{ //Not in waiting room or in game
+                        if(waitingRoom.scanForSameUsername(username)!=null){
+                            if(!waitingRoom.scanForSameUsername(username).getStillAlive()) {
+                                waitingRoom.removeClient(username);
+                            }
+                        }
+                        if(game.scanForUsername(username)!=null) {
+                            if (!game.scanForUsername(username).getStillAlive()) {
+                                game.scanForUsername(username).setIsNotConnected();
+                            }
+                        }
+                    }
+                }
+            }
+        }, 0, timerUtility.readTimerFromFile(5, "timerDelayPing.txt"));
+    }
+
     @Override
     public void run() {
         while(true){
@@ -54,43 +92,13 @@ public class ServerClientReciver implements Runnable {
                         break;
                     case "R":
                         username = scanner.next();
-                        waitingRoom.addClient(username, serverClientSenderImp);
-                        TimerUtility timerUtility = new TimerUtility();
-                        Timer timeraaa = new Timer();
-                        timeraaa.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                //If player is in waiting room & alive ping him
-                                if(waitingRoom.scanForSameUsername(username)!=null) {
-                                    if (waitingRoom.scanForSameUsername(username).getStillAlive()) {
-                                        waitingRoom.scanForSameUsername(username).setStillAlive(false);
-                                        waitingRoom.scanForSameUsername(username).getvirtualView().ping();
-                                    }
-                                }
-                                else{
-                                    //If player is in game & alive ping him
-                                    if(game.scanForUsername(username)!=null) {
-                                        if (game.scanForUsername(username).getStillAlive()) {
-                                            game.scanForUsername(username).setStillAlive(false);
-                                            game.scanForUsername(username).getvirtualView().ping();
-                                        }
-                                    }
-                                    else{ //Not in waiting room or in game
-                                        if(waitingRoom.scanForSameUsername(username)!=null){
-                                            if(!waitingRoom.scanForSameUsername(username).getStillAlive()) {
-                                                waitingRoom.removeClient(username);
-                                            }
-                                        }
-                                        if(game.scanForUsername(username)!=null) {
-                                            if (!game.scanForUsername(username).getStillAlive()) {
-                                                game.scanForUsername(username).setIsNotConnected();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }, 0, timerUtility.readTimerFromFile(5, "timerDelayPing.txt"));
-
+                        if(game.scanForUsername(username)!=null) {
+                            if (!game.scanForUsername(username).getConnected())
+                                game.scanForUsername(username).setIsConnected();
+                        }
+                        else
+                            waitingRoom.addClient(username, serverClientSenderImp);
+                        manageDisconnection();
                         break;
                     case "U":
                         username = scanner.next();

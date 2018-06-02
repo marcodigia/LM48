@@ -20,6 +20,7 @@ public class MoveOneDiceIgnoringValue implements Actions {
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
+        System.out.println("Move one ignore Val"+activePlayerWP.toString());
          activePlayerWP.moveDice(from, to, false, true, false);
 
 

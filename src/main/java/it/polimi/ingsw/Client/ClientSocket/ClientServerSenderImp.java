@@ -50,6 +50,7 @@ public class ClientServerSenderImp implements ClientServerSender {
 
     @Override
     public void sendAction(Actions action, String username) throws RemoteException {
+        System.out.println("Client Server Sender Imp " + action.toPacket());
         printWriter.println("A" + CONSTANT.delimenter + action.toPacket() + CONSTANT.delimenter);
         printWriter.flush();
     }

@@ -15,10 +15,12 @@ public class MoveOneDieIgnoringColor implements Actions {
     private String userName;
     @Override
     public void doAction(GameStatus gameStatus) {
+
         Player activePlayer = gameStatus.getPlayerByName(userName);
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
 
+        System.out.println("Move one ignore Cor"+activePlayerWP.toString());
         activePlayerWP.moveDice(from, to, true, false, false);
 
 
