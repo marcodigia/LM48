@@ -5,7 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.io.IOException;
+import java.lang.annotation.Native;
 
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.RMI_Socket;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.title;

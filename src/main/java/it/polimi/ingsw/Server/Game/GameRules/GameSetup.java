@@ -119,7 +119,7 @@ public class GameSetup {
         try {
             windowpatterndeck = CardFactory.getNewCardDeck();
             //TODO CONSTANT.windowCardNumber/2 - 1 so you can use all window card
-            windowPatternCards = extractRandomWindow(windowpatterndeck, CONSTANT.windowCardNumber/4-1,players.size()*2);
+            windowPatternCards = extractRandomWindow(windowpatterndeck, CONSTANT.windowCardNumber/2-1,players.size()*2);
         } catch (FileNotFoundException e) {
             System.out.println("File window card non è stato caricato");
         }

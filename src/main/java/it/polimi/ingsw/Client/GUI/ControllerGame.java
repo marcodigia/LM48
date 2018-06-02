@@ -61,7 +61,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private UseToolCardBasic useToolCardBasic;
 
     private ArrayList<ArrayList<Dice>> roundTrack;
-    private ArrayList<ArrayList<Label>> roundTrackLabel;
 
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
     private ArrayList<Label> toolCardsLabel = new ArrayList<>();
@@ -334,10 +333,10 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             layout.setPadding(new Insets(10,10,10,10));
             for (int j = 0; j < roundTrack.get(roundIndex).size(); j++) {
                 Label label = new Label();
-                label.setOnMouseClicked(this::handleClickDiceRound);
+                int finalJ = j;
+                label.setOnMouseClicked(e -> handleClickDiceRound(e, finalJ));
                 label.setGraphic(toImage(roundTrack.get(roundIndex).get(j)));
                 layout.getChildren().add(label);
-                roundTrackLabel.get(roundIndex).add(label);
             }
             layout.setAlignment(Pos.TOP_CENTER);
             Scene scene = new Scene(layout);
@@ -349,11 +348,11 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         }
     }
 
-    private void handleClickDiceRound(MouseEvent mouseEvent){
-        Label eventDraft = (Label) mouseEvent.getSource();
+    private void handleClickDiceRound(MouseEvent mouseEvent, int index){
         ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to choose this dice?", "y/n");
         if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
-            diceRoundIndex = roundTrackLabel.get(roundIndex).indexOf(eventDraft);
+            diceRoundIndex = index;
+            System.out.println(diceRoundIndex);
         }
     }
 
