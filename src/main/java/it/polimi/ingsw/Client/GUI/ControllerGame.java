@@ -347,19 +347,14 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         else{
             createAlertBox("Error", "This turn has to be played", "No dices");
         }
-        resetRoundIndex();
     }
 
     private void handleClickDiceRound(MouseEvent mouseEvent){
         Label eventDraft = (Label) mouseEvent.getSource();
         ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to choose this dice?", "y/n");
         if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
-            diceRoundIndex = roundTrackLabel.indexOf(eventDraft);
+            diceRoundIndex = roundTrackLabel.get(roundIndex).indexOf(eventDraft);
         }
-    }
-
-    private void resetRoundIndex() {
-        roundIndex = -1;
     }
 
     /**
