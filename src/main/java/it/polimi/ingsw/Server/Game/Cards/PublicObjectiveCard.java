@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class PublicObjectiveCard implements Drawable {
@@ -15,6 +16,11 @@ public class PublicObjectiveCard implements Drawable {
         name = pattern.get(1);
         description = pattern.get(2);
         point = Integer.parseInt( pattern.get(3));
+    }
+
+    public InputStream getPublicObjectiveCardImage(){
+        String publicImageName = "public" + getID() + ".png";
+        return getClass().getClassLoader().getResourceAsStream(publicImageName);
     }
 
     public String getID() {

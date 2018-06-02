@@ -154,4 +154,12 @@ public class GameStatus implements Packetable {
     public ArrayList<ToolCard> getToolCards() {
         return toolCards;
     }
+
+    public ArrayList<PublicObjectiveCard> getPublicObjectiveCards(){
+        return publicObjectiveCards;
+    }
+
+    public PrivateObjectiveCard getPlayerPrivateObjectiveCards(String player){
+        return (PrivateObjectiveCard) playerCards.get(getPlayerByName(player)).get(1);
+    }
 }

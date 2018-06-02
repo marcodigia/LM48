@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Client.GUI;
 
+import it.polimi.ingsw.Server.Game.Cards.PrivateObjectiveCard;
+import it.polimi.ingsw.Server.Game.Cards.PublicObjectiveCard;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
@@ -62,7 +64,10 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     private ArrayList<ArrayList<Dice>> roundTrack;
 
+    private PrivateObjectiveCard privateObjectiveCard;
+
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
+    private ArrayList<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
     private ArrayList<Label> toolCardsLabel = new ArrayList<>();
     private ArrayList<Label> draftPoolLabel = new ArrayList<>();
     private ArrayList<Label> cells4 = new ArrayList<>();
@@ -72,6 +77,10 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        publicObjectiveCards = gameStatus.getPublicObjectiveCards();
+
+        privateObjectiveCard = gameStatus.getPlayerPrivateObjectiveCards(username);
 
         try {
             clientServerReciver.setUI(this);
@@ -174,14 +183,40 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      * @param title string used to set the title of the stage
      */
     private void openPrivateCards(String title) {
-
+        Stage window = new Stage();
+        //window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        HBox layout = new HBox(30);
+        layout.setAlignment(Pos.CENTER);
+        Label label = new Label();
+        label.setGraphic(toImage(privateObjectiveCard));
+        layout.getChildren().add(label);
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.setMinHeight(400);
+        window.setMinWidth(700);
+        window.showAndWait();
     }
 
     /**
      * @param title string used to set the title of the stage
      */
     private void openPublicCards(String title) {
-
+        Stage window = new Stage();
+        //window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        HBox layout = new HBox(30);
+        layout.setAlignment(Pos.CENTER);
+        for (PublicObjectiveCard poc : publicObjectiveCards) {
+            Label label = new Label();
+            label.setGraphic(toImage(poc));
+            layout.getChildren().add(label);
+        }
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.setMinHeight(400);
+        window.setMinWidth(700);
+        window.showAndWait();
     }
 
     /**
@@ -421,6 +456,23 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         imageView.setFitWidth(30);
         return imageView;
     }
+
+    private ImageView toImage(PublicObjectiveCard publicObjectiveCard) {
+        Image image = new Image(publicObjectiveCard.getPublicObjectiveCardImage());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(300);
+        imageView.setFitWidth(200);
+        return imageView;
+    }
+
+    private ImageView toImage(PrivateObjectiveCard privateObjectiveCard) {
+        Image image = new Image(privateObjectiveCard.getPrivateObjectiveCardImage());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(300);
+        imageView.setFitWidth(200);
+        return imageView;
+    }
+
 
     /**
      * @param dice dice whose image is required
