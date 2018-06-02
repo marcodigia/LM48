@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
+package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import javafx.event.ActionEvent;
@@ -7,23 +7,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.port;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Login;
+import static it.polimi.ingsw.Client.GUI.GUI.ip;
+import static it.polimi.ingsw.Client.GUI.GUI.port;
 
-
-public class ControllerJavaFXConnection extends GUI implements Initializable {
+public class ControllerConnection extends AbstractGUI implements Initializable {
 
     public static boolean rmi = false;
+    static ClientServerReciver clientServerReciver;
+
     public Button rmibutton, socketbutton;
     public AnchorPane anchorconnection;
     public ImageView bg2;
     public TextField serverIP, serverPort;
-    public static ClientServerReciver clientServerReciver;
 
 
     @Override
@@ -51,10 +50,5 @@ public class ControllerJavaFXConnection extends GUI implements Initializable {
         ip = serverIP.getText();
         port = serverPort.getText();
         switchScene(Login);
-    }
-
-    @Override
-    public void pingBack() {
-
     }
 }

@@ -1,8 +1,10 @@
-package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
+package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,21 +14,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.Optional;
 
-import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.root;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.stage;
+public abstract class AbstractGUI extends Application implements UI{
 
-public abstract class GUI implements UI{
+    public void start(Stage primaryStage) {
 
-    /**
-     * @param title string representing the title of the box
-     * @param header string representing the header of the box
-     * @param content string representing the content of the box
-     */
-    protected void createAlertBox(String title, String header, String content){
+    }
+
+        /**
+         * @param title string representing the title of the box
+         * @param header string representing the header of the box
+         * @param content string representing the content of the box
+         */
+    void createAlertBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle(title);
@@ -41,7 +45,7 @@ public abstract class GUI implements UI{
      * @param content string representing the content of the box
      * @return button bar containing OK / CANCEL type buttons
      */
-    public ButtonBar.ButtonData createWarningBox(String title, String header, String content){
+    ButtonBar.ButtonData createWarningBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -67,7 +71,7 @@ public abstract class GUI implements UI{
      * @param header string representing the header of the box
      * @param content string representing the content of the box
      */
-    protected void createInfoBox(String title, String header, String content){
+    void createInfoBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle(title);
@@ -82,7 +86,7 @@ public abstract class GUI implements UI{
      * @param content string representing the content of the box
      * @return button bar containing OK / CANCEL type buttons
      */
-    protected ButtonBar.ButtonData createConfirmationBox(String title, String header, String content){
+    ButtonBar.ButtonData createConfirmationBox(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle(title);
@@ -105,24 +109,24 @@ public abstract class GUI implements UI{
     /**
      * @param fxml String representing the fxml name that has to be charged
      */
-    protected void switchScene(String fxml){
+    void switchScene(String fxml){
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(fxml));
-            root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setOnCloseRequest(event -> {
+            GUI.root = loader.load();
+            Scene scene = new Scene(GUI.root);
+            GUI.stage.setScene(scene);
+            GUI.stage.setOnCloseRequest(event -> {
                 event.consume();
                 ButtonBar.ButtonData buttonData = createWarningBox("Warning", "Closing window", "Are you sure?");
                 if (buttonData.equals(ButtonBar.ButtonData.OK_DONE)){
-                    if (generiClient != null)
-                        generiClient.close();
-                    stage.close();
+                    if (GUI.generiClient != null)
+                        GUI.generiClient.close();
+                    GUI.stage.close();
                 }
             } );
-            stage.show();
+            GUI.stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,7 +136,7 @@ public abstract class GUI implements UI{
      * @param background imageview of the background
      * @param pane layout pane whose background has to be set
      */
-    protected void setBackground(ImageView background, Pane pane){
+    void setBackground(ImageView background, Pane pane){
         Image image = new Image(getClass().getClassLoader().getResourceAsStream("sfondo.png"));
         background.setImage(image);
         background.setOpacity(0.25);
@@ -149,7 +153,7 @@ public abstract class GUI implements UI{
      */
     @Override
     public void printMessage(String s) {
-
+        Platform.runLater(() -> createInfoBox("", s, ""));
     }
 
     /**
@@ -167,19 +171,16 @@ public abstract class GUI implements UI{
     public int getDraftPoolIndex() {
         System.out.println(" get draft pool index to");
         final Integer[] toReturn = new Integer[1];
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (getDiceClickedIndexDraftpool() == -1) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        Thread t = new Thread(() -> {
+            while (getDiceClickedIndexDraftpool() == -1) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                toReturn[0] = getDiceClickedIndexDraftpool();
-                System.out.println(toReturn[0]);
             }
+            toReturn[0] = getDiceClickedIndexDraftpool();
+            System.out.println(toReturn[0]);
         });
 
         t.start();
@@ -198,19 +199,16 @@ public abstract class GUI implements UI{
     public int getMatrixIndexFrom() {
         System.out.println(" get matrix index from");
         final Integer[] toReturn = new Integer[1];
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (getWPindexDice() == -1) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        Thread t = new Thread(() -> {
+            while (getWPindexDice() == -1) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                toReturn[0] = getWPindexDice();
-                System.out.println(toReturn[0]);
             }
+            toReturn[0] = getWPindexDice();
+            System.out.println(toReturn[0]);
         });
 
         t.start();
@@ -229,19 +227,16 @@ public abstract class GUI implements UI{
     public int getMatrixIndexTo() {
         System.out.println(" get matrix index to");
         final Integer[] toReturn = new Integer[1];
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (getWPindexDice() == -1) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        Thread t = new Thread(() -> {
+            while (getWPindexDice() == -1) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                toReturn[0] = getWPindexDice();
-                System.out.println(toReturn[0]);
             }
+            toReturn[0] = getWPindexDice();
+            System.out.println(toReturn[0]);
         });
 
         t.start();
@@ -252,8 +247,6 @@ public abstract class GUI implements UI{
         }
         return toReturn[0];
     }
-
-
 
     /**
      * @param wp1fronte
@@ -329,6 +322,10 @@ public abstract class GUI implements UI{
     }
 
     public void resetDraftPoolindex(){
+
+    }
+
+    public void pingBack(){
 
     }
 }

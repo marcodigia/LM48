@@ -1,9 +1,7 @@
-package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
+package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
-import it.polimi.ingsw.Server.Game.Cards.ToolCard;
-import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,30 +12,28 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.generiClient;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.ip;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.port;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.rmi;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.GUI.ip;
+import static it.polimi.ingsw.Client.GUI.GUI.port;
+import static it.polimi.ingsw.Client.GUI.GUI.username;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Lobby;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Login;
+import static it.polimi.ingsw.Client.GUI.GUI.generiClient;
 
-public class ControllerJavaFXLogin extends GUI implements Initializable {
+public class ControllerLogin extends AbstractGUI implements Initializable{
 
     public Button loginButton;
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
-    public static ArrayList<String> playersName = new ArrayList<>();
 
-    public static ClientServerSender clientServerSender = null;
+    static ArrayList<String> playersName = new ArrayList<>();
+    static ClientServerSender clientServerSender = null;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,13 +47,13 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
     @FXML
     private void handleLoginButton(ActionEvent event){
         saveName();
-        if (rmi) {
+        if (ControllerConnection.rmi) {
             generiClient = new GeneriClient();
             generiClient.setLinkClientServerRMI();
             generiClient.setClientServerReciverRMI();
-            clientServerReciver = generiClient.getClientServerReciver();
+            ControllerConnection.clientServerReciver = generiClient.getClientServerReciver();
             try {
-                clientServerReciver.setUI(this);
+                ControllerConnection.clientServerReciver.setUI(this);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -68,9 +64,9 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
             generiClient.setLinkClientServer(ip, Integer.parseInt(port));
             generiClient.setClientServerReciver();
             generiClient.setClientServerSender();
-            clientServerReciver = generiClient.getClientServerReciver();
+            ControllerConnection.clientServerReciver = generiClient.getClientServerReciver();
             try {
-                clientServerReciver.setUI(this);
+                ControllerConnection.clientServerReciver.setUI(this);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -91,36 +87,33 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
      * @return EventHandler used to validate a string to max_Length and to only digits and letters
      */
     public EventHandler<KeyEvent> username_Validation(final Integer max_Length) {
-        return new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                TextField textField = (TextField) e.getSource();
-                if (textField.getText().length() >= max_Length) {
+        return e -> {
+            TextField textField = (TextField) e.getSource();
+            if (textField.getText().length() >= max_Length) {
+                e.consume();
+            }
+            if(e.getCharacter().matches("[0-9.]")){
+                if(textField.getText().contains(".") && e.getCharacter().matches("[.]")){
+                    e.consume();
+                }else if(textField.getText().length() == 0 && e.getCharacter().matches("[.]")){
                     e.consume();
                 }
-                if(e.getCharacter().matches("[0-9.]")){
-                    if(textField.getText().contains(".") && e.getCharacter().matches("[.]")){
-                        e.consume();
-                    }else if(textField.getText().length() == 0 && e.getCharacter().matches("[.]")){
-                        e.consume();
-                    }
-                }
-                else if (e.getCharacter().matches("[A-Za-z]")){
-                    if(textField.getText().contains(".") && e.getCharacter().matches("[.]")){
-                        e.consume();
-                    }else if(textField.getText().length() == 0 && e.getCharacter().matches("[.]")){
-                        e.consume();
-                    }
-                }
-                else{
+            }
+            else if (e.getCharacter().matches("[A-Za-z]")){
+                if(textField.getText().contains(".") && e.getCharacter().matches("[.]")){
+                    e.consume();
+                }else if(textField.getText().length() == 0 && e.getCharacter().matches("[.]")){
                     e.consume();
                 }
+            }
+            else{
+                e.consume();
             }
         };
     }
 
     private void saveName(){
-        username = new String(usernametext.getText());
+        username = usernametext.getText();
     }
 
     /**
@@ -128,19 +121,16 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
      */
     @Override
     public void allCurrentPlayers(String players) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
 
-                String[] names = players.split("\\s*,\\s*");
-                playersName = new ArrayList<String>();
+            String[] names = players.split("\\s*,\\s*");
+            playersName = new ArrayList<>();
 
-                for (int i = 0 ; i < names.length ; i++){
-                    System.out.println(names[i]);
-                    playersName.add(new String(names[i]));
-                }
-                switchScene(Lobby);
+            for (String name : names) {
+                System.out.println(name);
+                playersName.add(name);
             }
+            switchScene(Lobby);
         });
     }
 
@@ -149,19 +139,16 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
      */
     @Override
     public void printMessage(String s) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                createInfoBox("", s, "");
-                switch (s) {
-                    case CONSTANT.usernameAlreadyUsed:
-                        switchScene(Login);
-                        break;
-                    case CONSTANT.correctUsername:
-                        clientServerSender = generiClient.getClientServerSender();
-                        pingBack();
-                        break;
-                }
+        Platform.runLater(() -> {
+            createInfoBox("", s, "");
+            switch (s) {
+                case CONSTANT.usernameAlreadyUsed:
+                    switchScene(Login);
+                    break;
+                case CONSTANT.correctUsername:
+                    clientServerSender = generiClient.getClientServerSender();
+                    pingBack();
+                    break;
             }
         });
     }
@@ -175,4 +162,5 @@ public class ControllerJavaFXLogin extends GUI implements Initializable {
             }
         }
     }
+
 }

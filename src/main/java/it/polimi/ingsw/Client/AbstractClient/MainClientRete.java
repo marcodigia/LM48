@@ -1,13 +1,13 @@
 package it.polimi.ingsw.Client.AbstractClient;
 
 import it.polimi.ingsw.Client.CLI.CLI;
-import it.polimi.ingsw.Client.GUI.GUIimpl;
 import it.polimi.ingsw.Server.Game.Cards.CardManager;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 
 import java.io.FileNotFoundException;
-import java.rmi.RemoteException;
+import it.polimi.ingsw.Client.GUI.GUI;
+
 import java.util.Scanner;
 
 public class MainClientRete {
@@ -43,10 +43,10 @@ public class MainClientRete {
 
             switch(choice){
                 case "0":
-                    GUIimpl gui = new GUIimpl();
+                    GUI gui = new GUI();
                     if (args.length>1){
-                        GUIimpl.setIp(args[0]);
-                        GUIimpl.setPort(args[1]);
+                        GUI.setIp(args[0]);
+                        GUI.setPort(args[1]);
                     }
                     gui.setGeneriClient(generiClient);
                     Thread tu = new Thread(gui);

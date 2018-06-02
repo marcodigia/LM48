@@ -13,11 +13,11 @@ public class CONSTANT {
     public final static String windowPatternfile = "windowPatternCards.csv";
     public final static String usernameAlreadyUsed = "This username is already used";
     public final static String correctUsername = "You are currently connected";
-    public final static String Board = "/Board.fxml";
+    public final static String Board = "/Game.fxml";
     public final static String title = "Sagrada";
-    public final static String RMI_Socket = "/RMI_Socket.fxml";
+    public final static String RMI_Socket = "/Connection.fxml";
     public final static String Login = "/Login.fxml";
-    public final static String ChooseWP = "/ChooseWP.fxml";
+    public final static String ChooseWP = "/ChooseWindowPattern.fxml";
     public final static String Lobby = "/Lobby.fxml";
     public final static int toolCardNumber = 12;
     public final static int toolCardToExtract = 3;

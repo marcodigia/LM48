@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.GUI.ControllerJavaFX;
+package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
@@ -6,7 +6,6 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
@@ -27,23 +26,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXConnection.clientServerReciver;
-import static it.polimi.ingsw.Client.GUI.ControllerJavaFX.ControllerJavaFXLogin.clientServerSender;
-import static it.polimi.ingsw.Client.GUI.GUIimpl.username;
+import static it.polimi.ingsw.Client.GUI.ControllerConnection.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.ControllerLogin.clientServerSender;
+import static it.polimi.ingsw.Client.GUI.GUI.username;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.COLUMNS;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.ROWS;
 
-public class ControllerJavaFXGame extends GUI implements Initializable {
+public class ControllerGame extends AbstractGUI implements Initializable {
 
     public static GameStatus gameStatus;
-    public static boolean attivo = false;
+    static boolean attivo = false;
 
     public Label p1, p2, p3, p4;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
@@ -55,16 +53,11 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     private int indice_dado = -1;
     private int draftpoolindex = -1;
 
-    public Object lock = new Object();
+    private final Object lock = new Object();
 
-    private DraftPool draftPool;
     private PlaceDiceAction placeDiceAction;
-    private UseToolCardBasic useTCAction;
     private Actions actions;
     private ArrayList<ArrayList<Dice>> roundTrack;
-
-
-    private int indiceToolCard;
 
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
     private ArrayList<Label> toolCardsLabel = new ArrayList<>();
@@ -85,7 +78,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
         setBackground(bg4, anchorgame);
         setUpGame();
-        draftPool = gameStatus.getDraftPool();
+        DraftPool draftPool = gameStatus.getDraftPool();
         roundTrack = gameStatus.getBoardRound().getDices();
 
         populateGridPane(gpdraft, 1, 9, draftPoolLabel, "");
@@ -122,7 +115,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
 
         }
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
-        useTCAction = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
+
         toolCards = gameStatus.getToolCards();
     }
 
@@ -200,7 +193,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         for (ToolCard tc : toolCards) {
             Label label = new Label();
             label.setGraphic(toImage(tc));
-            label.setOnMouseClicked(e -> handleClickToolCard(e));
+            label.setOnMouseClicked(this::handleClickToolCard);
             layout.getChildren().add(label);
             toolCardsLabel.add(label);
         }
@@ -211,39 +204,24 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
         window.showAndWait();
     }
 
-
-
-
-    @Override
-    public ToolCard getChoosenToolCard() {
-        return toolCards.get(indiceToolCard);
-    }
-
     private void handleClickToolCard(MouseEvent mouseEvent) {
         System.out.println("handle toolcard");
 
         Label event = (Label) mouseEvent.getSource();
-
-        indiceToolCard = toolCardsLabel.indexOf(event);
-
-
+        int indiceToolCard = toolCardsLabel.indexOf(event);
+        System.out.println(indiceToolCard);
+        actions = toolCards.get(indiceToolCard).getActions();
 
         UI ui = this;
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (lock){
-                    System.out.println("prima use");
-                    useTCAction.useAction(ui, gameStatus, username);
-                    System.out.println("dopo use");
-                    System.out.println(useTCAction.toPacket());
-                    try {
-                        clientServerSender.sendAction(useTCAction, username);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    resetDraftPoolindex();
-                }
+        Thread t = new Thread(() -> {
+            synchronized (lock){
+            System.out.println("dopo use");
+            try {
+                clientServerSender.sendAction(actions, username);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            resetDraftPoolindex();
             }
         });
         t.start();
@@ -411,7 +389,7 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
                     l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * row + column)));
                 GridPane.setConstraints(l, column, row);
                 gridPane.getChildren().add(l);
-                l.setOnMouseClicked(event -> handleClickWindowPattern(event));
+                l.setOnMouseClicked(this::handleClickWindowPattern);
                 if (player.getName().equals(username))
                     cells4.add(l);
             }
@@ -496,33 +474,22 @@ public class ControllerJavaFXGame extends GUI implements Initializable {
     @Override
     public void updateGameStatus(GameStatus gameStat) {
         gameStatus = gameStat;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                switchScene(Board);
-            }
-        });
+        Platform.runLater(() -> switchScene(Board));
     }
 
     @Override
     public void activate(){
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                attivo = true;
-                switchScene(Board);
-            }
+        Platform.runLater(() -> {
+            attivo = true;
+            switchScene(Board);
         });
     }
 
     @Override
     public void disable() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                attivo = false;
-                switchScene(Board);
-            }
+        Platform.runLater(() -> {
+            attivo = false;
+            switchScene(Board);
         });
     }
 
