@@ -57,6 +57,8 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private int draftpoolindex = -1;
     private int roundIndex = -1;
     private int diceRoundIndex = -1;
+    private int toolCardSelected = -1;
+
     private final Object lock = new Object();
 
     private PlaceDiceAction placeDiceAction;
@@ -243,18 +245,14 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     }
 
     private void handleClickToolCard(MouseEvent mouseEvent) {
-        System.out.println("handle toolcard");
-
         Label event = (Label) mouseEvent.getSource();
-        int indiceToolCard = toolCardsLabel.indexOf(event);
-        System.out.println(indiceToolCard);
+
+        toolCardSelected = toolCardsLabel.indexOf(event);
 
         useToolCardBasic.useAction(this, gameStatus, username);
 
-        UI ui = this;
         Thread t = new Thread(() -> {
             synchronized (lock){
-            System.out.println("dopo use");
             try {
                 clientServerSender.sendAction(useToolCardBasic, username);
             } catch (RemoteException e) {
@@ -565,6 +563,12 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ToolCard getToolCard(){
+
+        return gameStatus.getToolCards().get(toolCardSelected);
     }
 
     @Override

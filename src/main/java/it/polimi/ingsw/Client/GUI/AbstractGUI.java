@@ -298,9 +298,7 @@ public abstract class AbstractGUI extends Application implements UI{
      */
     @Override
     public ToolCard getChoosenToolCard() {
-
-
-        return null;
+        return getToolCard();
     }
 
     /**
@@ -335,5 +333,9 @@ public abstract class AbstractGUI extends Application implements UI{
 
     public int getDiceIndexFromRound(){
         return 0;
+    }
+    
+    public ToolCard getToolCard(){
+        return null;
     }
 }
