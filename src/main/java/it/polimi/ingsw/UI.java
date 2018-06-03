@@ -13,36 +13,34 @@ public interface UI {
     public void printMessage(String s);
 
     //NB this function must return 0 default
-    public int getAmmountToChange();
+    int getAmmountToChange();
 
     //UI must verify that value is in between bounds
-    public int getDraftPoolIndex();
+    int getDraftPoolIndex();
 
     //UI must verify that value is in between bounds
-    public int getMatrixIndexFrom();
+    int getMatrixIndexFrom();
 
     //UI must verify that value is in between bounds
-    public int getMatrixIndexTo();
+    int getMatrixIndexTo();
 
-    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro);
+    void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro);
 
-    public int getRoundTrackIndex();
-
-    public void updateGameStatus(GameStatus gameStatus);
+    void updateGameStatus(GameStatus gameStatus);
 
     //UI active
-    public void activate();
+    void activate();
 
-    public void disable();
+    void disable();
 
-    public void pingBack();
+    void pingBack();
 
-    public void allCurrentPlayers(String players);
+    void allCurrentPlayers(String players);
 
     ToolCard getChoosenToolCard();
 
     int getRoundIndex();
-    int getDiceIndexFromRound();
 
+    int getDiceIndexFromRound();
 
 }

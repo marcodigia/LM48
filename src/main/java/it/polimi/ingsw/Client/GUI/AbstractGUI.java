@@ -164,86 +164,19 @@ public abstract class AbstractGUI extends Application implements UI{
         return 0;
     }
 
-    /**
-     * @return
-     */
     @Override
     public int getDraftPoolIndex() {
-        System.out.println(" get draft pool index to");
-        final Integer[] toReturn = new Integer[1];
-        Thread t = new Thread(() -> {
-            while (getDiceClickedIndexDraftpool() == -1) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            toReturn[0] = getDiceClickedIndexDraftpool();
-            System.out.println(toReturn[0]);
-        });
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return toReturn[0];
+        return 0;
     }
 
-    /**
-     * @return
-     */
     @Override
     public int getMatrixIndexFrom() {
-        System.out.println(" get matrix index from");
-        final Integer[] toReturn = new Integer[1];
-        Thread t = new Thread(() -> {
-            while (getWPindexDice() == -1) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            toReturn[0] = getWPindexDice();
-            System.out.println(toReturn[0]);
-        });
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return toReturn[0];
+        return 0;
     }
 
-    /**
-     * @return
-     */
     @Override
     public int getMatrixIndexTo() {
-        System.out.println(" get matrix index to");
-        final Integer[] toReturn = new Integer[1];
-        Thread t = new Thread(() -> {
-            while (getWPindexDice() == -1) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            toReturn[0] = getWPindexDice();
-            System.out.println(toReturn[0]);
-        });
-
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return toReturn[0];
+        return 0;
     }
 
     /**
@@ -253,17 +186,7 @@ public abstract class AbstractGUI extends Application implements UI{
      * @param wp4retro
      */
     @Override
-    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
-
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public int getRoundTrackIndex() {
-        return 0;
-    }
+    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {}
 
     /**
      * @param gameStatus
@@ -296,7 +219,7 @@ public abstract class AbstractGUI extends Application implements UI{
      */
     @Override
     public ToolCard getChoosenToolCard() {
-        return getToolCard();
+        return null;
     }
 
     /**
@@ -306,19 +229,11 @@ public abstract class AbstractGUI extends Application implements UI{
         return 0;
     }
 
-    public void resetWPindex(){
-
-    }
-
     /**
      * @return
      */
     public int getDiceClickedIndexDraftpool(){
         return 0;
-    }
-
-    public void resetDraftPoolindex(){
-
     }
 
     public void pingBack(){
@@ -333,7 +248,4 @@ public abstract class AbstractGUI extends Application implements UI{
         return 0;
     }
 
-    public ToolCard getToolCard(){
-        return null;
-    }
 }

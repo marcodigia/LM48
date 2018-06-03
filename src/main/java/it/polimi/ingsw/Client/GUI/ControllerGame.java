@@ -58,8 +58,14 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private int roundIndex = -1;
     private int diceRoundIndex = -1;
     private int toolCardSelected = -1;
+    private int indiceWPFrom = -1;
 
-    private final Object lock = new Object();
+    private Object lockRoundIndex = new Object();
+    private Object lockDiceRoundIndex = new Object();
+    private Object lockToolCardSelected = new Object();
+    private final Object lockWPFrom = new Object();
+    private final Object lockWPTo = new Object();
+    private final Object lockDraftPool = new Object();
 
     private PlaceDiceAction placeDiceAction;
     private UseToolCardBasic useToolCardBasic;
@@ -131,6 +137,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
         useToolCardBasic = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
         toolCards = gameStatus.getToolCards();
+
     }
 
     /**
@@ -142,6 +149,11 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
             draftpoolindex = draftPoolLabel.indexOf(eventDraft);
         }
+        System.out.println("ancora non ho notifaaay");
+        synchronized (lockDraftPool){
+            System.out.println("notifaaaaaaay");
+            lockDraftPool.notifyAll();
+        }
     }
 
     /**
@@ -151,15 +163,27 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         Label event = (Label) mouseEvent.getSource();
         indice_dado = cells4.indexOf(event);
         if(draftpoolindex != -1) {
-            placeDiceAction.useAction(this, gameStatus, username);
-            try {
-                clientServerSender.sendAction(placeDiceAction, username);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            Thread t = new Thread(()->{
+                System.out.println("paasa");
+                placeDiceAction.useAction(this, gameStatus, username);
+                System.out.println("no paasa");
+
+                try {
+                    clientServerSender.sendAction(placeDiceAction, username);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                //resetDraftPoolindex();
+                //resetWPindex();
+            });
+
+            t.start();
         }
-        resetDraftPoolindex();
-        resetWPindex();
+        System.out.println("ancora non ho notifaaay");
+        synchronized (lockWPTo){
+            System.out.println("notifaaaaaaay");
+            lockWPTo.notifyAll();
+        }
     }
 
     /**
@@ -248,14 +272,13 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         toolCardSelected = toolCardsLabel.indexOf(event);
 
         Thread t = new Thread(() -> {
-            synchronized (lock){
-                useToolCardBasic.useAction(this, gameStatus, username);
-                try {
-                    clientServerSender.sendAction(useToolCardBasic, username);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                resetDraftPoolindex();
+            useToolCardBasic.useAction(this, gameStatus, username);
+            System.out.println("handleClickTool " + useToolCardBasic.toPacket());
+            //TODO disabilitare toolcard dopo averla cliccata
+            try {
+                clientServerSender.sendAction(useToolCardBasic, username);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         });
         t.start();
@@ -536,6 +559,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public void updateGameStatus(GameStatus gameStat) {
         gameStatus = gameStat;
         Platform.runLater(() -> switchScene(Board));
+        resetAllIndex();
     }
 
     @Override
@@ -563,7 +587,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     }
 
     @Override
-    public ToolCard getToolCard(){
+    public ToolCard getChoosenToolCard(){
         return gameStatus.getToolCards().get(toolCardSelected);
     }
 
@@ -577,4 +601,90 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         return diceRoundIndex;
     }
 
+    @Override
+    public int getDraftPoolIndex() {
+            Thread t = new Thread(() -> {
+                synchronized (lockDraftPool) {
+                    while (draftpoolindex == -1) {
+
+                        try {
+                            System.out.println("waaaait");
+                            lockDraftPool.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            t.start();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("assegno index");
+            int indice = draftpoolindex;
+            resetAllIndex();
+            return indice;
+    }
+
+    @Override
+    public int getMatrixIndexFrom(){
+        Thread t = new Thread(() -> {
+            synchronized (lockWPFrom) {
+                while ((indiceWPFrom == -1)) {
+                    try {
+                        lockWPFrom.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        int indice = indiceWPFrom;
+        resetAllIndex();
+        return indice;
+
+    }
+
+    @Override
+    public int getMatrixIndexTo() {
+
+        Thread t = new Thread(() -> {
+            synchronized (lockWPTo) {
+                while (indice_dado==-1){
+                    try {
+                        lockWPTo.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        int indice = indice_dado;
+        resetAllIndex();
+        return indice;
+
+    }
+
+    private void resetAllIndex(){
+        draftpoolindex = -1;
+        indiceWPFrom = -1;
+        indice_dado = -1;
+        roundIndex = -1;
+        diceRoundIndex = -1;
+        toolCardSelected = -1;
+    }
 }

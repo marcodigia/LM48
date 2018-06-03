@@ -114,9 +114,11 @@ public class PlaceDiceAction implements Actions {
 
         } else if (dice == null){
 
-            matrixIndexTo = ui.getMatrixIndexTo();
             int diceIndex = ui.getDraftPoolIndex();
             dice = gameStatus.getDraftPool().getDice(diceIndex);
+            System.out.println("qui pasa");
+            matrixIndexTo = ui.getMatrixIndexTo();
+            System.out.println("qui no pasa");
 
         }else {
             ui.printMessage("No possible moves , Putting dice back to Draft Pool ... ");

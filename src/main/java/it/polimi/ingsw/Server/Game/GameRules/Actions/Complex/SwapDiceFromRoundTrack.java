@@ -37,7 +37,7 @@ public class SwapDiceFromRoundTrack implements Actions {
 
         draftPoolIndex=ui.getDraftPoolIndex();
         roundIndex = ui.getRoundIndex();
-        diceIndex = ui.getRoundTrackIndex();
+        diceIndex = ui.getDiceIndexFromRound();
 
     }
 

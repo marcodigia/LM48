@@ -235,7 +235,7 @@ public class CLI implements UI, Runnable{
 
 
     @Override
-    public int getRoundTrackIndex() {
+    public int getRoundIndex() {
         System.out.println("Indice cella round Track : ");
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
@@ -285,11 +285,6 @@ public class CLI implements UI, Runnable{
     @Override
     public ToolCard getChoosenToolCard() {
         return null;
-    }
-
-    @Override
-    public int getRoundIndex() {
-        return 0;
     }
 
     @Override
