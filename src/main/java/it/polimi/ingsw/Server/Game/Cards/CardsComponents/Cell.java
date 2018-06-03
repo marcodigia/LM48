@@ -55,8 +55,13 @@ public class Cell implements Serializable{
     boolean verifyColorAndValue(Dice diceToPlace, boolean ignoreColor, boolean ignoreValue) {
 
         // convert the DiceInformation to a Restriction
-        Restriction diceToPlaceColor = Restriction.parseRestricion(diceToPlace.getDiceColor().getColor());
-        Restriction diceToPlaceValue = Restriction.parseRestricion(diceToPlace.getValue());
+        Restriction diceToPlaceColor = Restriction
+                .parseRestricion(diceToPlace
+                        .getDiceColor()
+                        .getColor());
+        Restriction diceToPlaceValue = Restriction
+                .parseRestricion(diceToPlace
+                .getValue());
         // NB. == is ok because restriction is an enum
         //Consider value restriction
 

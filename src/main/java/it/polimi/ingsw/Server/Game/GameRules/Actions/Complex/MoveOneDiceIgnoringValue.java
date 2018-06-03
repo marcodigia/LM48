@@ -68,14 +68,17 @@ public class MoveOneDiceIgnoringValue implements Actions {
 
     private boolean existsValidMove(WindowPatternCard windowPatternCard , boolean ignoreValue){
         for (int i =0 ;  i < 20 ; i++){
-            Dice dice = windowPatternCard.removeDice(i);
-            for (int j = 0 ; j< 20 ; j++){
-                if (j!=i){
-                    // if found a suitable place for the dice according to the restricitons
-                    if (windowPatternCard.isPlaceable(dice,j,false,ignoreValue,false)){
-                        //Put dice back
-                        windowPatternCard.placeDice(dice,i,true,true,true);
-                        return true;
+            if(windowPatternCard.getDice(i)!=null) {
+
+                Dice dice = windowPatternCard.removeDice(i);
+                for (int j = 0; j < 20; j++) {
+                    if (j != i) {
+                        // if found a suitable place for the dice according to the restricitons
+                        if (windowPatternCard.isPlaceable(dice, j, false, ignoreValue, false)) {
+                            //Put dice back
+                            windowPatternCard.placeDice(dice, i, true, true, true);
+                            return true;
+                        }
                     }
                 }
             }

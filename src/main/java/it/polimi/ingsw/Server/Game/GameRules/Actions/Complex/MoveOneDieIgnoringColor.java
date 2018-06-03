@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
@@ -16,12 +17,23 @@ public class MoveOneDieIgnoringColor implements Actions {
     @Override
     public void doAction(GameStatus gameStatus) {
 
+
+
+        if (from == -1 || to == -1)
+            return;
+
         Player activePlayer = gameStatus.getPlayerByName(userName);
-        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
+
+        System.out.println(ANSI_COLOR.ANSI_YELLOW +"From " +userName+ ANSI_COLOR.ANSI_RESET);
+
+        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus
+                .getPlayerCards()
+                .get(activePlayer)
+                .get(0);
 
 
         System.out.println("Move one ignore Cor"+activePlayerWP.toString());
-        activePlayerWP.moveDice(from, to, true, false, false);
+        System.out.println("moved one?"+activePlayerWP.moveDice(from, to, true, false, false));
 
 
     }
@@ -36,10 +48,14 @@ public class MoveOneDieIgnoringColor implements Actions {
 
         if (!existsValidMove(activePlayerWP, true)) {
             ui.printMessage("No possible moves");
+            from = -1;
+            to = -1 ;
         } else {
 
             from = ui.getMatrixIndexFrom();
             to = ui.getMatrixIndexTo();
+
+            System.out.println(ANSI_COLOR.ANSI_PURPLE +"From " + from + " to " + to+ ANSI_COLOR.ANSI_RESET);
 
         }
 
@@ -67,14 +83,16 @@ public class MoveOneDieIgnoringColor implements Actions {
 
     private boolean existsValidMove(WindowPatternCard windowPatternCard, boolean ignoreColor) {
         for (int i = 0; i < 20; i++) {
-            Dice dice = windowPatternCard.removeDice(i);
-            for (int j = 0; j < 20; j++) {
-                if (j != i) {
-                    // if found a suitable place for the dice according to the restricitons
-                    if (windowPatternCard.isPlaceable(dice, j, ignoreColor, false, false)) {
-                        //Put dice back
-                        windowPatternCard.placeDice(dice, i, true, true, true);
-                        return true;
+            if (windowPatternCard.getDice(i)!=null) {
+                Dice dice = windowPatternCard.removeDice(i);
+                for (int j = 0; j < 20; j++) {
+                    if (j != i) {
+                        // if found a suitable place for the dice according to the restricitons
+                        if (windowPatternCard.isPlaceable(dice, j, ignoreColor, false, false)) {
+                            //Put dice back
+                            windowPatternCard.placeDice(dice, i, true, true, true);
+                            return true;
+                        }
                     }
                 }
             }

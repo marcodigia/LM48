@@ -69,6 +69,7 @@ public class UseToolCardBasic implements Actions {
         }
         action.setUpAction(elements[1]);
         toolCardAction = action;
+        toolCardAction.setUserName(userName);
     }
 
 
