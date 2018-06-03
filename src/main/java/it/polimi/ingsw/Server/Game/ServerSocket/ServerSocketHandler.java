@@ -16,7 +16,7 @@ public class ServerSocketHandler implements Runnable {
         this.socket = socket;
         this.waitingRoom = waitingRoom;
     }
-
+ 
     @Override
     public void run() {
         ServerClientSenderImp serverClientSender = new ServerClientSenderImp(socket);
