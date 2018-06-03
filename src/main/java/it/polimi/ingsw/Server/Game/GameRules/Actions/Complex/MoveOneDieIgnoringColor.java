@@ -32,9 +32,9 @@ public class MoveOneDieIgnoringColor implements Actions {
                 .get(0);
 
 
-        System.out.println("Move one ignore Cor"+activePlayerWP.toString());
-        System.out.println("moved one?"+activePlayerWP.moveDice(from, to, true, false, false));
+        activePlayerWP.moveDice(from, to, true, false, false);
 
+        System.out.println("[!!] " + gameStatus.toPacket());
 
     }
 
@@ -52,7 +52,10 @@ public class MoveOneDieIgnoringColor implements Actions {
             to = -1 ;
         } else {
 
+            System.out.println(ANSI_COLOR.BACKGROUND_MAGENTA + " move color use action from" + ANSI_COLOR.ANSI_RESET);
             from = ui.getMatrixIndexFrom();
+            System.out.println(ANSI_COLOR.BACKGROUND_MAGENTA + " move color use action to" + ANSI_COLOR.ANSI_RESET);
+
             to = ui.getMatrixIndexTo();
 
             System.out.println(ANSI_COLOR.ANSI_PURPLE +"From " + from + " to " + to+ ANSI_COLOR.ANSI_RESET);
@@ -77,6 +80,7 @@ public class MoveOneDieIgnoringColor implements Actions {
     @Override
     public void setUserName(String userName) {
 
+        System.out.println("set username move one color " + userName);
         this.userName = userName;
     }
 
@@ -95,6 +99,8 @@ public class MoveOneDieIgnoringColor implements Actions {
                         }
                     }
                 }
+                windowPatternCard.placeDice(dice,i,true,true,true);
+
             }
         }
         return false;

@@ -6,13 +6,11 @@ import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
-import it.polimi.ingsw.UI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -53,7 +51,10 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public GridPane gp1, gp2, gp3, gp4, gpround, gpdraft;
     public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
 
+    private Stage toolCardStage;
+
     private int indice_dado = -1;
+    private int indice_dadoPrecedente = -1;
     private int draftpoolindex = -1;
     private int roundIndex = -1;
     private int diceRoundIndex = -1;
@@ -161,29 +162,41 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      */
     private void handleClickWindowPattern(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
+
+        indice_dadoPrecedente = indice_dado;
         indice_dado = cells4.indexOf(event);
-        if(draftpoolindex != -1) {
-            Thread t = new Thread(()->{
+
+
+        Thread t = new Thread(()->{
                 System.out.println("paasa");
                 placeDiceAction.useAction(this, gameStatus, username);
                 System.out.println("no paasa");
 
                 try {
-                    clientServerSender.sendAction(placeDiceAction, username);
+                        clientServerSender.sendAction(placeDiceAction, username);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-                //resetDraftPoolindex();
-                //resetWPindex();
+                synchronized (lockWPTo){
+                    lockWPTo.notifyAll();
+                }
             });
 
-            t.start();
-        }
-        System.out.println("ancora non ho notifaaay");
-        synchronized (lockWPTo){
-            System.out.println("notifaaaaaaay");
-            lockWPTo.notifyAll();
-        }
+            if (toolCardSelected ==-1)
+                t.start();
+             else {
+                 Thread t2 = new Thread(()->{
+                     synchronized (lockWPFrom){
+
+                         lockWPFrom.notifyAll();
+                     }
+                     synchronized (lockWPTo){
+                         lockWPTo.notifyAll();
+                     }
+                 });
+                t2.start();
+
+            }
     }
 
     /**
@@ -249,10 +262,11 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      * @param title string used to set the title of the stage
      */
     private void openToolCards(String title) {
-        Stage window = new Stage();
-        window.setTitle(title);
+        toolCardStage = new Stage();
+        toolCardStage.setTitle(title);
         HBox layout = new HBox(30);
         layout.setAlignment(Pos.CENTER);
+        toolCardsLabel = new ArrayList<>();
         for (ToolCard tc : toolCards) {
             Label label = new Label();
             label.setGraphic(toImage(tc));
@@ -261,20 +275,18 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             toolCardsLabel.add(label);
         }
         Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.setMinHeight(400);
-        window.setMinWidth(700);
-        window.show();
+        toolCardStage.setScene(scene);
+        toolCardStage.setMinHeight(400);
+        toolCardStage.setMinWidth(700);
+        toolCardStage.show();
     }
 
     private void handleClickToolCard(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
         toolCardSelected = toolCardsLabel.indexOf(event);
-
         Thread t = new Thread(() -> {
             useToolCardBasic.useAction(this, gameStatus, username);
             System.out.println("handleClickTool " + useToolCardBasic.toPacket());
-            //TODO disabilitare toolcard dopo averla cliccata
             try {
                 clientServerSender.sendAction(useToolCardBasic, username);
             } catch (RemoteException e) {
@@ -282,6 +294,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             }
         });
         t.start();
+        toolCardStage.close();
     }
 
     private void setUpGame() {
@@ -445,10 +458,14 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      * @param player player owning this gridpane(window pattern card)
      */
     private void populateGridPane(GridPane gridPane, Player player) {
-        Node grid = gridPane.getChildren().get(0);
-        gridPane.getChildren().clear();
-        gridPane.getChildren().add(0, grid);
-        for (int row = 0; row < ROWS; row++) {
+        //Node grid = gridPane.getChildren().get(0);
+        //gridPane.getChildren().clear();
+        //gridPane.getChildren().add(0, grid);
+        for (Node n : gridPane.getChildren()) {
+            if (n instanceof Label)
+                gridPane.getChildren().remove(n);
+        }
+                for (int row = 0; row < ROWS; row++) {
             for (int column = 0; column < COLUMNS; column++) {
                 Label l = new Label();
                 l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(5 * row + column)));
@@ -490,7 +507,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         imageView.setFitWidth(200);
         return imageView;
     }
-
 
     /**
      * @param dice dice whose image is required
@@ -542,14 +558,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      */
     public int getWPindexDice(){
         return indice_dado;
-    }
-
-    public void resetWPindex(){
-        indice_dado = -1;
-    }
-
-    public void resetDraftPoolindex(){
-        draftpoolindex = -1;
     }
 
     /**
@@ -624,7 +632,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             }
             System.out.println("assegno index");
             int indice = draftpoolindex;
-            resetAllIndex();
             return indice;
     }
 
@@ -632,7 +639,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public int getMatrixIndexFrom(){
         Thread t = new Thread(() -> {
             synchronized (lockWPFrom) {
-                while ((indiceWPFrom == -1)) {
+                while ((indice_dado == -1)) {
                     try {
                         lockWPFrom.wait();
                     } catch (InterruptedException e) {
@@ -647,8 +654,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        int indice = indiceWPFrom;
-        resetAllIndex();
+        int indice = indice_dado;
         return indice;
 
     }
@@ -658,8 +664,9 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
         Thread t = new Thread(() -> {
             synchronized (lockWPTo) {
-                while (indice_dado==-1){
+                while (indice_dadoPrecedente==-1){
                     try {
+                        System.out.println("ciao");
                         lockWPTo.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -669,12 +676,13 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         });
         t.start();
         try {
+            System.out.println("ciao 1");
             t.join();
+            System.out.println("ciao 2");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         int indice = indice_dado;
-        resetAllIndex();
         return indice;
 
     }

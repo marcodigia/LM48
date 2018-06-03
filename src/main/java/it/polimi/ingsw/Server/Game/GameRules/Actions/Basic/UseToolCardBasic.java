@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 
@@ -25,8 +26,11 @@ public class UseToolCardBasic implements Actions {
         if (!ACTIVE)
             return;
 
+        System.out.println(ANSI_COLOR.BACKGROUND_YELLOW+"Do action use tool card " + ANSI_COLOR.ANSI_RESET);
         toolCardAction.doAction(gameStatus);
         ACTIVE = false;
+
+        System.out.println(ANSI_COLOR.BACKGROUND_GREEN + gameStatus.toPacket() + ANSI_COLOR.ANSI_RESET);
     }
 
     @Override
@@ -70,12 +74,17 @@ public class UseToolCardBasic implements Actions {
         action.setUpAction(elements[1]);
         toolCardAction = action;
         toolCardAction.setUserName(userName);
+        System.out.println(toolCardAction.getClass().getName() +"  --> " + userName);
+
     }
 
 
     @Override
     public void setUserName(String userName) {
 
+        System.out.println("use tool card " + userName);
+        toolCardAction.setUserName(userName);
+        this.userName = userName;
     }
 
     public void setToolCardAction(Actions actions) {

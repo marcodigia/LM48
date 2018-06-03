@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
@@ -18,11 +19,15 @@ public class MoveOneDiceIgnoringValue implements Actions {
 
 
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
-        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
+        WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus
+                .getPlayerCards()
+                .get(activePlayer)
+                .get(0);
 
-        System.out.println("Move one ignore Val"+activePlayerWP.toString());
-         activePlayerWP.moveDice(from, to, false, true, false);
 
+        activePlayerWP.moveDice(from, to, false, true, false);
+
+        System.out.println("[!!] " + gameStatus.toPacket());
 
     }
 
@@ -39,7 +44,12 @@ public class MoveOneDiceIgnoringValue implements Actions {
             return;
         } else {
 
+            System.out.println(ANSI_COLOR.BACKGROUND_MAGENTA + " move value use action " + ANSI_COLOR.ANSI_RESET);
+
             from = ui.getMatrixIndexFrom();
+
+            System.out.println(ANSI_COLOR.BACKGROUND_MAGENTA + " move value use action " + ANSI_COLOR.ANSI_RESET);
+
             to = ui.getMatrixIndexTo();
 
         }
@@ -62,6 +72,9 @@ public class MoveOneDiceIgnoringValue implements Actions {
 
     @Override
     public void setUserName(String userName) {
+
+
+        System.out.println("set username move one value " + userName);
         this.userName = userName;
     }
 
@@ -81,6 +94,7 @@ public class MoveOneDiceIgnoringValue implements Actions {
                         }
                     }
                 }
+                windowPatternCard.placeDice(dice,i,true,true,true);
             }
         }
         return false;

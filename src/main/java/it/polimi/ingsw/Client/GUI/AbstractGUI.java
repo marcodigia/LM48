@@ -153,7 +153,7 @@ public abstract class AbstractGUI extends Application implements UI{
      */
     @Override
     public void printMessage(String s) {
-        Platform.runLater(() -> createInfoBox("", s, ""));
+        //Platform.runLater(() -> createInfoBox("", s, ""));
     }
 
     /**

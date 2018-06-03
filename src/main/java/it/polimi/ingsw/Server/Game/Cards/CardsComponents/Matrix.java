@@ -151,25 +151,25 @@ public class Matrix implements Packetable {
 
 
         Cell cell_source = matrix.get(from);
-        Dice dice = cell_source.getDice();
 
         Cell cell_destination = matrix.get(to);
 
-        if (!cell_source.isEmpty())
+
+        if (!cell_source.isEmpty()){
 
             if (cell_destination.isEmpty()) {
                 Dice dice_source = cell_source.getDice();
                 cell_source.removeDice();
-                if (cell_destination.putDice(dice, ignore_color, ignore_value, ignore_adjacency))
+                if (cell_destination.putDice(dice_source, ignore_color, ignore_value, ignore_adjacency))
                     return true;
-                 else{
-                     //Set everything true if dice was there it doesn't matter how but replace it there
-                     cell_source.putDice(dice_source,true,true,true);
+                else {
+                    //Set everything true if dice was there it doesn't matter how but replace it there
+                    cell_source.putDice(dice_source, true, true, true);
 
                 }
             }
 
-
+        }
         return false;
     }
 

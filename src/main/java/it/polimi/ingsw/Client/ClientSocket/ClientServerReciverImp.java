@@ -3,6 +3,7 @@ package it.polimi.ingsw.Client.ClientSocket;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.UI;
 
@@ -62,6 +63,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                     case "SGS":
                         message = scanner.next();
                         GameStatus gameStatus = Unpacker.getGameStatus(message);
+                        System.out.println(ANSI_COLOR.ANSI_BLUE + gameStatus.toPacket() + ANSI_COLOR.ANSI_RESET);
                         ui.updateGameStatus(gameStatus);
                         break;
                     case "ALL":

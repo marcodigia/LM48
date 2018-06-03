@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.GUI.ip;
@@ -39,6 +40,8 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg1, anchorlogin);
         usernametext.addEventFilter(KeyEvent.KEY_TYPED, username_Validation(20));
+        Random random = new Random();
+        usernametext.setText("user"+random.nextInt(99999999));
     }
 
     /**
@@ -47,6 +50,7 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
     @FXML
     private void handleLoginButton(ActionEvent event){
         validateUsername();
+
         saveName();
         if (ControllerConnection.rmi) {
             generiClient = new GeneriClient();

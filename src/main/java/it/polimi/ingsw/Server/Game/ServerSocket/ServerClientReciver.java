@@ -119,9 +119,15 @@ public class ServerClientReciver implements Runnable {
                         if (name[name.length-1].equals("PlaceDiceAction"))
                             game.getGameStatus().getPlayerByName(username).setPlaceDiceOfTheTurn( (PlaceDiceAction) a) ;
                         else
-                            game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn( (UseToolCardBasic) a); ;
+                            game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn( (UseToolCardBasic) a);
 
+
+                        a.setUserName(username);
+
+                        System.out.println("Server client receiver 1" + game.getGameStatus().toPacket());
                         a.doAction(game.getGameStatus());
+
+                        System.out.println("Server client receiver 2" + game.getGameStatus().toPacket());
                         for(Player p : game.getPlayers().keySet()) {
                             p.getvirtualView().sendGameStatus(game.getGameStatus());
                         }

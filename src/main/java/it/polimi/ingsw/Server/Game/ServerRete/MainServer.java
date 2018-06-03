@@ -26,14 +26,15 @@ public class MainServer {
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setGame(game);
 
+
         System.out.println("Insert ip where RMI should be published: ");
-        String ipServer = keyboard.nextLine();
+        String ipServer ="127.0.0.1"; //keyboard.nextLine();
 
         System.out.println("Insert port where RMI should be published: ");
-        int portRMI = keyboard.nextInt();
+        int portRMI = 1099;//keyboard.nextInt();
 
         System.out.println("Insert port where socket should be listen: ");
-        int portSocket = keyboard.nextInt();
+        int portSocket = 1200;//keyboard.nextInt();
 
         ServerRMI serverRMI = new ServerRMI(portRMI, waitingRoom,game, ipServer);
         ServerSocketAccept serverSocketAccept = new ServerSocketAccept(portSocket, waitingRoom, game);
