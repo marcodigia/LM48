@@ -269,6 +269,8 @@ public class Unpacker {
 
        //Setup the Action with the given parameters
        assert action != null;
+
+
        action.setUpAction(elements[3]);
        action.setUserName(elements[1]);
        action.setACTIVE(Boolean.parseBoolean(elements[2]));

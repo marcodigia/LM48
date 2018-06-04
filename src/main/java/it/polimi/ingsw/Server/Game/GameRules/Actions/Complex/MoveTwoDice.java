@@ -35,19 +35,23 @@ public class MoveTwoDice implements Actions {
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
         this.userName = userName;
-        Player activePlayer = gameStatus.getPlayerByName(userName) ;
-        Thread getUserInputThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ui.printMessage("Primo Dado");
-                from1 = ui.getMatrixIndexFrom();
-                to1 = ui.getMatrixIndexTo();
 
-                ui.printMessage("Secondo Dado");
-                from2 = ui.getMatrixIndexFrom();
-                to2 = ui.getMatrixIndexTo();
-            }
-        });
+        ui.printMessage("Primo Dado");
+        System.out.println("WAITING UI.GETMATRIXD INDEX FROM");
+        from1 = ui.getMatrixIndexFrom();
+
+        System.out.println("WAITING UI.GETMATRIXD INDEX TO");
+        to1 = ui.getMatrixIndexTo();
+
+        ui.printMessage("Secondo Dado");
+
+        System.out.println("WAITING UI.GETMATRIXD INDEX FROM2");
+        from2 = ui.getMatrixIndexFrom();
+
+        System.out.println("WAITING UI.GETMATRIXD INDEX TO2");
+        to2 = ui.getMatrixIndexTo();
+
+        System.out.println("/007" + from1 + to1 + from2 + to2);
 
     }
 
@@ -68,7 +72,7 @@ public class MoveTwoDice implements Actions {
 
     @Override
     public void setUserName(String userName) {
-
+        this.userName = userName;
     }
 
 

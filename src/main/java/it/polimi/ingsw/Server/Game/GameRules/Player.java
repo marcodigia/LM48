@@ -1,19 +1,15 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
-import it.polimi.ingsw.Server.Game.ServerRete.Turn;
-import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
-import it.polimi.ingsw.Server.View.VirtualView;
-import it.polimi.ingsw.Server.View.VirtualViewImp;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.PlayerUtility.PlayerColor;
+import it.polimi.ingsw.Server.View.VirtualView;
+import it.polimi.ingsw.Server.View.VirtualViewImp;
 import it.polimi.ingsw.Server.View.VirtualViewManager;
 
 import java.io.Serializable;
-import java.util.Timer;
-import java.util.TimerTask;
 
 //moved player in game rules so doAction is package friendly
 public class Player implements Serializable{
@@ -27,6 +23,7 @@ public class Player implements Serializable{
 
     private Boolean stillAlive = true;
     private Boolean isConnected = false;    //Set this variable to true if connected
+
 
     public Player(String username, ServerClientSender serverClientSender){
         name=username;
@@ -49,7 +46,6 @@ public class Player implements Serializable{
 
     public void startRound(){
         placeDiceOfTheTurn = new PlaceDiceAction();
-        System.out.println(placeDiceOfTheTurn.actionState());
         useToolCardOfTheTurn = new UseToolCardBasic();
     }
 

@@ -72,9 +72,9 @@ public class UseToolCardBasic implements Actions {
             e.printStackTrace();
         }
         action.setUpAction(elements[1]);
+
         toolCardAction = action;
         toolCardAction.setUserName(userName);
-        System.out.println(toolCardAction.getClass().getName() +"  --> " + userName);
 
     }
 

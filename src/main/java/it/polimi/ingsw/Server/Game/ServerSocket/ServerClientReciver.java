@@ -12,7 +12,6 @@ import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Timer;
@@ -116,12 +115,17 @@ public class ServerClientReciver implements Runnable {
                         String[] name = a.getClass().getName().split("\\.");
 
                         System.out.println("Server Client Receiver " + name[name.length-1]);
-                        if (name[name.length-1].equals("PlaceDiceAction"))
+                        if (name[name.length - 1].equals("PlaceDiceAction")) {
+
+                            Boolean status = game.getGameStatus().getPlayerByName(username).getPlaceDiceState();
                             game.getGameStatus().getPlayerByName(username).setPlaceDiceOfTheTurn( (PlaceDiceAction) a) ;
-                        else
-                            game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn( (UseToolCardBasic) a);
+                            a.setACTIVE(status);
 
-
+                        } else {
+                            Boolean status = game.getGameStatus().getPlayerByName(username).getUseToolCardState();
+                            game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn((UseToolCardBasic) a);
+                            a.setACTIVE(status);
+                        }
                         a.setUserName(username);
 
                         System.out.println("Server client receiver 1" + game.getGameStatus().toPacket());

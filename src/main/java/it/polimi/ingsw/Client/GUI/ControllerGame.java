@@ -13,20 +13,24 @@ import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.layout.*;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -35,9 +39,7 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.ControllerConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.GUI.username;
-import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
-import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.COLUMNS;
-import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.ROWS;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.*;
 
 public class ControllerGame extends AbstractGUI implements Initializable {
 
@@ -683,6 +685,8 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             e.printStackTrace();
         }
         int indice = indice_dado;
+        indice_dadoPrecedente = -1;
+        indice_dado = -1;
         return indice;
 
     }
