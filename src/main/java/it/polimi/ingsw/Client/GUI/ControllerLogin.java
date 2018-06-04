@@ -98,7 +98,7 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
      * @param max_Length Integer that represents the maximum length of a string
      * @return EventHandler used to validate a string to max_Length and to only digits and letters
      */
-    public EventHandler<KeyEvent> username_Validation(final Integer max_Length) {
+    private EventHandler<KeyEvent> username_Validation(final Integer max_Length) {
         return e -> {
             TextField textField = (TextField) e.getSource();
             if (textField.getText().length() >= max_Length) {

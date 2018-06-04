@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Client.CLI;
 
+import com.sun.org.apache.regexp.internal.RE;
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
+import it.polimi.ingsw.Client.GUI.ControllerLobby;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.*;
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.Server.Game.GameRules.Restriction.*;
+
 //Decided to make CLI static , because it just need to print stuff
 public class CLI implements UI, Runnable{
 
@@ -38,6 +42,10 @@ public class CLI implements UI, Runnable{
     private GeneriClient generiClient;
     private String username;
     private boolean rmi = false;
+    private WindowPatternCard windowPatternCard2;
+    private WindowPatternCard windowPatternCard1;
+    private WindowPatternCard windowPatternCard3;
+    private WindowPatternCard windowPatternCard4;
 
     public CLI(){
     }
@@ -75,7 +83,7 @@ public class CLI implements UI, Runnable{
         username = u;
     }
 
-    public void print_boards() {
+    private void print_boards() {
         System.out.println(ANSI_COLOR.BOLD + "Players Board:" + ANSI_COLOR.ANSI_RESET);
         StringBuilder line = new StringBuilder();
         for (int i = 0; i < height; i++) {
@@ -105,16 +113,68 @@ public class CLI implements UI, Runnable{
     }
 
     private void printBoard(WindowPatternCard windowPatternCard){
+        System.out.println(windowPatternCard.getID());
+        ArrayList<Restriction> cells = new ArrayList<>();
         StringBuilder line = new StringBuilder();
-        for (int i = 0; i < height; i++) {
-                ArrayList<Restriction> cells = windowPatternCard.getRow(i);
-                for (Restriction r : cells
-                        ) {
-                    System.out.println(r.name());
-                }
-                line.append("   ");
+        for (int i = 0; i < 20; i++) {
+            cells.add(windowPatternCard.getRestrictionAtIndex(i));
+            if (i == 5 || i == 10 || i == 15){
+                System.out.println(line);
+                line = new StringBuilder();
             }
-            line.append("\n");
+                switch (cells.get(i)) {
+                case ONE:
+                    line.append(ANSI_COLOR.BOLD + "1" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println("1 ");
+                    break;
+                case TWO:
+                    line.append(ANSI_COLOR.BOLD + "2" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println("2 ");
+                    break;
+                case THREE:
+                    line.append(ANSI_COLOR.BOLD + "3" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println("3 ");
+                    break;
+                case FOUR:
+                    line.append(ANSI_COLOR.BOLD + "4" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println("4 ");
+                    break;
+                case FIVE:
+                    line.append(ANSI_COLOR.BOLD + "5" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println("5 ");
+                    break;
+                case SIX:
+                    line.append(ANSI_COLOR.BOLD + "6" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println("6 ");
+                    break;
+                case GREEN:
+                    line.append(ANSI_COLOR.ANSI_GREEN + "G" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println(ANSI_COLOR.ANSI_GREEN + "G "+ ANSI_COLOR.ANSI_RESET);
+                    break;
+                case YELLOW:
+                    line.append(ANSI_COLOR.ANSI_YELLOW + "Y" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println(ANSI_COLOR.ANSI_YELLOW + "Y "+ ANSI_COLOR.ANSI_RESET);
+                    break;
+                case BLUE:
+                    line.append(ANSI_COLOR.ANSI_BLUE + "B" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println(ANSI_COLOR.ANSI_BLUE + "B "+ ANSI_COLOR.ANSI_RESET);
+                    break;
+                case RED:
+                    line.append(ANSI_COLOR.ANSI_RED + "R" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println(ANSI_COLOR.ANSI_RED + "R "+ ANSI_COLOR.ANSI_RESET);
+                    break;
+                case PURPLE:
+                    line.append(ANSI_COLOR.ANSI_PURPLE + "P" + ANSI_COLOR.ANSI_RESET + " ");
+                    //System.out.println(ANSI_COLOR.ANSI_PURPLE + "P "+ ANSI_COLOR.ANSI_RESET);
+                    break;
+                case NONE:
+                    line.append("0" + " ");
+                    //System.out.println("W ");
+                    break;
+            }
+        }
+        System.out.println(line);
+        System.out.println("\n");
     }
 
     public void print_draftboard(ArrayList<Dice> draft) {
@@ -202,33 +262,52 @@ public class CLI implements UI, Runnable{
         }
     */
 
-        System.out.println("Choose Window Pattern: " + wp1fronte + " " + wp2retro + " " + wp3fronte + " " + wp4retro);
+        System.out.println("Choose Window Pattern: ");
+
+        AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
+
+        Hashtable<String , Drawable> deck = null;
+        try {
+            deck = factory.getNewCardDeck();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        windowPatternCard1 = (WindowPatternCard) deck.get(wp1fronte); //setUpWindowPattern(pattern1);
+        windowPatternCard2 = (WindowPatternCard) deck.get(wp2retro); //setUpWindowPattern(pattern2);
+        windowPatternCard3 = (WindowPatternCard) deck.get(wp3fronte); //setUpWindowPattern(pattern3);
+        windowPatternCard4 = (WindowPatternCard) deck.get(wp4retro); //setUpWindowPattern(pattern4);
+
+
+        //deck.get(Integer.parseInt(wp1fronte));
+        //deck.get(Integer.parseInt(wp2retro));
+        //deck.get(Integer.parseInt(wp3fronte));
+        //deck.get(Integer.parseInt(wp4retro));
+
+
+        printBoard(windowPatternCard1);
+        printBoard(windowPatternCard2);
+        printBoard(windowPatternCard3);
+        printBoard(windowPatternCard4);
 
         Scanner scanner = new Scanner(System.in);
         int chose = scanner.nextInt();
 
-        AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
 
         Player p = new Player(username, null);
-        try {
-            Hashtable<String , Drawable> deck =factory.getNewCardDeck();
-            deck.get(Integer.parseInt(wp1fronte));
-            //printBoard();
-            deck.get(Integer.parseInt(wp2retro));
-            deck.get(Integer.parseInt(wp3fronte));
-            deck.get(Integer.parseInt(wp4retro));
+        p.setGameContext(new GameContext(null,null,null, (WindowPatternCard) deck.get(Integer.toString(chose)),null));
+        players.add(p);
 
-            p.setGameContext(new GameContext(null,null,null, (WindowPatternCard) deck.get(Integer.toString(chose)),null));
-            players.add(p);
-            print_boards();
-            try {
-                clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
+        //for (Player player : gameStatus.getPlayer())
+        //    printBoard(player.getWindowPatternCard());
+
+        //print_boards();
+        try {
+            clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -375,7 +454,7 @@ public class CLI implements UI, Runnable{
      * @param max_Length Integer that represents the maximum length of a string
      * @return EventHandler used to validate a string to max_Length and to only digits and letters
      */
-    public void username_Validation(final Integer max_Length) {
+    private void username_Validation(final Integer max_Length) {
         //return new
         Scanner keyboard = new Scanner(System.in);
         do {
