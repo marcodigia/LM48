@@ -55,6 +55,7 @@ public class BoardRound implements Packetable {
     }
 
     public void setDiceAtIndex(int round, int diceIndex , Dice dice){
+        roundTrack.get(round).remove(diceIndex);
         roundTrack.get(round).add(diceIndex,dice);
     }
 

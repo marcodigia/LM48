@@ -21,6 +21,7 @@ public class DraftPool implements Serializable{
 
 
     public void setDiceAtIndex(int index , Dice dice){
+        dices.remove(index);
         dices.add(index,dice);
     }
 
