@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
@@ -103,6 +104,7 @@ public class Unpacker {
                //System.out.println(objectPacket[j]);
             Player p = new Player(pinfo.get(0),null);
             p.setBasicActionState(Boolean.parseBoolean(pinfo.get(1)),Boolean.parseBoolean(pinfo.get(2)));
+            p.getWallet().setUpWallet(Integer.parseInt(pinfo.get(3)));
             WindowPatternCard  wp = WP_fromPacket(objectPacket[2+ i*4],objectPacket[3+ i*4]);
             PrivateObjectiveCard privateObjectiveCard = PR_FromId(objectPacket[4+ i*4]);
 
@@ -273,7 +275,13 @@ public class Unpacker {
 
        action.setUpAction(elements[3]);
        action.setUserName(elements[1]);
+
        action.setACTIVE(Boolean.parseBoolean(elements[2]));
+
+       if (elements.length>4){
+           (   (UseToolCardBasic) action ).setToolcardID(elements[4]);
+       }
+
        return action;
 
 

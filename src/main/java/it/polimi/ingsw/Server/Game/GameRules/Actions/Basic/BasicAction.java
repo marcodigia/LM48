@@ -8,4 +8,6 @@ public interface  BasicAction extends Actions {
     void setACTIVE(boolean b);
     void setUserName(String userName);
 
+    void setUpAction(String packet);
+
 }

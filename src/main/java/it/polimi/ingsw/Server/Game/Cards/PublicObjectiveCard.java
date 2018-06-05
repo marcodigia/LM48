@@ -1,9 +1,11 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
+import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Countable;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class PublicObjectiveCard implements Drawable {
+public class PublicObjectiveCard implements Countable {
    private String id;
    private String name ;
     private String description ;
@@ -25,5 +27,10 @@ public class PublicObjectiveCard implements Drawable {
 
     public String getID() {
         return id;
+    }
+
+    @Override
+    public int getPoints(WindowPatternCard wp) {
+        return 0;
     }
 }

@@ -116,6 +116,7 @@ public class Game {
         /*if(windowToRemove!=null)
             gameSetup.getWindowPatternCards().remove(windowToRemove);*/
             gameStatus.addWindowPatternCard(playerRecived, windowToRemove);  //Add tuples of players and WP to GameStatus
+            playerRecived.getWallet().setUpWallet(windowToRemove.getDifficulty());
         }
     }
 

@@ -94,7 +94,8 @@ public class GameStatus implements Packetable {
         for (Player p : playerCards.keySet()){
             packet.append(p.getName()).append(CONSTANT.ElenemtsDelimenter)
                     .append(p.getPlaceDiceState()).append(CONSTANT.ElenemtsDelimenter)
-                    .append(p.getUseToolCardState())
+                    .append(p.getUseToolCardState()).append(CONSTANT.ElenemtsDelimenter)
+                    .append(p.getWallet().toPacket())
                     .append(CONSTANT.ObjectDelimeter)
                     .append( ((WindowPatternCard) playerCards.get(p).get(0) ).toPacket()).append(CONSTANT.ObjectDelimeter);
 

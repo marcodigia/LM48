@@ -1,11 +1,14 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 
+import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.UI;
 
+import javax.tools.Tool;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -16,6 +19,8 @@ public class UseToolCardBasic implements Actions {
 
     private Actions toolCardAction;
     private String userName;
+
+    private  String toolcardID;
     public UseToolCardBasic() {
 
     }
@@ -26,9 +31,13 @@ public class UseToolCardBasic implements Actions {
         if (!ACTIVE)
             return;
 
-        System.out.println(ANSI_COLOR.BACKGROUND_YELLOW+"Do action use tool card " + ANSI_COLOR.ANSI_RESET);
-        toolCardAction.doAction(gameStatus);
-        ACTIVE = false;
+        ToolCard tc =(ToolCard) Unpacker.TCDeck.get(toolcardID);
+        if (tc.isUsable( gameStatus.getPlayerByName(userName).getWallet()))
+        {
+            toolCardAction.doAction(gameStatus);
+            tc.use(gameStatus.getPlayerByName(userName).getWallet());
+            ACTIVE = false;
+        }
 
         System.out.println(ANSI_COLOR.BACKGROUND_GREEN + gameStatus.toPacket() + ANSI_COLOR.ANSI_RESET);
     }
@@ -43,10 +52,20 @@ public class UseToolCardBasic implements Actions {
         }
 
 
-        toolCardAction= ui.getChoosenToolCard().getActions();
-        toolCardAction.useAction(ui,gameStatus,userName);
+        ToolCard tc = ui.getChoosenToolCard();
+        toolcardID= tc.getID();
+        toolCardAction= tc.getActions();
+        if (tc.isUsable( gameStatus.getPlayerByName(userName).getWallet()))
+        {
+            toolCardAction.useAction(ui,gameStatus,userName);
+            gameStatus.getPlayerByName(userName).getWallet().useToken(tc.getCost());
+        }
 
     }
+
+
+
+
 
     @Override
     public void setUpAction(String packet) {
@@ -100,6 +119,10 @@ public class UseToolCardBasic implements Actions {
         return ACTIVE ;
     }
 
+    public void setToolcardID(String tcID){
+        toolcardID = tcID;
+    }
+
     @Override
     public String toPacket() {
 
@@ -109,8 +132,8 @@ public class UseToolCardBasic implements Actions {
 
         packet.append(CONSTANT.ObjectDelimeter).append(userName);
         packet.append(CONSTANT.ObjectDelimeter).append(ACTIVE);
-
         packet.append(CONSTANT.ObjectDelimeter).append(toolCardAction.toPacket());
+        packet.append(CONSTANT.ObjectDelimeter).append(toolcardID);
 
         return packet.toString();
     }

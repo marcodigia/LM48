@@ -77,7 +77,9 @@ public class Turn extends TimerTask {
 
         //Forth
         if(!back){
+            printGiro(back);
             for(Map.Entry<Player,Boolean> entry : players.entrySet()){
+
                 if(!entry.getValue()){
                     back = true;
                     notImmediately = true;
@@ -98,6 +100,7 @@ public class Turn extends TimerTask {
 
         //Back
         if(!notImmediately && back){
+            printGiro(back);
             ArrayList<Player> keyList = new ArrayList<Player>(players.keySet());
             for (int i = keyList.size() - 1; i >= 0; i--) {
                 Player key = (Player) keyList.get(i);
@@ -143,5 +146,18 @@ public class Turn extends TimerTask {
             return winner;
         }
         return null;
+    }
+
+
+    private void printGiro(boolean t){
+
+        if (t)
+            System.out.println("back");
+        else
+            System.out.println("forth");
+        for (Player p : players.keySet()){
+            System.out.print(p.getName()+":"+players.get(p)+ " ");
+        }
+        System.out.println();
     }
 }

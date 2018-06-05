@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
+import it.polimi.ingsw.Server.Game.Components.Wallet;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.PlayerUtility.PlayerColor;
@@ -24,6 +25,8 @@ public class Player implements Serializable{
     private Boolean stillAlive = true;
     private Boolean isConnected = false;    //Set this variable to true if connected
 
+
+    private Wallet wallet = new Wallet();
 
     public Player(String username, ServerClientSender serverClientSender){
         name=username;
@@ -104,5 +107,9 @@ public class Player implements Serializable{
 
     public void setUseToolCardOfTheTurn(UseToolCardBasic useToolCardOfTheTurn) {
         this.useToolCardOfTheTurn = useToolCardOfTheTurn;
+    }
+
+    public Wallet getWallet(){
+        return wallet;
     }
 }

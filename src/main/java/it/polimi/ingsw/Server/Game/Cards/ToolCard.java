@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Server.Game.Cards;
 
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Id;
+import it.polimi.ingsw.Server.Game.Components.Wallet;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.*;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
@@ -25,7 +26,7 @@ public class ToolCard implements Drawable {
 
         effect = pattern.get(3);
         restriction = pattern.get(4);
-        cost = 0;
+        cost = 1;
     }
 
 
@@ -42,11 +43,18 @@ public class ToolCard implements Drawable {
         return id.getId();
     }
 
+    public Boolean isUsable(Wallet wallet){
+        return wallet.enoughToken(cost);
+    }
+
+    public void use(Wallet wallet){
+        wallet.useToken(cost);
+        if (cost==1)
+            cost =2 ;
+    }
 
     public Actions getActions() {
 
-        if (cost == 0 )
-            cost++;
 
         Actions action = null;
         switch (id) {
