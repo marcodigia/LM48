@@ -1,12 +1,9 @@
 package it.polimi.ingsw.Client.CLI;
 
-import com.sun.org.apache.regexp.internal.RE;
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
-import it.polimi.ingsw.Client.GUI.ControllerLobby;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.*;
-import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Cell;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
@@ -16,7 +13,6 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
-
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
@@ -24,14 +20,13 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-import static it.polimi.ingsw.Server.Game.GameRules.Restriction.*;
-
 //Decided to make CLI static , because it just need to print stuff
 public class CLI implements UI, Runnable{
 
     private static final int maxNameSize = 20;
     private static ArrayList<Player> players = new ArrayList<>();
     private static ArrayList<String> playersNames = new ArrayList<>();
+    private static ArrayList<WindowPatternCard> playersWindowPatternCard = new ArrayList<>();
     private static int height = 4;
     private static DraftPool draftPool;
     private static String ip;
@@ -53,14 +48,14 @@ public class CLI implements UI, Runnable{
     /**
      * @param ip String which represents server ip
      */
-    public static void setIp(String ip) {
+    private static void setIp(String ip) {
         CLI.ip = ip;
     }
 
     /**
      * @param port String which represents server port
      */
-    public static void setPort(String port) {
+    private static void setPort(String port) {
         CLI.port = port;
     }
 
@@ -70,11 +65,6 @@ public class CLI implements UI, Runnable{
     public void setGeneriClient(GeneriClient generiClient){
         this.generiClient = generiClient;
     }
-
-    /**
-     * @return GeneriClient getter
-     */
-    public GeneriClient getGeneriClient(){return generiClient;}
 
     /**
      * @param u String which represents username's name
@@ -278,13 +268,6 @@ public class CLI implements UI, Runnable{
         windowPatternCard3 = (WindowPatternCard) deck.get(wp3fronte); //setUpWindowPattern(pattern3);
         windowPatternCard4 = (WindowPatternCard) deck.get(wp4retro); //setUpWindowPattern(pattern4);
 
-
-        //deck.get(Integer.parseInt(wp1fronte));
-        //deck.get(Integer.parseInt(wp2retro));
-        //deck.get(Integer.parseInt(wp3fronte));
-        //deck.get(Integer.parseInt(wp4retro));
-
-
         printBoard(windowPatternCard1);
         printBoard(windowPatternCard2);
         printBoard(windowPatternCard3);
@@ -293,13 +276,9 @@ public class CLI implements UI, Runnable{
         Scanner scanner = new Scanner(System.in);
         int chose = scanner.nextInt();
 
-
         Player p = new Player(username, null);
         p.setGameContext(new GameContext(null,null,null, (WindowPatternCard) deck.get(Integer.toString(chose)),null));
         players.add(p);
-
-        //for (Player player : gameStatus.getPlayer())
-        //    printBoard(player.getWindowPatternCard());
 
         //print_boards();
         try {
@@ -309,9 +288,6 @@ public class CLI implements UI, Runnable{
         }
 
     }
-
-
-
 
     @Override
     public int getRoundIndex() {
@@ -325,10 +301,10 @@ public class CLI implements UI, Runnable{
     }
 
     @Override
-    public void updateGameStatus(GameStatus gameStatus) {
-
+    public void updateGameStatus(GameStatus gameStat) {
+        gameStatus = gameStat;
+        //resetAllIndex();
     }
-
 
     @Override
     public void activate() {
@@ -355,9 +331,9 @@ public class CLI implements UI, Runnable{
     public void allCurrentPlayers(String players) {
         String[] names = players.split("\\s*,\\s*");
         System.out.println("\nPlayers currently connected:");
-        for (int i = 0 ; i < names.length ; i++) {
-            playersNames.add(new String(names[i]));
-            System.out.println(names[i]);
+        for (String name : names) {
+            playersNames.add(name);
+            System.out.println(name);
         }
     }
 
@@ -375,12 +351,9 @@ public class CLI implements UI, Runnable{
     public void run() {
         System.out.println(ANSI_COLOR.ANSI_RED + ANSI_COLOR.BOLD + "Welcome to Sagrada!" + ANSI_COLOR.ANSI_RESET);
         handleConnection();
-        username_Validation(maxNameSize);
+        validateUsername(maxNameSize);
         handleLogin();
-        handleLobby();
-    }
 
-    private void handleLobby() {
     }
 
     private void handleConnection(){
@@ -454,7 +427,7 @@ public class CLI implements UI, Runnable{
      * @param max_Length Integer that represents the maximum length of a string
      * @return EventHandler used to validate a string to max_Length and to only digits and letters
      */
-    private void username_Validation(final Integer max_Length) {
+    private void validateUsername(final Integer max_Length) {
         //return new
         Scanner keyboard = new Scanner(System.in);
         do {

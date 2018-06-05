@@ -18,6 +18,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -45,6 +46,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     public static GameStatus gameStatus;
     static boolean attivo = false;
+    private boolean showDraftpoolAlert = true;
 
     public Label p1, p2, p3, p4;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
@@ -54,6 +56,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public HBox hboxgp1, hboxgp2, hboxgp3, hboxgp4, hboxl1, hboxl2, hboxl3, hboxl4;
 
     private Stage toolCardStage;
+    private Stage amountStage;
 
     private int indice_dado = -1;
     private int indice_dadoPrecedente = -1;
@@ -62,13 +65,15 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private int diceRoundIndex = -1;
     private int toolCardSelected = -1;
     private int indiceWPFrom = -1;
+    private int amountIndex = 0;
 
-    private Object lockRoundIndex = new Object();
-    private Object lockDiceRoundIndex = new Object();
+    private final Object lockRoundIndex = new Object();
+    private final Object lockDiceRoundIndex = new Object();
     private Object lockToolCardSelected = new Object();
     private final Object lockWPFrom = new Object();
     private final Object lockWPTo = new Object();
     private final Object lockDraftPool = new Object();
+    private final Object lockAmount = new Object();
 
     private PlaceDiceAction placeDiceAction;
     private UseToolCardBasic useToolCardBasic;
@@ -148,13 +153,11 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      */
     public void handleClickDraftPool(MouseEvent mouseEvent) {
         Label eventDraft = (Label) mouseEvent.getSource();
-        ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to place this dice?", "y/n");
+        ButtonBar.ButtonData clicked = createConfirmationBox("Do you want to select this dice?");
         if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
             draftpoolindex = draftPoolLabel.indexOf(eventDraft);
         }
-        System.out.println("ancora non ho notifaaay");
         synchronized (lockDraftPool){
-            System.out.println("notifaaaaaaay");
             lockDraftPool.notifyAll();
         }
     }
@@ -168,12 +171,8 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         indice_dadoPrecedente = indice_dado;
         indice_dado = cells4.indexOf(event);
 
-
         Thread t = new Thread(()->{
-                System.out.println("paasa");
                 placeDiceAction.useAction(this, gameStatus, username);
-                System.out.println("no paasa");
-
                 try {
                         clientServerSender.sendAction(placeDiceAction, username);
                 } catch (RemoteException e) {
@@ -205,7 +204,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      * @param event event caused by the user (eg. clicking button)
      */
     public void handleCopyright(ActionEvent event) {
-        createInfoBox("Copiright ©", "Software Engineering Project\nAll rights reserved", "Sagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
+        createInfoBox("Copiright ©\nSoftware Engineering Project\nAll rights reserved\nSagrada\nby Marco Di Giacomantonio, Matthias Carretta and Fabio Dalle Rive\n:D");
     }
 
     /**
@@ -387,44 +386,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     }
 
     /**
-     * @param mouseEvent event caused by the user (eg. clicking mouse)
-     */
-    private void handleClickBoardRound(MouseEvent mouseEvent) {
-        roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
-        if (roundTrack.size() > roundIndex){
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Dices");
-            window.setMinWidth(250);
-            window.setMinHeight(100);
-            VBox layout = new VBox(10);
-            layout.setPadding(new Insets(10,10,10,10));
-            for (int j = 0; j < roundTrack.get(roundIndex).size(); j++) {
-                Label label = new Label();
-                int finalJ = j;
-                label.setOnMouseClicked(e -> handleClickDiceRound(e, finalJ));
-                label.setGraphic(toImage(roundTrack.get(roundIndex).get(j)));
-                layout.getChildren().add(label);
-            }
-            layout.setAlignment(Pos.TOP_CENTER);
-            Scene scene = new Scene(layout);
-            window.setScene(scene);
-            window.showAndWait();
-        }
-        else{
-            createAlertBox("Error", "This turn has to be played", "No dices");
-        }
-    }
-
-    private void handleClickDiceRound(MouseEvent mouseEvent, int index){
-        ButtonBar.ButtonData clicked = createConfirmationBox("Confirm Dice", "Do you want to choose this dice?", "y/n");
-        if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
-            diceRoundIndex = index;
-            System.out.println(diceRoundIndex);
-        }
-    }
-
-    /**
      * @param gridPane gridPane that has to be populated with labels
      * @param rows number of rows of the gridpane
      * @param cols number of columns of the gridpane
@@ -602,16 +563,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     }
 
     @Override
-    public int getRoundIndex(){
-        return roundIndex;
-    }
-
-    @Override
-    public int getDiceIndexFromRound(){
-        return diceRoundIndex;
-    }
-
-    @Override
     public int getDraftPoolIndex() {
             Thread t = new Thread(() -> {
                 synchronized (lockDraftPool) {
@@ -698,5 +649,157 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         roundIndex = -1;
         diceRoundIndex = -1;
         toolCardSelected = -1;
+        amountIndex = 0;
     }
+
+    @Override
+    public int getAmmountToChange() {
+        Platform.runLater((() -> {
+            amountStage = new Stage();
+            amountStage.setTitle("Get amount to change");
+            HBox layout = new HBox(30);
+            layout.setAlignment(Pos.CENTER);
+            Label text = new Label("Increase or decrease dice amount by 1?");
+            Button increase = new Button("Increase");
+            increase.setOnAction(e -> {
+                amountIndex = 1;
+                synchronized (lockAmount){
+                    lockAmount.notifyAll();
+                }
+                amountStage.close();
+            });
+            Button decrease = new Button("Decrease");
+            decrease.setOnAction(e -> {
+                amountIndex = -1;
+                synchronized (lockAmount){
+                    lockAmount.notifyAll();
+                }
+                amountStage.close();
+            });
+            layout.getChildren().addAll(text, increase, decrease);
+            Scene scene = new Scene(layout);
+            amountStage.setScene(scene);
+            amountStage.show();
+        }));
+
+        Thread t = new Thread(() -> {
+            synchronized (lockAmount){
+                while (amountIndex == 0) {
+                    try {
+                        lockAmount.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return amountIndex;
+    }
+
+    /**
+     * @param mouseEvent event caused by the user (eg. clicking mouse)
+     */
+    private void handleClickBoardRound(MouseEvent mouseEvent) {
+        Platform.runLater(() -> {
+            roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
+            if (roundTrack.size() > roundIndex){
+                Stage window = new Stage();
+                window.initModality(Modality.APPLICATION_MODAL);
+                window.setTitle("Dices");
+                window.setMinWidth(250);
+                window.setMinHeight(100);
+                VBox layout = new VBox(10);
+                layout.setPadding(new Insets(10,10,10,10));
+                for (int j = 0; j < roundTrack.get(roundIndex).size(); j++) {
+                    Label label = new Label();
+                    int finalJ = j;
+                    label.setGraphic(toImage(roundTrack.get(roundIndex).get(j)));
+                    layout.getChildren().add(label);
+                    label.setOnMouseClicked(e -> {
+                        handleClickDiceRound(e, finalJ);
+                        window.close();
+                    });
+                }
+                layout.setAlignment(Pos.TOP_CENTER);
+                Scene scene = new Scene(layout);
+                window.setScene(scene);
+                window.showAndWait();
+
+            }
+            else{
+                createAlertBox("This turn has to be played, no dices");
+            }
+            synchronized (lockRoundIndex){
+                lockRoundIndex.notifyAll();
+            }
+        });
+    }
+
+    private void handleClickDiceRound(MouseEvent mouseEvent, int index){
+        Platform.runLater(() -> {
+            ButtonBar.ButtonData clicked = createConfirmationBox("Do you want to choose this dice?");
+            if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
+                diceRoundIndex = index;
+                System.out.println(diceRoundIndex);
+            }
+            synchronized (lockDiceRoundIndex){
+                lockDiceRoundIndex.notifyAll();
+            }
+        });
+
+    }
+
+    @Override
+    public int getRoundIndex(){
+        Thread t = new Thread(() -> {
+            synchronized (lockRoundIndex) {
+                while (roundIndex == -1) {
+                    try {
+                        lockRoundIndex.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return roundIndex;
+    }
+
+    @Override
+    public int getDiceIndexFromRound(){
+        Thread t = new Thread(() -> {
+            synchronized (lockDiceRoundIndex){
+                while (diceRoundIndex == -1) {
+                    try {
+                        lockDiceRoundIndex.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return diceRoundIndex;
+    }
+
+
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.Client.GUI.GUI.ip;
 import static it.polimi.ingsw.Client.GUI.GUI.port;
 import static it.polimi.ingsw.Client.GUI.GUI.username;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Lobby;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Login;
 import static it.polimi.ingsw.Client.GUI.GUI.generiClient;
@@ -31,7 +33,7 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
-
+    private GameStatus gameStatus;
     static ArrayList<String> playersName = new ArrayList<>();
     static ClientServerSender clientServerSender = null;
 
@@ -146,13 +148,21 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
         });
     }
 
+    @Override
+    public void updateGameStatus(GameStatus gameStat){
+        Platform.runLater(() -> {
+            gameStatus = gameStat;
+            switchScene(Board);
+        });
+    }
+
     /**
      * @param s String that represent a message sent from server to client
      */
     @Override
     public void printMessage(String s) {
         Platform.runLater(() -> {
-            createInfoBox("", s, "");
+            createInfoBox(s);
             switch (s) {
                 case CONSTANT.usernameAlreadyUsed:
                     switchScene(Login);

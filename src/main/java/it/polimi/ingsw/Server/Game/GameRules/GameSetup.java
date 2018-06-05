@@ -89,8 +89,8 @@ public class GameSetup {
             //TODO togliere toolcard forzate
             toolCards = new ArrayList<>();
             toolCards.add((ToolCard) toolcarddeck.get("5"));
+            toolCards.add((ToolCard) toolcarddeck.get("1"));
             toolCards.add((ToolCard) toolcarddeck.get("3"));
-            toolCards.add((ToolCard) toolcarddeck.get("4"));
         } catch (FileNotFoundException e) {
             System.out.println("File tool card non è stato caricato");
         }
