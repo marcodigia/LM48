@@ -111,7 +111,7 @@ public class ControllerChooseWindowPattern extends AbstractGUI implements Initia
             }
         }
         else {
-            createAlertBox("Error!", "Select a Window Pattern first", "");
+            createAlertBox("Select a Window Pattern first");
         }
     }
 

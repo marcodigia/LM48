@@ -26,32 +26,26 @@ public abstract class AbstractGUI extends Application implements UI{
     }
 
         /**
-         * @param title string representing the title of the box
          * @param header string representing the header of the box
-         * @param content string representing the content of the box
          */
-    void createAlertBox(String title, String header, String content){
+    void createAlertBox(String header){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setTitle(title);
+        alert.setTitle("Error");
         alert.setHeaderText(header);
-        alert.setContentText(content);
         alert.showAndWait();
     }
 
     /**
-     * @param title string representing the title of the box
      * @param header string representing the header of the box
-     * @param content string representing the content of the box
      * @return button bar containing OK / CANCEL type buttons
      */
-    ButtonBar.ButtonData createWarningBox(String title, String header, String content){
+    ButtonBar.ButtonData createWarningBox(String header){
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
         alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setTitle(title);
+        alert.setTitle("Warning");
         alert.setHeaderText(header);
-        alert.setContentText(content);
 
         ButtonType buttonOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         ButtonType buttonCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -67,31 +61,25 @@ public abstract class AbstractGUI extends Application implements UI{
     }
 
     /**
-     * @param title string representing the title of the box
      * @param header string representing the header of the box
-     * @param content string representing the content of the box
      */
-    void createInfoBox(String title, String header, String content){
+    void createInfoBox(String header){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setTitle(title);
+        alert.setTitle("Info");
         alert.setHeaderText(header);
-        alert.setContentText(content);
         alert.showAndWait();
     }
 
     /**
-     * @param title string representing the title of the box
      * @param header string representing the header of the box
-     * @param content string representing the content of the box
      * @return button bar containing OK / CANCEL type buttons
      */
-    ButtonBar.ButtonData createConfirmationBox(String title, String header, String content){
+    ButtonBar.ButtonData createConfirmationBox(String header){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setTitle(title);
+        alert.setTitle("Confirmation");
         alert.setHeaderText(header);
-        alert.setContentText(content);
 
         ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -119,7 +107,7 @@ public abstract class AbstractGUI extends Application implements UI{
             GUI.stage.setScene(scene);
             GUI.stage.setOnCloseRequest(event -> {
                 event.consume();
-                ButtonBar.ButtonData buttonData = createWarningBox("Warning", "Closing window", "Are you sure?");
+                ButtonBar.ButtonData buttonData = createWarningBox("Closing window, are you sure?");
                 if (buttonData.equals(ButtonBar.ButtonData.OK_DONE)){
                     if (GUI.generiClient != null)
                         GUI.generiClient.close();

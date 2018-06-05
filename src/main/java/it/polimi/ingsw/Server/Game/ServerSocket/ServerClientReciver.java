@@ -12,6 +12,7 @@ import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Timer;
@@ -92,8 +93,14 @@ public class ServerClientReciver implements Runnable {
                     case "R":
                         username = scanner.next();
                         if(game.scanForUsername(username)!=null) {
-                            if (!game.scanForUsername(username).getConnected())
+                            if (!game.scanForUsername(username).getConnected()) {
                                 game.scanForUsername(username).setIsConnected();
+                                try {
+                                    serverClientSenderImp.sendGameStatus(game.getGameStatus());
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                         else
                             waitingRoom.addClient(username, serverClientSenderImp);
