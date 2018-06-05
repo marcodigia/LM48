@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.Client.GUI.ControllerGame.gameStatus;
 import static it.polimi.ingsw.Client.GUI.GUI.ip;
 import static it.polimi.ingsw.Client.GUI.GUI.port;
 import static it.polimi.ingsw.Client.GUI.GUI.username;
@@ -33,7 +34,6 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
     public TextField usernametext;
     public ImageView bg1;
     public AnchorPane anchorlogin;
-    private GameStatus gameStatus;
     static ArrayList<String> playersName = new ArrayList<>();
     static ClientServerSender clientServerSender = null;
 
@@ -148,14 +148,6 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
         });
     }
 
-    @Override
-    public void updateGameStatus(GameStatus gameStat){
-        Platform.runLater(() -> {
-            gameStatus = gameStat;
-            switchScene(Board);
-        });
-    }
-
     /**
      * @param s String that represent a message sent from server to client
      */
@@ -183,6 +175,14 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void updateGameStatus(GameStatus gameStat){
+        Platform.runLater(() -> {
+            gameStatus = gameStat;
+            switchScene(Board);
+        });
     }
 
 }
