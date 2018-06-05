@@ -9,6 +9,7 @@ import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
+import it.polimi.ingsw.Server.View.VirtualViewImp;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -96,6 +97,8 @@ public class ServerClientReciver implements Runnable {
                             if (!game.scanForUsername(username).getConnected()) {
                                 game.scanForUsername(username).setIsConnected();
                                 try {
+                                    game.scanForUsername(username).setStillAlive(true);
+                                    ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(serverClientSenderImp);
                                     serverClientSenderImp.sendGameStatus(game.getGameStatus());
                                 } catch (RemoteException e) {
                                     e.printStackTrace();
@@ -104,6 +107,7 @@ public class ServerClientReciver implements Runnable {
                         }
                         else
                             waitingRoom.addClient(username, serverClientSenderImp);
+
                         manageDisconnection();
                         break;
                     case "U":
