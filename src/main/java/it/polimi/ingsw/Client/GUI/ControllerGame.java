@@ -92,6 +92,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private ArrayList<GridPane> gridPanes = new ArrayList<>();
 
     @Override
+
     public void initialize(URL location, ResourceBundle resources) {
 
         publicObjectiveCards = gameStatus.getPublicObjectiveCards();

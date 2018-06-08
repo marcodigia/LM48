@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI;
 
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -12,6 +13,8 @@ import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.Client.GUI.ControllerLogin.clientServerSender;
 import static it.polimi.ingsw.Client.GUI.ControllerLogin.playersName;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
+import static it.polimi.ingsw.Client.GUI.ControllerGame.gameStatus;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.ChooseWP;
 import static it.polimi.ingsw.Client.GUI.GUI.username;
 
@@ -81,4 +84,5 @@ public class ControllerLobby extends AbstractGUI implements Initializable{
             this.players.get(i).setText(playersName.get(i));
         }
     }
+
 }

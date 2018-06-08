@@ -186,7 +186,6 @@ public abstract class AbstractGUI extends Application implements UI{
 
     @Override
     public void activate() {
-
     }
 
     @Override

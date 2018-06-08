@@ -2,23 +2,26 @@ package it.polimi.ingsw.Server.Game.ServerRete;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class Turn extends TimerTask {
+public class Turn extends TimerTask implements Runnable {
 
     private LinkedHashMap<Player,Boolean> players;
     private GameStatus gameStatus;
 
-    private boolean winnerFind = false;
+    private static boolean winnerFind = false;
     private static int numberOfTurn;
     private static Player currentPlayer = null;
     private static boolean back = false;
     private static boolean notImmediately = false;
     private static int turn=0;
     private static int round=0;
+
+    TimerUtility timerUtilityround = new TimerUtility();
 
     public Turn(LinkedHashMap<Player, Boolean> players, GameStatus gameStatus){
         this.players=players;
@@ -29,6 +32,7 @@ public class Turn extends TimerTask {
     @Override
     public void run() {
         synchronized (players){
+
             if(!winnerFind){
                 if(turn>=numberOfTurn){
                     //Move dices from draftpool to boardRound
@@ -44,8 +48,8 @@ public class Turn extends TimerTask {
                     players.put(q,false);
                 }
                 if(round< CONSTANT.numberOfRound){
+                    System.out.println("ROUND: " + round + "\n" + "Turn: " + turn);
                     if(currentPlayer!=null){
-                        System.out.println("ROUND: " + round + "\n" + "Turn: " + turn);
                         currentPlayer.getvirtualView().timerEnd();
                         currentPlayer.startRound();
                         //Send to each player who result connected new GameStatus
@@ -57,6 +61,14 @@ public class Turn extends TimerTask {
                     }
                     if(lookForWinner() == null){
                         currentPlayer=manageTurn();
+                        Timer timerRound = new Timer();
+
+                        if(currentPlayer==null) //currentPlayer is not connected
+                            timerRound.schedule(new Turn(players,gameStatus),0);
+
+                        else                    //currentPlayer is connected
+                            timerRound.schedule(new Turn(players,gameStatus),timerUtilityround.readTimerFromFile(10,"timerDelayPlayer.txt"));
+
                         turn++;
                     }
                     else{
@@ -85,10 +97,11 @@ public class Turn extends TimerTask {
                     notImmediately = true;
                     entry.setValue(true);
                     if(entry.getKey().getConnected()){
+                        System.out.println("CURRENT: " + entry.getKey().getName());
                         entry.getKey().getvirtualView().timerStart();   //Say player that his/her turn is started
                         player = entry.getKey();
-                        break;
                     }
+                    break;
                     //If player is not connected timer will not be started
                 }
             }
@@ -109,10 +122,11 @@ public class Turn extends TimerTask {
                     notImmediately = true;
                     players.put(key, false);
                     if(key.getConnected()){
+                        System.out.println("CURRENT: " + key.getName());
                         key.getvirtualView().timerStart();   //Say player that his/her turn is started
                         player = key;
-                        break;
                     }
+                    break;
                     //If player is not connected timer will not be started
                 }
             }

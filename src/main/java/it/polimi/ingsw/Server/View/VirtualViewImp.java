@@ -20,6 +20,8 @@ public class VirtualViewImp implements VirtualView {
         this.serverClientSender = serverClientSender;
     }
 
+    public void setServerClientSender(ServerClientSender serverClientSender){this.serverClientSender = serverClientSender;}
+
     public ServerClientSender getServerClientSender() {
         return serverClientSender;
     }

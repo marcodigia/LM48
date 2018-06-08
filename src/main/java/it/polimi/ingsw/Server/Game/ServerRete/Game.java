@@ -17,15 +17,10 @@ public class Game {
     private GameStatus gameStatus;
     private GameSetup gameSetup;
     private final Object lock = new Object();
-    private boolean back = false;
-    private boolean notImmediately = false;
 
     Timer timerwp = new Timer();
-    Timer timerround = new Timer();
     TimerUtility timerUtilitywp= new TimerUtility();
-    TimerUtility timerUtilityround = new TimerUtility();
 
-    private Turn turn = null;
 
     public Game(){
     }
@@ -173,9 +168,8 @@ public class Game {
 
     //TODO Change turn timer value
     private void manageRound(){
-        synchronized (lock){
-            timerround.schedule(turn = new Turn(players, gameStatus),0,timerUtilityround.readTimerFromFile(30,"timerTurnPlayer.txt"));
-        }
+        Thread t = new Thread(new Turn(players, gameStatus));
+        t.start();
     }
 
     //Add player to game

@@ -63,7 +63,6 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                     case "SGS":
                         message = scanner.next();
                         GameStatus gameStatus = Unpacker.getGameStatus(message);
-                        System.out.println(ANSI_COLOR.ANSI_BLUE + gameStatus.toPacket() + ANSI_COLOR.ANSI_RESET);
                         ui.updateGameStatus(gameStatus);
                         break;
                     case "ALL":
@@ -74,8 +73,6 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                         break;
                 }
             }catch(NoSuchElementException e){
-
-            }catch (IllegalStateException i){
 
             }
         }

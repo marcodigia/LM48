@@ -78,7 +78,10 @@ public class Player implements Serializable{
 
     public void setIsNotConnected(){this.isConnected = false;}
 
-    public void setIsConnected(){this.isConnected = true;}
+    public void setIsConnected(){
+        System.out.println("Player setIsConnected");
+        this.isConnected = true;
+    }
 
     public boolean getConnected(){return isConnected;}
     
