@@ -18,7 +18,7 @@ import java.util.*;
 public class Unpacker {
 
 
-    private static Hashtable<String,Drawable> WPDeck;
+     public static Hashtable<String,Drawable> WPDeck;
     public static Hashtable<String,Drawable> TCDeck;
     private static Hashtable<String,Drawable> PODeck;
     public static Hashtable<String,Drawable> PRDeck;

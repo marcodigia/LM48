@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Server.Game.Cards.PublicCardEffects;
+package it.polimi.ingsw.Server.Game.GameRules.PublicCardEffects;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;

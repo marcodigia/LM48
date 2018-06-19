@@ -4,14 +4,16 @@ import java.io.InputStream;
 import java.io.Serializable;
 
 public enum Restriction implements Serializable{
-    ONE("1"), TWO("2"), THREE("3"), FOUR("4"),
-    FIVE("5"), SIX("6"), GREEN("G"), YELLOW("Y"),
-    BLUE("B"), RED("R"), PURPLE("P"), NONE("0");
+    ONE("1",false), TWO("2",false), THREE("3",false), FOUR("4",false),
+    FIVE("5",false), SIX("6",false), GREEN("G",true), YELLOW("Y",true),
+    BLUE("B",true), RED("R",true), PURPLE("P",true), NONE("0",false);
 
     String restrictionType;
+    boolean iscolor;
 
-    Restriction(String restrictionType) {
+    Restriction(String restrictionType, boolean iscolor) {
         this.restrictionType = restrictionType;
+        this.iscolor = iscolor;
     }
 
     public static Restriction parseRestricion(String s) {
@@ -60,6 +62,15 @@ public enum Restriction implements Serializable{
     public InputStream getRestrictionImage(){
         String resImageName = "res" + (restrictionType + ".png");
         return getClass().getClassLoader().getResourceAsStream(resImageName);
+    }
+
+    public String getRestrictionType() {
+        return restrictionType;
+    }
+
+    public boolean isColor(){
+
+        return iscolor;
     }
 
 }
