@@ -35,7 +35,7 @@ public class CountSets implements CountEffect {
         this.restrictions = restrictions;
     }
 
-    private int countSetsOfRestricionsValue(ArrayList<Restriction> resToTest , WindowPatternCard wp ){
+    public int countSetsOfRestricionsValue(ArrayList<Restriction> resToTest , WindowPatternCard wp ){
         ArrayList<Dice> dices = wp.getAllDices();
         int min = 20;
         for (Restriction res :  resToTest){
