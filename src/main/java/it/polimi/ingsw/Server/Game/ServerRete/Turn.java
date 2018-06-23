@@ -89,7 +89,6 @@ public class Turn extends TimerTask implements Runnable {
 
         //Forth
         if(!back){
-            printGiro(back);
             for(Map.Entry<Player,Boolean> entry : players.entrySet()){
 
                 if(!entry.getValue()){
@@ -102,7 +101,7 @@ public class Turn extends TimerTask implements Runnable {
                         player = entry.getKey();
                     }
                     break;
-                    //If player is not connected timer will not be started
+                    //If player is not connected timer will be started with 0 value
                 }
             }
             for(Map.Entry<Player,Boolean> entry : players.entrySet()){
@@ -113,7 +112,6 @@ public class Turn extends TimerTask implements Runnable {
 
         //Back
         if(!notImmediately && back){
-            printGiro(back);
             ArrayList<Player> keyList = new ArrayList<Player>(players.keySet());
             for (int i = keyList.size() - 1; i >= 0; i--) {
                 Player key = (Player) keyList.get(i);
@@ -127,7 +125,7 @@ public class Turn extends TimerTask implements Runnable {
                         player = key;
                     }
                     break;
-                    //If player is not connected timer will not be started
+                    //If player is not connected timer will be started with 0 value
                 }
             }
             for(Map.Entry<Player,Boolean> entry : players.entrySet()){
@@ -162,16 +160,4 @@ public class Turn extends TimerTask implements Runnable {
         return null;
     }
 
-
-    private void printGiro(boolean t){
-
-        if (t)
-            System.out.println("back");
-        else
-            System.out.println("forth");
-        for (Player p : players.keySet()){
-            System.out.print(p.getName()+":"+players.get(p)+ " ");
-        }
-        System.out.println();
-    }
 }

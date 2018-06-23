@@ -37,7 +37,6 @@ public class ServerSocketAccept implements Runnable {
         try {
             while(true){
                 Socket socket = serverSocket.accept();
-                System.out.println("ServerSocketAccept");
                 ServerSocketHandler serverSocketHandler = new ServerSocketHandler(socket, waitingRoom, game);
                 Thread t = new Thread(serverSocketHandler);
                 t.start();

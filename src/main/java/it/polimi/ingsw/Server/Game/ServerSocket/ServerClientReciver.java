@@ -53,6 +53,9 @@ public class ServerClientReciver implements Runnable {
                         waitingRoom.scanForSameUsername(username).setStillAlive(false);
                         waitingRoom.scanForSameUsername(username).getvirtualView().ping();
                     }
+                    else{
+                        waitingRoom.removeClient(username);
+                    }
                 }
                 else{
                     //If player is in game & alive ping him
@@ -61,17 +64,8 @@ public class ServerClientReciver implements Runnable {
                             game.scanForUsername(username).setStillAlive(false);
                             game.scanForUsername(username).getvirtualView().ping();
                         }
-                    }
-                    else{ //Not in waiting room or in game
-                        if(waitingRoom.scanForSameUsername(username)!=null){
-                            if(!waitingRoom.scanForSameUsername(username).getStillAlive()) {
-                                waitingRoom.removeClient(username);
-                            }
-                        }
-                        if(game.scanForUsername(username)!=null) {
-                            if (!game.scanForUsername(username).getStillAlive()) {
-                                game.scanForUsername(username).setIsNotConnected();
-                            }
+                        else{
+                            game.scanForUsername(username).setIsNotConnected();
                         }
                     }
                 }
@@ -95,10 +89,11 @@ public class ServerClientReciver implements Runnable {
                         username = scanner.next();
                         if(game.scanForUsername(username)!=null) {
                             if (!game.scanForUsername(username).getConnected()) {
+                                game.scanForUsername(username).setStillAlive(true);
                                 game.scanForUsername(username).setIsConnected();
                                 try {
-                                    game.scanForUsername(username).setStillAlive(true);
                                     ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(serverClientSenderImp);
+                                    serverClientSenderImp.sendMessage(CONSTANT.correctUsername);
                                     serverClientSenderImp.sendGameStatus(game.getGameStatus());
                                 } catch (RemoteException e) {
                                     e.printStackTrace();
@@ -155,8 +150,9 @@ public class ServerClientReciver implements Runnable {
                 if(game.scanForUsername(username)!=null) {
                         game.scanForUsername(username).setIsNotConnected();
                 }
-                waitingRoom.removeClient(username);
-
+                else {
+                    waitingRoom.removeClient(username);
+                }
                 break;
             }
         }
