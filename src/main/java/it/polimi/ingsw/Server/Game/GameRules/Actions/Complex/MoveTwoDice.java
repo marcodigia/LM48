@@ -78,7 +78,6 @@ public class MoveTwoDice implements Actions {
 
     private boolean exists2DiceValidMove(GameContext gameContext) {
 
-        System.out.println(gameContext.getWindowPatternCard().getAllDices().size());
         for (int i = 0; i < 20; i++) {
             if (gameContext.getWindowPatternCard().getDice(i) != null)
                 for (int j = 0; j < 20; j++) {

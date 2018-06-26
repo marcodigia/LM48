@@ -24,8 +24,6 @@ public class MoveOneDieIgnoringColor implements Actions {
 
         Player activePlayer = gameStatus.getPlayerByName(userName);
 
-        System.out.println(ANSI_COLOR.ANSI_YELLOW +"From " +userName+ ANSI_COLOR.ANSI_RESET);
-
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus
                 .getPlayerCards()
                 .get(activePlayer)
@@ -34,7 +32,6 @@ public class MoveOneDieIgnoringColor implements Actions {
 
         activePlayerWP.moveDice(from, to, true, false, false);
 
-        System.out.println("[!!] " + gameStatus.toPacket());
 
     }
 
@@ -52,14 +49,9 @@ public class MoveOneDieIgnoringColor implements Actions {
             to = -1 ;
         } else {
 
-            System.out.println(ANSI_COLOR.BACKGROUND_MAGENTA + " move color use action from" + ANSI_COLOR.ANSI_RESET);
             from = ui.getMatrixIndexFrom();
-            System.out.println(ANSI_COLOR.BACKGROUND_MAGENTA + " move color use action to" + ANSI_COLOR.ANSI_RESET);
 
             to = ui.getMatrixIndexTo();
-
-            System.out.println(ANSI_COLOR.ANSI_PURPLE +"From " + from + " to " + to+ ANSI_COLOR.ANSI_RESET);
-
         }
 
 
@@ -80,7 +72,6 @@ public class MoveOneDieIgnoringColor implements Actions {
     @Override
     public void setUserName(String userName) {
 
-        System.out.println("set username move one color " + userName);
         this.userName = userName;
     }
 

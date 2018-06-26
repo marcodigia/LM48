@@ -131,7 +131,6 @@ public class Matrix implements Packetable {
             return null;
         }
         if (matrix.get(coordinate).getDice() == null) {
-            System.out.println("nessun dado piazzato ");
             return null;
         }
 

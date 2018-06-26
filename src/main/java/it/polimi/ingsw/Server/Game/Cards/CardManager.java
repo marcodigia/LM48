@@ -32,7 +32,6 @@ public class CardManager {
         while (scanner.hasNextLine()){
             String s = scanner.nextLine();
             WPCards.add(s);
-            System.out.println(s);
         }
 
 

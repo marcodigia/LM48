@@ -27,7 +27,6 @@ public class MoveOneDiceIgnoringValue implements Actions {
 
         activePlayerWP.moveDice(from, to, false, true, false);
 
-        System.out.println("[!!] " + gameStatus.toPacket());
 
     }
 
@@ -44,11 +43,7 @@ public class MoveOneDiceIgnoringValue implements Actions {
             return;
         } else {
 
-            System.out.println(ANSI_COLOR.BACKGROUND_MAGENTA + " move value use action " + ANSI_COLOR.ANSI_RESET);
-
             from = ui.getMatrixIndexFrom();
-
-            System.out.println(ANSI_COLOR.BACKGROUND_MAGENTA + " move value use action " + ANSI_COLOR.ANSI_RESET);
 
             to = ui.getMatrixIndexTo();
 
@@ -73,8 +68,6 @@ public class MoveOneDiceIgnoringValue implements Actions {
     @Override
     public void setUserName(String userName) {
 
-
-        System.out.println("set username move one value " + userName);
         this.userName = userName;
     }
 

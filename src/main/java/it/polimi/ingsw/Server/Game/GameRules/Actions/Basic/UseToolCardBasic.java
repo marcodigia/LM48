@@ -38,8 +38,6 @@ public class UseToolCardBasic implements Actions {
             tc.use(gameStatus.getPlayerByName(userName).getWallet());
             ACTIVE = false;
         }
-
-        System.out.println(ANSI_COLOR.BACKGROUND_GREEN + gameStatus.toPacket() + ANSI_COLOR.ANSI_RESET);
     }
 
     @Override
@@ -101,7 +99,6 @@ public class UseToolCardBasic implements Actions {
     @Override
     public void setUserName(String userName) {
 
-        System.out.println("use tool card " + userName);
         toolCardAction.setUserName(userName);
         this.userName = userName;
     }

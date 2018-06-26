@@ -80,7 +80,6 @@ public class Unpacker {
     //This class returns the game status.
     //NB this should be used only on to rebuild the gamestatus on the client because the player in this gamestatu are not totally setup
     public static GameStatus getGameStatus(String packet){
-        System.out.println("Unpacker GS "+packet);
         GameStatus gameStatus ;
         String[] objectPacket = packet.split(CONSTANT.ObjectDelimeter);
 
@@ -147,7 +146,7 @@ public class Unpacker {
         gameStatus.addTC( TC_FromId(objectPacket[TC_cursor+3]));
 
 
-        System.out.println("id  "+objectPacket[TC_cursor+4]);
+
         gameStatus.addP( PB_FromId(objectPacket[TC_cursor+4]));
         gameStatus.addP( PB_FromId(objectPacket[TC_cursor+5]));
         gameStatus.addP( PB_FromId(objectPacket[TC_cursor+6]));
@@ -184,9 +183,6 @@ public class Unpacker {
      * @return returns a ToolCard whith the given id
      */
     private static PublicObjectiveCard PB_FromId(String id){
-
-        System.out.println(id.length());
-        System.out.println(PODeck.get(id));
         return (PublicObjectiveCard) PODeck.get(id);
     }
 
@@ -247,8 +243,7 @@ public class Unpacker {
      */
    public static Actions ACT_fromPacket(String packet,String delimeter){
 
-        System.out.println("Act_fromPacket " + packet);
-        Actions action = null;
+          Actions action = null;
 
        String[] elements =packet.split(delimeter);
 

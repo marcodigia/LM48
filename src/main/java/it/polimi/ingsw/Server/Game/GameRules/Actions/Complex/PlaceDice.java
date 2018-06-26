@@ -49,7 +49,6 @@ public class PlaceDice implements Actions {
                 activePlayerWP.placeDice(dice, matrixIndexTo, false, false, true);
                 gameStatus.getDraftPool().removeDice(dice);
                 gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
-                System.out.println("setUpAction PlaceDice--->" + ANSI_COLOR.BACKGROUND_BLUE + ANSI_COLOR.ANSI_YELLOW + "ok sul bordo" + ANSI_COLOR.ANSI_RESET);
                 return;
             }
 
@@ -62,8 +61,7 @@ public class PlaceDice implements Actions {
             activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
             gameStatus.getDraftPool().removeDice(dice);
             gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
-            System.out.println("setUpAction PlaceDice--->" + ANSI_COLOR.BACKGROUND_BLUE + ANSI_COLOR.ANSI_YELLOW + "ok piazzata " + ANSI_COLOR.ANSI_RESET);
-        }
+           }
 
 
     }
@@ -102,7 +100,6 @@ public class PlaceDice implements Actions {
 
         String[] elements = packet.split("\\" + CONSTANT.ElenemtsDelimenter);
 
-        System.out.println("setUpAction PlaceDice--->" + ANSI_COLOR.BACKGROUND_BLUE + ANSI_COLOR.ANSI_YELLOW + packet + ANSI_COLOR.ANSI_RESET);
         matrixIndexTo = Integer.parseInt(elements[0]);
         draftpoolFrom = Integer.parseInt(elements[1]);
     }

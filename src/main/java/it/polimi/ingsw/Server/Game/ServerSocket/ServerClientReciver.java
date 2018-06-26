@@ -133,11 +133,8 @@ public class ServerClientReciver implements Runnable {
                             a.setACTIVE(status);
                         }
                         a.setUserName(username);
-
-                        System.out.println("Server client receiver 1" + game.getGameStatus().toPacket());
                         a.doAction(game.getGameStatus());
 
-                        System.out.println("Server client receiver 2" + game.getGameStatus().toPacket());
                         for(Player p : game.getPlayers().keySet()) {
                             p.getvirtualView().sendGameStatus(game.getGameStatus());
                         }

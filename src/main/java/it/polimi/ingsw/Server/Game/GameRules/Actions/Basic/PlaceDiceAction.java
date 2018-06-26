@@ -44,9 +44,6 @@ public class PlaceDiceAction implements Actions {
         if (!ACTIVE)
             return;
 
-
-        System.out.println("do action --->" + ANSI_COLOR.BACKGROUND_GREEN + ANSI_COLOR.ANSI_RED + action.toPacket() + ANSI_COLOR.ANSI_RESET);
-        System.out.println("game status --->" + ANSI_COLOR.BACKGROUND_GREEN + ANSI_COLOR.ANSI_RED + gameStatus.toPacket() + ANSI_COLOR.ANSI_RESET);
         action.setUserName(userName);
         action.doAction(gameStatus);
 
@@ -74,10 +71,6 @@ public class PlaceDiceAction implements Actions {
 
         String[] el = packet.split(CONSTANT.ObjectDelimeterComplex);
 
-
-        System.out.println("packet --->" + ANSI_COLOR.BACKGROUND_BLUE + ANSI_COLOR.ANSI_RED + packet + ANSI_COLOR.ANSI_RESET);
-
-
         //Create an istance of the class from the className
         Class<?> o;
         Constructor<?> constructor;
@@ -93,10 +86,8 @@ public class PlaceDiceAction implements Actions {
         }
 
 
-        System.out.println("el[1] --->" + ANSI_COLOR.BACKGROUND_BLUE + ANSI_COLOR.ANSI_RED + el[1] + ANSI_COLOR.ANSI_RESET);
         action.setUpAction(el[1]);
-        System.out.println("userName --->" + ANSI_COLOR.BACKGROUND_BLUE + ANSI_COLOR.ANSI_RED + userName + ANSI_COLOR.ANSI_RESET);
-        action.setUserName(userName);
+       action.setUserName(userName);
         this.action = action;
 
     }
@@ -110,7 +101,6 @@ public class PlaceDiceAction implements Actions {
         packet.append(CONSTANT.ObjectDelimeter).append(action.toPacket());
 
 
-        System.out.println("to packet--->" + ANSI_COLOR.BACKGROUND_BLUE + ANSI_COLOR.ANSI_RED + packet.toString() + ANSI_COLOR.ANSI_RESET);
         return packet.toString();
     }
 }
