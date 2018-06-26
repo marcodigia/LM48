@@ -9,6 +9,7 @@ import it.polimi.ingsw.UI;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
 
 public class PlaceDiceAction implements Actions {
 
@@ -21,6 +22,7 @@ public class PlaceDiceAction implements Actions {
     private Actions action;
     //This is called in TakeDiceBasicAction
     public PlaceDiceAction() {
+
         ACTIVE = true;
         action = new PlaceDice();
     }
@@ -67,35 +69,23 @@ public class PlaceDiceAction implements Actions {
 
 
     public void setUpAction(String packet) {
-        Actions action = null;
 
         String[] el = packet.split(CONSTANT.ObjectDelimeterComplex);
 
-        //Create an istance of the class from the className
-        Class<?> o;
-        Constructor<?> constructor;
-        try {
-            o = Class.forName(el[0]);
-            Class<?>[] types = new Class<?>[]{};
-
-            constructor = ((Class<?>) o).getConstructor(types);
-
-            action = (Actions) constructor.newInstance();
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
 
         action.setUpAction(el[1]);
-       action.setUserName(userName);
-        this.action = action;
+        action.setUserName(userName);
 
+    }
+
+    public void changeRestricion(boolean color , boolean value, boolean adjacency){
+        ((PlaceDice) action ).changeRestristricion(color,value,adjacency);
     }
     @Override
     public String toPacket() {
 
         StringBuilder packet = new StringBuilder();
-        packet.append(PlaceDiceAction.class.getName());
+        packet.append("BP");
         packet.append(CONSTANT.ObjectDelimeter).append(userName);
         packet.append(CONSTANT.ObjectDelimeter).append(ACTIVE);
         packet.append(CONSTANT.ObjectDelimeter).append(action.toPacket());

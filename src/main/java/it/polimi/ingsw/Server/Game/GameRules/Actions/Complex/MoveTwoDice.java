@@ -6,6 +6,8 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.GameRules.Restrictions.RestrictionType;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 
@@ -13,7 +15,18 @@ public class MoveTwoDice implements Actions {
 
 
     private int from1, from2, to1, to2;
+
+    private int roundIndex1, roundDiceIndex1 , roundIndex2, roundDiceIndex2;
     String userName;
+
+    RestrictionType resType;
+
+    public MoveTwoDice() {
+    }
+
+    public MoveTwoDice(RestrictionType resType) {
+        this.resType = resType;
+    }
 
     @Override
     public void doAction(GameStatus gameStatus) {
@@ -23,9 +36,13 @@ public class MoveTwoDice implements Actions {
 
         //TODO review this method. because first one dice is moved and than the other
 
+        System.out.println(ANSI_COLOR.ANSI_YELLOW + from1 +to1+from2+to2 + ANSI_COLOR.ANSI_RESET);
+        if (from1 == -1 || to1 == -1 )
+            return;
         if (activePlayerWP.moveDice(from1, to1, false, false, false))
-            if (!activePlayerWP.moveDice(from2, to2, false, false, false))
-                activePlayerWP.moveDice(to1, from1, true, true, true);
+            if (from2 != -1 )
+                if (!activePlayerWP.moveDice(from2, to2, false, false, false))
+                    activePlayerWP.moveDice(to1, from1, true, true, true);
 
 
 
@@ -36,22 +53,64 @@ public class MoveTwoDice implements Actions {
 
         this.userName = userName;
 
-        ui.printMessage("Primo Dado");
-        System.out.println("WAITING UI.GETMATRIXD INDEX FROM");
-        from1 = ui.getMatrixIndexFrom();
+        System.out.println(ANSI_COLOR.ANSI_BLUE + "USE ACTIOM " + ANSI_COLOR.ANSI_RESET);
+        if (resType== RestrictionType.None){
 
-        System.out.println("WAITING UI.GETMATRIXD INDEX TO");
-        to1 = ui.getMatrixIndexTo();
+            ui.printMessage("Primo Dado");
+            from1 = ui.getMatrixIndexFrom();
+            to1 = ui.getMatrixIndexTo();
 
-        ui.printMessage("Secondo Dado");
+            ui.printMessage("Secondo Dado");
 
-        System.out.println("WAITING UI.GETMATRIXD INDEX FROM2");
-        from2 = ui.getMatrixIndexFrom();
+            from2 = ui.getMatrixIndexFrom();
+            to2 = ui.getMatrixIndexTo();
 
-        System.out.println("WAITING UI.GETMATRIXD INDEX TO2");
-        to2 = ui.getMatrixIndexTo();
+            System.out.println("FROM TO if " + from1 + to1 + from2 + to2 );
+        }
+        else if (resType == RestrictionType.Color){
 
-        System.out.println("/007" + from1 + to1 + from2 + to2);
+            roundIndex1= ui.getRoundIndex();
+            roundDiceIndex1 = ui.getDiceIndexFromRound();
+
+            Dice diceTrack = gameStatus.getBoardRound().getDices().get(roundIndex1).get(roundDiceIndex1);
+
+            from1 = ui.getMatrixIndexFrom();
+            to1 = ui.getMatrixIndexTo();
+            Dice choosenDice = gameStatus.getPlayerByName(userName).getWindowPatternCard().getDice(from1);
+            if (choosenDice== null || diceTrack== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor()))
+            {
+                ui.printMessage("Scelta non valida ");
+                from1 = -1 ;
+                to1 = -1 ;
+                return;
+            } else {
+                ui.printMessage("Piazzare secondo dado ? ");
+
+
+                //TODO necessario avere questo valore da GUI discutere sul da farsi ( magari un pop-up che setta il valore a -1 ? )
+                from2 = ui.getMatrixIndexFrom();
+                if (from2 != -1 )
+                    to2 = ui.getMatrixIndexTo();
+                else
+                    return;
+                choosenDice = gameStatus.getPlayerByName(userName).getWindowPatternCard().getDice(from2);
+                if (choosenDice== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor())){
+                    ui.printMessage("Scelta secondo dado non valida ");
+                    from2 = -1 ;
+                    to2 = -1 ;
+                }
+
+            }
+
+
+
+
+
+
+
+        }
+
+
 
     }
 

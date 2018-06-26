@@ -52,7 +52,7 @@ class MoveOneDieIgnoringColorTest {
         assertNotNull(gameContext.getWindowPatternCard().getDice(0));
         assertNull(gameContext.getWindowPatternCard().getDice(1));
 
-        moveOneDiceAction = new MoveOneDieIgnoringColor();
+        moveOneDiceAction = new MoveOneDice();
         moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,1,0), gamestatus);
 
         moveOneDiceAction.doAction(gamestatus);
@@ -71,7 +71,7 @@ class MoveOneDieIgnoringColorTest {
         assertNotNull(gameContext.getWindowPatternCard().getDice(0));
         assertNull(gameContext.getWindowPatternCard().getDice(19));
 
-        moveOneDiceAction = new MoveOneDieIgnoringColor();
+        moveOneDiceAction = new MoveOneDice();
         moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,19,0), gamestatus);
 
         moveOneDiceAction.doAction(gamestatus);
@@ -91,7 +91,7 @@ class MoveOneDieIgnoringColorTest {
         assertNotNull(gameContext.getWindowPatternCard().getDice(0));
         assertNull(gameContext.getWindowPatternCard().getDice(19));
 
-        moveOneDiceAction = new MoveOneDieIgnoringColor();
+        moveOneDiceAction = new MoveOneDice();
         moveOneDiceAction.useAction(new UI_SIMULATION(0,0,0,19,0), gamestatus);
 
         moveOneDiceAction.doAction(gamestatus);

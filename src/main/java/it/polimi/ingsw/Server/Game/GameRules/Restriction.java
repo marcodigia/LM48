@@ -1,19 +1,21 @@
 package it.polimi.ingsw.Server.Game.GameRules;
 
+import it.polimi.ingsw.Server.Game.GameRules.Restrictions.RestrictionType;
+
 import java.io.InputStream;
 import java.io.Serializable;
 
 public enum Restriction implements Serializable{
-    ONE("1",false), TWO("2",false), THREE("3",false), FOUR("4",false),
-    FIVE("5",false), SIX("6",false), GREEN("G",true), YELLOW("Y",true),
-    BLUE("B",true), RED("R",true), PURPLE("P",true), NONE("0",false);
+    ONE("1",RestrictionType.Value), TWO("2",RestrictionType.Value), THREE("3",RestrictionType.Value), FOUR("4",RestrictionType.Value),
+    FIVE("5",RestrictionType.Value), SIX("6",RestrictionType.Value), GREEN("G",RestrictionType.Color), YELLOW("Y",RestrictionType.Color),
+    BLUE("B",RestrictionType.Color), RED("R",RestrictionType.Color), PURPLE("P",RestrictionType.Color), NONE("0",RestrictionType.None);
 
-    String restrictionType;
-    boolean iscolor;
+    String res;
+    RestrictionType resType;
 
-    Restriction(String restrictionType, boolean iscolor) {
-        this.restrictionType = restrictionType;
-        this.iscolor = iscolor;
+    Restriction(String res, RestrictionType resType) {
+        this.res = res;
+        this.resType = resType;
     }
 
     public static Restriction parseRestricion(String s) {
@@ -60,17 +62,17 @@ public enum Restriction implements Serializable{
     }
 
     public InputStream getRestrictionImage(){
-        String resImageName = "res" + (restrictionType + ".png");
+        String resImageName = "res" + (res + ".png");
         return getClass().getClassLoader().getResourceAsStream(resImageName);
     }
 
     public String getRestrictionType() {
-        return restrictionType;
+        return res;
     }
 
     public boolean isColor(){
 
-        return iscolor;
+        return resType.name().equals("Color");
     }
 
 }

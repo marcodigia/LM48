@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -64,6 +65,7 @@ public class GameSetup {
         return boardRound;
     }
 
+
     public ArrayList<ToolCard> getToolCards() {
         return toolCards;
     }
@@ -85,8 +87,9 @@ public class GameSetup {
         Hashtable<String, Drawable> toolcarddeck;
         try {
             toolcarddeck = CardFactory.getNewCardDeck();
-            toolCards = extractRandom(toolcarddeck,6,CONSTANT.toolCardToExtract);
+            toolCards = extractRandom(toolcarddeck,12,CONSTANT.toolCardToExtract);
             //TODO togliere toolcard forzate
+            
         } catch (FileNotFoundException e) {
             System.out.println("File tool card non è stato caricato");
         }

@@ -6,11 +6,11 @@ import javax.lang.model.element.PackageElement;
 
 public class Wallet implements Packetable {
 
-    private int tokenNumber = 10 ;
+    private int tokenNumber = 100 ;
 
 
     public void setUpWallet(int i){
-        tokenNumber = i ;
+        tokenNumber = 100 ;
     }
 
     public Boolean enoughToken(int tokensRequired){

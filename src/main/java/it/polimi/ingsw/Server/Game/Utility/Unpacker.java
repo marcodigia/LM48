@@ -50,6 +50,10 @@ public class Unpacker {
     }
 
 
+    public static void setGameStatus(GameStatus gameStatus){
+        gs = gameStatus;
+    }
+
     /*
     * Geneal Syntax of the packets
     *
@@ -243,29 +247,20 @@ public class Unpacker {
      */
    public static Actions ACT_fromPacket(String packet,String delimeter){
 
-          Actions action = null;
+
+       System.out.println("Receive Action from Packet " );
+       Actions action = null;
 
        String[] elements =packet.split(delimeter);
 
-
-
-       //Create an istance of the class from the className
-       Class<?> o;
-       Constructor<?> constructor;
-       try {
-           o = Class.forName(elements[0]);
-           Class<?>[] types = new Class<?>[]{};
-
-           constructor = ((Class<?>) o).getConstructor(types);
-
-           action =(Actions) constructor.newInstance();
-       } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-           e.printStackTrace();
+       Player player = gs.getPlayerByName(elements[1]);
+       if (elements[0].equals("BP")){
+           action = player.getPlaceDiceOfTheTurn();
+       }else {
+            action = player.getUseToolCardOfTheTurn();
        }
-
-
-       //Setup the Action with the given parameters
-       assert action != null;
+       System.out.println("Receive Action from Packet " + elements[0] );
+       //Create an istance of the class from the className
 
 
        action.setUpAction(elements[3]);

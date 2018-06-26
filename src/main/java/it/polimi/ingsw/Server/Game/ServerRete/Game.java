@@ -7,6 +7,7 @@ import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -63,6 +64,10 @@ public class Game {
             addPlayer(playerToAdd);
             gameSetup = new GameSetup(players); //TC - PBC - WP
             gameStatus = new GameStatus(gameSetup.getToolCards(),gameSetup.getPublicObjectiveCards());  //TC and PBC will not change also if
+
+            //TODO Very important to setup here the gameStatus. The Unpacker need a reference to it in order to do Act_from Packet.
+            Unpacker.setGameStatus(gameStatus);
+
             //client will disconnect after WP sending
 
             gameSetup.getPublicObjectiveCards().clear();
@@ -158,6 +163,7 @@ public class Game {
             gameStatus.addPrivateObjectiveCard(gameSetup.getPrivateObjectiveCards());
             gameStatus.setDraftPool(gameSetup.getDraftPool());
             gameStatus.setBoardRound(gameSetup.getBoardRound());
+            gameStatus.setDiceBag(gameSetup.getDiceBag());
             System.out.println("endGameSetup" + gameStatus );
             for(Player p : players.keySet()){
                 p.getvirtualView().sendGameStatus(gameStatus);

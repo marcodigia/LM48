@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.Cards.*;
 import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
+import it.polimi.ingsw.Server.Game.Components.DiceBag;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.util.*;
@@ -13,6 +14,7 @@ public class GameStatus implements Packetable {
 
     private LinkedHashMap<Player, List<Drawable> > playerCards = new LinkedHashMap<Player, List<Drawable>>();
     private DraftPool draftPool = null;
+    private DiceBag diceBag = null;
     private ArrayList<ToolCard> toolCards = new ArrayList<>();
     private ArrayList<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
     private BoardRound boardRound = null;
@@ -84,6 +86,13 @@ public class GameStatus implements Packetable {
 
     public BoardRound getBoardRound(){return boardRound;}
 
+    public DiceBag getDiceBag() {
+        return diceBag;
+    }
+
+    public void setDiceBag(DiceBag diceBag) {
+        this.diceBag = diceBag;
+    }
 
     @Override
     public String toPacket() {

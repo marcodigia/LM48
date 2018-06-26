@@ -99,7 +99,6 @@ public class UseToolCardBasic implements Actions {
     @Override
     public void setUserName(String userName) {
 
-        toolCardAction.setUserName(userName);
         this.userName = userName;
     }
 
@@ -124,8 +123,8 @@ public class UseToolCardBasic implements Actions {
     public String toPacket() {
 
         StringBuilder packet = new StringBuilder();
-        packet.append(UseToolCardBasic.class.getName());
 
+        packet.append("BT");
 
         packet.append(CONSTANT.ObjectDelimeter).append(userName);
         packet.append(CONSTANT.ObjectDelimeter).append(ACTIVE);

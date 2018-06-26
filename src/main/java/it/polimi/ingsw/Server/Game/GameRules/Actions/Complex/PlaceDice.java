@@ -45,8 +45,8 @@ public class PlaceDice implements Actions {
 
             //Try to place the Dice without adjacency restriction
 
-            if (activePlayerWP.isPlaceable(dice, matrixIndexTo, false, false, true)) {
-                activePlayerWP.placeDice(dice, matrixIndexTo, false, false, true);
+            if (activePlayerWP.isPlaceable(dice, matrixIndexTo, ignoreColor, ignoreValue, true)) {
+                activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, true);
                 gameStatus.getDraftPool().removeDice(dice);
                 gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
                 return;
@@ -116,6 +116,12 @@ public class PlaceDice implements Actions {
         return packet.toString();
     }
 
+
+    public void changeRestristricion(boolean color, boolean value , boolean adjacency){
+        ignoreAdjacency = adjacency;
+        ignoreValue = value;
+        ignoreColor =color;
+    }
 
     private boolean existsValidMove(Dice dice, WindowPatternCard windowPatternCard) {
 

@@ -123,7 +123,7 @@ public class WaitingRoom {
                             clientList.clear();
                             noMorePlayerAccepted = true;
                         }
-                    }, timerUtility.readTimerFromFile(10,"timer.txt"));
+                    }, timerUtility.readTimerFromFile(15,"timer.txt"));
                 }
             }
         }

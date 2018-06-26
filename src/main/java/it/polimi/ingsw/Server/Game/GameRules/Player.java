@@ -86,10 +86,12 @@ public class Player implements Serializable{
     public boolean getConnected(){return isConnected;}
     
     public PlaceDiceAction getPlaceDiceOfTheTurn() {
+        placeDiceOfTheTurn.setUserName(name);
         return placeDiceOfTheTurn;
     }
 
     public UseToolCardBasic getUseToolCardOfTheTurn() {
+        useToolCardOfTheTurn.setUserName(name);
         return useToolCardOfTheTurn;
     }
 

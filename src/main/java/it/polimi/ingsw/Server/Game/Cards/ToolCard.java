@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Id;
 import it.polimi.ingsw.Server.Game.Components.Wallet;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.*;
+import it.polimi.ingsw.Server.Game.GameRules.Restrictions.RestrictionType;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
 import java.io.InputStream;
@@ -64,16 +65,16 @@ public class ToolCard implements Drawable {
                 action = new ChangeDiceValue(0);
                 break;
             case _1:
-                action = new ChangeDiceValue(0);
+                action = new ChangeDiceValue(1);
                 break;
             case _2:
-                action = new MoveOneDieIgnoringColor();
+                action = new MoveOneDice(true,false,false);
                 break;
             case _3:
-                action = new MoveOneDiceIgnoringValue();
+                action = new MoveOneDice(false,true,false);
                 break;
             case _4:
-                action = new MoveTwoDice();
+                action = new MoveTwoDice(RestrictionType.None);
                 break;
             case _5:
                 action = new SwapDiceFromRoundTrack();
@@ -84,8 +85,20 @@ public class ToolCard implements Drawable {
             case _7:
                 action = new RerollDraftedDice(-1);
                 break;
+            case _8:
+                action = new PlaceDice();
+                break;
+            case _9:
+                action = new ChangePlaceDiceAction(false,false,true);
+                break;
             case _10:
-                action = new ChangeDiceValue(7);
+                action = new ChangeDiceValue(2);
+                break;
+            case _11:
+                action = new ChangeDiceValue(3);
+                break;
+            case _12:
+                action = new MoveTwoDice(RestrictionType.Color);
                 break;
             default:
                 break;

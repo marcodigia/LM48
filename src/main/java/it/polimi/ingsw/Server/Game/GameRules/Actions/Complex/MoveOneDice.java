@@ -2,18 +2,35 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
-import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 
-public class MoveOneDieIgnoringColor implements Actions {
+public class MoveOneDice implements Actions {
 
     private int from, to;
 
+    private boolean color_restriction;
+    private boolean value_restriction;
+    private boolean adjacency_restriction;
+
     private String userName;
+
+
+    public MoveOneDice() {
+        color_restriction = false;
+        value_restriction =false;
+        adjacency_restriction =false;
+    }
+
+    public MoveOneDice(boolean color_restriction, boolean value_restriction, boolean adjacency_restriction) {
+        this.color_restriction = color_restriction;
+        this.value_restriction = value_restriction;
+        this.adjacency_restriction = adjacency_restriction;
+    }
+
     @Override
     public void doAction(GameStatus gameStatus) {
 
@@ -30,7 +47,7 @@ public class MoveOneDieIgnoringColor implements Actions {
                 .get(0);
 
 
-        activePlayerWP.moveDice(from, to, true, false, false);
+        activePlayerWP.moveDice(from, to, color_restriction, value_restriction, adjacency_restriction);
 
 
     }
@@ -43,8 +60,9 @@ public class MoveOneDieIgnoringColor implements Actions {
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
-        if (!existsValidMove(activePlayerWP, true)) {
+        if (!existsValidMove(activePlayerWP)) {
             ui.printMessage("No possible moves");
+            System.out.println("No possible moves");
             from = -1;
             to = -1 ;
         } else {
@@ -67,6 +85,9 @@ public class MoveOneDieIgnoringColor implements Actions {
         String[] elements = packet.split("\\"+CONSTANT.ElenemtsDelimenter);
         from = Integer.parseInt(elements[0]);
         to = Integer.parseInt(elements[1]);
+        color_restriction = Boolean.parseBoolean(elements[2]);
+        value_restriction = Boolean.parseBoolean(elements[3]);
+        adjacency_restriction = Boolean.parseBoolean(elements[4]);
     }
 
     @Override
@@ -76,16 +97,16 @@ public class MoveOneDieIgnoringColor implements Actions {
     }
 
 
-    private boolean existsValidMove(WindowPatternCard windowPatternCard, boolean ignoreColor) {
+    private boolean existsValidMove(WindowPatternCard windowPatternCard) {
         for (int i = 0; i < 20; i++) {
             if (windowPatternCard.getDice(i)!=null) {
                 Dice dice = windowPatternCard.removeDice(i);
                 for (int j = 0; j < 20; j++) {
                     if (j != i) {
                         // if found a suitable place for the dice according to the restricitons
-                        if (windowPatternCard.isPlaceable(dice, j, ignoreColor, false, false)) {
+                        if (windowPatternCard.isPlaceable(dice, j, color_restriction, value_restriction, adjacency_restriction)) {
                             //Put dice back
-                            windowPatternCard.placeDice(dice, i, true, true, true);
+                            windowPatternCard.placeDice(dice, i, color_restriction, value_restriction, adjacency_restriction);
                             return true;
                         }
                     }
@@ -101,8 +122,11 @@ public class MoveOneDieIgnoringColor implements Actions {
     public String toPacket() {
 
         StringBuilder packet = new StringBuilder();
-        packet.append(MoveOneDieIgnoringColor.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
+        packet.append(MoveOneDice.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
         packet.append(from).append(CONSTANT.ElenemtsDelimenter).append(to);
+        packet.append(CONSTANT.ElenemtsDelimenter).append(color_restriction)
+                .append(CONSTANT.ElenemtsDelimenter).append(value_restriction)
+                .append(CONSTANT.ElenemtsDelimenter).append(adjacency_restriction);
         return packet.toString();
     }
 }
