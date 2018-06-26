@@ -89,7 +89,7 @@ public class GameSetup {
             toolcarddeck = CardFactory.getNewCardDeck();
             toolCards = extractRandom(toolcarddeck,12,CONSTANT.toolCardToExtract);
             //TODO togliere toolcard forzate
-            
+
         } catch (FileNotFoundException e) {
             System.out.println("File tool card non è stato caricato");
         }
