@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.Logger;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -62,13 +63,15 @@ public class MoveOneDice implements Actions {
 
         if (!existsValidMove(activePlayerWP)) {
             ui.printMessage("No possible moves");
+            Logger.log("Nessuna mossa possibile\n");
             System.out.println("No possible moves");
             from = -1;
             to = -1 ;
         } else {
 
+            Logger.log("Seleziona cella di partenza\n");
             from = ui.getMatrixIndexFrom();
-
+            Logger.log("Seleziona cella di destinazione\n");
             to = ui.getMatrixIndexTo();
         }
 

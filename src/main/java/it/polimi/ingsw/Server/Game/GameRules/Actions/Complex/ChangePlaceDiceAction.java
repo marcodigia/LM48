@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.Logger;
 import it.polimi.ingsw.UI;
 
 public class ChangePlaceDiceAction implements Actions {
@@ -29,6 +30,15 @@ public class ChangePlaceDiceAction implements Actions {
     @Override
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
+        String azione ="";
+        if (adjacency)
+            azione+=" ignorare l'addiacenza ";
+        if (color)
+            azione+=" ignorare la restrizione colore";
+        if (value)
+            azione += " ignorare la restrizione di valore";
+        if (!azione.equals(""))
+            Logger.log("Fornita capacità di " + azione);
     }
 
     @Override

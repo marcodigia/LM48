@@ -7,6 +7,7 @@ import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.Logger;
 import it.polimi.ingsw.UI;
 
 public class PlaceDice implements Actions {
@@ -73,15 +74,16 @@ public class PlaceDice implements Actions {
         Player activePlayer = gameStatus.getPlayerByName(userName);
         WindowPatternCard activePlayerWP = (WindowPatternCard) gameStatus.getPlayerCards().get(activePlayer).get(0);
 
-
+        Logger.log("Seleziona dado dalla DraftPool\n");
         draftpoolFrom = ui.getDraftPoolIndex();
+        Logger.log("Seleziona cella di destinazione\n");
         matrixIndexTo = ui.getMatrixIndexTo();
 
 
         if (gameStatus.getPlayerByName(userName).getWindowPatternCard().getAllDices().size() > 0) {
             if (!existsValidMove(gameStatus.getDraftPool().getDice(draftpoolFrom), gameStatus.getPlayerByName(userName).getWindowPatternCard())) {
                 matrixIndexTo = -1;
-                ui.printMessage("Sorry no possible move.\n Try with a different dice.");
+                Logger.log("Sorry no possible move.\n Try with a different dice.");
             }
         }
     }

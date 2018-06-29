@@ -9,6 +9,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restrictions.RestrictionType;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.Logger;
 import it.polimi.ingsw.UI;
 
 public class MoveTwoDice implements Actions {
@@ -53,33 +54,37 @@ public class MoveTwoDice implements Actions {
 
         this.userName = userName;
 
-        System.out.println(ANSI_COLOR.ANSI_BLUE + "USE ACTIOM " + ANSI_COLOR.ANSI_RESET);
         if (resType== RestrictionType.None){
 
-            ui.printMessage("Primo Dado");
+            Logger.log("Primo Dado\n");
+            Logger.log("Seleziona cella di partenza\n");
             from1 = ui.getMatrixIndexFrom();
+            Logger.log("Seleziona cella di destinazione\n");
             to1 = ui.getMatrixIndexTo();
 
-            ui.printMessage("Secondo Dado");
-
+            Logger.log("Secondo Dado");
+            Logger.log("Seleziona cella di partenza\n");
             from2 = ui.getMatrixIndexFrom();
+            Logger.log("Seleziona cella di destinazione\n");
             to2 = ui.getMatrixIndexTo();
 
-            System.out.println("FROM TO if " + from1 + to1 + from2 + to2 );
         }
         else if (resType == RestrictionType.Color){
 
+            Logger.log("Seleziona round dal RoundTrack\n");
             roundIndex1= ui.getRoundIndex();
+            Logger.log("Seleziona cella dado del Round\n");
             roundDiceIndex1 = ui.getDiceIndexFromRound();
 
             Dice diceTrack = gameStatus.getBoardRound().getDices().get(roundIndex1).get(roundDiceIndex1);
-
+            Logger.log("Seleziona cella di partenza\n");
             from1 = ui.getMatrixIndexFrom();
+            Logger.log("Seleziona cella di destinazione\n");
             to1 = ui.getMatrixIndexTo();
             Dice choosenDice = gameStatus.getPlayerByName(userName).getWindowPatternCard().getDice(from1);
             if (choosenDice== null || diceTrack== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor()))
             {
-                ui.printMessage("Scelta non valida ");
+                Logger.log("Scelta non valida ");
                 from1 = -1 ;
                 to1 = -1 ;
                 return;
@@ -88,14 +93,18 @@ public class MoveTwoDice implements Actions {
 
 
                 //TODO necessario avere questo valore da GUI discutere sul da farsi ( magari un pop-up che setta il valore a -1 ? )
+                Logger.log("Seleziona cella di partenza\n");
                 from2 = ui.getMatrixIndexFrom();
-                if (from2 != -1 )
+                if (from2 != -1 ){
+                    Logger.log("Seleziona cella di destinazione\n");
                     to2 = ui.getMatrixIndexTo();
+                }
+
                 else
                     return;
                 choosenDice = gameStatus.getPlayerByName(userName).getWindowPatternCard().getDice(from2);
                 if (choosenDice== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor())){
-                    ui.printMessage("Scelta secondo dado non valida ");
+                    Logger.log("Scelta secondo dado non valida ");
                     from2 = -1 ;
                     to2 = -1 ;
                 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.Logger;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
@@ -39,8 +40,9 @@ public class RerollDraftedDice implements Actions {
     public void useAction(UI ui, GameStatus gameStatus, String userName) {
 
         this.userName = userName;
-        if (diceIndex!=-1)
-            diceIndex = ui.getDraftPoolIndex();
+
+        Logger.log("Seleziona Dado dalla Draftpool\n");
+        diceIndex = ui.getDraftPoolIndex();
 
 
     }
