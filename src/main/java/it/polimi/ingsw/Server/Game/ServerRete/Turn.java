@@ -58,7 +58,7 @@ public class Turn extends TimerTask implements Runnable {
                 if(round< CONSTANT.numberOfRound){
                     System.out.println("ROUND: " + round + "\n" + "Turn: " + turn);
                     for(Player p : players.keySet())
-                        System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected()+ANSI_COLOR.ANSI_RESET);
+                        System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected() + p.getStillAlive() + ANSI_COLOR.ANSI_RESET);
                     if(currentPlayer!=null){
                         currentPlayer.getvirtualView().timerEnd();
                         currentPlayer.startRound();
@@ -74,7 +74,7 @@ public class Turn extends TimerTask implements Runnable {
                         Timer timerRound = new Timer();
 
                         for(Player p : players.keySet())
-                            System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected()+ANSI_COLOR.ANSI_RESET);
+                            System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected()+ p.getStillAlive() + ANSI_COLOR.ANSI_RESET);
                         if(currentPlayer==null || currentPlayer.getSkipNextTurn()) { //currentPlayer is not connected
                             timerRound.schedule(new Turn(players, gameStatus), 0);
                             System.out.println("current true skip next");
@@ -108,7 +108,7 @@ public class Turn extends TimerTask implements Runnable {
                     back = true;
                     notImmediately = true;
                     entry.setValue(true);
-                    if(entry.getKey().getConnected()||entry.getKey().getStillAlive()){
+                    if(entry.getKey().getConnected()&&entry.getKey().getStillAlive()){
                         System.out.println("CURRENT: " + entry.getKey().getName());
                         entry.getKey().getvirtualView().timerStart();   //Say player that his/her turn is started
                         player = entry.getKey();
@@ -132,7 +132,7 @@ public class Turn extends TimerTask implements Runnable {
                     back = false;
                     notImmediately = true;
                     players.put(key, false);
-                    if(key.getConnected()||key.getStillAlive()){
+                    if(key.getConnected()&&key.getStillAlive()){
                         System.out.println("CURRENT: " + key.getName());
                         key.getvirtualView().timerStart();   //Say player that his/her turn is started
                         player = key;
