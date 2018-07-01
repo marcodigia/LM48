@@ -113,8 +113,14 @@ public class Game {
             }
             if(playerRecived!=null)  //Now after scan data structure, it can be modified
                 playerRecived.setIsConnected();
+            else
+                return;
         /*if(windowToRemove!=null)
             gameSetup.getWindowPatternCards().remove(windowToRemove);*/
+
+        if (windowToRemove==null){
+            windowToRemove = Unpacker.WP_fromPacket(idWp,CONSTANT.emptyWp);
+        }
             gameStatus.addWindowPatternCard(playerRecived, windowToRemove);  //Add tuples of players and WP to GameStatus
             playerRecived.getWallet().setUpWallet(windowToRemove.getDifficulty());
         }
