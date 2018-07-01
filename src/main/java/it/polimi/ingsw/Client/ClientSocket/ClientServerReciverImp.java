@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.ClientSocket;
 
+import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
@@ -14,8 +15,11 @@ import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class ClientServerReciverImp implements Runnable, ClientServerReciver {
 
+    private GeneriClient generiClient;
     private Socket socket;
     private Scanner scanner;
     private String message;
@@ -24,6 +28,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
     private boolean connect = true;
 
     public ClientServerReciverImp(Socket socket){
+        this.generiClient = generiClient;
         this.socket = socket;
         try {
             scanner = new Scanner(socket.getInputStream()).useDelimiter("\\s*£00£\\s*");
@@ -37,7 +42,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
     @Override
     public void run() {
 
-        while(connect && true){
+        while(connect){
             try{
                 String command = scanner.next();
                 switch(command){
@@ -73,7 +78,9 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                         break;
                 }
             }catch(NoSuchElementException e){
-
+                //TODO remove exit(0)
+                exit(0);
+                //generiClient.manageDisconnection;
             }
         }
     }

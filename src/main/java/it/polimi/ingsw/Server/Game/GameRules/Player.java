@@ -31,7 +31,7 @@ public class Player implements Serializable{
     public Player(String username, ServerClientSender serverClientSender){
         name=username;
 
-        VirtualViewManager.addVirtualView(this, new VirtualViewImp(serverClientSender));
+        VirtualViewManager.addVirtualView(this, new VirtualViewImp(serverClientSender,this));
 
         gameContext = new GameContext();
         placeDiceOfTheTurn = new PlaceDiceAction();

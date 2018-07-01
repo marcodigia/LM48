@@ -177,7 +177,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 try {
                         clientServerSender.sendAction(placeDiceAction, username);
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    GUI.generiClient.manageDisconnection(GUI.username,GUI.ip,Integer.parseInt(GUI.port));
                 }
                 synchronized (lockWPTo){
                     lockWPTo.notifyAll();
@@ -292,7 +292,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             try {
                 clientServerSender.sendAction(useToolCardBasic, username);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                GUI.generiClient.manageDisconnection(GUI.username,GUI.ip,Integer.parseInt(GUI.port));
             }
         });
         t.start();

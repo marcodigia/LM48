@@ -25,27 +25,25 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
 
     @Override
     public void pingBack(String username) throws RemoteException {
-
     }
 
     @Override
     public void register(String username, ServerClientSender clientRef) throws RemoteException {
-        waitingRoom.addClient(username, clientRef);
-    }
-
-    @Override
-    public void unregister(String username) throws RemoteException {
-        waitingRoom.removeClient(username);
-        game.setPlayerAsDisconnected(username);
+        if(waitingRoom.scanForSameUsername(username)==null) {
+            waitingRoom.addClient(username, clientRef);
+        }
+        if(game.scanForUsername(username)!=null){
+            if(!game.scanForUsername(username).getConnected())
+                game.scanForUsername(username).setIsConnected();
+        }
     }
 
     @Override
     public void choosenWindowPattern(String id, String username) throws RemoteException {
-
         game.setWindowToPlayer(id,username);
-        System.out.println(id + username);
     }
 
+    //TODO eliminate instanceof
     @Override
     public void sendAction(Actions action, String username) throws RemoteException {
         if (action instanceof PlaceDiceAction)
@@ -57,11 +55,6 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         for(Player p : game.getPlayers().keySet()) {
             p.getvirtualView().sendGameStatus(game.getGameStatus());
         }
-    }
-
-    @Override
-    public void endOfTurn(String username) throws RemoteException {
-
     }
 
     @Override

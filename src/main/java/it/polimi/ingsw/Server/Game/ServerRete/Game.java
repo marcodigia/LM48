@@ -57,7 +57,7 @@ public class Game {
 
     /**
      * @param playerToAdd arrays of players to add to the game which is going to start
-     * @gameSetup
+     * 
      */
     public void createNewGame(ArrayList<Player> playerToAdd){
         synchronized (lock){
