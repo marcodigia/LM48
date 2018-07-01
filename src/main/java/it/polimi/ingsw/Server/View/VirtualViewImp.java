@@ -90,10 +90,6 @@ public class VirtualViewImp implements VirtualView {
                 System.out.println(ANSI_COLOR.ANSI_RED + "1" + ANSI_COLOR.ANSI_RESET);
             }
             else {
-                if(!myPlayer.getConnected()) {
-                    myPlayer.setIsConnected();
-                    System.out.println(ANSI_COLOR.ANSI_RED + "2" + ANSI_COLOR.ANSI_RESET);
-                }
                 serverClientSender.sendGameStatus(gameStatus);
                 myPlayer.setStillAlive(false);
             }
