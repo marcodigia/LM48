@@ -53,6 +53,7 @@ public class Player implements Serializable{
     }
 
     public void setSkipNextTurn(boolean t){
+        System.out.println("Player skip next turn");
         skipNextTurn = t;
     }
 

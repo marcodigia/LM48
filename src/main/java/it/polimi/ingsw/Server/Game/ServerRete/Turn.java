@@ -69,9 +69,11 @@ public class Turn extends TimerTask implements Runnable {
                     if(lookForWinner() == null){
                         currentPlayer=manageTurn();
                         Timer timerRound = new Timer();
-
-                        if(currentPlayer==null || currentPlayer.getSkipNextTurn()) //currentPlayer is not connected
-                            timerRound.schedule(new Turn(players,gameStatus),0);
+                        System.out.println("current player: " + currentPlayer.getSkipNextTurn());
+                        if(currentPlayer==null || currentPlayer.getSkipNextTurn()) { //currentPlayer is not connected
+                            timerRound.schedule(new Turn(players, gameStatus), 0);
+                            System.out.println("current true skip next");
+                        }
                         else                    //currentPlayer is connected
                             timerRound.schedule(new Turn(players,gameStatus),timerUtilityround.readTimerFromFile(30,"timerDelayPlayers.txt"));
 

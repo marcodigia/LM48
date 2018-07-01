@@ -37,8 +37,7 @@ public class PlaceDice implements Actions {
 
     @Override
     public void doAction(GameStatus gameStatus) {
-
-
+        
         Player activePlayer = gameStatus.getPlayerByName(userName);
         WindowPatternCard activePlayerWP = (WindowPatternCard) gameStatus
                 .getPlayerCards()
@@ -62,8 +61,10 @@ public class PlaceDice implements Actions {
                 activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, true);
                 gameStatus.getDraftPool().removeDice(dice);
 
-                if (skiptTurn)
+                if (skiptTurn) {
+
                     gameStatus.getPlayerByName(userName).setSkipNextTurn(true);
+                }
 
                 gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
 
@@ -79,8 +80,9 @@ public class PlaceDice implements Actions {
             activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
             gameStatus.getDraftPool().removeDice(dice);
 
-            if (skiptTurn)
+            if (skiptTurn) {
                 gameStatus.getPlayerByName(userName).setSkipNextTurn(true);
+            }
 
             gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
 
@@ -131,7 +133,7 @@ public class PlaceDice implements Actions {
 
         matrixIndexTo = Integer.parseInt(elements[0]);
         draftpoolFrom = Integer.parseInt(elements[1]);
-        skiptTurn = Boolean.getBoolean(elements[2]);
+        skiptTurn = Boolean.parseBoolean(elements[2]);
     }
 
 

@@ -120,7 +120,7 @@ public class ServerClientReciver implements Runnable {
                         Actions a = Unpacker.ACT_fromPacket(message, CONSTANT.ObjectDelimeter);
                         String[] name = a.getClass().getName().split("\\.");
 
-                        System.out.println("Server Client Receiver " + name[name.length-1]);
+                        System.out.println(message);
                         if (name[name.length - 1].equals("PlaceDiceAction")) {
 
                             Boolean status = game.getGameStatus().getPlayerByName(username).getPlaceDiceState();
