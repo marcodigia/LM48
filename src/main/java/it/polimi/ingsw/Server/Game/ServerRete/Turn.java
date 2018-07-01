@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.ServerRete;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.rmi.RemoteException;
@@ -57,7 +58,7 @@ public class Turn extends TimerTask implements Runnable {
                 if(round< CONSTANT.numberOfRound){
                     System.out.println("ROUND: " + round + "\n" + "Turn: " + turn);
                     for(Player p : players.keySet())
-                        System.out.println("Player : " + p.getConnected());
+                        System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected()+ANSI_COLOR.ANSI_RESET);
                     if(currentPlayer!=null){
                         currentPlayer.getvirtualView().timerEnd();
                         currentPlayer.startRound();
@@ -73,7 +74,7 @@ public class Turn extends TimerTask implements Runnable {
                         Timer timerRound = new Timer();
                         System.out.println("current player: " + currentPlayer.getSkipNextTurn());
                         for(Player p : players.keySet())
-                            System.out.println("Player : " + p.getConnected());
+                            System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected()+ANSI_COLOR.ANSI_RESET);
                         if(currentPlayer==null || currentPlayer.getSkipNextTurn()) { //currentPlayer is not connected
                             timerRound.schedule(new Turn(players, gameStatus), 0);
                             System.out.println("current true skip next");
