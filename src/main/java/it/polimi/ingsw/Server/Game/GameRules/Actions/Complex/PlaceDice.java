@@ -62,10 +62,11 @@ public class PlaceDice implements Actions {
                 activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, true);
                 gameStatus.getDraftPool().removeDice(dice);
 
-                if (!skiptTurn)
-                    gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
-                else
+                if (skiptTurn)
                     gameStatus.getPlayerByName(userName).setSkipNextTurn(true);
+
+                gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
+
                 return;
             }
 
@@ -78,10 +79,12 @@ public class PlaceDice implements Actions {
             activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
             gameStatus.getDraftPool().removeDice(dice);
 
-            if (!skiptTurn)
-                gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
-            else
+            if (skiptTurn)
                 gameStatus.getPlayerByName(userName).setSkipNextTurn(true);
+
+            gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
+
+
         }
 
 
