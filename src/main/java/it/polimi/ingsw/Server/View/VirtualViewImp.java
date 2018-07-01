@@ -5,6 +5,7 @@ import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.EndGame.Score;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -84,11 +85,15 @@ public class VirtualViewImp implements VirtualView {
     @Override
     public void sendGameStatus(GameStatus gameStatus) {
         try {
-            if(!myPlayer.getStillAlive())
+            if(!myPlayer.getStillAlive()) {
                 myPlayer.setIsNotConnected();
+                System.out.println(ANSI_COLOR.ANSI_RED + "1" + ANSI_COLOR.ANSI_RESET);
+            }
             else {
-                if(!myPlayer.getConnected())
+                if(!myPlayer.getConnected()) {
                     myPlayer.setIsConnected();
+                    System.out.println(ANSI_COLOR.ANSI_RED + "2" + ANSI_COLOR.ANSI_RESET);
+                }
                 serverClientSender.sendGameStatus(gameStatus);
                 myPlayer.setStillAlive(false);
             }

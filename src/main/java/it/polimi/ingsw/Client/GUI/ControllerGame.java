@@ -552,6 +552,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public void pingBack(){
         try {
             clientServerSender.pingBack(username);
+            System.out.println("pingback");
         } catch (RemoteException e) {
             e.printStackTrace();
         }
