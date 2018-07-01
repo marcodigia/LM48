@@ -65,6 +65,7 @@ public class ServerClientReciver implements Runnable {
                             game.scanForUsername(username).getvirtualView().ping();
                         }
                         else{
+                            System.out.println("ciaoooo");
                             game.scanForUsername(username).setIsNotConnected();
                         }
                     }
@@ -102,8 +103,8 @@ public class ServerClientReciver implements Runnable {
                         }
                         else
                             waitingRoom.addClient(username, serverClientSenderImp);
-
-                        manageDisconnection();
+                        //TODO cancella questo metodo da problemi gravi!!!!
+                        //manageDisconnection();
                         break;
                     case "U":
                         username = scanner.next();
