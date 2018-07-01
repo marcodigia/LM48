@@ -72,7 +72,7 @@ public class Turn extends TimerTask implements Runnable {
                     if(lookForWinner() == null){
                         currentPlayer=manageTurn();
                         Timer timerRound = new Timer();
-                        System.out.println("current player: " + currentPlayer.getSkipNextTurn());
+
                         for(Player p : players.keySet())
                             System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected()+ANSI_COLOR.ANSI_RESET);
                         if(currentPlayer==null || currentPlayer.getSkipNextTurn()) { //currentPlayer is not connected

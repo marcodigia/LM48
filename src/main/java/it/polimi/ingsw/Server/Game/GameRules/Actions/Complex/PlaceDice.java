@@ -37,7 +37,7 @@ public class PlaceDice implements Actions {
 
     @Override
     public void doAction(GameStatus gameStatus) {
-        
+
         Player activePlayer = gameStatus.getPlayerByName(userName);
         WindowPatternCard activePlayerWP = (WindowPatternCard) gameStatus
                 .getPlayerCards()
