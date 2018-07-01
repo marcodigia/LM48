@@ -303,8 +303,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
         int i = 0;
 
-        System.out.println(gameStatus + " setUpGame");
-        System.out.println(gameStatus.getPlayer() + " players");
+        System.out.println(gameStatus.toPacket() + " setUpGame");
 
         switch (gameStatus.getPlayer().size()) {
             /* case 1:
