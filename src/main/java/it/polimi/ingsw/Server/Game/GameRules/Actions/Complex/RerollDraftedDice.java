@@ -41,6 +41,10 @@ public class RerollDraftedDice implements Actions {
 
         this.userName = userName;
 
+        if (diceIndex==-1){
+            Logger.log("Rerollo dadi draftpool");
+            return;
+        }
         Logger.log("Seleziona Dado dalla Draftpool\n");
         diceIndex = ui.getDraftPoolIndex();
 

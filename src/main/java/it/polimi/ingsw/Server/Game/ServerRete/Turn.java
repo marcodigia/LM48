@@ -21,12 +21,17 @@ public class Turn extends TimerTask implements Runnable {
     private static int turn=0;
     private static int round=0;
 
+
     TimerUtility timerUtilityround = new TimerUtility();
 
     public Turn(LinkedHashMap<Player, Boolean> players, GameStatus gameStatus){
         this.players=players;
         numberOfTurn=players.keySet().size()*2;
         this.gameStatus=gameStatus;
+    }
+
+    public static int getNumberOfTurn(){
+        return numberOfTurn;
     }
 
     @Override
@@ -41,6 +46,8 @@ public class Turn extends TimerTask implements Runnable {
                     gameStatus.getDraftPool().extractNdice(players.keySet().size()*2+1);
                     turn=0;
                     round++;
+                    for(Player p : players.keySet())
+                        p.setSkipNextTurn(false);
                     ArrayList<Player> p = new ArrayList<Player>(players.keySet());
                     Player q = p.get(0);
                     p.remove(0);
@@ -63,11 +70,10 @@ public class Turn extends TimerTask implements Runnable {
                         currentPlayer=manageTurn();
                         Timer timerRound = new Timer();
 
-                        if(currentPlayer==null) //currentPlayer is not connected
+                        if(currentPlayer==null || currentPlayer.getSkipNextTurn()) //currentPlayer is not connected
                             timerRound.schedule(new Turn(players,gameStatus),0);
-
                         else                    //currentPlayer is connected
-                            timerRound.schedule(new Turn(players,gameStatus),timerUtilityround.readTimerFromFile(25,"timerDelayPlayer.txt"));
+                            timerRound.schedule(new Turn(players,gameStatus),timerUtilityround.readTimerFromFile(30,"timerDelayPlayers.txt"));
 
                         turn++;
                     }

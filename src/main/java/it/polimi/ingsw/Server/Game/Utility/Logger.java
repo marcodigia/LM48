@@ -7,7 +7,7 @@ public class Logger {
     public static void log(String s){
         log += s;
 
-        System.out.println("\\e[1;1H\\e[2J");
+        System.out.println("\\033[2J");
         System.out.println(log);
     }
 

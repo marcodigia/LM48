@@ -22,6 +22,8 @@ public class Player implements Serializable{
     private String name;
     private PlayerColor color;
 
+    private boolean skipNextTurn = false;
+
     private Boolean stillAlive = true;
     private Boolean isConnected = false;    //Set this variable to true if connected
 
@@ -42,9 +44,16 @@ public class Player implements Serializable{
         return stillAlive;
     }
 
-
     public synchronized void setStillAlive(Boolean value){
         stillAlive = value;
+    }
+
+    public boolean getSkipNextTurn(){
+        return skipNextTurn;
+    }
+
+    public void setSkipNextTurn(boolean t){
+        skipNextTurn = t;
     }
 
     public void startRound(){
