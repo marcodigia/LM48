@@ -15,8 +15,10 @@ public class CardManager {
     //Because we can no longer simply load the wp card from file so we load only at the beginning and than we access to
     //the card from the CardManager
 
+    static int i = 25;
     public static ArrayList<String> WPCards = new ArrayList<>();
 
+    private static ArrayList<String> DynamicCard = new ArrayList<>();
 
     public static void setWPCards(String filename) throws FileNotFoundException {
 
@@ -41,15 +43,23 @@ public class CardManager {
     }
 
 
-    public static void addCard(String name,String wpPacket){
+    public static void addDynamicCard(String name,String wpPacket){
 
-        StringBuilder wpCard = new StringBuilder();
-        wpCard.append(WPCards.size()+1).append(",").append(name);
-        wpCard.append(',').append(wpPacket);
-        WPCards.add(wpCard.toString());
+        DynamicCard.add( createDynamicCard(name,wpPacket));
     }
 
 
+    public static String createDynamicCard(String name, String wpPacket){
+        StringBuilder packet = new StringBuilder();
+
+        packet.append("Dynamic_");
+        packet.append(i+".");
+        packet.append(name+".");
+        packet.append(wpPacket);
+
+        i++;
+        return packet.toString();
+    }
 
     //TODO
     //NB this method expose the internal state. not good

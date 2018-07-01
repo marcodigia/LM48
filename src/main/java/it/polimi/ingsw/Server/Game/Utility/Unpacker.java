@@ -61,7 +61,8 @@ public class Unpacker {
     *
     *  num of         player            id of               wp                   id of                 the dp                   number of                   ArrayList                      3 id of toolcards
     *  player         username           wp                 to packet            private               to packet                round already               of Dice
-    *  following      and action state                                           card                                           played                      to packet
+    *  following      and action state   or wp in case                           card                                           played                      to packet
+    *                                    of custom card
     * */
 
     /**
@@ -163,13 +164,6 @@ public class Unpacker {
 
 
 
-
-    public static WindowPatternCard WP_FromId(String id) {
-
-        return (WindowPatternCard) WPDeck.get(id);
-    }
-
-
     /**
      * @param id is the id of the ToolCard to rebuilt
      * @return returns a ToolCard whith the given id
@@ -219,25 +213,41 @@ public class Unpacker {
      * @param packet rappresents the dice an their position on the WindowPatternCard it follows this syntax null.null.Y3 ... where null indicates that the dice is not present and Y3 is a yellow dice with value 3
      * @return the WindowPatternCard with all the dices placed
      */
-   private static WindowPatternCard WP_fromPacket(String id , String packet){
+   public static WindowPatternCard WP_fromPacket(String id , String packet){
 
-        WindowPatternCard wp = (WindowPatternCard) WPDeck.get(id);
-
-        //This is to clean the windowpatternCard because WPDeck has a riferimento to the same WP
-        for (int i  = 0 ; i < 20 ; i++)
-            wp.removeDice(i);
-
-        String[] elements =packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+       WindowPatternCard wp ;
 
 
-        for (int i =0 ; i < elements.length;i++){
-            if (!elements[i].equals("null")){
+       if (id.startsWith("Dynamic_")){
+           id = id.replace("Dynamic_","");
+           String[] elements =id.split("\\"+CONSTANT.ElenemtsDelimenter);
 
-                wp.placeDice( new Dice(elements[i]),i,true,true,true);
-            }
-        }
+           wp = new WindowPatternCard(new ArrayList<>(Arrays.asList(elements)));
 
-        return wp;
+       }else {
+
+
+
+           wp = (WindowPatternCard) WPDeck.get(id);
+
+           //This is to clean the windowpatternCard because WPDeck has a riferimento to the same WP
+           for (int i  = 0 ; i < 20 ; i++)
+               wp.removeDice(i);
+
+
+       }
+
+       String[] elements =packet.split("\\"+CONSTANT.ElenemtsDelimenter);
+
+
+       for (int i =0 ; i < elements.length;i++){
+           if (!elements[i].equals("null")){
+
+               wp.placeDice( new Dice(elements[i]),i,true,true,true);
+           }
+       }
+
+       return wp;
    }
 
 
