@@ -37,12 +37,6 @@ public class ClientServerSenderImp implements ClientServerSender {
     }
 
     @Override
-    public void unregister(String username) throws RemoteException {
-        printWriter.println("U" + CONSTANT.delimenter + username + CONSTANT.delimenter);
-        printWriter.flush();
-    }
-
-    @Override
     public void choosenWindowPattern(String id, String username) throws RemoteException {
         printWriter.println("CWP" + CONSTANT.delimenter + id + CONSTANT.delimenter);
         printWriter.flush();
@@ -51,12 +45,6 @@ public class ClientServerSenderImp implements ClientServerSender {
     @Override
     public void sendAction(Actions action, String username) throws RemoteException {
         printWriter.println("A" + CONSTANT.delimenter + action.toPacket() + CONSTANT.delimenter);
-        printWriter.flush();
-    }
-
-    @Override
-    public void endOfTurn(String username) throws RemoteException {
-        printWriter.println("ET" + CONSTANT.delimenter);
         printWriter.flush();
     }
 

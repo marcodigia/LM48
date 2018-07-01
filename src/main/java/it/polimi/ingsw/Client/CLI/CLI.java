@@ -284,7 +284,7 @@ public class CLI implements UI, Runnable{
         try {
             clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            generiClient.manageDisconnection(username,ip,Integer.parseInt(port));
         }
 
     }

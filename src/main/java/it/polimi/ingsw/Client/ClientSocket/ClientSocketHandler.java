@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.ClientSocket;
 
+import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.Client.AbstractClient.LinkClientServer;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
@@ -12,12 +13,14 @@ public class ClientSocketHandler extends LinkClientServer{
     private String ipServer;
     private int portServer;
     private Socket serverSocket;
-    public ClientServerReciverImp clientServerReciver=null;
-    public ClientServerSenderImp clientServerSenderImp=null;
+    private ClientServerReciverImp clientServerReciver=null;
+    private ClientServerSenderImp clientServerSenderImp=null;
+    private GeneriClient generiClient;
 
-    public ClientSocketHandler(String ipServer, int portServer){
+    public ClientSocketHandler(String ipServer, int portServer, GeneriClient generiClient){
         this.ipServer = ipServer;
         this.portServer = portServer;
+        this.generiClient = generiClient;
         try{
             serverSocket = new Socket(ipServer, portServer);
             clientServerReciver = new ClientServerReciverImp(serverSocket);
@@ -32,7 +35,6 @@ public class ClientSocketHandler extends LinkClientServer{
     @Override
     public ClientServerSender getClientServerSender() {
         return clientServerSenderImp;
-
     }
 
     @Override

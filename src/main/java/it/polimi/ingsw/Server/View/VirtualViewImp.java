@@ -8,16 +8,17 @@ import it.polimi.ingsw.Server.Game.GameRules.Score;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.TimerTask;
 
 
 //Virtual view is an Observer of the Model , and through ServerClientSender notify the changes to the ClientView
 public class VirtualViewImp implements VirtualView {
 
     ServerClientSender serverClientSender;
+    private Player myPlayer;
 
-    public VirtualViewImp(ServerClientSender serverClientSender) {
+    public VirtualViewImp(ServerClientSender serverClientSender, Player player) {
         this.serverClientSender = serverClientSender;
+        myPlayer = player;
     }
 
     public void setServerClientSender(ServerClientSender serverClientSender){this.serverClientSender = serverClientSender;}
@@ -31,7 +32,7 @@ public class VirtualViewImp implements VirtualView {
         try {
             serverClientSender.ping();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            myPlayer.setIsNotConnected(); //Not able to contact client. Set it as disconnected
         }
     }
 
@@ -40,7 +41,7 @@ public class VirtualViewImp implements VirtualView {
         try {
             serverClientSender.sendCurrentPlayers(player);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            myPlayer.setIsNotConnected();
         }
     }
 
@@ -49,7 +50,7 @@ public class VirtualViewImp implements VirtualView {
         try {
             serverClientSender.sendMessage(message);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            myPlayer.setIsNotConnected();
         }
     }
 
@@ -58,7 +59,7 @@ public class VirtualViewImp implements VirtualView {
         try {
             serverClientSender.chooseWindowPattern(id1,id2,id3,id4);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            myPlayer.setIsNotConnected();
         }
     }
 
@@ -67,7 +68,7 @@ public class VirtualViewImp implements VirtualView {
         try {
             serverClientSender.timerEnd();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            myPlayer.setIsNotConnected();
         }
     }
 
@@ -76,7 +77,7 @@ public class VirtualViewImp implements VirtualView {
         try {
             serverClientSender.timerStart();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            myPlayer.setIsNotConnected();
         }
     }
 
@@ -85,7 +86,7 @@ public class VirtualViewImp implements VirtualView {
         try {
             serverClientSender.sendGameStatus(gameStatus);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            myPlayer.setIsNotConnected();
         }
     }
 
@@ -94,7 +95,7 @@ public class VirtualViewImp implements VirtualView {
         try {
             serverClientSender.sendScore(score);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            myPlayer.setIsNotConnected();
         }
     }
 }
