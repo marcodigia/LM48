@@ -108,7 +108,7 @@ public class Turn extends TimerTask implements Runnable {
                     back = true;
                     notImmediately = true;
                     entry.setValue(true);
-                    if(entry.getKey().getConnected()){
+                    if(entry.getKey().getConnected()||entry.getKey().getStillAlive()){
                         System.out.println("CURRENT: " + entry.getKey().getName());
                         entry.getKey().getvirtualView().timerStart();   //Say player that his/her turn is started
                         player = entry.getKey();
@@ -132,7 +132,7 @@ public class Turn extends TimerTask implements Runnable {
                     back = false;
                     notImmediately = true;
                     players.put(key, false);
-                    if(key.getConnected()){
+                    if(key.getConnected()||key.getStillAlive()){
                         System.out.println("CURRENT: " + key.getName());
                         key.getvirtualView().timerStart();   //Say player that his/her turn is started
                         player = key;
