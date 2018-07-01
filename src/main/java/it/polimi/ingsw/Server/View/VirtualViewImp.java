@@ -84,7 +84,14 @@ public class VirtualViewImp implements VirtualView {
     @Override
     public void sendGameStatus(GameStatus gameStatus) {
         try {
-            serverClientSender.sendGameStatus(gameStatus);
+            if(!myPlayer.getStillAlive())
+                myPlayer.setIsNotConnected();
+            else {
+                if(!myPlayer.getConnected())
+                    myPlayer.setIsConnected();
+                serverClientSender.sendGameStatus(gameStatus);
+                myPlayer.setStillAlive(false);
+            }
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected();
         }

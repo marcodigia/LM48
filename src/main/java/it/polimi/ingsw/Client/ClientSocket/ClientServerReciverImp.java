@@ -67,6 +67,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                         break;
                     case "SGS":
                         message = scanner.next();
+                        ui.pingBack();
                         GameStatus gameStatus = Unpacker.getGameStatus(message);
                         ui.updateGameStatus(gameStatus);
                         break;
