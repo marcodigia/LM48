@@ -86,7 +86,7 @@ public class ToolCard implements Drawable {
                 action = new RerollDraftedDice(-1);
                 break;
             case _8:
-                action = new PlaceDice();
+                action = new PlaceDice(true);
                 break;
             case _9:
                 action = new ChangePlaceDiceAction(false,false,true);

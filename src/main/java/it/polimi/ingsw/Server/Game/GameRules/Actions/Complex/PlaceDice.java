@@ -10,6 +10,8 @@ import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
 import it.polimi.ingsw.UI;
 
+import java.util.function.BinaryOperator;
+
 public class PlaceDice implements Actions {
 
 
@@ -22,6 +24,16 @@ public class PlaceDice implements Actions {
     private boolean isFirstRound;
 
     private String userName;
+
+    private boolean skiptTurn = false;
+
+    public PlaceDice() {
+
+    }
+
+    public PlaceDice(boolean skiptTurn) {
+        this.skiptTurn = skiptTurn;
+    }
 
     @Override
     public void doAction(GameStatus gameStatus) {
@@ -49,7 +61,11 @@ public class PlaceDice implements Actions {
             if (activePlayerWP.isPlaceable(dice, matrixIndexTo, ignoreColor, ignoreValue, true)) {
                 activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, true);
                 gameStatus.getDraftPool().removeDice(dice);
-                gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
+
+                if (!skiptTurn)
+                    gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
+                else
+                    gameStatus.getPlayerByName(userName).setSkipNextTurn(true);
                 return;
             }
 
@@ -61,8 +77,12 @@ public class PlaceDice implements Actions {
         if (activePlayerWP.isPlaceable(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency)) {
             activePlayerWP.placeDice(dice, matrixIndexTo, ignoreColor, ignoreValue, ignoreAdjacency);
             gameStatus.getDraftPool().removeDice(dice);
-            gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
-           }
+
+            if (!skiptTurn)
+                gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().setACTIVE(false);
+            else
+                gameStatus.getPlayerByName(userName).setSkipNextTurn(true);
+        }
 
 
     }
@@ -86,6 +106,10 @@ public class PlaceDice implements Actions {
                 Logger.log("Sorry no possible move.\n Try with a different dice.");
             }
         }
+
+        if (skiptTurn){
+
+        }
     }
 
     @Override
@@ -104,6 +128,7 @@ public class PlaceDice implements Actions {
 
         matrixIndexTo = Integer.parseInt(elements[0]);
         draftpoolFrom = Integer.parseInt(elements[1]);
+        skiptTurn = Boolean.getBoolean(elements[2]);
     }
 
 
@@ -113,7 +138,7 @@ public class PlaceDice implements Actions {
         packet.append(PlaceDice.class.getName());
         packet.append(CONSTANT.ObjectDelimeterComplex);
         packet.append(matrixIndexTo).append(CONSTANT.ElenemtsDelimenter)
-                .append(draftpoolFrom);
+                .append(draftpoolFrom).append(CONSTANT.ElenemtsDelimenter).append(skiptTurn);
 
         return packet.toString();
     }

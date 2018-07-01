@@ -2,8 +2,7 @@ package it.polimi.ingsw.ClientServerCommonInterface;
 
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
-import it.polimi.ingsw.Server.Game.GameRules.Player;
-import it.polimi.ingsw.Server.Game.GameRules.Score;
+import it.polimi.ingsw.Server.Game.GameRules.EndGame.Score;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
