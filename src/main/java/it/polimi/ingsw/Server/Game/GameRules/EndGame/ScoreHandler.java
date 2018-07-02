@@ -10,7 +10,8 @@ import java.util.Hashtable;
 
 public class ScoreHandler {
 
-    GameStatus gameStatus;
+    private GameStatus gameStatus;
+
     public ScoreHandler(GameStatus gameStatus) {
         this.gameStatus = gameStatus;
     }
