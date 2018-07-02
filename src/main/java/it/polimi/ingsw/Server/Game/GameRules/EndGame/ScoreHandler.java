@@ -24,6 +24,8 @@ public class ScoreHandler {
             for (PublicObjectiveCard pB : gameStatus.getPublicObjectiveCards()){
                 score += pB.getPoints( player.getWindowPatternCard());
             }
+
+            if (gameStatus.getPlayerPrivateObjectiveCards(player.getName())!=null)
             score +=  gameStatus.getPlayerPrivateObjectiveCards(
                     player.getName())
                     .getPoints(player.getWindowPatternCard());
