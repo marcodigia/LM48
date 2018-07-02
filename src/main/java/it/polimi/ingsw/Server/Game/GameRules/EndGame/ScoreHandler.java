@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Server.Game.GameRules.EndGame;
 
+import it.polimi.ingsw.Server.Game.Cards.PrivateObjectiveCard;
+import it.polimi.ingsw.Server.Game.Cards.PublicObjectiveCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 
@@ -15,6 +17,18 @@ public class ScoreHandler {
 
     public Hashtable<Player,Integer> getFinalScore(){
 
-        return null;
+        Hashtable<Player,Integer> finalScore = new Hashtable<>();
+        for ( Player player : gameStatus.getPlayer()){
+            Integer score = 0;
+            for (PublicObjectiveCard pB : gameStatus.getPublicObjectiveCards()){
+                score += pB.getPoints( player.getWindowPatternCard());
+            }
+            score +=  gameStatus.getPlayerPrivateObjectiveCards(
+                    player.getName())
+                    .getPoints(player.getWindowPatternCard());
+
+            finalScore.put(player,score);
+        }
+        return finalScore;
     }
 }
