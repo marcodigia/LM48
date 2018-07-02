@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Server.Game.GameRules.PublicCardEffects;
+package it.polimi.ingsw.Server.Game.GameRules.CountEffects;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;

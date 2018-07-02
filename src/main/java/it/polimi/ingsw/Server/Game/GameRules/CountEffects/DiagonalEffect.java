@@ -1,13 +1,19 @@
-package it.polimi.ingsw.Server.Game.GameRules.PublicCardEffects;
+package it.polimi.ingsw.Server.Game.GameRules.CountEffects;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class DiagonalEffect implements CountEffect {
+
+    int value ;
+
+    public DiagonalEffect(int value) {
+        this.value = value;
+    }
+
     @Override
     public int getPoints(WindowPatternCard wp) {
 
@@ -22,7 +28,7 @@ public class DiagonalEffect implements CountEffect {
                     flag = true;
             }
             if (flag)
-                score++;
+                score+=value;
         }
         return score;
     }
