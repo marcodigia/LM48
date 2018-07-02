@@ -78,7 +78,7 @@ public class ChangeDiceValue implements Actions {
 
         if (type!=2){
             Logger.log("Decidi la variazione del dado\n");
-            ammount = ui.getAmmountToChange();
+            ammount = ui.getAmmountToChange(0);
         }
 
 
