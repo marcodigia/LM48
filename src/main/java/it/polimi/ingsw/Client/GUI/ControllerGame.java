@@ -643,6 +643,11 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     }
 
+    @Override
+    public boolean askForAnotherDice() {
+        return false;
+    }
+
     private void resetAllIndex(){
         draftpoolindex = -1;
         indiceWPFrom = -1;
@@ -654,7 +659,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     }
 
     @Override
-    public int getAmmountToChange() {
+    public int getAmmountToChange(int ammountType) {
         Platform.runLater((() -> {
             amountStage = new Stage();
             amountStage.setTitle("Get amount to change");

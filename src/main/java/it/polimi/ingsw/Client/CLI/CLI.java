@@ -190,7 +190,7 @@ public class CLI implements UI, Runnable{
     }
 
     @Override
-    public int getAmmountToChange(){
+    public int getAmmountToChange(int ammountType){
 
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
@@ -237,6 +237,11 @@ public class CLI implements UI, Runnable{
         if (choice >= 0 && choice < draftPool.getDraft().size())
             return choice;
         return -1;
+    }
+
+    @Override
+    public boolean askForAnotherDice() {
+        return false;
     }
 
     @Override

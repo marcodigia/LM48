@@ -13,7 +13,7 @@ public interface UI {
     public void printMessage(String s);
 
     //NB this function must return 0 default
-    int getAmmountToChange();
+    int getAmmountToChange(int ammountType);
 
     //UI must verify that value is in between bounds
     int getDraftPoolIndex();
@@ -23,6 +23,8 @@ public interface UI {
 
     //UI must verify that value is in between bounds
     int getMatrixIndexTo();
+
+    boolean askForAnotherDice();
 
     void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro);
 

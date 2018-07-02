@@ -89,10 +89,11 @@ public class MoveTwoDice implements Actions {
                 to1 = -1 ;
                 return;
             } else {
-                ui.printMessage("Piazzare secondo dado ? ");
 
+                boolean answer = ui.askForAnotherDice();
+                if (!answer)
+                    return;
 
-                //TODO necessario avere questo valore da GUI discutere sul da farsi ( magari un pop-up che setta il valore a -1 ? )
                 Logger.log("Seleziona cella di partenza\n");
                 from2 = ui.getMatrixIndexFrom();
                 if (from2 != -1 ){

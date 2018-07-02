@@ -4,7 +4,6 @@ import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.UI;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -146,9 +145,10 @@ public abstract class AbstractGUI extends Application implements UI{
 
     /**
      * @return
+     * @param ammountType
      */
     @Override
-    public int getAmmountToChange() {
+    public int getAmmountToChange(int ammountType) {
         return 0;
     }
 
