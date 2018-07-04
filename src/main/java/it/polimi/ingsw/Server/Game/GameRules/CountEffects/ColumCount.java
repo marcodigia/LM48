@@ -51,6 +51,11 @@ public class ColumCount implements CountEffect {
         return col;
     }
 
+    /**
+     * This method is invoked when a windowPatternCard need to be evalueted base on a Color Restriciton
+     * @param wp is the windowPattern wich is to be evalueted
+     * @return the score of the colums based on the restriction provided in the constructor of the class
+     */
     private int getScoreColor(WindowPatternCard wp){
 
         //Verifico colori diversi
@@ -78,6 +83,12 @@ public class ColumCount implements CountEffect {
         return score;
     }
 
+
+    /**
+     * This method is invoked when a windowPatternCard need to be evalueted base on a Value Restriciton
+     * @param wp is the windowPattern wich is to be evalueted
+     * @return the score of the colums based on the restriction provided in the constructor of the class
+     */
     private int getScoreValue(WindowPatternCard wp){
 
         int score = 0;

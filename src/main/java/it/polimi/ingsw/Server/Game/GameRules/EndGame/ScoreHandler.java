@@ -16,6 +16,12 @@ public class ScoreHandler {
         this.gameStatus = gameStatus;
     }
 
+
+    /**
+     * This method uses the gameStaus provided with the class constructor to build an HashTable with Player as the key
+     * and the correspondig score as value
+     * @return An HashTable where The Player is the key and its score the value
+     */
     public Hashtable<Player,Integer> getFinalScore(){
 
         Hashtable<Player,Integer> finalScore = new Hashtable<>();

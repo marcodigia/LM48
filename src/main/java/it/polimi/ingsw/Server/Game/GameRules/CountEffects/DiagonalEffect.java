@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class DiagonalEffect implements CountEffect {
 
-    int value ;
+    private int value ;
 
     public DiagonalEffect(int value) {
         this.value = value;
@@ -39,7 +39,12 @@ public class DiagonalEffect implements CountEffect {
     }
 
 
-    public ArrayList<Dice> diagonalAdjacency(int i , WindowPatternCard wp){
+    /**
+     * @param i the index of the cell which diagonal adjacency needs to be tested
+     * @param wp the WindowPatternCard to be evalueted
+     * @return an ArrayList containing all the adjacent cells to the one wich the index were providden
+     */
+    private ArrayList<Dice> diagonalAdjacency(int i , WindowPatternCard wp){
 
         ArrayList<Dice> dices = new ArrayList<>();
         if (( (i-6)%5 < i%5 ) && i>5)

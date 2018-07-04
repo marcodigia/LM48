@@ -8,8 +8,16 @@ import java.util.ArrayList;
 public interface CountEffect {
 
 
+    /**
+     * @param wp is the windowPattern wich needs to be evalueted
+     * @return the score calculated on the windowPattern
+     */
     int getPoints(WindowPatternCard wp);
 
+
+    /**
+     * @param restrictions is an ArrayList of Restriction used to initialize the CountEffect implementation
+     */
     void setRestriction(ArrayList<Restriction> restrictions);
 
 

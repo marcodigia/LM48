@@ -35,7 +35,14 @@ public class CountSets implements CountEffect {
         this.restrictions = restrictions;
     }
 
-    public int countSetsOfRestricionsValue(ArrayList<Restriction> resToTest , WindowPatternCard wp ){
+
+    /**
+     * This method is invoked when a windowPatternCard need to be evalueted base on a Value Restriciton
+     * @param resToTest is an ArrayList of Restriction that will be used to evaluate the windowPatternCard
+     * @param wp is the WindowPatternCard to be evalueted
+     * @return the score of the sets based on the restrictions provided
+     */
+    private int countSetsOfRestricionsValue(ArrayList<Restriction> resToTest , WindowPatternCard wp ){
         ArrayList<Dice> dices = wp.getAllDices();
         int min = 20;
         for (Restriction res :  resToTest){
@@ -52,8 +59,13 @@ public class CountSets implements CountEffect {
 
         return min*value;
     }
-
-    public int countSetsOfRestricionsColor(ArrayList<Restriction> resToTest , WindowPatternCard wp ){
+    /**
+     * This method is invoked when a windowPatternCard need to be evalueted base on a Color Restriciton
+     * @param resToTest is an ArrayList of Restriction that will be used to evaluate the windowPatternCard
+     * @param wp is the WindowPatternCard to be evalueted
+     * @return the score of the sets based on the restrictions provided
+     */
+    private int countSetsOfRestricionsColor(ArrayList<Restriction> resToTest , WindowPatternCard wp ){
         ArrayList<Dice> dices = wp.getAllDices();
         int min = 20;
         for (Restriction res :  resToTest){
