@@ -2,6 +2,9 @@ package it.polimi.ingsw.Server.Game.Cards;
 
 import it.polimi.ingsw.Server.Game.Cards.CardsComponents.Countable;
 import it.polimi.ingsw.Server.Game.Components.Dice;
+import it.polimi.ingsw.Server.Game.GameRules.CountEffects.CountDice;
+import it.polimi.ingsw.Server.Game.GameRules.CountEffects.CountEffect;
+import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
 import java.io.InputStream;
@@ -12,10 +15,15 @@ public class PrivateObjectiveCard implements Countable {
    private String id;
    private DiceColor diceColor;
 
+   CountDice effect;
 
     public PrivateObjectiveCard(ArrayList<String> pattern ) {
         id = pattern.get(0);
         diceColor = DiceColor.resolveColor( pattern.get(1) ) ;
+        effect = new CountDice();
+        ArrayList<Restriction> res = new ArrayList<>();
+        res.add(Restriction.parseRestricion(pattern.get(1).substring(0,1)));
+        effect.setRestriction(res);
     }
 
     public InputStream getPrivateObjectiveCardImage(){
@@ -29,13 +37,8 @@ public class PrivateObjectiveCard implements Countable {
 
     @Override
     public int getPoints(WindowPatternCard wp) {
-        int count = 0;
 
-        ArrayList<Dice> dices = wp.getAllDices();
-        for (Dice d : dices){
-            if (d.getDiceColor().equals(diceColor))
-                count++;
-        }
-        return count;
+        return effect.getPoints(wp);
     }
+
 }

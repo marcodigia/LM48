@@ -61,7 +61,7 @@ public class Unpacker {
     *
     *  num of         player            id of               wp                   id of                 the dp                   number of                   ArrayList                      3 id of toolcards
     *  player         username           wp                 to packet            private               to packet                round already               of Dice
-    *  following      and action state   or wp in case                           card                                           played                      to packet
+    *  following      and action state   or Dynamicwp in case                    card                                           played                      to packet
     *                                    of custom card
     * */
 

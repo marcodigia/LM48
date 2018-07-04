@@ -38,6 +38,9 @@ public class Matrix implements Packetable {
     // initialize the matrix by linking all the cells whith their neighbour
 
 
+    /**
+     * initialize the matrix by linking all the cells whith their neighbour
+     */
     public void initialize() {
 
         for (int i = 0; i < matrix.size(); i++) {
@@ -83,22 +86,44 @@ public class Matrix implements Packetable {
         }
     }
 
+    /**
+     * @param i the cell to be test
+     * @return true if has a cell in a position at north respect to this one
+     */
     private boolean hasNord(int i) {
         return i >= lenght;
     }
 
+    /**
+     * @param i the cell to be test
+     * @return true if has a cell in a position at south respect to this one
+     */
     private boolean hasSud(int i, int size) {
         return i < size - lenght;
     }
 
+    /**
+     * @param i the cell to be test
+     * @return true if has a cell in a position at ovest respect to this one
+     */
     private boolean hasOvest(int i) {
         return i % lenght >= 1;
     }
 
+    /**
+     * @param i the cell to be test
+     * @return true if has a cell in a position at est respect to this one
+     */
     private boolean hasEst(int i) {
         return i % lenght < lenght - 1;
     }
     //this method add all the restrictions
+
+
+    /**
+     * @param matrix_pattern an ArrayList of String wich reppresent the restriction to be add in each cell
+     * @throws WrongPatternSizeException if the size of the pattern is incorect throws and exceptions
+     */
     public void initialize_restricions( ArrayList<String> matrix_pattern ) throws WrongPatternSizeException {
 
 
@@ -114,6 +139,15 @@ public class Matrix implements Packetable {
     }
 
 
+    /**
+     *
+     * checks if the input is legal and if the the cell is empty than  if the restrictions are satisfied place the dice
+     * @param dice the dice wich need to be tested
+     * @param ignore_color boolean wich indicates if the color restriction can be ignored
+     * @param ignore_value boolean wich indicates if the value restriction can be ignored
+     * @param ignore_adjacency boolean wich indicates if the adjacency restriction can be ignored
+     * @return true if the dice is placebale and all the restriction are satified
+     */
     // check if the input is legal and if the the cell is empty than  if the restrictions are satisfied place the dice
     public boolean setDice(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
         return matrix.get(coordinate).putDice(dice, ignore_color, ignore_value, ignore_adjacency);
@@ -122,7 +156,11 @@ public class Matrix implements Packetable {
 
     }
 
-    // check if the input is lega than remove the dice if present
+    /**
+     * Removes a dice at a given coordinate
+     * @param coordinate the cell wich dice's has to be removed
+     * @return the Dice removed
+     */
     public Dice removeDice(int coordinate) {
 
 
@@ -144,6 +182,16 @@ public class Matrix implements Packetable {
 
     }
 
+    /**
+     * check if a the dice is present and if the destination cell is empty than move the dice from a cell to the another
+     * remove dice from cell_source before move it so can check if adjacent is still true
+     * @param from the cell index of the source
+     * @param to the cell index of the destination
+     * @param ignore_color boolean wich indicates if the color restriction can be ignored
+     * @param ignore_value boolean wich indicates if the value restriction can be ignored
+     * @param ignore_adjacency boolean wich indicates if the adjacency restriction can be ignored
+     * @return true if managed to correctly move the dice
+     */
     //check if a the dice is present and if the destination cell is empty than move the dice from a cell to the another
     //remove dice from cell_source before move it so can check if adjacent is still true
     public boolean moveDice(int from, int to, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
@@ -172,6 +220,13 @@ public class Matrix implements Packetable {
         return false;
     }
 
+    /**
+     * @param dice the dice wich need to be tested
+     * @param ignore_color boolean wich indicates if the color restriction can be ignored
+     * @param ignore_value boolean wich indicates if the value restriction can be ignored
+     * @param ignore_adjacency boolean wich indicates if the adjacency restriction can be ignored
+     * @return true if the dice is placeable and all the restriction are satified
+     */
     public boolean isPlaceable(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
        if (checkRestriction(dice, coordinate, ignore_color, ignore_value, ignore_adjacency))
@@ -184,6 +239,13 @@ public class Matrix implements Packetable {
 
     }
 
+    /**
+     * @param dice the dice wich need to be tested
+     * @param ignore_color boolean wich indicates if the color restriction can be ignored
+     * @param ignore_value boolean wich indicates if the value restriction can be ignored
+     * @param ignore_adjacency boolean wich indicates if the adjacency restriction can be ignored
+     * @return true if the dice respects all the restrictions
+     */
     private boolean checkRestriction(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
         //TODO throw exception
@@ -197,6 +259,9 @@ public class Matrix implements Packetable {
 
     }
 
+    /**
+     * @return an ArrayList with all the dices in the matrix
+     */
     public ArrayList<Dice> getAllDices() {
         ArrayList<Dice> alldices = new ArrayList<>();
         for (Cell cell : matrix) {
@@ -207,16 +272,28 @@ public class Matrix implements Packetable {
         return alldices;
     }
 
+    /**
+     * @param coordinate the index of the cell wich dice wants to be returned
+     * @return the Dice of the cell at the given index
+     */
     public Dice getDice(int coordinate){
 
         return matrix.get(coordinate).getDice();
     }
 
 
+    /**
+     * @param i index of the cell wich restriction wants to be returned
+     * @return the Restriction of the cell at the given index
+     */
     public Restriction getRestrictionAt(int i){
         return getCellatIndex(i).getRestriction();
     }
 
+    /**
+     * @param i index of the cell
+     * @return the cell at the given index
+     */
     private Cell getCellatIndex(int i){
 
         return matrix.get(i);

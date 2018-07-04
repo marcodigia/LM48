@@ -18,6 +18,10 @@ public enum Restriction implements Serializable{
         this.resType = resType;
     }
 
+    /**
+     * @param s a String that need to be parsed in order to find the correspondent Restriction
+     * @return the Restriction based on the String provvided
+     */
     public static Restriction parseRestricion(String s) {
         Restriction res;
         switch (s) {

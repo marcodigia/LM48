@@ -1,13 +1,19 @@
-package it.polimi.ingsw.Server.Game.GameRules.PublicCardEffects;
+package it.polimi.ingsw.Server.Game.GameRules.CountEffects;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class DiagonalEffect implements CountEffect {
+
+    private int value ;
+
+    public DiagonalEffect(int value) {
+        this.value = value;
+    }
+
     @Override
     public int getPoints(WindowPatternCard wp) {
 
@@ -22,7 +28,7 @@ public class DiagonalEffect implements CountEffect {
                     flag = true;
             }
             if (flag)
-                score++;
+                score+=value;
         }
         return score;
     }
@@ -33,7 +39,12 @@ public class DiagonalEffect implements CountEffect {
     }
 
 
-    public ArrayList<Dice> diagonalAdjacency(int i , WindowPatternCard wp){
+    /**
+     * @param i the index of the cell which diagonal adjacency needs to be tested
+     * @param wp the WindowPatternCard to be evalueted
+     * @return an ArrayList containing all the adjacent cells to the one wich the index were providden
+     */
+    private ArrayList<Dice> diagonalAdjacency(int i , WindowPatternCard wp){
 
         ArrayList<Dice> dices = new ArrayList<>();
         if (( (i-6)%5 < i%5 ) && i>5)

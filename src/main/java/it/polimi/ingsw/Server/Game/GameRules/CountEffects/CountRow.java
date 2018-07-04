@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Server.Game.GameRules.PublicCardEffects;
+package it.polimi.ingsw.Server.Game.GameRules.CountEffects;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -53,7 +53,13 @@ public class CountRow implements CountEffect {
 
 
 
-    public int getScoreColor(WindowPatternCard wp){
+    /**
+     * This method is invoked when a windowPatternCard need to be evalueted base on a Color Restriciton
+     * @param wp is the windowPattern wich is to be evalueted
+     * @return the score of the row based on the restriction provided in the constructor of the class
+     */
+
+    private int getScoreColor(WindowPatternCard wp){
 
         //Verifico colori diversi
         int score = 0;
@@ -80,6 +86,11 @@ public class CountRow implements CountEffect {
         return score;
     }
 
+    /**
+     * This method is invoked when a windowPatternCard need to be evalueted base on a Value Restriciton
+     * @param wp is the windowPattern wich is to be evalueted
+     * @return the score of the row based on the restriction provided in the constructor of the class
+     */
     private int getScoreValue(WindowPatternCard wp){
 
         int score = 0;
