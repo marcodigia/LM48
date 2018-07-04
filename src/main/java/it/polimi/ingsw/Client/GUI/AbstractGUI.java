@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -24,9 +23,9 @@ public abstract class AbstractGUI extends Application implements UI{
 
     }
 
-        /**
-         * @param header string representing the header of the box
-         */
+    /**
+     * @param header string representing the header of the box
+     */
     void createAlertBox(String header){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -174,7 +173,9 @@ public abstract class AbstractGUI extends Application implements UI{
      * @param wp4retro
      */
     @Override
-    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {}
+    public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+
+    }
 
     /**
      * @param gameStatus
@@ -234,4 +235,8 @@ public abstract class AbstractGUI extends Application implements UI{
         return 0;
     }
 
+    @Override
+    public boolean askForAnotherDice() {
+        return false;
+    }
 }

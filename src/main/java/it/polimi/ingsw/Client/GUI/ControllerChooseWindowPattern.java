@@ -1,12 +1,16 @@
 package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Server.Game.Cards.*;
+import it.polimi.ingsw.Server.Game.Cards.CardsUtility.DinamicCardCreator;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -14,6 +18,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -25,12 +33,13 @@ import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
 import static it.polimi.ingsw.Client.GUI.ControllerGame.gameStatus;
 import static it.polimi.ingsw.Client.GUI.ControllerGame.attivo;
 import static it.polimi.ingsw.Client.GUI.GUI.username;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Create;
 
 public class ControllerChooseWindowPattern extends AbstractGUI implements Initializable{
 
     public ImageView bgChooseWP;
     public AnchorPane anchorChooseWP;
-    public Button selectButton;
+    public Button selectButton, createButton;
     public GridPane wp1, wp2, wp3, wp4;
 
     private GridPane gpSelected = null;
@@ -267,5 +276,9 @@ public class ControllerChooseWindowPattern extends AbstractGUI implements Initia
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public void handleCreateButton(ActionEvent actionEvent) {
+        Platform.runLater(() -> switchScene(Create));
     }
 }

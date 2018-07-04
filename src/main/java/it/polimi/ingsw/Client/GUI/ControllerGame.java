@@ -36,6 +36,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static it.polimi.ingsw.Client.GUI.ControllerConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerLogin.clientServerSender;
@@ -57,6 +58,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     private Stage toolCardStage;
     private Stage amountStage;
+    private Stage anotherDice;
 
     private int indice_dado = -1;
     private int indice_dadoPrecedente = -1;
@@ -74,6 +76,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private final Object lockWPTo = new Object();
     private final Object lockDraftPool = new Object();
     private final Object lockAmount = new Object();
+    private final Object lockAnother = new Object();
 
     private PlaceDiceAction placeDiceAction;
     private UseToolCardBasic useToolCardBasic;
@@ -95,15 +98,15 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        publicObjectiveCards = gameStatus.getPublicObjectiveCards();
-
-        privateObjectiveCard = gameStatus.getPlayerPrivateObjectiveCards(username);
-
         try {
             clientServerReciver.setUI(this);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+
+        publicObjectiveCards = gameStatus.getPublicObjectiveCards();
+        privateObjectiveCard = gameStatus.getPlayerPrivateObjectiveCards(username);
 
         setBackground(bg4, anchorgame);
         setUpGame();
@@ -124,21 +127,19 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
         //show round in Roundtrack
         for (int i = 0; i < round.size(); i++) {
-            round.get(i).setText(String.valueOf(i));
+            round.get(i).setText(String.valueOf(i+1));
         }
 
         if(attivo){
             anchorgame.setDisable(false);
-            for (GridPane gp : gridPanes
-                 ) {
+            for (GridPane gp : gridPanes) {
                 if (!gp.equals(gp4))
                     gp.setDisable(true);
             }
         }
         else {
             gpdraft.setDisable(true);
-            for (GridPane gp: gridPanes
-                 ) {
+            for (GridPane gp: gridPanes) {
                 gp.setDisable(true);
             }
 
@@ -466,8 +467,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private ImageView toImage(PrivateObjectiveCard privateObjectiveCard) {
         Image image = new Image(privateObjectiveCard.getPrivateObjectiveCardImage());
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(300);
-        imageView.setFitWidth(200);
         return imageView;
     }
 
@@ -643,11 +642,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     }
 
-    @Override
-    public boolean askForAnotherDice() {
-        return false;
-    }
-
     private void resetAllIndex(){
         draftpoolindex = -1;
         indiceWPFrom = -1;
@@ -660,54 +654,149 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
     @Override
     public int getAmmountToChange(int ammountType) {
-        Platform.runLater((() -> {
-            amountStage = new Stage();
-            amountStage.setTitle("Get amount to change");
-            HBox layout = new HBox(30);
-            layout.setAlignment(Pos.CENTER);
-            Label text = new Label("Increase or decrease dice amount by 1?");
-            Button increase = new Button("Increase");
-            increase.setOnAction(e -> {
-                amountIndex = 1;
-                synchronized (lockAmount){
-                    lockAmount.notifyAll();
-                }
-                amountStage.close();
-            });
-            Button decrease = new Button("Decrease");
-            decrease.setOnAction(e -> {
-                amountIndex = -1;
-                synchronized (lockAmount){
-                    lockAmount.notifyAll();
-                }
-                amountStage.close();
-            });
-            layout.getChildren().addAll(text, increase, decrease);
-            Scene scene = new Scene(layout);
-            amountStage.setScene(scene);
-            amountStage.show();
-        }));
-
-        Thread t = new Thread(() -> {
-            synchronized (lockAmount){
-                while (amountIndex == 0) {
-                    try {
-                        lockAmount.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        if (ammountType == 0) {
+            Platform.runLater((() -> {
+                amountStage = new Stage();
+                amountStage.setTitle("Get amount to change");
+                HBox layoutH = new HBox(30);
+                VBox layoutV = new VBox(30);
+                layoutV.setAlignment(Pos.CENTER);
+                layoutH.setAlignment(Pos.CENTER);
+                Label text = new Label("Increase or decrease dice amount by 1?");
+                Button increase = new Button("Increase");
+                increase.setOnAction(e -> {
+                    amountIndex = 1;
+                    synchronized (lockAmount) {
+                        lockAmount.notifyAll();
                     }
+                    amountStage.close();
+                });
+                Button decrease = new Button("Decrease");
+                decrease.setOnAction(e -> {
+                    amountIndex = -1;
+                    synchronized (lockAmount) {
+                        lockAmount.notifyAll();
+                    }
+                    amountStage.close();
+                });
+                layoutV.getChildren().addAll(text, layoutH);
+                layoutH.getChildren().addAll(increase, decrease);
+                Scene scene = new Scene(layoutV);
+                amountStage.setScene(scene);
+                amountStage.show();
+            }));
+
+            Thread t = new Thread(() -> {
+                synchronized (lockAmount) {
+                    while (amountIndex == 0) {
+                        try {
+                            lockAmount.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                 }
 
+            });
+            t.start();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-        });
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            return amountIndex;
         }
-        return amountIndex;
+        else {
+            Platform.runLater((() -> {
+                amountStage = new Stage();
+                amountStage.setTitle("Get amount to change");
+                HBox layoutH = new HBox(30);
+                VBox layoutV = new VBox(30);
+                layoutV.setAlignment(Pos.CENTER);
+                layoutH.setAlignment(Pos.CENTER);
+                Label text = new Label("Choose new dice value");
+                createAmountButtons(layoutH);
+                layoutV.getChildren().addAll(text, layoutH);
+                Scene scene = new Scene(layoutV);
+                amountStage.setScene(scene);
+                amountStage.show();
+            }));
+
+            Thread t = new Thread(() -> {
+                synchronized (lockAmount) {
+                    while (amountIndex == 0) {
+                        try {
+                            lockAmount.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+
+            });
+            t.start();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return amountIndex;
+        }
+    }
+
+    private void createAmountButtons(HBox hBox){
+        Button one = new Button("1");
+        one.setOnAction(e -> {
+            amountIndex = 1;
+            synchronized (lockAmount) {
+                lockAmount.notifyAll();
+            }
+            amountStage.close();
+        });
+        Button two = new Button("2");
+        two.setOnAction(e -> {
+            amountIndex = 2;
+            synchronized (lockAmount) {
+                lockAmount.notifyAll();
+            }
+            amountStage.close();
+        });
+        Button three = new Button("3");
+        three.setOnAction(e -> {
+            amountIndex = 3;
+            synchronized (lockAmount) {
+                lockAmount.notifyAll();
+            }
+            amountStage.close();
+        });
+        Button four = new Button("4");
+        four.setOnAction(e -> {
+            amountIndex = 4;
+            synchronized (lockAmount) {
+                lockAmount.notifyAll();
+            }
+            amountStage.close();
+        });
+        Button five = new Button("5");
+        five.setOnAction(e -> {
+            amountIndex = 5;
+            synchronized (lockAmount) {
+                lockAmount.notifyAll();
+            }
+            amountStage.close();
+        });
+        Button six = new Button("6");
+        six.setOnAction(e -> {
+            amountIndex = 6;
+            synchronized (lockAmount) {
+                lockAmount.notifyAll();
+            }
+            amountStage.close();
+        });
+
+        hBox.getChildren().addAll(one, two, three, four, five, six);
     }
 
     /**
@@ -786,9 +875,9 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     }
 
     @Override
-    public int getDiceIndexFromRound(){
+    public int getDiceIndexFromRound() {
         Thread t = new Thread(() -> {
-            synchronized (lockDiceRoundIndex){
+            synchronized (lockDiceRoundIndex) {
                 while (diceRoundIndex == -1) {
                     try {
                         lockDiceRoundIndex.wait();
@@ -807,5 +896,60 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         return diceRoundIndex;
     }
 
+    @Override
+    public boolean askForAnotherDice(){
+        AtomicInteger toReturn = new AtomicInteger();
+        Platform.runLater((() -> {
+            anotherDice = new Stage();
+            anotherDice.setTitle("Place another dice?");
+            HBox layoutH = new HBox(30);
+            VBox layoutV = new VBox(30);
+            layoutV.setAlignment(Pos.CENTER);
+            layoutH.setAlignment(Pos.CENTER);
+            Label text = new Label("Do you want to place another dice?");
+            Button yes = new Button("Yes");
+            yes.setOnAction(e -> {
+                toReturn.set(1);
+                synchronized (lockAnother){
+                    lockAnother.notifyAll();
+                }
+                anotherDice.close();
+            });
+            Button no = new Button("No");
+            no.setOnAction(e -> {
+                toReturn.set(-1);
+                synchronized (lockAnother){
+                    lockAnother.notifyAll();
+                }
+                amountStage.close();
+            });
+            layoutV.getChildren().addAll(text, layoutH);
+            layoutH.getChildren().addAll(yes, no);
+            Scene scene = new Scene(layoutV);
+            anotherDice.setScene(scene);
+            anotherDice.show();
+        }));
+
+        Thread t = new Thread(() -> {
+            synchronized (lockAmount){
+                while (toReturn.equals(0)) {
+                    try {
+                        lockAmount.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return toReturn.equals(1);
+    }
 
 }

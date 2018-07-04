@@ -5,9 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.lang.annotation.Native;
 
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.RMI_Socket;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.title;
@@ -47,13 +45,6 @@ public class GUI extends AbstractGUI implements Runnable{
     }
 
     /**
-     * @return GeneriClient getter
-     */
-    public GeneriClient getGeneriClient(){
-        return generiClient;
-    }
-
-    /**
      * @param u String which represents username's name
      */
     public void setUsername(String u){
@@ -71,7 +62,6 @@ public class GUI extends AbstractGUI implements Runnable{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(RMI_Socket));
             root = loader.load();
-
             // Show the scene containing the root layout.
             Scene scene = new Scene(root, 300, 180);
             stage.setScene(scene);
