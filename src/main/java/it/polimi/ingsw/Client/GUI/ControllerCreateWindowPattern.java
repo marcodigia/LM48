@@ -14,6 +14,7 @@ public class ControllerCreateWindowPattern extends AbstractGUI implements Initia
 
     public Button createButton;
     public TextField cardName, cardDifficulty;
+    public static DinamicCardCreator dinamicCardCreator;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -22,7 +23,7 @@ public class ControllerCreateWindowPattern extends AbstractGUI implements Initia
 
 
     public void handleCreateButton(ActionEvent actionEvent) {
-        DinamicCardCreator dinamicCardCreator = new DinamicCardCreator(cardName.getText(), Integer.parseInt(cardDifficulty.getText()));
+        dinamicCardCreator = new DinamicCardCreator(cardName.getText(), Integer.parseInt(cardDifficulty.getText()));
         switchScene(CONSTANT.Set);
     }
 }

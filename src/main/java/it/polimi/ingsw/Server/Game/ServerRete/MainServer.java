@@ -28,13 +28,13 @@ public class MainServer {
 
 
         System.out.println("Insert ip where RMI should be published: ");
-        String ipServer ="127.0.0.1"; //keyboard.nextLine();
+        String ipServer = keyboard.nextLine();
 
         System.out.println("Insert port where RMI should be published: ");
-        int portRMI = 1099;//keyboard.nextInt();
+        int portRMI = keyboard.nextInt();
 
         System.out.println("Insert port where socket should be listen: ");
-        int portSocket = 1200;//keyboard.nextInt();
+        int portSocket = keyboard.nextInt();
 
         ServerRMI serverRMI = new ServerRMI(portRMI, waitingRoom,game, ipServer);
         ServerSocketAccept serverSocketAccept = new ServerSocketAccept(portSocket, waitingRoom, game);
