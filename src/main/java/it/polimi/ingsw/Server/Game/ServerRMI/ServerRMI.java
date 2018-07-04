@@ -26,6 +26,7 @@ public class ServerRMI {
         boolean bound = false;
         do{
             try{
+                System.setProperty("java.rmi.server.hostname", ip);
                 java.rmi.registry.LocateRegistry.createRegistry(port);
                 bound = true;
             }  catch(RemoteException e){

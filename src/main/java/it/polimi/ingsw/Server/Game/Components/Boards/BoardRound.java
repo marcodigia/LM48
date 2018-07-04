@@ -2,6 +2,8 @@ package it.polimi.ingsw.Server.Game.Components.Boards;
 
 import it.polimi.ingsw.Packetable;
 import it.polimi.ingsw.Server.Game.Components.Dice;
+import it.polimi.ingsw.Server.Game.GameRules.EndGame.ScoreHandler;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
@@ -52,6 +54,10 @@ public class BoardRound implements Packetable {
 
         }
         return winners;
+    }
+
+    public Hashtable<Player,Integer> getScore(GameStatus gameStatus){
+        return (new ScoreHandler(gameStatus)).getFinalScore();
     }
 
     public void setDiceAtIndex(int round, int diceIndex , Dice dice){
