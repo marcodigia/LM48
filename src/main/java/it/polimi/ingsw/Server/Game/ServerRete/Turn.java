@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Turn extends TimerTask implements Runnable {
 
-    private LinkedHashMap<Player,Boolean> players;
+    private static LinkedHashMap<Player,Boolean> players;
     private GameStatus gameStatus;
 
     private static boolean winnerFind = false;
@@ -33,6 +33,10 @@ public class Turn extends TimerTask implements Runnable {
 
     public static int getNumberOfTurn(){
         return numberOfTurn;
+    }
+
+    public static synchronized LinkedHashMap<Player, Boolean> getPlayers() {
+        return new LinkedHashMap<>(players);
     }
 
     @Override
@@ -64,9 +68,7 @@ public class Turn extends TimerTask implements Runnable {
                         currentPlayer.startRound();
                         //Send to each player who result connected new GameStatus
                         for(Map.Entry<Player,Boolean> entry : players.entrySet()) {
-                            if (entry.getKey().getConnected()) {
-                                entry.getKey().getvirtualView().sendGameStatus(gameStatus);
-                            }
+                            entry.getKey().getvirtualView().sendGameStatus(gameStatus);
                         }
                     }
                     if(lookForWinner() == null){
@@ -90,7 +92,7 @@ public class Turn extends TimerTask implements Runnable {
                     }
                 }
                 else{
-                    //TODO segnala fine gioco
+                    //TODO segnala fine gioco e calcolo vincitore
                 }
             }
         }
