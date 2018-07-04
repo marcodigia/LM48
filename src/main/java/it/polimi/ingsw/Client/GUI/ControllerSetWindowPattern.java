@@ -1,13 +1,23 @@
 package it.polimi.ingsw.Client.GUI;
 
-import it.polimi.ingsw.Server.Game.Components.Boards.BoardRound;
+import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-
-import java.awt.*;
+import javafx.scene.control.TextField;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+
+import static it.polimi.ingsw.Client.GUI.ControllerCreateWindowPattern.dinamicCardCreator;
+import static it.polimi.ingsw.Client.GUI.ControllerConnection.clientServerReciver;
+import static it.polimi.ingsw.Client.GUI.ControllerGame.attivo;
+import static it.polimi.ingsw.Client.GUI.ControllerGame.gameStatus;
+import static it.polimi.ingsw.Client.GUI.ControllerLogin.clientServerSender;
+import static it.polimi.ingsw.Client.GUI.GUI.username;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
+
 
 public class ControllerSetWindowPattern extends AbstractGUI implements Initializable {
 
@@ -15,23 +25,22 @@ public class ControllerSetWindowPattern extends AbstractGUI implements Initializ
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        try {
+            clientServerReciver.setUI(this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void handleAdd(ActionEvent actionEvent) {
-        if (isCorrect(restriction.getText())){
-
-        }
-            else {
+        if (!isCorrect(restriction.getText()))
             createAlertBox("Wrong restriction (1, 2, 3, 4, 5, 6, R, B, G, Y, P)");
-        }
-        if (isCorrect(Integer.parseInt(index.getText()))){
-
-        }
-        else {
+        if (!isCorrect(Integer.parseInt(index.getText())))
             createAlertBox("Wrong index, must be between 0 and 19");
-        }
+        else
+            //restrizione e indice giusti
+            dinamicCardCreator.addRestriction(restriction.getText(), Integer.parseInt(index.getText()));
     }
 
     private boolean isCorrect(String s){
@@ -44,6 +53,35 @@ public class ControllerSetWindowPattern extends AbstractGUI implements Initializ
     }
 
     public void handleFinish(ActionEvent actionEvent) {
-        switchScene(CONSTANT.Board);
+        try {
+            clientServerSender.choosenWindowPattern(dinamicCardCreator.toPacket(), username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
+
+    @Override
+    public void updateGameStatus(GameStatus gameStat) {
+        Platform.runLater(() -> {
+            gameStatus = gameStat;
+            switchScene(Board);
+        });
+    }
+
+    @Override
+    public void activate() {
+        Platform.runLater(() -> {
+            attivo = true;
+            switchScene(Board);
+        });
+    }
+
+    public void pingBack(){
+        try {
+            ControllerLogin.clientServerSender.pingBack(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

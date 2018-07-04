@@ -138,7 +138,7 @@ public class Game {
                     else
                         endGame();          //All players left game
                 }
-            }, timerUtilitywp.readTimerFromFile(10,"timerDelayPlayer.txt"));
+            }, timerUtilitywp.readTimerFromFile(120,"timerDelayPlayer.txt"));
         }
     }
 

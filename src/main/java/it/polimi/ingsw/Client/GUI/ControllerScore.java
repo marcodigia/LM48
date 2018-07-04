@@ -11,14 +11,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-
-
 public class ControllerScore extends AbstractGUI implements Initializable {
 
     public ImageView bgscore;
     public AnchorPane anchorscore;
-    public static GameStatus gameStatus;
     public Label p1, p2, p3, p4, s1, s2, s3, s4;
+    public static GameStatus gameStatus;
     private ArrayList<Label> players = new ArrayList<>();
     private ArrayList<Label> scores = new ArrayList<>();
     private ScoreHandler scoreHandler = new ScoreHandler(gameStatus);
