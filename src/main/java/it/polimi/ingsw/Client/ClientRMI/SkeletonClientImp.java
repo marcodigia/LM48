@@ -62,7 +62,6 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
         for(String s : player){
             message = message + s + ", ";
         }
-        System.out.println("RMI skeleton: "+message);
         ui.allCurrentPlayers(message);
     }
 

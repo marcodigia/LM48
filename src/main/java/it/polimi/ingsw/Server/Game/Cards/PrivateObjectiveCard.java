@@ -41,4 +41,7 @@ public class PrivateObjectiveCard implements Countable {
         return effect.getPoints(wp);
     }
 
+    public DiceColor getDiceColor() {
+        return diceColor;
+    }
 }

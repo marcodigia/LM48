@@ -13,6 +13,8 @@ import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
+import javafx.application.Platform;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
@@ -73,7 +75,7 @@ public class CLI implements UI, Runnable{
         username = u;
     }
 
-    private void print_boards() {
+    private void printBoards() {
         System.out.println(ANSI_COLOR.BOLD + "Players Board:" + ANSI_COLOR.ANSI_RESET);
         StringBuilder line = new StringBuilder();
         for (int i = 0; i < height; i++) {
@@ -156,7 +158,65 @@ public class CLI implements UI, Runnable{
 
     }
 
-    public void print_draftboard(ArrayList<Dice> draft) {
+    public void printBoardGame(WindowPatternCard windowPatternCard) {
+
+        StringBuilder line = new StringBuilder();
+
+        for (int i = 0; i < 20; i++) {
+            if (windowPatternCard.getDice(i) != null)
+                line.append(windowPatternCard.getDice(i).getDiceColor().getAnsiColor()).append(ANSI_COLOR.BOLD).append("[").
+                        append(windowPatternCard.getDice(i).getValue()).append("]").append(ANSI_COLOR.ANSI_RESET);
+            else {
+                switch (windowPatternCard.getRestrictionAtIndex(i)) {
+                    case ONE:
+                        line.append(ANSI_COLOR.BOLD + "1" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case TWO:
+                        line.append(ANSI_COLOR.BOLD + "2" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case THREE:
+                        line.append(ANSI_COLOR.BOLD + "3" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case FOUR:
+                        line.append(ANSI_COLOR.BOLD + "4" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case FIVE:
+                        line.append(ANSI_COLOR.BOLD + "5" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case SIX:
+                        line.append(ANSI_COLOR.BOLD + "6" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case GREEN:
+                        line.append(ANSI_COLOR.ANSI_GREEN + "G" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case YELLOW:
+                        line.append(ANSI_COLOR.ANSI_YELLOW + "Y" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case BLUE:
+                        line.append(ANSI_COLOR.ANSI_BLUE + "B" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case RED:
+                        line.append(ANSI_COLOR.ANSI_RED + "R" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case PURPLE:
+                        line.append(ANSI_COLOR.ANSI_PURPLE + "P" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case NONE:
+                        line.append("0" + " ");
+                        break;
+                }
+            }
+            if (i == 4 || i == 9 || i == 14){
+                System.out.println(line);
+                line = new StringBuilder();
+            }
+        }
+        System.out.println(line);
+        System.out.println("\n");
+    }
+
+
+    public void printDraftPool(ArrayList<Dice> draft) {
 
         System.out.println("Draft Pool : \n");
         StringBuilder line = new StringBuilder();
@@ -166,10 +226,7 @@ public class CLI implements UI, Runnable{
                     .append("  ");
         }
         System.out.println(line);
-
     }
-
-
 
     @Override
     public int getAmmountToChange(int ammountType){
@@ -284,9 +341,65 @@ public class CLI implements UI, Runnable{
     public void updateGameStatus(GameStatus gameStat) {
         Thread t = new Thread(() -> {
             gameStatus = gameStat;
+            printGameStatus();
             //resetAllIndex();
         });
         t.start();
+    }
+
+    public void printToolCard(){
+        System.out.println(ANSI_COLOR.ANSI_RED + "TOOL CARDS: " + ANSI_COLOR.ANSI_RESET);
+        for (ToolCard toolCard : gameStatus.getToolCards()){
+            System.out.println(ANSI_COLOR.ANSI_RED + toolCard.getName() + toolCard.getEffect()
+                    + "\n" + ANSI_COLOR.ANSI_RESET);
+        }
+    }
+
+    public void printPrivateCard(){
+        System.out.println(ANSI_COLOR.ANSI_BLUE + "PRIVATE CARD: " + ANSI_COLOR.ANSI_RESET);
+        System.out.println(ANSI_COLOR.ANSI_BLUE +
+                gameStatus.getPlayerPrivateObjectiveCards(username).getDiceColor()
+                + "\n" + ANSI_COLOR.ANSI_RESET);
+    }
+
+    public void printPublicCard(){
+        System.out.println(ANSI_COLOR.ANSI_GREEN + "PUBLIC CARDS: " + ANSI_COLOR.ANSI_RESET);
+        for (PublicObjectiveCard publicObjectiveCard : gameStatus.getPublicObjectiveCards()){
+            System.out.println(ANSI_COLOR.ANSI_GREEN + publicObjectiveCard.getName() +
+                    publicObjectiveCard.getDescription() + "\n" + ANSI_COLOR.ANSI_RESET);
+        }
+    }
+
+    public void printRoundTrack(){
+
+        StringBuilder line = new StringBuilder();
+
+        for (int i = 0; i < 10; i++){
+            if(gameStatus.getBoardRound().getDices().size()==0)
+                line.append(i + 1).append(" | ");
+            else
+                for (int j = 0; j < gameStatus.getBoardRound().getDices().get(i).size() + 1; j++){
+                    if (gameStatus.getBoardRound().getDices().get(i).get(j) != null) {
+                        line.append(gameStatus.getBoardRound().getDices().get(i).get(j).getDiceColor().getAnsiColor()).
+                                append(ANSI_COLOR.BOLD).append("[").append(gameStatus.getBoardRound().getDices().get(i).get(j).getValue()).
+                                append("]").append(ANSI_COLOR.ANSI_RESET).append(" ");
+                    }
+                }
+
+        }
+        System.out.println(line);
+    }
+
+    public void printGameStatus(){
+        printDraftPool(gameStatus.getDraftPool().getDraft());
+        printRoundTrack();
+        printPrivateCard();
+        printPublicCard();
+        printToolCard();
+        for (Player p : gameStatus.getPlayerCards().keySet()){
+            System.out.println(p.getName());
+            printBoardGame((WindowPatternCard) gameStatus.getPlayerCards().get(p).get(0));
+        }
     }
 
     @Override
@@ -444,4 +557,5 @@ public class CLI implements UI, Runnable{
         });
         t.start();
     }
+
 }

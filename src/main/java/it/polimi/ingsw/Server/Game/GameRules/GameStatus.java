@@ -171,8 +171,6 @@ public class GameStatus implements Packetable {
 
     public PrivateObjectiveCard getPlayerPrivateObjectiveCards(String player){
 
-        System.out.println(player);
-        System.out.println(playerCards.get(getPlayerByName(player)));
         return (PrivateObjectiveCard) playerCards
                 .get(
                         getPlayerByName(player))

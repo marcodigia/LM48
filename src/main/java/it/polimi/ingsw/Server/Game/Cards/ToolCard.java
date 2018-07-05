@@ -112,4 +112,11 @@ public class ToolCard implements Drawable {
         return getClass().getClassLoader().getResourceAsStream(tcImageName);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getEffect() {
+        return effect;
+    }
 }
