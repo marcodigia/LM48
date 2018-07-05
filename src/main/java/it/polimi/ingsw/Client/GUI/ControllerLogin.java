@@ -134,13 +134,12 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
     @Override
     public void allCurrentPlayers(String players) {
         Platform.runLater(() -> {
-
             String[] names = players.split("\\s*,\\s*");
             playersName = new ArrayList<>();
 
             for (String name : names) {
-                System.out.println(name);
                 playersName.add(name);
+                System.out.println("Login: " + name);
             }
             switchScene(Lobby);
         });
@@ -159,7 +158,6 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
                     break;
                 case CONSTANT.correctUsername:
                     clientServerSender = generiClient.getClientServerSender();
-                    pingBack();
                     break;
             }
         });

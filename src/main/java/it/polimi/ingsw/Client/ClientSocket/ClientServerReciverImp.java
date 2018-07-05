@@ -46,9 +46,6 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
             try{
                 String command = scanner.next();
                 switch(command){
-                    case "PING":
-                        ui.pingBack();
-                        break;
                     case "S":
                         message = scanner.next();
                         ui.printMessage(message);
@@ -67,7 +64,6 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                         break;
                     case "SGS":
                         message = scanner.next();
-                        System.out.println("Recevid gs"+message);
                         ui.pingBack();
                         GameStatus gameStatus = Unpacker.getGameStatus(message);
                         ui.updateGameStatus(gameStatus);

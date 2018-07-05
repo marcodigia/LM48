@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CountDice implements CountEffect {

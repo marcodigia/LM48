@@ -41,38 +41,6 @@ public class ServerClientReciver implements Runnable {
         }
     }
 
-    private void manageDisconnection(){
-        TimerUtility timerUtility = new TimerUtility();
-        Timer timeraaa = new Timer();
-        timeraaa.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //If player is in waiting room & alive ping him
-                if(waitingRoom.scanForSameUsername(username)!=null) {
-                    if (waitingRoom.scanForSameUsername(username).getStillAlive()) {
-                        waitingRoom.scanForSameUsername(username).setStillAlive(false);
-                        waitingRoom.scanForSameUsername(username).getvirtualView().ping();
-                    }
-                    else{
-                        waitingRoom.removeClient(username);
-                    }
-                }
-                else{
-                    //If player is in game & alive ping him
-                    if(game.scanForUsername(username)!=null) {
-                        if (game.scanForUsername(username).getStillAlive()) {
-                            game.scanForUsername(username).setStillAlive(false);
-                            game.scanForUsername(username).getvirtualView().ping();
-                        }
-                        else{
-                            System.out.println("ciaoooo");
-                            game.scanForUsername(username).setIsNotConnected();
-                        }
-                    }
-                }
-            }
-        }, 0, timerUtility.readTimerFromFile(5, "timerDelayPing.txt"));
-    }
 
     @Override
     public void run() {
@@ -81,6 +49,7 @@ public class ServerClientReciver implements Runnable {
                 String command = scanner.next();
                 switch(command){
                     case "PINGBACK":
+                        System.out.println("Server PingBack");
                         if(waitingRoom.scanForSameUsername(username)!=null) { //Still alive in waiting room
                             waitingRoom.scanForSameUsername(username).setStillAlive(true);
                             waitingRoom.scanForSameUsername(username).setIsConnected();
@@ -107,8 +76,6 @@ public class ServerClientReciver implements Runnable {
                         }
                         else
                             waitingRoom.addClient(username, serverClientSenderImp);
-                        //TODO cancella questo metodo da problemi gravi!!!!
-                        //manageDisconnection();
                         break;
                     case "U":
                         username = scanner.next();

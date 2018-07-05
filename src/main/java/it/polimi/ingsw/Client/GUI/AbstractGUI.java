@@ -198,7 +198,7 @@ public abstract class AbstractGUI extends Application implements UI{
      * @param players
      */
     @Override
-    public void allCurrentPlayers(String players) {
+    public void allCurrentPlayers(String players){
 
     }
 

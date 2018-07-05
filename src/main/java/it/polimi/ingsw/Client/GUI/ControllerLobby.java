@@ -17,13 +17,14 @@ import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
 import static it.polimi.ingsw.Client.GUI.ControllerGame.gameStatus;
 import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.ChooseWP;
 import static it.polimi.ingsw.Client.GUI.GUI.username;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Lobby;
 
 public class ControllerLobby extends AbstractGUI implements Initializable{
 
     public Label player1, player2, player3, player4;
     public AnchorPane anchorlobby;
     public ImageView bg3;
-    private ArrayList<Label> players = new ArrayList<>();
+    private ArrayList<Label> players;
 
     static String id1;
     static String id2;
@@ -32,6 +33,8 @@ public class ControllerLobby extends AbstractGUI implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        players = new ArrayList<>();
 
         try {
             ControllerConnection.clientServerReciver.setUI(this);
@@ -80,9 +83,16 @@ public class ControllerLobby extends AbstractGUI implements Initializable{
      */
     @Override
     public void allCurrentPlayers(String players){
-        for (int i=0; i<playersName.size(); i++){
-            this.players.get(i).setText(playersName.get(i));
-        }
+        Platform.runLater(() -> {
+            String[] names = players.split("\\s*,\\s*");
+            playersName = new ArrayList<>();
+
+            for (String name : names) {
+                playersName.add(name);
+                System.out.println("Lobby: " + name);
+            }
+            switchScene(Lobby);
+        });
     }
 
 }

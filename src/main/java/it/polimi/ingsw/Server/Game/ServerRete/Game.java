@@ -115,12 +115,10 @@ public class Game {
                 playerRecived.setIsConnected();
             else
                 return;
-        /*if(windowToRemove!=null)
-            gameSetup.getWindowPatternCards().remove(windowToRemove);*/
 
-        if (windowToRemove==null){
-            windowToRemove = Unpacker.WP_fromPacket(idWp,CONSTANT.emptyWp);
-        }
+            if (windowToRemove==null){
+                windowToRemove = Unpacker.WP_fromPacket(idWp,CONSTANT.emptyWp);
+            }
             gameStatus.addWindowPatternCard(playerRecived, windowToRemove);  //Add tuples of players and WP to GameStatus
             playerRecived.getWallet().setUpWallet(windowToRemove.getDifficulty());
         }
@@ -133,12 +131,13 @@ public class Game {
             timerwp.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if(!deleteWhoLeftGame())
+                    boolean q = deleteWhoLeftGame();
+                    if(!q)
                         endGameSetUp();    //End setup with players who are still playing
                     else
                         endGame();          //All players left game
                 }
-            }, timerUtilitywp.readTimerFromFile(120,"timerDelayPlayer.txt"));
+            }, timerUtilitywp.readTimerFromFile(10,"timerDelayPlayer.txt"));
         }
     }
 
@@ -170,7 +169,6 @@ public class Game {
             gameStatus.setDraftPool(gameSetup.getDraftPool());
             gameStatus.setBoardRound(gameSetup.getBoardRound());
             gameStatus.setDiceBag(gameSetup.getDiceBag());
-            System.out.println("endGameSetup" + gameStatus );
             for(Player p : players.keySet()){
                 p.getvirtualView().sendGameStatus(gameStatus);
             }
@@ -216,8 +214,9 @@ public class Game {
                 players.remove(p);
                 gameStatus.deleteWindowPatternCard(p);
             }
-            if(players.keySet().size()==0)
+            if(players.keySet().size()==0) {
                 return true;
+            }
             return false;
         }
     }

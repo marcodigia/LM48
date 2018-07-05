@@ -3,9 +3,10 @@ package it.polimi.ingsw.Server.Game.GameRules.CountEffects;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public interface CountEffect {
+public interface CountEffect extends Serializable {
 
 
     /**

@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CountRow implements CountEffect {

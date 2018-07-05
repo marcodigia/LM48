@@ -33,13 +33,7 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void chooseWindowPattern(String id1, String id2, String id3, String id4) throws RemoteException {
-         Thread t = new Thread(new Runnable() {
-             @Override
-             public void run() {
-                 ui.chooseWP(id1,id2,id3,id4);
-             }
-         });
-         t.start();
+        ui.chooseWP(id1,id2,id3,id4);
     }
 
     @Override
@@ -54,7 +48,8 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void sendGameStatus(GameStatus gameStatus) throws RemoteException {
-        ui.updateGameStatus(gameStatus);
+         System.out.println("SkeletonClientImp sendGameStatus");
+         ui.updateGameStatus(gameStatus);
     }
 
     @Override
@@ -68,17 +63,17 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
         for(String s : player){
             message = message + s + ", ";
         }
+        System.out.println("RMI skeleton: "+message);
         ui.allCurrentPlayers(message);
     }
 
     @Override
-    public void setUI(UI ui) {
+    public void setUI(UI ui) throws RemoteException {
         this.ui = ui;
     }
 
     @Override
     public void close() throws RemoteException {
-
     }
 
 }

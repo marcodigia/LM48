@@ -84,6 +84,7 @@ public class VirtualViewImp implements VirtualView {
 
     @Override
     public void sendGameStatus(GameStatus gameStatus) {
+        System.out.println("Virtual view sendGameStatus");
         try {
             if(!myPlayer.getStillAlive()) {
                 myPlayer.setIsNotConnected();

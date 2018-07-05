@@ -77,7 +77,6 @@ public class CLI implements UI, Runnable{
         System.out.println(ANSI_COLOR.BOLD + "Players Board:" + ANSI_COLOR.ANSI_RESET);
         StringBuilder line = new StringBuilder();
         for (int i = 0; i < height; i++) {
-            //System.out.println(i);
             for (Player p : players) {
                 ArrayList<Restriction> cells = p.getWindowPatternCard().getRow(i);
                 for (Restriction r : cells
@@ -115,51 +114,39 @@ public class CLI implements UI, Runnable{
                 switch (cells.get(i)) {
                 case ONE:
                     line.append(ANSI_COLOR.BOLD + "1" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println("1 ");
                     break;
                 case TWO:
                     line.append(ANSI_COLOR.BOLD + "2" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println("2 ");
                     break;
                 case THREE:
                     line.append(ANSI_COLOR.BOLD + "3" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println("3 ");
                     break;
                 case FOUR:
                     line.append(ANSI_COLOR.BOLD + "4" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println("4 ");
                     break;
                 case FIVE:
                     line.append(ANSI_COLOR.BOLD + "5" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println("5 ");
                     break;
                 case SIX:
                     line.append(ANSI_COLOR.BOLD + "6" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println("6 ");
                     break;
                 case GREEN:
                     line.append(ANSI_COLOR.ANSI_GREEN + "G" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println(ANSI_COLOR.ANSI_GREEN + "G "+ ANSI_COLOR.ANSI_RESET);
                     break;
                 case YELLOW:
                     line.append(ANSI_COLOR.ANSI_YELLOW + "Y" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println(ANSI_COLOR.ANSI_YELLOW + "Y "+ ANSI_COLOR.ANSI_RESET);
                     break;
                 case BLUE:
                     line.append(ANSI_COLOR.ANSI_BLUE + "B" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println(ANSI_COLOR.ANSI_BLUE + "B "+ ANSI_COLOR.ANSI_RESET);
                     break;
                 case RED:
                     line.append(ANSI_COLOR.ANSI_RED + "R" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println(ANSI_COLOR.ANSI_RED + "R "+ ANSI_COLOR.ANSI_RESET);
                     break;
                 case PURPLE:
                     line.append(ANSI_COLOR.ANSI_PURPLE + "P" + ANSI_COLOR.ANSI_RESET + " ");
-                    //System.out.println(ANSI_COLOR.ANSI_PURPLE + "P "+ ANSI_COLOR.ANSI_RESET);
                     break;
                 case NONE:
                     line.append("0" + " ");
-                    //System.out.println("W ");
                     break;
             }
         }
@@ -177,14 +164,13 @@ public class CLI implements UI, Runnable{
                     .append("  ");
         }
         System.out.println(line);
-        System.out.println();
+
     }
 
     @Override
     public void printMessage(String s){
         if(s.equals((CONSTANT.correctUsername))){
             clientServerSender = generiClient.getClientServerSender();
-            pingBack();
         }
         System.out.println(s);
     }
@@ -280,17 +266,20 @@ public class CLI implements UI, Runnable{
 
         Scanner scanner = new Scanner(System.in);
         int chose = scanner.nextInt();
+        if (chose>=0 && chose <=19) {
+            try {
+                clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
+            } catch (RemoteException e) {
+                generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+            }
+        }
+        else {
+            System.out.println("Wrong id");
+        }
 
         Player p = new Player(username, null);
         p.setGameContext(new GameContext(null,null,null, (WindowPatternCard) deck.get(Integer.toString(chose)),null));
         players.add(p);
-
-        //print_boards();
-        try {
-            clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
-        } catch (RemoteException e) {
-            generiClient.manageDisconnection(username,ip,Integer.parseInt(port));
-        }
 
     }
 

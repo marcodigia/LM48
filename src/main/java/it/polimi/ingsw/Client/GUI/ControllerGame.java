@@ -288,13 +288,14 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         Label event = (Label) mouseEvent.getSource();
         toolCardSelected = toolCardsLabel.indexOf(event);
         Thread t = new Thread(() -> {
-            useToolCardBasic.useAction(this, gameStatus, username);
-            System.out.println("handleClickTool " + useToolCardBasic.toPacket());
-            try {
-                clientServerSender.sendAction(useToolCardBasic, username);
-            } catch (RemoteException e) {
-                GUI.generiClient.manageDisconnection(GUI.username,GUI.ip,Integer.parseInt(GUI.port));
-            }
+           if (attivo) {
+                useToolCardBasic.useAction(this, gameStatus, username);
+                try {
+                    clientServerSender.sendAction(useToolCardBasic, username);
+                } catch (RemoteException e) {
+                    GUI.generiClient.manageDisconnection(GUI.username, GUI.ip, Integer.parseInt(GUI.port));
+                }
+           }
         });
         t.start();
         toolCardStage.close();
@@ -303,8 +304,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private void setUpGame() {
 
         int i = 0;
-
-        System.out.println(gameStatus.toPacket() + " setUpGame");
 
         switch (gameStatus.getPlayer().size()) {
             /* case 1:
@@ -551,7 +550,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public void pingBack(){
         try {
             clientServerSender.pingBack(username);
-            System.out.println("pingback");
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -567,9 +565,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             Thread t = new Thread(() -> {
                 synchronized (lockDraftPool) {
                     while (draftpoolindex == -1) {
-
                         try {
-                            System.out.println("waaaait");
                             lockDraftPool.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -583,7 +579,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("assegno index");
             int indice = draftpoolindex;
             return indice;
     }
@@ -619,7 +614,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             synchronized (lockWPTo) {
                 while (indice_dadoPrecedente==-1){
                     try {
-                        System.out.println("ciao");
                         lockWPTo.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -629,9 +623,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         });
         t.start();
         try {
-            System.out.println("ciao 1");
             t.join();
-            System.out.println("ciao 2");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -805,7 +797,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private void handleClickBoardRound(MouseEvent mouseEvent) {
         Platform.runLater(() -> {
             roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
-            if (roundTrack.size() > roundIndex){
+            if (roundTrack.size() >= roundIndex){
                 Stage window = new Stage();
                 window.initModality(Modality.APPLICATION_MODAL);
                 window.setTitle("Dices");
@@ -813,10 +805,10 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 window.setMinHeight(100);
                 VBox layout = new VBox(10);
                 layout.setPadding(new Insets(10,10,10,10));
-                for (int j = 0; j < roundTrack.get(roundIndex).size(); j++) {
+                for (int j = 0; j < roundTrack.get(roundIndex-1).size(); j++) {
                     Label label = new Label();
                     int finalJ = j;
-                    label.setGraphic(toImage(roundTrack.get(roundIndex).get(j)));
+                    label.setGraphic(toImage(roundTrack.get(roundIndex-1).get(j)));
                     layout.getChildren().add(label);
                     label.setOnMouseClicked(e -> {
                         handleClickDiceRound(e, finalJ);
@@ -843,7 +835,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             ButtonBar.ButtonData clicked = createConfirmationBox("Do you want to choose this dice?");
             if (clicked.equals(ButtonBar.ButtonData.OK_DONE)) {
                 diceRoundIndex = index;
-                System.out.println(diceRoundIndex);
             }
             synchronized (lockDiceRoundIndex){
                 lockDiceRoundIndex.notifyAll();
