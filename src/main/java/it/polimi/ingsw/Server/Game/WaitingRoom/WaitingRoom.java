@@ -38,6 +38,7 @@ public class WaitingRoom {
                 }
                 return false;
             }
+            System.out.println("Waiting room: " + username);
             //Create new player
             Player newPlayer = new Player(username,clientRef);
             clientList.add(newPlayer);

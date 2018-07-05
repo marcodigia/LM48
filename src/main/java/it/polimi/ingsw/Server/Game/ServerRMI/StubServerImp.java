@@ -29,9 +29,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
 
     @Override
     public void register(String username, ServerClientSender clientRef) throws RemoteException {
-        if(waitingRoom.scanForSameUsername(username)==null) {
-            waitingRoom.addClient(username, clientRef);
-        }
+        waitingRoom.addClient(username, clientRef);
         if(game.scanForUsername(username)!=null){
             if(!game.scanForUsername(username).getConnected())
                 game.scanForUsername(username).setIsConnected();

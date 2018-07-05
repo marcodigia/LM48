@@ -149,6 +149,7 @@ public class Game {
             int i=0;
             if(playerToWP.size()>0){
                 for(Player p : playerToWP){
+                    System.out.println("sendWindowPattern: " + p.getName());
                     String id1, id2 , id3, id4;
                     id1 = wp.remove(0).getID();
                     id2 = wp.remove(0).getID();

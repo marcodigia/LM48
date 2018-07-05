@@ -118,4 +118,11 @@ public class PublicObjectiveCard implements Countable {
     }
 
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
