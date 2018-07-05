@@ -102,56 +102,58 @@ public class CLI implements UI, Runnable{
     }
 
     private void printBoard(WindowPatternCard windowPatternCard){
-        System.out.println(windowPatternCard.getID());
-        ArrayList<Restriction> cells = new ArrayList<>();
-        StringBuilder line = new StringBuilder();
-        for (int i = 0; i < 20; i++) {
-            cells.add(windowPatternCard.getRestrictionAtIndex(i));
-            if (i == 5 || i == 10 || i == 15){
-                System.out.println(line);
-                line = new StringBuilder();
-            }
+
+            System.out.println(windowPatternCard.getID());
+            ArrayList<Restriction> cells = new ArrayList<>();
+            StringBuilder line = new StringBuilder();
+            for (int i = 0; i < 20; i++) {
+                cells.add(windowPatternCard.getRestrictionAtIndex(i));
+                if (i == 5 || i == 10 || i == 15){
+                    System.out.println(line);
+                    line = new StringBuilder();
+                }
                 switch (cells.get(i)) {
-                case ONE:
-                    line.append(ANSI_COLOR.BOLD + "1" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case TWO:
-                    line.append(ANSI_COLOR.BOLD + "2" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case THREE:
-                    line.append(ANSI_COLOR.BOLD + "3" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case FOUR:
-                    line.append(ANSI_COLOR.BOLD + "4" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case FIVE:
-                    line.append(ANSI_COLOR.BOLD + "5" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case SIX:
-                    line.append(ANSI_COLOR.BOLD + "6" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case GREEN:
-                    line.append(ANSI_COLOR.ANSI_GREEN + "G" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case YELLOW:
-                    line.append(ANSI_COLOR.ANSI_YELLOW + "Y" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case BLUE:
-                    line.append(ANSI_COLOR.ANSI_BLUE + "B" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case RED:
-                    line.append(ANSI_COLOR.ANSI_RED + "R" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case PURPLE:
-                    line.append(ANSI_COLOR.ANSI_PURPLE + "P" + ANSI_COLOR.ANSI_RESET + " ");
-                    break;
-                case NONE:
-                    line.append("0" + " ");
-                    break;
+                    case ONE:
+                        line.append(ANSI_COLOR.BOLD + "1" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case TWO:
+                        line.append(ANSI_COLOR.BOLD + "2" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case THREE:
+                        line.append(ANSI_COLOR.BOLD + "3" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case FOUR:
+                        line.append(ANSI_COLOR.BOLD + "4" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case FIVE:
+                        line.append(ANSI_COLOR.BOLD + "5" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case SIX:
+                        line.append(ANSI_COLOR.BOLD + "6" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case GREEN:
+                        line.append(ANSI_COLOR.ANSI_GREEN + "G" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case YELLOW:
+                        line.append(ANSI_COLOR.ANSI_YELLOW + "Y" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case BLUE:
+                        line.append(ANSI_COLOR.ANSI_BLUE + "B" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case RED:
+                        line.append(ANSI_COLOR.ANSI_RED + "R" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case PURPLE:
+                        line.append(ANSI_COLOR.ANSI_PURPLE + "P" + ANSI_COLOR.ANSI_RESET + " ");
+                        break;
+                    case NONE:
+                        line.append("0" + " ");
+                        break;
+                }
             }
-        }
-        System.out.println(line);
-        System.out.println("\n");
+            System.out.println(line);
+            System.out.println("\n");
+
     }
 
     public void print_draftboard(ArrayList<Dice> draft) {
@@ -167,13 +169,7 @@ public class CLI implements UI, Runnable{
 
     }
 
-    @Override
-    public void printMessage(String s){
-        if(s.equals((CONSTANT.correctUsername))){
-            clientServerSender = generiClient.getClientServerSender();
-        }
-        System.out.println(s);
-    }
+
 
     @Override
     public int getAmmountToChange(int ammountType){
@@ -232,55 +228,45 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
+        Thread t = new Thread(() -> {
+            System.out.println("Choose Window Pattern: ");
 
-    /*    AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
-        try {
-            Hashtable<String , Drawable> deck =factory.getNewCardDeck();
-            WindowPatternCard wp1 = (WindowPatternCard) deck.get(Integer.parseInt(wp1fronte));
+            AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    */
-
-        System.out.println("Choose Window Pattern: ");
-
-        AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
-
-        Hashtable<String , Drawable> deck = null;
-        try {
-            deck = factory.getNewCardDeck();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        windowPatternCard1 = (WindowPatternCard) deck.get(wp1fronte); //setUpWindowPattern(pattern1);
-        windowPatternCard2 = (WindowPatternCard) deck.get(wp2retro); //setUpWindowPattern(pattern2);
-        windowPatternCard3 = (WindowPatternCard) deck.get(wp3fronte); //setUpWindowPattern(pattern3);
-        windowPatternCard4 = (WindowPatternCard) deck.get(wp4retro); //setUpWindowPattern(pattern4);
-
-        printBoard(windowPatternCard1);
-        printBoard(windowPatternCard2);
-        printBoard(windowPatternCard3);
-        printBoard(windowPatternCard4);
-
-        Scanner scanner = new Scanner(System.in);
-        int chose = scanner.nextInt();
-        if (chose>=0 && chose <=19) {
+            Hashtable<String , Drawable> deck = null;
             try {
-                clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
-            } catch (RemoteException e) {
-                generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+                deck = factory.getNewCardDeck();
+            } catch (FileNotFoundException e) {
+                System.out.println("Catch chooseWP CLI");
+                e.printStackTrace();
             }
-        }
-        else {
-            System.out.println("Wrong id");
-        }
 
-        Player p = new Player(username, null);
-        p.setGameContext(new GameContext(null,null,null, (WindowPatternCard) deck.get(Integer.toString(chose)),null));
-        players.add(p);
+            windowPatternCard1 = (WindowPatternCard) deck.get(wp1fronte); //setUpWindowPattern(pattern1);
+            windowPatternCard2 = (WindowPatternCard) deck.get(wp2retro); //setUpWindowPattern(pattern2);
+            windowPatternCard3 = (WindowPatternCard) deck.get(wp3fronte); //setUpWindowPattern(pattern3);
+            windowPatternCard4 = (WindowPatternCard) deck.get(wp4retro); //setUpWindowPattern(pattern4);
 
+            printBoard(windowPatternCard1);
+            printBoard(windowPatternCard2);
+            printBoard(windowPatternCard3);
+            printBoard(windowPatternCard4);
+
+            System.out.println("Choose ID: ");
+            Scanner scanner = new Scanner(System.in);
+            int chose = scanner.nextInt();
+
+            if (chose>=1 && chose <=24) {
+                try {
+                    clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
+                } catch (RemoteException e) {
+                    generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+                }
+            }
+            else {
+                System.out.println("Wrong id");
+            }
+        });
+        t.start();
     }
 
     @Override
@@ -296,8 +282,11 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void updateGameStatus(GameStatus gameStat) {
-        gameStatus = gameStat;
-        //resetAllIndex();
+        Thread t = new Thread(() -> {
+            gameStatus = gameStat;
+            //resetAllIndex();
+        });
+        t.start();
     }
 
     @Override
@@ -312,23 +301,30 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void pingBack() {
-        if(clientServerSender!=null){
-            try {
-                clientServerSender.pingBack(username);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        Thread t = new Thread(() -> {
+            if(clientServerSender!=null){
+                try {
+                    clientServerSender.pingBack(username);
+                } catch (RemoteException e) {
+                    System.out.println("Catch chooseWP CLI pingback");
+                    e.printStackTrace();
+                }
             }
-        }
+        });
+        t.start();
     }
 
     @Override
     public void allCurrentPlayers(String players) {
-        String[] names = players.split("\\s*,\\s*");
-        System.out.println("\nPlayers currently connected:");
-        for (String name : names) {
-            playersNames.add(name);
-            System.out.println(name);
-        }
+        Thread t = new Thread(() -> {
+            String[] names = players.split("\\s*,\\s*");
+            System.out.println("\nPlayers currently connected:");
+            for (String name : names) {
+                playersNames.add(name);
+                System.out.println(name);
+            }
+        });
+        t.start();
     }
 
     @Override
@@ -346,75 +342,74 @@ public class CLI implements UI, Runnable{
         System.out.println(ANSI_COLOR.ANSI_RED + ANSI_COLOR.BOLD + "Welcome to Sagrada!" + ANSI_COLOR.ANSI_RESET);
         handleConnection();
         validateUsername(maxNameSize);
-        handleLogin();
-
     }
 
     private void handleConnection(){
-        Scanner input = new Scanner(System.in);
-        boolean repeatInsertion = true;
+            Scanner input = new Scanner(System.in);
+            boolean repeatInsertion = true;
 
-        do{
-            String choice;
-            System.out.println("Choose connection type:\n0->RMI\n1->Socket");
-            choice = input.nextLine();
+            do{
+                String choice;
+                System.out.println("Choose connection type:\n0->RMI\n1->Socket");
+                choice = input.nextLine();
 
-            switch(choice){
-                case "0":
-                    rmi = true;
-                    //get server ip from input
-                    System.out.println("Insert server IP: ");
-                    input = new Scanner(System.in);
-                    setIp(input.nextLine());
-                    //get server port from input
-                    System.out.println("Insert server port: ");
-                    input = new Scanner(System.in);
-                    setPort(input.nextLine());repeatInsertion = false;
-                    break;
-                case "1":
-                    //get server ip from input
-                    System.out.println("Insert server IP: ");
-                    input = new Scanner(System.in);
-                    setIp(input.nextLine());
-                    //get server port from input
-                    System.out.println("Insert server port: ");
-                    input = new Scanner(System.in);
-                    setPort(input.nextLine());
-                    repeatInsertion = false;
-                    break;
-                default:
-                    System.out.println("Value typed is not valid");
-                    break;
-            }
-        }while(repeatInsertion);
+                switch(choice){
+                    case "0":
+                        rmi = true;
+                        //get server ip from input
+                        System.out.println("Insert server IP: ");
+                        input = new Scanner(System.in);
+                        setIp(input.nextLine());
+                        //get server port from input
+                        System.out.println("Insert server port: ");
+                        input = new Scanner(System.in);
+                        setPort(input.nextLine());
+                        repeatInsertion = false;
+                        break;
+                    case "1":
+                        //get server ip from input
+                        System.out.println("Insert server IP: ");
+                        input = new Scanner(System.in);
+                        setIp(input.nextLine());
+                        //get server port from input
+                        System.out.println("Insert server port: ");
+                        input = new Scanner(System.in);
+                        setPort(input.nextLine());
+                        repeatInsertion = false;
+                        break;
+                    default:
+                        System.out.println("Value typed is not valid");
+                        break;
+                }
+            }while(repeatInsertion);
     }
 
     private void handleLogin() {
-        if (rmi) {
-            generiClient = new GeneriClient();
-            generiClient.setLinkClientServerRMI();
-            generiClient.setClientServerReciverRMI();
-            clientServerReciver = generiClient.getClientServerReciver();
-            try {
-                clientServerReciver.setUI(this);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            if (rmi) {
+                generiClient = new GeneriClient();
+                generiClient.setLinkClientServerRMI();
+                generiClient.setClientServerReciverRMI();
+                clientServerReciver = generiClient.getClientServerReciver();
+                try {
+                    clientServerReciver.setUI(this);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                generiClient.register(username, ip, Integer.parseInt(port));
             }
-            generiClient.register(username, ip, Integer.parseInt(port));
-        }
-        else {
-            generiClient = new GeneriClient();
-            generiClient.setLinkClientServer(ip, Integer.parseInt(port));
-            generiClient.setClientServerReciver();
-            generiClient.setClientServerSender();
-            clientServerReciver = generiClient.getClientServerReciver();
-            try {
-                clientServerReciver.setUI(this);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            else {
+                generiClient = new GeneriClient();
+                generiClient.setLinkClientServer(ip, Integer.parseInt(port));
+                generiClient.setClientServerReciver();
+                generiClient.setClientServerSender();
+                clientServerReciver = generiClient.getClientServerReciver();
+                try {
+                    clientServerReciver.setUI(this);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                generiClient.register(username);
             }
-            generiClient.register(username);
-        }
     }
 
     /**
@@ -422,16 +417,31 @@ public class CLI implements UI, Runnable{
      * @return EventHandler used to validate a string to max_Length and to only digits and letters
      */
     private void validateUsername(final Integer max_Length) {
-        //return new
-        Scanner keyboard = new Scanner(System.in);
-        do {
-            System.out.println("Enter username:");
-            setUsername(keyboard.nextLine());
-            if (username.contains("."))
-                System.out.println("Your username can't contain char '.'");
-            if (username.length() > max_Length)
-                System.out.println("Your username is too long");
-        } while (username.contains(".") || username.length()>max_Length);
+            Scanner keyboard = new Scanner(System.in);
+            do {
+                System.out.println("Enter username:");
+                setUsername(keyboard.nextLine());
+                if (username.contains("."))
+                    System.out.println("Your username can't contain char '.'");
+                if (username.length() > max_Length)
+                    System.out.println("Your username is too long");
+            } while (username.contains(".") || username.length() > max_Length);
+            handleLogin();
     }
 
+    @Override
+    public void printMessage(String s){
+        Thread t = new Thread(() -> {
+            System.out.println(s);
+            switch (s) {
+                case CONSTANT.usernameAlreadyUsed:
+                    validateUsername(maxNameSize);
+                    break;
+                case CONSTANT.correctUsername:
+                    clientServerSender = generiClient.getClientServerSender();
+                    break;
+            }
+        });
+        t.start();
+    }
 }
