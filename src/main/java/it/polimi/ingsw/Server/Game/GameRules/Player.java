@@ -21,7 +21,7 @@ public class Player implements Serializable{
 
     private String name;
     private PlayerColor color;
-
+    private int pbScore;
     private boolean skipNextTurn = false;
 
     private Boolean stillAlive = true;
@@ -122,6 +122,14 @@ public class Player implements Serializable{
 
     public void setUseToolCardOfTheTurn(UseToolCardBasic useToolCardOfTheTurn) {
         this.useToolCardOfTheTurn = useToolCardOfTheTurn;
+    }
+
+    public int getPbScore() {
+        return pbScore;
+    }
+
+    public void setPbScore(int pbScore) {
+        this.pbScore = pbScore;
     }
 
     public Wallet getWallet(){

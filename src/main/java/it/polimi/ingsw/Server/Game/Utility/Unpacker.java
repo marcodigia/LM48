@@ -219,10 +219,15 @@ public class Unpacker {
 
 
        if (id.startsWith("Dynamic_")){
+           String temp = id;
            id = id.replace("Dynamic_","");
            String[] elements =id.split("\\"+CONSTANT.ElenemtsDelimenter);
 
            wp = new WindowPatternCard(new ArrayList<>(Arrays.asList(elements)));
+           wp.setId(temp);
+
+           for (String s : new ArrayList<>(Arrays.asList(elements)))
+               System.out.println("Dynamic : " + s );
 
        }else {
 
@@ -230,6 +235,7 @@ public class Unpacker {
 
            wp = (WindowPatternCard) WPDeck.get(id);
 
+            System.out.println("id in unpacker " + id + packet);
            //This is to clean the windowpatternCard because WPDeck has a riferimento to the same WP
            for (int i  = 0 ; i < 20 ; i++)
                wp.removeDice(i);

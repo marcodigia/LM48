@@ -43,8 +43,10 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
     public void run() {
 
         while(connect){
+            String command = null;
             try{
-                String command = scanner.next();
+
+                command = scanner.next();
                 switch(command){
                     case "S":
                         message = scanner.next();
@@ -65,6 +67,7 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                     case "SGS":
                         message = scanner.next();
                         ui.pingBack();
+                        System.out.println(ANSI_COLOR.ANSI_PURPLE+message+ANSI_COLOR.ANSI_RESET);
                         GameStatus gameStatus = Unpacker.getGameStatus(message);
                         ui.updateGameStatus(gameStatus);
                         break;
@@ -77,7 +80,8 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                 }
             }catch(NoSuchElementException e){
                 //TODO remove exit(0)
-                exit(0);
+                //exit(0);
+                System.out.println(command);
                 //generiClient.manageDisconnection;
             }
         }
