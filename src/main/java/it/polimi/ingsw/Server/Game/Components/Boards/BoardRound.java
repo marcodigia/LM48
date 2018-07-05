@@ -65,6 +65,11 @@ public class BoardRound implements Packetable {
         return (new ScoreHandler(gameStatus)).getFinalScore();
     }
 
+    /**
+     * This method is used server-side to calculate the winner
+     * @param gameStatus the actual gameStatus
+     * @return the calculated winner
+     */
     public Player getWinner(GameStatus gameStatus){
 
         Hashtable<Player, Integer> winners =  getScore(gameStatus);
