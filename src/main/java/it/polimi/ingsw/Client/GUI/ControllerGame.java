@@ -553,7 +553,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         try {
             clientServerSender.pingBack(username);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            GUI.generiClient.manageDisconnection(GUI.username,GUI.ip,Integer.parseInt(GUI.port));
         }
     }
 

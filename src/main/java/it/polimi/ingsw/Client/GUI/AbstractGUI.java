@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
+import static java.lang.System.exit;
+
 public abstract class AbstractGUI extends Application implements UI{
 
     public void start(Stage primaryStage) {
@@ -110,7 +112,9 @@ public abstract class AbstractGUI extends Application implements UI{
                     if (GUI.generiClient != null)
                         GUI.generiClient.close();
                     GUI.stage.close();
+                    exit(0);
                 }
+
             } );
             GUI.stage.show();
         } catch (IOException e) {

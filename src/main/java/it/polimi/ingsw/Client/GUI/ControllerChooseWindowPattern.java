@@ -275,7 +275,7 @@ public class ControllerChooseWindowPattern extends AbstractGUI implements Initia
         try {
             ControllerLogin.clientServerSender.pingBack(username);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            GUI.generiClient.manageDisconnection(GUI.username,GUI.ip,Integer.parseInt(GUI.port));
         }
     }
 

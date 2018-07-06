@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.CLI;
 
+import com.sun.org.apache.bcel.internal.generic.FADD;
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-//Decided to make CLI static , because it just need to print stuff
 public class CLI implements UI, Runnable{
 
     private static final int maxNameSize = 20;
@@ -47,9 +47,16 @@ public class CLI implements UI, Runnable{
     private WindowPatternCard windowPatternCard1;
     private WindowPatternCard windowPatternCard3;
     private WindowPatternCard windowPatternCard4;
-    private boolean attivo = false;
     private UseToolCardBasic useToolCardBasic;
     private PlaceDiceAction placeDiceAction;
+
+    private int roundID = -1;
+    private int draftPoolIndex = -1;
+    private int cellIndexTo = -1;
+    private int cellIndexFrom = -1;
+    private int diceIndex = -1;
+
+
 
     public CLI(){
     }
@@ -80,34 +87,6 @@ public class CLI implements UI, Runnable{
      */
     public void setUsername(String u){
         username = u;
-    }
-
-    private void printBoards() {
-        System.out.println(ANSI_COLOR.BOLD + "Players Board:" + ANSI_COLOR.ANSI_RESET);
-        StringBuilder line = new StringBuilder();
-        for (int i = 0; i < height; i++) {
-            for (Player p : players) {
-                ArrayList<Restriction> cells = p.getWindowPatternCard().getRow(i);
-                for (Restriction r : cells
-                     ) {
-                    System.out.println(r.name());
-                }
-                line.append("   ");
-            }
-            line.append("\n");
-
-        }
-        //TODO Max name size
-
-        for (Player player : players) {
-
-            int space = maxNameSize - player.getName().length();
-            String spaces = new String(new char[space]).replace("\0", " ");
-
-
-            line.append(player.getName()).append(spaces);
-        }
-        System.out.println(line);
     }
 
     private void printBoard(WindowPatternCard windowPatternCard){
@@ -165,7 +144,7 @@ public class CLI implements UI, Runnable{
 
     }
 
-    public void printBoardGame(WindowPatternCard windowPatternCard) {
+    private void printBoardGame(WindowPatternCard windowPatternCard) {
 
         StringBuilder line = new StringBuilder();
 
@@ -222,7 +201,7 @@ public class CLI implements UI, Runnable{
         System.out.println("\n");
     }
 
-    public void printDraftPool(ArrayList<Dice> draft) {
+    private void printDraftPool(ArrayList<Dice> draft) {
 
         System.out.println("Draft Pool : \n");
         StringBuilder line = new StringBuilder();
@@ -247,6 +226,7 @@ public class CLI implements UI, Runnable{
         do {
 
             System.out.println("Aumentare o Diminuire valore del dado => +1 , -1 : ");
+            System.out.print("\r");
             choice = scanner.nextInt();
             if (!(choice == -1 || choice == 1))
                 System.out.println("Valore non valido , inserire +1 o  -1");
@@ -256,45 +236,52 @@ public class CLI implements UI, Runnable{
 
     @Override
     public int getDraftPoolIndex(){
-        int draftPoolIndex;
         boolean indexOK = false;
         do {
             System.out.println("Choose dice index from Draft Pool: ");
             Scanner keyboard = new Scanner(System.in);
+            System.out.print("\r");
             draftPoolIndex = keyboard.nextInt();
             if (draftPoolIndex > 0 && draftPoolIndex <= gameStatus.getDraftPool().getDraft().size())
                 indexOK = true;
         }while (!indexOK);
-        return draftPoolIndex-1;
+        draftPoolIndex = draftPoolIndex-1;
+        return draftPoolIndex;
     }
 
     @Override
     public int getMatrixIndexFrom(){
-        System.out.println("Indice cella Window Pattern partenza : ");
-        InputStream is = System.in;
-        Scanner scanner = new Scanner(is);
-        int choice = scanner.nextInt();
-        if (choice >= 0 && choice < draftPool.getDraft().size())
-            return choice;
-        return -1;
+        boolean cellIndexOK = false;
+        do {
+            System.out.println("Choose starting cell index: ");
+            Scanner keyboard = new Scanner(System.in);
+            System.out.print("\r");
+            cellIndexFrom = keyboard.nextInt();
+            if (cellIndexFrom > 0 && cellIndexFrom <= 20)
+                cellIndexOK = true;
+        }while (!cellIndexOK);
+        cellIndexFrom = cellIndexFrom-1;
+        return cellIndexFrom;
     }
 
     @Override
     public int getMatrixIndexTo(){
-        int cellIndex;
         boolean cellIndexOK = false;
         do {
-            System.out.println("Choose cell index: ");
+            System.out.println("Choose ending cell index: ");
             Scanner keyboard = new Scanner(System.in);
-            cellIndex = keyboard.nextInt();
-            if (cellIndex > 0 && cellIndex <= 20)
+            System.out.print("\r");
+            cellIndexTo = keyboard.nextInt();
+            if (cellIndexTo > 0 && cellIndexTo <= 20)
                 cellIndexOK = true;
         }while (!cellIndexOK);
-        return cellIndex-1;
+        cellIndexTo = cellIndexTo-1;
+        return cellIndexTo;
     }
 
     @Override
     public boolean askForAnotherDice() {
+        //TODO implementare
         return false;
     }
 
@@ -325,6 +312,7 @@ public class CLI implements UI, Runnable{
 
             System.out.println("Choose ID: ");
             Scanner scanner = new Scanner(System.in);
+            System.out.print("\r");
             int chose = scanner.nextInt();
 
             if (chose>=1 && chose <=24) {
@@ -343,13 +331,17 @@ public class CLI implements UI, Runnable{
 
     @Override
     public int getRoundIndex() {
-        System.out.println("Indice cella round Track : ");
-        InputStream is = System.in;
-        Scanner scanner = new Scanner(is);
-        int choice = scanner.nextInt();
-        if (choice >= 0 && choice < draftPool.getDraft().size())
-            return choice;
-        return -1;
+        boolean chooseOK = false;
+        do {
+            System.out.println("Choose round index: ");
+            Scanner keyboard = new Scanner(System.in);
+            System.out.print("\r");
+            roundID = keyboard.nextInt();
+            if (1 <= roundID && roundID <= 10)
+                chooseOK = true;
+        }while (!chooseOK);
+        roundID = roundID-1;
+        return roundID;
     }
 
     @Override
@@ -359,29 +351,37 @@ public class CLI implements UI, Runnable{
             printGameStatus();
             placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
             useToolCardBasic = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
-            //TODO togliere commento
-            //resetAllIndex();
+            resetAllIndex();
         });
         t.start();
     }
 
-    public void makeMove(){
+    private void resetAllIndex() {
+        roundID = -1;
+        draftPoolIndex = -1;
+        cellIndexTo = -1;
+        cellIndexFrom = -1;
+        diceIndex = -1;
+    }
+
+    private void makeMove(){
         int answer, answer2;
+        Scanner keyboard = new Scanner(System.in);
         do {
+            System.out.print("\r");
             System.out.println(
                     "Skip Tourn? --> 0\n" +
                     "Do you want to use a Tool Card? --> 1\n" +
                     "Do you want to place a dice from Draft Pool? --> 2\n");
-            Scanner keyboard = new Scanner(System.in);
             answer = keyboard.nextInt();
         }
         while (answer!=0 && answer!=1 && answer!=2);
         if (answer == 1){
             useToolCard();
             do {
+                System.out.print("\r");
                 System.out.println(
                         "Skip? --> 0\n" + "Do you want to place a dice from Draft Pool? --> 1\n");
-                Scanner keyboard = new Scanner(System.in);
                 answer2 = keyboard.nextInt();
             }
             while (answer2!=0 && answer2!=1);
@@ -391,9 +391,9 @@ public class CLI implements UI, Runnable{
         if (answer == 2){
             placeDice();
             do {
+                System.out.print("\r");
                 System.out.println(
                         "Skip? --> 0\n" + "Do you want to use a Tool Card? --> 1\n");
-                Scanner keyboard = new Scanner(System.in);
                 answer2 = keyboard.nextInt();
             }
             while (answer2!=0 && answer2!=1);
@@ -402,18 +402,7 @@ public class CLI implements UI, Runnable{
         }
     }
 
-    public void useToolCard(){
-        int toolcardID;
-        boolean chooseOK = false;
-        do {
-            System.out.println("Choose Tool Card ID: ");
-            Scanner keyboard = new Scanner(System.in);
-            toolcardID = keyboard.nextInt();
-            for (ToolCard toolCard : gameStatus.getToolCards())
-                if (Integer.parseInt(toolCard.getID()) == toolcardID)
-                    chooseOK = true;
-        }while (!chooseOK);
-        //TODO rincontrollare tool card chiedere all'utente?
+    private void useToolCard(){
         useToolCardBasic.useAction(this, gameStatus, username);
         try {
             clientServerSender.sendAction(useToolCardBasic, username);
@@ -432,15 +421,16 @@ public class CLI implements UI, Runnable{
         }
     }
 
-    public void printToolCard(){
+    private void printToolCard(){
         System.out.println(ANSI_COLOR.ANSI_RED + "TOOL CARDS: " + ANSI_COLOR.ANSI_RESET);
         for (ToolCard toolCard : gameStatus.getToolCards()){
-            System.out.println(ANSI_COLOR.ANSI_RED + toolCard.getName() + toolCard.getEffect()
+            System.out.println(ANSI_COLOR.ANSI_RED + toolCard.getID() +
+                    toolCard.getName() + toolCard.getEffect()
                     + "\n" + ANSI_COLOR.ANSI_RESET);
         }
     }
 
-    public void printPrivateCard(){
+    private void printPrivateCard(){
         System.out.println(ANSI_COLOR.ANSI_BLUE + "PRIVATE CARD: " + ANSI_COLOR.ANSI_RESET);
         System.out.println(ANSI_COLOR.ANSI_BLUE +
                 gameStatus.getPlayerPrivateObjectiveCards(username).getDiceColor()
@@ -448,7 +438,7 @@ public class CLI implements UI, Runnable{
         );
     }
 
-    public void printPublicCard(){
+    private void printPublicCard(){
         System.out.println(ANSI_COLOR.ANSI_GREEN + "PUBLIC CARDS: " + ANSI_COLOR.ANSI_RESET);
         for (PublicObjectiveCard publicObjectiveCard : gameStatus.getPublicObjectiveCards()){
             System.out.println(ANSI_COLOR.ANSI_GREEN + publicObjectiveCard.getName() +
@@ -456,7 +446,7 @@ public class CLI implements UI, Runnable{
         }
     }
 
-    public void printRoundTrack(){
+    private void printRoundTrack(){
 
         StringBuilder line = new StringBuilder();
 
@@ -476,7 +466,7 @@ public class CLI implements UI, Runnable{
         System.out.println(line);
     }
 
-    public void printGameStatus(){
+    private void printGameStatus(){
         printRoundTrack();
         printPrivateCard();
         printPublicCard();
@@ -490,9 +480,7 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void activate(){
-        Thread t = new Thread(() -> {
-            makeMove();
-        });
+        Thread t = new Thread(this::makeMove);
         t.start();
     }
 
@@ -531,12 +519,35 @@ public class CLI implements UI, Runnable{
 
     @Override
     public ToolCard getChoosenToolCard() {
-        return null;
+        int toolcardID;
+        boolean chooseOK = false;
+        do {
+            System.out.println("Choose Tool Card ID: ");
+            Scanner keyboard = new Scanner(System.in);
+            System.out.print("\r");
+            toolcardID = keyboard.nextInt();
+            if (toolcardID > 0 && toolcardID <= 3)
+                chooseOK = true;
+        }while (!chooseOK);
+        toolcardID = toolcardID-1;
+        return gameStatus.getToolCards().get(toolcardID);
     }
 
     @Override
     public int getDiceIndexFromRound() {
-        return 0;
+        boolean chooseOK = false;
+        if (gameStatus.getBoardRound().getDices().size() >= (roundID + 1)) {
+            do {
+                System.out.println("Choose dice index: ");
+                Scanner keyboard = new Scanner(System.in);
+                System.out.print("\r");
+                diceIndex = keyboard.nextInt();
+                if (diceIndex > 0 && diceIndex <= gameStatus.getBoardRound().getDices().get(roundID).size())
+                    chooseOK = true;
+            } while (!chooseOK);
+        }
+        diceIndex = diceIndex - 1;
+        return diceIndex;
     }
 
     @Override
@@ -553,6 +564,7 @@ public class CLI implements UI, Runnable{
             do{
                 String choice;
                 System.out.println("Choose connection type:\n0->RMI\n1->Socket");
+                System.out.print("\r");
                 choice = input.nextLine();
 
                 switch(choice){
@@ -561,10 +573,12 @@ public class CLI implements UI, Runnable{
                         //get server ip from input
                         System.out.println("Insert server IP: ");
                         input = new Scanner(System.in);
+                        System.out.print("\r");
                         setIp(input.nextLine());
                         //get server port from input
                         System.out.println("Insert server port: ");
                         input = new Scanner(System.in);
+                        System.out.print("\r");
                         setPort(input.nextLine());
                         repeatInsertion = false;
                         break;
@@ -572,10 +586,12 @@ public class CLI implements UI, Runnable{
                         //get server ip from input
                         System.out.println("Insert server IP: ");
                         input = new Scanner(System.in);
+                        System.out.print("\r");
                         setIp(input.nextLine());
                         //get server port from input
                         System.out.println("Insert server port: ");
                         input = new Scanner(System.in);
+                        System.out.print("\r");
                         setPort(input.nextLine());
                         repeatInsertion = false;
                         break;
@@ -622,6 +638,7 @@ public class CLI implements UI, Runnable{
             Scanner keyboard = new Scanner(System.in);
             do {
                 System.out.println("Enter username:");
+                System.out.print("\r");
                 setUsername(keyboard.nextLine());
                 if (username.contains("."))
                     System.out.println("Your username can't contain char '.'");
