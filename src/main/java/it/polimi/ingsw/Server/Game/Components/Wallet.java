@@ -8,12 +8,13 @@ public class Wallet implements Packetable {
 
     private int tokenNumber = 100 ;
 
-
     public void setUpWallet(int i){
-        tokenNumber = 100 ;
+        tokenNumber = i ;
     }
 
     public Boolean enoughToken(int tokensRequired){
+        System.out.println("token number: " + tokenNumber
+        + "tokenRequired: " + tokensRequired);
         return tokenNumber>=tokensRequired;
     }
 

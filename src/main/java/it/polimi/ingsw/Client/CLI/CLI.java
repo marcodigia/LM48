@@ -50,7 +50,6 @@ public class CLI implements UI, Runnable{
     private UseToolCardBasic useToolCardBasic;
     private PlaceDiceAction placeDiceAction;
 
-
     private final Object Sam = new Object();
     private int roundID = -1;
     private int draftPoolIndex = -1;
@@ -228,11 +227,11 @@ public class CLI implements UI, Runnable{
         int choice;
         do {
 
-            safePrint("Aumentare o Diminuire valore del dado => +1 , -1 : ");
+            safePrint("Aumentare o Diminuire valore del dado => 1 , -1 : ");
              
             choice = Integer.parseInt(safeRead());
             if (!(choice == -1 || choice == 1))
-                safePrint("Valore non valido , inserire +1 o  -1");
+                safePrint("Valore non valido , inserire 1 o  -1");
         } while (!(choice == -1 || choice == 1));
         return choice;
     }

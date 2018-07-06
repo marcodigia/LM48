@@ -326,17 +326,9 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         int i = 0;
 
         switch (gameStatus.getPlayer().size()) {
-            /* case 1:
-                hboxgp1.getChildren().remove(gp1);
-                hboxl1.getChildren().remove(p1);
-                hboxgp2.getChildren().remove(gp2);
-                hboxl2.getChildren().remove(p2);
-                hboxgp3.getChildren().remove(gp3);
-                hboxl3.getChildren().remove(p3);
-                gridPanes.add(gp4);
-                p4.setText(gameStatus.getPlayer().get(0).getName());
-                populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
-                break; */
+            case 1:
+                endGame(username);
+                break;
             case 2:
                 hboxgp2.getChildren().remove(gp2);
                 hboxl2.getChildren().remove(p2);
