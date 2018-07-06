@@ -111,7 +111,7 @@ public abstract class AbstractGUI extends Application implements UI{
                 if (buttonData.equals(ButtonBar.ButtonData.OK_DONE)){
                     if (GUI.generiClient != null)
                         GUI.generiClient.close();
-                    
+
                     exit(0);
 
                 }

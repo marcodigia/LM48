@@ -96,18 +96,17 @@ public class MoveTwoDice implements Actions {
 
                 Logger.log("Seleziona cella di partenza\n");
                 from2 = ui.getMatrixIndexFrom();
-                if (from2 != -1 ){
-                    Logger.log("Seleziona cella di destinazione\n");
-                    to2 = ui.getMatrixIndexTo();
-                }
 
-                else
-                    return;
+                Logger.log("Seleziona cella di destinazione\n");
+                to2 = ui.getMatrixIndexTo();
+
+
                 choosenDice = gameStatus.getPlayerWP(gameStatus.getPlayerByName(userName)).getDice(from2);
                 if (choosenDice== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor())){
                     Logger.log("Scelta secondo dado non valida ");
                     from2 = -1 ;
                     to2 = -1 ;
+                    return;
                 }
 
             }
