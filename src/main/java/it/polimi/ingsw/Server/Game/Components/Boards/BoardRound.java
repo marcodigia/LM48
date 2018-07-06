@@ -74,7 +74,7 @@ public class BoardRound implements Packetable {
     public synchronized Player getWinner(GameStatus gameStatus){
 
 
-        Hashtable<Player, Integer> winners =  getScore(gameStatus);
+        Hashtable<Player, Integer> winners =  new Hashtable<>(getScore(gameStatus));
         for (Player p : winners.keySet()){
             if(!p.getConnected())
                 winners.remove(p);

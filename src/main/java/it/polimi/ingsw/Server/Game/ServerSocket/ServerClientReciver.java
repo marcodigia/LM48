@@ -6,6 +6,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
@@ -49,6 +50,7 @@ public class ServerClientReciver implements Runnable {
                 String command = scanner.next();
                 switch(command){
                     case "PINGBACK":
+                        System.out.println("pingback server");
                         if(game.scanForUsername(username)!=null) {
                             game.scanForUsername(username).setStillAlive(true); //Still alive in game
                             game.scanForUsername(username).setIsConnected();
@@ -103,6 +105,8 @@ public class ServerClientReciver implements Runnable {
 
                         for(Player p : game.getPlayers().keySet()) {
                             p.getvirtualView().sendGameStatus(game.getGameStatus());
+                            System.out.println(ANSI_COLOR.BOLD+"Player name "+ username + " placeDiceStaete " + game.getGameStatus().getPlayerByName(username).getPlaceDiceOfTheTurn() +
+                            " useToolcardState " + game.getGameStatus().getPlayerByName(username).getUseToolCardState()+ ANSI_COLOR.ANSI_RESET);
                         }
                         break;
                     default:

@@ -353,18 +353,15 @@ public class CLI implements UI, Runnable{
     @Override
     public void updateGameStatus(GameStatus gameStat) {
 
+        pingBack();
 
         gameStatus = gameStat;
         placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
         useToolCardBasic = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
         resetAllIndex();
-        synchronized (Sam){
-            printGameStatus();
-            semaforo=0;
-            if(primaMossa)
-                makeSecondMove();
-            Sam.notify();
-        }
+
+        print(gameStatus);
+
 
     }
 
@@ -510,15 +507,40 @@ public class CLI implements UI, Runnable{
     }
 
 
+
     private boolean active = false;
     private void print(GameStatus gameStatus){
 
-        System.out.println("Games status");
+        printGameStatus();
 
+        System.out.println("PLAYER ENABLE: " + active );
+        System.out.println("PLAYER NAME: " + username);
         if (active){
-            if (gameStatus.getPlayerByName(username).getPlaceDiceState())
-                System.out.println("Place dice?");
+            String choose = "";
+            if (gameStatus.getPlayerByName(username).getPlaceDiceState()){
+                safePrint("Place dice?   -> 1");
+            }
+            if(gameStatus.getPlayerByName(username).getUseToolCardState()){
+                safePrint("Use ToolCard -->2");
+            }
+            boolean correct = true;
+            do {
+                choose = safeRead();
+                if(choose.equals("1") || choose.equals("2"))
+                    correct =false;
+                else
+                    safePrint("Scelta non valida");
+            }while (correct);
 
+
+            switch (choose){
+                case "1":
+                    placeDice();
+                    break;
+                case "2":
+                    useToolCard();
+                    break;
+            }
         }
 
 
@@ -539,21 +561,24 @@ public class CLI implements UI, Runnable{
     @Override
     public void activate(){
 
-        Thread t1 = new Thread(this::makeMove);
-        t1.start();
+        //Thread t1 = new Thread(this::makeMove);
+        //t1.start();
         active = true;
+        print(gameStatus);
 
     }
 
     @Override
     public void disable() {
-        semaforo=1;
         active = false;
+        print(gameStatus);
+        System.out.println("DIO CANNNEEEEEE");
     }
 
     @Override
     public void pingBack() {
-        Thread t = new Thread(() -> {
+        //System.out.println("Ping");
+       // Thread t = new Thread(() -> {
             if(clientServerSender!=null){
                 try {
                     clientServerSender.pingBack(username);
@@ -562,8 +587,8 @@ public class CLI implements UI, Runnable{
                     e.printStackTrace();
                 }
             }
-        });
-        t.start();
+      //  });
+       // t.start();
     }
 
     @Override

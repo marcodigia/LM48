@@ -12,7 +12,7 @@ public class Logger {
     public static void log(String s){
         log += s;
         lastLog = s;
-        System.out.println(lastLog);
+
         if (text!=null)
             Platform.runLater(()-> {
 
