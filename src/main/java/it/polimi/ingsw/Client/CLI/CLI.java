@@ -4,6 +4,9 @@ import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.*;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
+import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
@@ -14,6 +17,7 @@ import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import javafx.application.Platform;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -37,12 +41,15 @@ public class CLI implements UI, Runnable{
     private ClientServerSender clientServerSender;
     private ClientServerReciver clientServerReciver;
     private GeneriClient generiClient;
-    private String username;
+    private static String username;
     private boolean rmi = false;
     private WindowPatternCard windowPatternCard2;
     private WindowPatternCard windowPatternCard1;
     private WindowPatternCard windowPatternCard3;
     private WindowPatternCard windowPatternCard4;
+    private boolean attivo = false;
+    private UseToolCardBasic useToolCardBasic;
+    private PlaceDiceAction placeDiceAction;
 
     public CLI(){
     }
@@ -215,7 +222,6 @@ public class CLI implements UI, Runnable{
         System.out.println("\n");
     }
 
-
     public void printDraftPool(ArrayList<Dice> draft) {
 
         System.out.println("Draft Pool : \n");
@@ -230,6 +236,9 @@ public class CLI implements UI, Runnable{
 
     @Override
     public int getAmmountToChange(int ammountType){
+
+        Thread t = new Thread(()->{});
+        t.start();
 
         InputStream is = System.in;
         Scanner scanner = new Scanner(is);
@@ -247,13 +256,16 @@ public class CLI implements UI, Runnable{
 
     @Override
     public int getDraftPoolIndex(){
-        System.out.println("Indice dado Draft pool : ");
-        InputStream is = System.in;
-        Scanner scanner = new Scanner(is);
-        int choice = scanner.nextInt();
-        if (choice >= 0 && choice < draftPool.getDraft().size())
-            return choice;
-        return -1;
+        int draftPoolIndex;
+        boolean indexOK = false;
+        do {
+            System.out.println("Choose dice index from Draft Pool: ");
+            Scanner keyboard = new Scanner(System.in);
+            draftPoolIndex = keyboard.nextInt();
+            if (draftPoolIndex > 0 && draftPoolIndex <= gameStatus.getDraftPool().getDraft().size())
+                indexOK = true;
+        }while (!indexOK);
+        return draftPoolIndex-1;
     }
 
     @Override
@@ -269,13 +281,16 @@ public class CLI implements UI, Runnable{
 
     @Override
     public int getMatrixIndexTo(){
-        System.out.println("Indice cella window Pattern destinazione : ");
-        InputStream is = System.in;
-        Scanner scanner = new Scanner(is);
-        int choice = scanner.nextInt();
-        if (choice >= 0 && choice < draftPool.getDraft().size())
-            return choice;
-        return -1;
+        int cellIndex;
+        boolean cellIndexOK = false;
+        do {
+            System.out.println("Choose cell index: ");
+            Scanner keyboard = new Scanner(System.in);
+            cellIndex = keyboard.nextInt();
+            if (cellIndex > 0 && cellIndex <= 20)
+                cellIndexOK = true;
+        }while (!cellIndexOK);
+        return cellIndex-1;
     }
 
     @Override
@@ -342,9 +357,79 @@ public class CLI implements UI, Runnable{
         Thread t = new Thread(() -> {
             gameStatus = gameStat;
             printGameStatus();
+            placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
+            useToolCardBasic = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
+            //TODO togliere commento
             //resetAllIndex();
         });
         t.start();
+    }
+
+    public void makeMove(){
+        int answer, answer2;
+        do {
+            System.out.println(
+                    "Skip Tourn? --> 0\n" +
+                    "Do you want to use a Tool Card? --> 1\n" +
+                    "Do you want to place a dice from Draft Pool? --> 2\n");
+            Scanner keyboard = new Scanner(System.in);
+            answer = keyboard.nextInt();
+        }
+        while (answer!=0 && answer!=1 && answer!=2);
+        if (answer == 1){
+            useToolCard();
+            do {
+                System.out.println(
+                        "Skip? --> 0\n" + "Do you want to place a dice from Draft Pool? --> 1\n");
+                Scanner keyboard = new Scanner(System.in);
+                answer2 = keyboard.nextInt();
+            }
+            while (answer2!=0 && answer2!=1);
+            if (answer2 == 1)
+                placeDice();
+        }
+        if (answer == 2){
+            placeDice();
+            do {
+                System.out.println(
+                        "Skip? --> 0\n" + "Do you want to use a Tool Card? --> 1\n");
+                Scanner keyboard = new Scanner(System.in);
+                answer2 = keyboard.nextInt();
+            }
+            while (answer2!=0 && answer2!=1);
+            if (answer2==1)
+                useToolCard();
+        }
+    }
+
+    public void useToolCard(){
+        int toolcardID;
+        boolean chooseOK = false;
+        do {
+            System.out.println("Choose Tool Card ID: ");
+            Scanner keyboard = new Scanner(System.in);
+            toolcardID = keyboard.nextInt();
+            for (ToolCard toolCard : gameStatus.getToolCards())
+                if (Integer.parseInt(toolCard.getID()) == toolcardID)
+                    chooseOK = true;
+        }while (!chooseOK);
+        //TODO rincontrollare tool card chiedere all'utente?
+        useToolCardBasic.useAction(this, gameStatus, username);
+        try {
+            clientServerSender.sendAction(useToolCardBasic, username);
+        } catch (RemoteException e) {
+            generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+        }
+    }
+
+    public void placeDice(){
+        placeDiceAction.useAction(this, gameStatus, username);
+        try {
+            clientServerSender.sendAction(placeDiceAction, username);
+            System.out.println("PlaceDiceAction CLI: " + placeDiceAction.toPacket());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public void printToolCard(){
@@ -359,7 +444,8 @@ public class CLI implements UI, Runnable{
         System.out.println(ANSI_COLOR.ANSI_BLUE + "PRIVATE CARD: " + ANSI_COLOR.ANSI_RESET);
         System.out.println(ANSI_COLOR.ANSI_BLUE +
                 gameStatus.getPlayerPrivateObjectiveCards(username).getDiceColor()
-                + "\n" + ANSI_COLOR.ANSI_RESET);
+                + ANSI_COLOR.ANSI_RESET
+        );
     }
 
     public void printPublicCard(){
@@ -391,11 +477,11 @@ public class CLI implements UI, Runnable{
     }
 
     public void printGameStatus(){
-        printDraftPool(gameStatus.getDraftPool().getDraft());
         printRoundTrack();
         printPrivateCard();
         printPublicCard();
         printToolCard();
+        printDraftPool(gameStatus.getDraftPool().getDraft());
         for (Player p : gameStatus.getPlayerCards().keySet()){
             System.out.println(p.getName());
             printBoardGame((WindowPatternCard) gameStatus.getPlayerCards().get(p).get(0));
@@ -403,8 +489,11 @@ public class CLI implements UI, Runnable{
     }
 
     @Override
-    public void activate() {
-
+    public void activate(){
+        Thread t = new Thread(() -> {
+            makeMove();
+        });
+        t.start();
     }
 
     @Override

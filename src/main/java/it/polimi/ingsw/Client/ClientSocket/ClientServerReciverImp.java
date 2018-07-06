@@ -67,7 +67,6 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                     case "SGS":
                         message = scanner.next();
                         ui.pingBack();
-                        System.out.println(ANSI_COLOR.ANSI_PURPLE+message+ANSI_COLOR.ANSI_RESET);
                         GameStatus gameStatus = Unpacker.getGameStatus(message);
                         ui.updateGameStatus(gameStatus);
                         break;
