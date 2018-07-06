@@ -235,7 +235,6 @@ public class Unpacker {
 
            wp = (WindowPatternCard) WPDeck.get(id);
 
-            System.out.println("id in unpacker " + id + packet);
            //This is to clean the windowpatternCard because WPDeck has a riferimento to the same WP
            for (int i  = 0 ; i < 20 ; i++)
                wp.removeDice(i);
