@@ -11,6 +11,8 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
+import it.polimi.ingsw.Server.Game.Utility.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -29,6 +31,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -60,6 +63,8 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private Stage amountStage;
     private Stage anotherDice;
 
+
+    public Text text;
     private int indice_dado = -1;
     private int indice_dadoPrecedente = -1;
     private int draftpoolindex = -1;
@@ -68,7 +73,10 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private int toolCardSelected = -1;
     private int indiceWPFrom = -1;
     private int amountIndex = 0;
+    private int askAnotherReady = -1;
 
+
+    private final Object lockAskanother = new Object();
     private final Object lockRoundIndex = new Object();
     private final Object lockDiceRoundIndex = new Object();
     private Object lockToolCardSelected = new Object();
@@ -94,6 +102,15 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private ArrayList<Label> round = new ArrayList<>();
     private ArrayList<GridPane> gridPanes = new ArrayList<>();
     public static String gameWinner;
+
+
+
+    public boolean GO = true;
+
+
+    public void setGO(boolean GO) {
+        this.GO = GO;
+    }
 
     @Override
 
@@ -149,6 +166,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         useToolCardBasic = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
         toolCards = gameStatus.getToolCards();
 
+        Logger.setTextfx(text);
     }
 
     /**
@@ -293,6 +311,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 useToolCardBasic.useAction(this, gameStatus, username);
                 try {
                     clientServerSender.sendAction(useToolCardBasic, username);
+                    System.out.println("HANDLECLICK TC "+useToolCardBasic.toPacket());
                 } catch (RemoteException e) {
                     GUI.generiClient.manageDisconnection(GUI.username, GUI.ip, Integer.parseInt(GUI.port));
                 }
@@ -530,6 +549,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         gameStatus = gameStat;
         Platform.runLater(() -> switchScene(Board));
         resetAllIndex();
+        setGO(false);
     }
 
     @Override
@@ -566,13 +586,15 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public int getDraftPoolIndex() {
             Thread t = new Thread(() -> {
                 synchronized (lockDraftPool) {
-                    while (draftpoolindex == -1) {
+                    while (draftpoolindex == -1 && GO) {
                         try {
                             lockDraftPool.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
+                    if (!GO)
+                        return;
                 }
             });
             t.start();
@@ -589,13 +611,14 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public int getMatrixIndexFrom(){
         Thread t = new Thread(() -> {
             synchronized (lockWPFrom) {
-                while ((indice_dado == -1)) {
+                while ((indice_dado == -1)&& GO) {
                     try {
                         lockWPFrom.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
+                }if (!GO)
+                    return;
             }
         });
         t.start();
@@ -614,7 +637,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
         Thread t = new Thread(() -> {
             synchronized (lockWPTo) {
-                while (indice_dadoPrecedente==-1){
+                while (indice_dadoPrecedente==-1&& GO){
                     try {
                         lockWPTo.wait();
                     } catch (InterruptedException e) {
@@ -622,6 +645,8 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                     }
                 }
             }
+            if (!GO)
+                return;
         });
         t.start();
         try {
@@ -644,6 +669,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         diceRoundIndex = -1;
         toolCardSelected = -1;
         amountIndex = 0;
+        askAnotherReady= -1;
     }
 
     @Override
@@ -682,7 +708,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
             Thread t = new Thread(() -> {
                 synchronized (lockAmount) {
-                    while (amountIndex == 0) {
+                    while (amountIndex == 0 && GO) {
                         try {
                             lockAmount.wait();
                         } catch (InterruptedException e) {
@@ -691,6 +717,8 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                     }
 
                 }
+                if (!GO)
+                    return;
 
             });
             t.start();
@@ -719,7 +747,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
 
             Thread t = new Thread(() -> {
                 synchronized (lockAmount) {
-                    while (amountIndex == 0) {
+                    while (amountIndex == 0&& GO) {
                         try {
                             lockAmount.wait();
                         } catch (InterruptedException e) {
@@ -728,6 +756,8 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                     }
 
                 }
+                if (!GO)
+                    return;
 
             });
             t.start();
@@ -797,8 +827,11 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      * @param mouseEvent event caused by the user (eg. clicking mouse)
      */
     private void handleClickBoardRound(MouseEvent mouseEvent) {
-        Platform.runLater(() -> {
             roundIndex = Integer.parseInt(((Label) mouseEvent.getSource()).getText());
+        synchronized (lockRoundIndex){
+            lockRoundIndex.notifyAll();
+        }
+            Platform.runLater(() -> {
             if (roundTrack.size() >= roundIndex){
                 Stage window = new Stage();
                 window.initModality(Modality.APPLICATION_MODAL);
@@ -826,9 +859,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             else{
                 createAlertBox("This turn has to be played, no dices");
             }
-            synchronized (lockRoundIndex){
-                lockRoundIndex.notifyAll();
-            }
         });
     }
 
@@ -849,13 +879,15 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     public int getRoundIndex(){
         Thread t = new Thread(() -> {
             synchronized (lockRoundIndex) {
-                while (roundIndex == -1) {
+                while (roundIndex == -1&& GO) {
                     try {
                         lockRoundIndex.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                if (!GO)
+                    return;
             }
         });
         t.start();
@@ -864,20 +896,22 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return roundIndex;
+        return roundIndex-1;
     }
 
     @Override
     public int getDiceIndexFromRound() {
         Thread t = new Thread(() -> {
             synchronized (lockDiceRoundIndex) {
-                while (diceRoundIndex == -1) {
+                while (diceRoundIndex == -1&& GO) {
                     try {
                         lockDiceRoundIndex.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                if (!GO)
+                    return;
             }
         });
         t.start();
@@ -890,8 +924,8 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     }
 
     @Override
-    public boolean askForAnotherDice(){
-        AtomicInteger toReturn = new AtomicInteger();
+    public boolean askForAnotherDice() {
+        final boolean[] ans = new boolean[1];
         Platform.runLater((() -> {
             anotherDice = new Stage();
             anotherDice.setTitle("Place another dice?");
@@ -902,19 +936,22 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             Label text = new Label("Do you want to place another dice?");
             Button yes = new Button("Yes");
             yes.setOnAction(e -> {
-                toReturn.set(1);
-                synchronized (lockAnother){
-                    lockAnother.notifyAll();
+                ans[0] = true;
+                askAnotherReady = 0;
+                synchronized (lockAskanother){
+                    lockAskanother.notify();
                 }
+
                 anotherDice.close();
             });
             Button no = new Button("No");
             no.setOnAction(e -> {
-                toReturn.set(-1);
-                synchronized (lockAnother){
-                    lockAnother.notifyAll();
+                ans[0] = false;
+                askAnotherReady= 0;
+                synchronized (lockAskanother){
+                    lockAskanother.notify();
                 }
-                amountStage.close();
+                anotherDice.close();
             });
             layoutV.getChildren().addAll(text, layoutH);
             layoutH.getChildren().addAll(yes, no);
@@ -923,26 +960,34 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             anotherDice.show();
         }));
 
-        Thread t = new Thread(() -> {
-            synchronized (lockAmount){
-                while (toReturn.equals(0)) {
+
+
+        Thread t1 = new Thread(()->{
+            synchronized (lockAskanother){
+                while(askAnotherReady==-1 && GO){
                     try {
-                        lockAmount.wait();
+                        lockAskanother.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-
+                if (!GO)
+                    return;
             }
-
         });
-        t.start();
+
+        t1.start();
         try {
-            t.join();
+            t1.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return toReturn.equals(1);
+
+
+        return ans[0];
+
+
+
     }
 
     @Override

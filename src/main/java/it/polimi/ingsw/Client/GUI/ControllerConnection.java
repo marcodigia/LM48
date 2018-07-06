@@ -29,6 +29,8 @@ public class ControllerConnection extends AbstractGUI implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg2, anchorconnection);
         bg2.autosize();
+        serverIP.setText(ip);
+        serverPort.setText(port);
     }
 
     /**
