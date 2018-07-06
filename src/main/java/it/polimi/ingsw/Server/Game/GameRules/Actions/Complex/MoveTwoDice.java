@@ -81,7 +81,7 @@ public class MoveTwoDice implements Actions {
             from1 = ui.getMatrixIndexFrom();
             Logger.log("Seleziona cella di destinazione\n");
             to1 = ui.getMatrixIndexTo();
-            Dice choosenDice = gameStatus.getPlayerByName(userName).getWindowPatternCard().getDice(from1);
+            Dice choosenDice = gameStatus.getPlayerWP(gameStatus.getPlayerByName(userName)).getDice(from1);
             if (choosenDice== null || diceTrack== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor()))
             {
                 Logger.log("Scelta non valida ");
@@ -103,7 +103,7 @@ public class MoveTwoDice implements Actions {
 
                 else
                     return;
-                choosenDice = gameStatus.getPlayerByName(userName).getWindowPatternCard().getDice(from2);
+                choosenDice = gameStatus.getPlayerWP(gameStatus.getPlayerByName(userName)).getDice(from2);
                 if (choosenDice== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor())){
                     Logger.log("Scelta secondo dado non valida ");
                     from2 = -1 ;

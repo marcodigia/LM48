@@ -120,7 +120,7 @@ public class BoardRound implements Packetable {
             int lowturn;
             int posinTurn;
 
-            for (int i = pl.size() ; i > 0 ; i--){
+            for (int i = pl.size()-1 ; i >=0 ; i--){
 
                 for (Player p : w){
                     if (p.getName().equals(pl.get(i).getName()))

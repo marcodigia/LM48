@@ -2,7 +2,7 @@ package it.polimi.ingsw.ClientServerCommonInterface;
 
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
-import it.polimi.ingsw.Server.Game.GameRules.EndGame.Score;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -57,11 +57,11 @@ public interface ServerClientSender {
     /**
      * This method sends client's score.
      *
-     * @param score Client's score.
-     * @throws RemoteException This interface is used by RMI connection so RemoteException must be used.
+     *
+     * @param player@throws RemoteException This interface is used by RMI connection so RemoteException must be used.
      *
      * */
-    void sendScore(Score score) throws RemoteException;
+    void sendScore(Player player) throws RemoteException;
 
     /**
      * This method sends to client the list of all player.

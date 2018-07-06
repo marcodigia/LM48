@@ -105,8 +105,8 @@ public class PlaceDice implements Actions {
         matrixIndexTo = ui.getMatrixIndexTo();
 
 
-        if (gameStatus.getPlayerByName(userName).getWindowPatternCard().getAllDices().size() > 0) {
-            if (!existsValidMove(gameStatus.getDraftPool().getDice(draftpoolFrom), gameStatus.getPlayerByName(userName).getWindowPatternCard())) {
+        if (gameStatus.getPlayerWP(gameStatus.getPlayerByName(userName)).getAllDices().size() > 0) {
+            if (!existsValidMove(gameStatus.getDraftPool().getDice(draftpoolFrom), gameStatus.getPlayerWP(gameStatus.getPlayerByName(userName)))) {
                 matrixIndexTo = -1;
                 Logger.log("Sorry no possible move.\n Try with a different dice.");
             }

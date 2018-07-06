@@ -4,7 +4,6 @@ package it.polimi.ingsw.Server.View;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
-import it.polimi.ingsw.Server.Game.GameRules.EndGame.Score;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 
 import java.rmi.RemoteException;
@@ -109,9 +108,9 @@ public class VirtualViewImp implements VirtualView {
     }
 
     @Override
-    public void sendScore(Score score) {
+    public void sendScore(Player player) {
         try {
-            serverClientSender.sendScore(score);
+            serverClientSender.sendScore(player);
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );

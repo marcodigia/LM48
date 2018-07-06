@@ -124,7 +124,7 @@ public class WaitingRoom {
                             clientList.clear();
                             noMorePlayerAccepted = true;
                         }
-                    }, timerUtility.readTimerFromFile(35,"timer.txt"));
+                    }, timerUtility.readTimerFromFile(10,"timer.txt"));
                 }
             }
         }

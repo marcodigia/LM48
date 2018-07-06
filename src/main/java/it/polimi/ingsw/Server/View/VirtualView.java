@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Server.View;
 
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
-import it.polimi.ingsw.Server.Game.GameRules.EndGame.Score;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +15,6 @@ public interface VirtualView extends Serializable{
     void timerEnd();
     void timerStart();
     void sendGameStatus(GameStatus gameStatus);
-    void sendScore(Score score);
+    void sendScore(Player player);
 
 }

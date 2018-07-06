@@ -17,7 +17,7 @@ public class TimerUtility {
             if(file.createNewFile()) {
                 fileWriter = new FileWriter(file);
                 bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write(delay);
+                bufferedWriter.write(String.valueOf(delay));
                 bufferedWriter.flush();
             }
             else{

@@ -46,6 +46,10 @@ public class GameStatus implements Packetable {
         playerCards.put(p, list);
     }
 
+
+    public WindowPatternCard getPlayerWP(Player p ){
+        return (WindowPatternCard) playerCards.get(p).get(0);
+    }
     public void addTC(ToolCard toolCard){
 
         toolCards.add(toolCard);

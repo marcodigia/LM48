@@ -95,12 +95,17 @@ public class Turn extends TimerTask implements Runnable {
                         turn++;
                     }
                     else{
-                        //TODO there is a winner
+                        Player winner = gameStatus.getBoardRound().getWinner(gameStatus);
                         System.out.println("There is a winner");
+                        for(Player p : players.keySet())
+                            p.getvirtualView().sendScore(winner);
                     }
                 }
                 else{
-                    //TODO segnala fine gioco e calcolo vincitore
+                    Player winner = gameStatus.getBoardRound().getWinner(gameStatus);
+                    System.out.println("Game end");
+                    for(Player p : players.keySet())
+                        p.getvirtualView().sendScore(winner);
                 }
             }
         }

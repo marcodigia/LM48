@@ -2,7 +2,7 @@ package it.polimi.ingsw.Server.Game.ServerSocket;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
-import it.polimi.ingsw.Server.Game.GameRules.EndGame.Score;
+import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 
 import java.io.IOException;
@@ -63,8 +63,8 @@ public class ServerClientSenderImp implements ServerClientSender {
     }
 
     @Override
-    public void sendScore(Score score) throws RemoteException {
-        printWriter.println("SC" + CONSTANT.delimenter + score.toString() + CONSTANT.delimenter);
+    public void sendScore(Player player) throws RemoteException {
+        printWriter.println("SC" + CONSTANT.delimenter + player.getName() + CONSTANT.delimenter);
         printWriter.flush();
     }
 

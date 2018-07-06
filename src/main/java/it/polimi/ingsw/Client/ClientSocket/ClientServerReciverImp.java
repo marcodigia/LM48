@@ -48,6 +48,10 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
 
                 command = scanner.next();
                 switch(command){
+                    case "SC":
+                        message = scanner.next();
+                        ui.endGame(message);
+                        break;
                     case "S":
                         message = scanner.next();
                         ui.printMessage(message);
