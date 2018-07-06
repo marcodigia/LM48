@@ -20,8 +20,8 @@ public class ChangeDiceValue implements Actions {
     public ChangeDiceValue() {
     }
 
-    public ChangeDiceValue(int ammount) {
-        this.type = ammount;
+    public ChangeDiceValue(int type) {
+        this.type = type;
     }
 
     @Override
@@ -34,6 +34,7 @@ public class ChangeDiceValue implements Actions {
         Dice diceToChange = draftPool.getDice(draftPoolIndex);
 
 
+        System.out.println("Change dice VALUE dp index" + draftPoolIndex + " dicetochange " + diceToChange + " type " + type + " Ammount " + ammount);
         switch (type){
             case 1:
                 if (ammount == 1) {
@@ -57,7 +58,10 @@ public class ChangeDiceValue implements Actions {
                 if (diceToChange!=null){
                     gameStatus.getDiceBag().putDice(diceToChange);
                     Dice newDice = gameStatus.getDiceBag().getNdices(1).get(0);
+                    gameStatus.getDraftPool().removeDice(diceToChange);
                     newDice.setValue(ammount);
+                    gameStatus.getDraftPool().putDice(newDice);
+
                 }
                 break;
             default:
@@ -78,7 +82,10 @@ public class ChangeDiceValue implements Actions {
 
         if (type!=2){
             Logger.log("Decidi la variazione del dado\n");
-            ammount = ui.getAmmountToChange(0);
+            if (type == 3)
+                ammount = ui.getAmmountToChange(1);
+            else
+                ammount = ui.getAmmountToChange(0);
         }
 
 
@@ -96,6 +103,7 @@ public class ChangeDiceValue implements Actions {
 
         ammount = Integer.parseInt(elements[0]);
         draftPoolIndex=Integer.parseInt(elements[1]);
+        type =Integer.parseInt(elements[2]);
     }
 
     @Override
@@ -110,6 +118,7 @@ public class ChangeDiceValue implements Actions {
         StringBuilder packet = new StringBuilder();
         packet.append(ChangeDiceValue.class.getName()).append(CONSTANT.ObjectDelimeterComplex);
         packet.append(ammount).append(CONSTANT.ElenemtsDelimenter).append(draftPoolIndex);
+        packet.append(CONSTANT.ElenemtsDelimenter).append(type);
         return packet.toString();
     }
 }

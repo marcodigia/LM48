@@ -35,6 +35,14 @@ public class Turn extends TimerTask implements Runnable {
         return numberOfTurn;
     }
 
+    public static int getSecondTurn(){
+
+        if(turn < players.keySet().size())
+            return 1;
+
+        return 2;
+    }
+
     public static synchronized LinkedHashMap<Player, Boolean> getPlayers() {
         return new LinkedHashMap<>(players);
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.ServerRete.Turn;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
 import it.polimi.ingsw.UI;
@@ -32,7 +33,7 @@ public class RerollDraftedDice implements Actions {
 
 
         if (diceIndex==-1) {
-            if (gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().actionState()) //TODO && reroll all only at the second turn
+            if (gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().actionState()&&Turn.getSecondTurn()==2) //TODO && reroll all only at the second turn
                 gameStatus.getDraftPool().rerollAllDices();
         }else
             gameStatus.getDraftPool().getDice(diceIndex).reroll();
