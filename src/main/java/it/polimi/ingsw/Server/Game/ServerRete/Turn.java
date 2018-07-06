@@ -98,14 +98,23 @@ public class Turn extends TimerTask implements Runnable {
                         Player winner = gameStatus.getBoardRound().getWinner(gameStatus);
                         System.out.println("There is a winner");
                         for(Player p : players.keySet())
-                            p.getvirtualView().sendScore(winner);
+                        {
+                            if (p!=null)
+                                p.getvirtualView().sendScore(winner);
+
+                        }
                     }
                 }
                 else{
                     Player winner = gameStatus.getBoardRound().getWinner(gameStatus);
                     System.out.println("Game end");
                     for(Player p : players.keySet())
-                        p.getvirtualView().sendScore(winner);
+                    {
+                        //TODO trovare perchè se uno non sceglie la wp diventa null
+                        if (p!=null)
+                            p.getvirtualView().sendScore(winner);
+
+                    }
                 }
             }
         }

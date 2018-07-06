@@ -29,7 +29,7 @@ public class CONSTANT {
     public final static int publicCardToExtract = 3;
     public final static int windowCardNumber = 24;
     public final static int privateCardNumber = 5;
-    public final static int numberOfRound = 1;
+    public final static int numberOfRound = 10;
     public final static int ROWS = 4;
     public final static int COLUMNS = 5;
 

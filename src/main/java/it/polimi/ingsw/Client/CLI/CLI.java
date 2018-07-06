@@ -50,14 +50,20 @@ public class CLI implements UI, Runnable{
     private UseToolCardBasic useToolCardBasic;
     private PlaceDiceAction placeDiceAction;
 
+
+    private final Object Sam = new Object();
     private int roundID = -1;
     private int draftPoolIndex = -1;
     private int cellIndexTo = -1;
     private int cellIndexFrom = -1;
     private int diceIndex = -1;
 
-
-
+    private Integer semaforo = 1;
+    private String message;
+    Scanner s = new Scanner(System.in);
+    private boolean primaMossa = false;
+    private int answer;
+    
     public CLI(){
     }
 
@@ -91,13 +97,13 @@ public class CLI implements UI, Runnable{
 
     private void printBoard(WindowPatternCard windowPatternCard){
 
-            System.out.println(windowPatternCard.getID());
+            safePrint(windowPatternCard.getID());
             ArrayList<Restriction> cells = new ArrayList<>();
             StringBuilder line = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 cells.add(windowPatternCard.getRestrictionAtIndex(i));
                 if (i == 5 || i == 10 || i == 15){
-                    System.out.println(line);
+                    safePrint(line);
                     line = new StringBuilder();
                 }
                 switch (cells.get(i)) {
@@ -139,10 +145,11 @@ public class CLI implements UI, Runnable{
                         break;
                 }
             }
-            System.out.println(line);
-            System.out.println("\n");
+            safePrint(line);
+            safePrint("\n");
 
     }
+
 
     private void printBoardGame(WindowPatternCard windowPatternCard) {
 
@@ -193,43 +200,39 @@ public class CLI implements UI, Runnable{
                 }
             }
             if (i == 4 || i == 9 || i == 14){
-                System.out.println(line);
+                safePrint(line);
                 line = new StringBuilder();
             }
         }
-        System.out.println(line);
-        System.out.println("\n");
+        safePrint(line);
+        safePrint("\n");
     }
 
     private void printDraftPool(ArrayList<Dice> draft) {
 
-        System.out.println("Draft Pool : \n");
+        safePrint("Draft Pool : \n");
         StringBuilder line = new StringBuilder();
         for (Dice d : draft) {
             line.append(d.getDiceColor().getAnsiColor()).append(ANSI_COLOR.BOLD).append("[")
                     .append(d.getValue()).append("]").append(ANSI_COLOR.ANSI_RESET)
                     .append("  ");
         }
-        System.out.println(line);
+        safePrint(line);
     }
 
     @Override
     public int getAmmountToChange(int ammountType){
 
-        Thread t = new Thread(()->{});
-        t.start();
-
         InputStream is = System.in;
-        Scanner scanner = new Scanner(is);
 
         int choice;
         do {
 
-            System.out.println("Aumentare o Diminuire valore del dado => +1 , -1 : ");
-            System.out.print("\r");
-            choice = scanner.nextInt();
+            safePrint("Aumentare o Diminuire valore del dado => +1 , -1 : ");
+             
+            choice = Integer.parseInt(safeRead());
             if (!(choice == -1 || choice == 1))
-                System.out.println("Valore non valido , inserire +1 o  -1");
+                safePrint("Valore non valido , inserire +1 o  -1");
         } while (!(choice == -1 || choice == 1));
         return choice;
     }
@@ -238,10 +241,11 @@ public class CLI implements UI, Runnable{
     public int getDraftPoolIndex(){
         boolean indexOK = false;
         do {
-            System.out.println("Choose dice index from Draft Pool: ");
-            Scanner keyboard = new Scanner(System.in);
-            System.out.print("\r");
-            draftPoolIndex = keyboard.nextInt();
+            safePrint("Choose dice index from Draft Pool: ");
+
+            // 
+            draftPoolIndex = Integer.parseInt(safeRead());
+
             if (draftPoolIndex > 0 && draftPoolIndex <= gameStatus.getDraftPool().getDraft().size())
                 indexOK = true;
         }while (!indexOK);
@@ -253,10 +257,11 @@ public class CLI implements UI, Runnable{
     public int getMatrixIndexFrom(){
         boolean cellIndexOK = false;
         do {
-            System.out.println("Choose starting cell index: ");
-            Scanner keyboard = new Scanner(System.in);
-            System.out.print("\r");
-            cellIndexFrom = keyboard.nextInt();
+            safePrint("Choose starting cell index: ");
+
+
+            cellIndexFrom = Integer.parseInt(safeRead());
+
             if (cellIndexFrom > 0 && cellIndexFrom <= 20)
                 cellIndexOK = true;
         }while (!cellIndexOK);
@@ -268,10 +273,11 @@ public class CLI implements UI, Runnable{
     public int getMatrixIndexTo(){
         boolean cellIndexOK = false;
         do {
-            System.out.println("Choose ending cell index: ");
-            Scanner keyboard = new Scanner(System.in);
-            System.out.print("\r");
-            cellIndexTo = keyboard.nextInt();
+            safePrint("Choose ending cell index: ");
+
+             
+            cellIndexTo = Integer.parseInt(safeRead());
+
             if (cellIndexTo > 0 && cellIndexTo <= 20)
                 cellIndexOK = true;
         }while (!cellIndexOK);
@@ -288,7 +294,7 @@ public class CLI implements UI, Runnable{
     @Override
     public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
         Thread t = new Thread(() -> {
-            System.out.println("Choose Window Pattern: ");
+            safePrint("Choose Window Pattern: ");
 
             AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
 
@@ -296,7 +302,7 @@ public class CLI implements UI, Runnable{
             try {
                 deck = factory.getNewCardDeck();
             } catch (FileNotFoundException e) {
-                System.out.println("Catch chooseWP CLI");
+                safePrint("Catch chooseWP CLI");
                 e.printStackTrace();
             }
 
@@ -310,10 +316,9 @@ public class CLI implements UI, Runnable{
             printBoard(windowPatternCard3);
             printBoard(windowPatternCard4);
 
-            System.out.println("Choose ID: ");
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("\r");
-            int chose = scanner.nextInt();
+            safePrint("Choose ID: ");
+            String choice = safeRead();
+            int chose = Integer.parseInt(choice);
 
             if (chose>=1 && chose <=24) {
                 try {
@@ -323,7 +328,7 @@ public class CLI implements UI, Runnable{
                 }
             }
             else {
-                System.out.println("Wrong id");
+                safePrint("Wrong id");
             }
         });
         t.start();
@@ -333,10 +338,11 @@ public class CLI implements UI, Runnable{
     public int getRoundIndex() {
         boolean chooseOK = false;
         do {
-            System.out.println("Choose round index: ");
-            Scanner keyboard = new Scanner(System.in);
-            System.out.print("\r");
-            roundID = keyboard.nextInt();
+            safePrint("Choose round index: ");
+
+             
+            roundID = Integer.parseInt(safeRead());
+
             if (1 <= roundID && roundID <= 10)
                 chooseOK = true;
         }while (!chooseOK);
@@ -346,14 +352,55 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void updateGameStatus(GameStatus gameStat) {
-        Thread t = new Thread(() -> {
-            gameStatus = gameStat;
+
+
+        gameStatus = gameStat;
+        placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
+        useToolCardBasic = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
+        resetAllIndex();
+        synchronized (Sam){
             printGameStatus();
-            placeDiceAction = gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn();
-            useToolCardBasic = gameStatus.getPlayerByName(username).getUseToolCardOfTheTurn();
-            resetAllIndex();
-        });
-        t.start();
+            semaforo=0;
+            if(primaMossa)
+                makeSecondMove();
+            Sam.notify();
+        }
+
+    }
+
+    private void makeSecondMove(){
+
+        int answer2 = -1;
+
+        if(answer==1){
+            do {
+
+                safePrint(
+                        "Skip? --> 0\n" + "Do you want to place a dice from Draft Pool? --> 1\n");
+
+                answer2 = Integer.parseInt(safeRead());
+
+            }
+            while (answer2!=0 && answer2!=1);
+            if (answer2 == 1)
+                placeDice();
+        }
+
+        else{
+            do {
+
+                safePrint(
+                        "Skip? --> 0\n" + "Do you want to use a Tool Card? --> 1\n");
+                answer2 = Integer.parseInt(safeRead());
+
+            }
+            while (answer2!=0 && answer2!=1);
+            if (answer2==1)
+                useToolCard();
+        }
+        primaMossa = false;
+        semaforo = 1;
+
     }
 
     private void resetAllIndex() {
@@ -365,41 +412,38 @@ public class CLI implements UI, Runnable{
     }
 
     private void makeMove(){
-        int answer, answer2;
-        Scanner keyboard = new Scanner(System.in);
+        while (semaforo==1) {
+            try {
+                synchronized (Sam) {
+                    Sam.wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
         do {
-            System.out.print("\r");
-            System.out.println(
-                    "Skip Tourn? --> 0\n" +
+             
+
+            safePrint(
+                    "Skip Turn? --> 0\n" +
                     "Do you want to use a Tool Card? --> 1\n" +
                     "Do you want to place a dice from Draft Pool? --> 2\n");
-            answer = keyboard.nextInt();
+            answer = Integer.parseInt(safeRead());
+
+
         }
         while (answer!=0 && answer!=1 && answer!=2);
         if (answer == 1){
             useToolCard();
-            do {
-                System.out.print("\r");
-                System.out.println(
-                        "Skip? --> 0\n" + "Do you want to place a dice from Draft Pool? --> 1\n");
-                answer2 = keyboard.nextInt();
-            }
-            while (answer2!=0 && answer2!=1);
-            if (answer2 == 1)
-                placeDice();
         }
         if (answer == 2){
             placeDice();
-            do {
-                System.out.print("\r");
-                System.out.println(
-                        "Skip? --> 0\n" + "Do you want to use a Tool Card? --> 1\n");
-                answer2 = keyboard.nextInt();
-            }
-            while (answer2!=0 && answer2!=1);
-            if (answer2==1)
-                useToolCard();
         }
+        primaMossa = true;
+        semaforo=1;
+
     }
 
     private void useToolCard(){
@@ -415,33 +459,31 @@ public class CLI implements UI, Runnable{
         placeDiceAction.useAction(this, gameStatus, username);
         try {
             clientServerSender.sendAction(placeDiceAction, username);
-            System.out.println("PlaceDiceAction CLI: " + placeDiceAction.toPacket());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
     private void printToolCard(){
-        System.out.println(ANSI_COLOR.ANSI_RED + "TOOL CARDS: " + ANSI_COLOR.ANSI_RESET);
+        safePrint(ANSI_COLOR.ANSI_RED + "TOOL CARDS: " + ANSI_COLOR.ANSI_RESET);
         for (ToolCard toolCard : gameStatus.getToolCards()){
-            System.out.println(ANSI_COLOR.ANSI_RED + toolCard.getID() +
+            safePrint(ANSI_COLOR.ANSI_RED + toolCard.getID() +
                     toolCard.getName() + toolCard.getEffect()
                     + "\n" + ANSI_COLOR.ANSI_RESET);
         }
     }
 
     private void printPrivateCard(){
-        System.out.println(ANSI_COLOR.ANSI_BLUE + "PRIVATE CARD: " + ANSI_COLOR.ANSI_RESET);
-        System.out.println(ANSI_COLOR.ANSI_BLUE +
+        safePrint(ANSI_COLOR.ANSI_BLUE + "PRIVATE CARD: "  +
                 gameStatus.getPlayerPrivateObjectiveCards(username).getDiceColor()
                 + ANSI_COLOR.ANSI_RESET
         );
     }
 
     private void printPublicCard(){
-        System.out.println(ANSI_COLOR.ANSI_GREEN + "PUBLIC CARDS: " + ANSI_COLOR.ANSI_RESET);
+        safePrint(ANSI_COLOR.ANSI_GREEN + "PUBLIC CARDS: " + ANSI_COLOR.ANSI_RESET);
         for (PublicObjectiveCard publicObjectiveCard : gameStatus.getPublicObjectiveCards()){
-            System.out.println(ANSI_COLOR.ANSI_GREEN + publicObjectiveCard.getName() +
+            safePrint(ANSI_COLOR.ANSI_GREEN + publicObjectiveCard.getName() +
                     publicObjectiveCard.getDescription() + "\n" + ANSI_COLOR.ANSI_RESET);
         }
     }
@@ -451,10 +493,10 @@ public class CLI implements UI, Runnable{
         StringBuilder line = new StringBuilder();
 
         for (int i = 0; i < 10; i++){
-            if(gameStatus.getBoardRound().getDices().size()==0)
+            if(gameStatus.getBoardRound().getDices().size()<=i)
                 line.append(i + 1).append(" | ");
             else
-                for (int j = 0; j < gameStatus.getBoardRound().getDices().get(i).size() + 1; j++){
+                for (int j = 0; j < gameStatus.getBoardRound().getDices().get(i).size(); j++){
                     if (gameStatus.getBoardRound().getDices().get(i).get(j) != null) {
                         line.append(gameStatus.getBoardRound().getDices().get(i).get(j).getDiceColor().getAnsiColor()).
                                 append(ANSI_COLOR.BOLD).append("[").append(gameStatus.getBoardRound().getDices().get(i).get(j).getValue()).
@@ -462,31 +504,51 @@ public class CLI implements UI, Runnable{
                     }
                 }
 
+
         }
-        System.out.println(line);
+        safePrint(line);
     }
 
+
+    private boolean active = false;
+    private void print(GameStatus gameStatus){
+
+        System.out.println("Games status");
+
+        if (active){
+            if (gameStatus.getPlayerByName(username).getPlaceDiceState())
+                System.out.println("Place dice?");
+
+        }
+
+
+    }
     private void printGameStatus(){
+        
         printRoundTrack();
         printPrivateCard();
         printPublicCard();
         printToolCard();
         printDraftPool(gameStatus.getDraftPool().getDraft());
-        for (Player p : gameStatus.getPlayerCards().keySet()){
-            System.out.println(p.getName());
-            printBoardGame((WindowPatternCard) gameStatus.getPlayerCards().get(p).get(0));
+        for (Player p : gameStatus.getPlayerCards().keySet()) {
+            safePrint(p.getName());
+            printBoardGame((WindowPatternCard) gameStatus.getPlayerCards().get(p).get(0)); 
         }
     }
 
     @Override
     public void activate(){
-        Thread t = new Thread(this::makeMove);
-        t.start();
+
+        Thread t1 = new Thread(this::makeMove);
+        t1.start();
+        active = true;
+
     }
 
     @Override
     public void disable() {
-
+        semaforo=1;
+        active = false;
     }
 
     @Override
@@ -496,7 +558,7 @@ public class CLI implements UI, Runnable{
                 try {
                     clientServerSender.pingBack(username);
                 } catch (RemoteException e) {
-                    System.out.println("Catch chooseWP CLI pingback");
+                    safePrint("Catch chooseWP CLI pingback");
                     e.printStackTrace();
                 }
             }
@@ -508,13 +570,14 @@ public class CLI implements UI, Runnable{
     public void allCurrentPlayers(String players) {
         Thread t = new Thread(() -> {
             String[] names = players.split("\\s*,\\s*");
-            System.out.println("\nPlayers currently connected:");
+            safePrint("\nPlayers currently connected:");
             for (String name : names) {
                 playersNames.add(name);
-                System.out.println(name);
+                safePrint(name);
             }
         });
         t.start();
+
     }
 
     @Override
@@ -522,10 +585,11 @@ public class CLI implements UI, Runnable{
         int toolcardID;
         boolean chooseOK = false;
         do {
-            System.out.println("Choose Tool Card ID: ");
-            Scanner keyboard = new Scanner(System.in);
-            System.out.print("\r");
-            toolcardID = keyboard.nextInt();
+            safePrint("Choose Tool Card : ");
+
+             
+            toolcardID = Integer.parseInt(safeRead());
+
             if (toolcardID > 0 && toolcardID <= 3)
                 chooseOK = true;
         }while (!chooseOK);
@@ -538,10 +602,11 @@ public class CLI implements UI, Runnable{
         boolean chooseOK = false;
         if (gameStatus.getBoardRound().getDices().size() >= (roundID + 1)) {
             do {
-                System.out.println("Choose dice index: ");
-                Scanner keyboard = new Scanner(System.in);
-                System.out.print("\r");
-                diceIndex = keyboard.nextInt();
+                safePrint("Choose dice index: ");
+
+                 
+                diceIndex = Integer.parseInt(safeRead());
+
                 if (diceIndex > 0 && diceIndex <= gameStatus.getBoardRound().getDices().get(roundID).size())
                     chooseOK = true;
             } while (!chooseOK);
@@ -552,51 +617,51 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void run() {
-        System.out.println(ANSI_COLOR.ANSI_RED + ANSI_COLOR.BOLD + "Welcome to Sagrada!" + ANSI_COLOR.ANSI_RESET);
+        safePrint(ANSI_COLOR.ANSI_RED + ANSI_COLOR.BOLD + "Welcome to Sagrada!" + ANSI_COLOR.ANSI_RESET);
         handleConnection();
         validateUsername(maxNameSize);
     }
 
     private void handleConnection(){
-            Scanner input = new Scanner(System.in);
+
             boolean repeatInsertion = true;
 
             do{
                 String choice;
-                System.out.println("Choose connection type:\n0->RMI\n1->Socket");
-                System.out.print("\r");
-                choice = input.nextLine();
+                safePrint("Choose connection type:\n0->RMI\n1->Socket");
+                 
+                choice = safeRead();
 
                 switch(choice){
                     case "0":
                         rmi = true;
                         //get server ip from input
-                        System.out.println("Insert server IP: ");
-                        input = new Scanner(System.in);
-                        System.out.print("\r");
-                        setIp(input.nextLine());
+                        safePrint("Insert server IP: ");
+
+                         
+                        setIp(safeRead());
                         //get server port from input
-                        System.out.println("Insert server port: ");
-                        input = new Scanner(System.in);
-                        System.out.print("\r");
-                        setPort(input.nextLine());
+                        safePrint("Insert server port: ");
+
+                         
+                        setPort(safeRead());
                         repeatInsertion = false;
                         break;
                     case "1":
                         //get server ip from input
-                        System.out.println("Insert server IP: ");
-                        input = new Scanner(System.in);
-                        System.out.print("\r");
-                        setIp(input.nextLine());
+                        safePrint("Insert server IP: ");
+
+                         
+                        setIp(safeRead());
                         //get server port from input
-                        System.out.println("Insert server port: ");
-                        input = new Scanner(System.in);
-                        System.out.print("\r");
-                        setPort(input.nextLine());
+                        safePrint("Insert server port: ");
+
+                         
+                        setPort(safeRead());
                         repeatInsertion = false;
                         break;
                     default:
-                        System.out.println("Value typed is not valid");
+                        safePrint("Value typed is not valid");
                         break;
                 }
             }while(repeatInsertion);
@@ -635,23 +700,23 @@ public class CLI implements UI, Runnable{
      * @return EventHandler used to validate a string to max_Length and to only digits and letters
      */
     private void validateUsername(final Integer max_Length) {
-            Scanner keyboard = new Scanner(System.in);
+
             do {
-                System.out.println("Enter username:");
-                System.out.print("\r");
-                setUsername(keyboard.nextLine());
+                safePrint("Enter username:");
+                 
+                setUsername(safeRead());
                 if (username.contains("."))
-                    System.out.println("Your username can't contain char '.'");
+                    safePrint("Your username can't contain char '.'");
                 if (username.length() > max_Length)
-                    System.out.println("Your username is too long");
+                    safePrint("Your username is too long");
             } while (username.contains(".") || username.length() > max_Length);
-            handleLogin();
+        handleLogin();
     }
 
     @Override
     public void printMessage(String s){
         Thread t = new Thread(() -> {
-            System.out.println(s);
+            safePrint(s);
             switch (s) {
                 case CONSTANT.usernameAlreadyUsed:
                     validateUsername(maxNameSize);
@@ -668,5 +733,25 @@ public class CLI implements UI, Runnable{
     public void endGame(String winner){
 
     }
+
+    private String safeRead(){
+        synchronized (System.in){
+            message = s.next();
+            return message;
+        }
+    }
+
+    private void safePrint(String s){
+        synchronized (System.out){
+            System.out.println(s);
+        }
+    }
+
+    private void safePrint(StringBuilder line) {
+        synchronized (System.out){
+            System.out.println(line);
+        }
+    }
+
 
 }
