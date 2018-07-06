@@ -225,6 +225,7 @@ public abstract class AbstractGUI extends Application implements UI{
     }
 
     public void pingBack(){
+        System.out.println("PingAbstractGUI");
     }
 
     public int getRoundIndex(){

@@ -25,6 +25,12 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
 
     @Override
     public void pingBack(String username) throws RemoteException {
+
+        if(game.scanForUsername(username)!=null) {
+            System.out.println("PingBack RMI");
+            game.scanForUsername(username).setStillAlive(true); //Still alive in game
+            game.scanForUsername(username).setIsConnected();
+        }
     }
 
     @Override

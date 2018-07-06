@@ -49,12 +49,7 @@ public class ServerClientReciver implements Runnable {
                 String command = scanner.next();
                 switch(command){
                     case "PINGBACK":
-                        System.out.println("Server PingBack");
-                        if(waitingRoom.scanForSameUsername(username)!=null) { //Still alive in waiting room
-                            waitingRoom.scanForSameUsername(username).setStillAlive(true);
-                            waitingRoom.scanForSameUsername(username).setIsConnected();
-                        }
-                        else {
+                        if(game.scanForUsername(username)!=null) {
                             game.scanForUsername(username).setStillAlive(true); //Still alive in game
                             game.scanForUsername(username).setIsConnected();
                         }

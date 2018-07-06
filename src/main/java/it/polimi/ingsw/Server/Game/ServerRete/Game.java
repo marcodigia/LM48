@@ -43,16 +43,14 @@ public class Game {
         }
     }
 
-    public synchronized Player scanForUsername(String username){
-        synchronized (lock){
-            Player pr = null;
-            if(players != null){
-                for(Player p : players.keySet())
-                    if(p.getName().equals(username))
-                        pr = p;
-            }
-            return pr;
+    public Player scanForUsername(String username){
+        Player pr = null;
+        if(players != null){
+            for(Player p : players.keySet())
+                if(p.getName().equals(username))
+                    pr = p;
         }
+        return pr;
     }
 
     /**
@@ -81,100 +79,100 @@ public class Game {
      *
      */
     public synchronized  void setPlayerAsDisconnected(String username){
-        synchronized (lock){
-            if(players!=null){
-                for(Player p : players.keySet()){
-                    if(p.getName().equals(username)){
-                        System.out.println("Diconnect : "+username);
-                        p.setIsNotConnected();
-                        p.getvirtualView().sendMessage("You disconnect from game.\n" +
-                                "You will be able to reconnect with your username.");
-                    }
+
+        if(players!=null){
+            for(Player p : players.keySet()){
+                if(p.getName().equals(username)){
+                    System.out.println("Diconnect : "+username);
+                    p.setIsNotConnected();
+                    p.getvirtualView().sendMessage("You disconnect from game.\n" +
+                            "You will be able to reconnect with your username.");
                 }
             }
         }
+
     }
 
     //TODO control if idWP belongs to WPs send to client
     public synchronized void setWindowToPlayer(String idWp, String username){
-        synchronized (lock){
-            System.out.println("setWP to plater GAME" + idWp);
-            WindowPatternCard windowToRemove = null;
-            Player playerRecived = null;    //Used to modify HashMap. Set true mapped value to denote
-            //that the player is still playing
-            for(Player p : players.keySet()) {
-                if (p.getName().equals(username)) {
-                    playerRecived = p;
-                    for (WindowPatternCard w : gameSetup.getWindowPatternCards())
-                        if (w.getID().equals(idWp))
-                            windowToRemove = w;
 
-                }
-            }
-            if(playerRecived!=null)  //Now after scan data structure, it can be modified
-                playerRecived.setIsConnected();
-            else
-                return;
+        System.out.println("setWP to plater GAME" + idWp);
+        WindowPatternCard windowToRemove = null;
+        Player playerRecived = null;    //Used to modify HashMap. Set true mapped value to denote
+        //that the player is still playing
+        for(Player p : players.keySet()) {
+            if (p.getName().equals(username)) {
+                playerRecived = p;
+                for (WindowPatternCard w : gameSetup.getWindowPatternCards())
+                    if (w.getID().equals(idWp))
+                        windowToRemove = w;
 
-            if (windowToRemove==null){
-                windowToRemove = Unpacker.WP_fromPacket(idWp,CONSTANT.emptyWp);
             }
-            gameStatus.addWindowPatternCard(playerRecived, windowToRemove);  //Add tuples of players and WP to GameStatus
-            playerRecived.getWallet().setUpWallet(windowToRemove.getDifficulty());
         }
+        if(playerRecived!=null)  //Now after scan data structure, it can be modified
+            playerRecived.setIsConnected();
+        else
+            return;
+
+        if (windowToRemove==null){
+            windowToRemove = Unpacker.WP_fromPacket(idWp,CONSTANT.emptyWp);
+        }
+        gameStatus.addWindowPatternCard(playerRecived, windowToRemove);  //Add tuples of players and WP to GameStatus
+        playerRecived.getWallet().setUpWallet(windowToRemove.getDifficulty());
+
     }
 
     //TODO change timervalue
-    private void gameAskClientForWindow(){
-        synchronized (lock){
-            sendWindowPatternToChoose();
-            timerwp.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    boolean q = deleteWhoLeftGame();
-                    if(!q)
-                        endGameSetUp();    //End setup with players who are still playing
-                    else
-                        endGame();          //All players left game
-                }
-            }, timerUtilitywp.readTimerFromFile(10,"timerDelayPlayer.txt"));
-        }
+    private synchronized void gameAskClientForWindow(){
+
+        sendWindowPatternToChoose();
+        timerwp.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                boolean q = deleteWhoLeftGame();
+                if(!q)
+                    endGameSetUp();    //End setup with players who are still playing
+                else
+                    endGame();          //All players left game
+            }
+        }, timerUtilitywp.readTimerFromFile(10,"timerDelayPlayer.txt"));
+
     }
 
-    private void sendWindowPatternToChoose(){
-        synchronized (lock){
-            ArrayList<WindowPatternCard> wp = new ArrayList<WindowPatternCard>(gameSetup.getWindowPatternCards());
-            Set<Player> playerToWP;
-            playerToWP = players.keySet();
-            int i=0;
-            if(playerToWP.size()>0){
-                for(Player p : playerToWP){
-                    System.out.println("sendWindowPattern: " + p.getName());
-                    String id1, id2 , id3, id4;
-                    id1 = wp.remove(0).getID();
-                    id2 = wp.remove(0).getID();
-                    id3 = wp.remove(0).getID();
-                    id4 = wp.remove(0).getID();
-                    System.out.println(p.getName());
-                    p.getvirtualView().chooseWindowPattern(id1,id2,id3,id4);
+    private synchronized void sendWindowPatternToChoose(){
 
-                }
+        ArrayList<WindowPatternCard> wp = new ArrayList<WindowPatternCard>(gameSetup.getWindowPatternCards());
+        Set<Player> playerToWP;
+        playerToWP = players.keySet();
+        int i=0;
+        if(playerToWP.size()>0){
+            for(Player p : playerToWP){
+                System.out.println("sendWindowPattern: " + p.getName());
+                String id1, id2 , id3, id4;
+                id1 = wp.remove(0).getID();
+                id2 = wp.remove(0).getID();
+                id3 = wp.remove(0).getID();
+                id4 = wp.remove(0).getID();
+                System.out.println(p.getName());
+                p.getvirtualView().chooseWindowPattern(id1,id2,id3,id4);
+
             }
         }
+
     }
 
-    private void endGameSetUp(){
-        synchronized (lock){
-            gameSetup.concludeSetUp(players);  //Extract PB card
-            gameStatus.addPrivateObjectiveCard(gameSetup.getPrivateObjectiveCards());
-            gameStatus.setDraftPool(gameSetup.getDraftPool());
-            gameStatus.setBoardRound(gameSetup.getBoardRound());
-            gameStatus.setDiceBag(gameSetup.getDiceBag());
-            for(Player p : players.keySet()){
-                p.getvirtualView().sendGameStatus(gameStatus);
-            }
-            manageRound();
+    private synchronized void endGameSetUp(){
+
+        gameSetup.concludeSetUp(players);  //Extract PB card
+        gameStatus.addPrivateObjectiveCard(gameSetup.getPrivateObjectiveCards());
+        gameStatus.setDraftPool(gameSetup.getDraftPool());
+        gameStatus.setBoardRound(gameSetup.getBoardRound());
+        gameStatus.setDiceBag(gameSetup.getDiceBag());
+        for(Player p : players.keySet()){
+            p.getvirtualView().sendGameStatus(gameStatus);
         }
+        manageRound();
+
     }
 
     //TODO Change turn timer value
@@ -184,15 +182,15 @@ public class Game {
     }
 
     //Add player to game
-    private void addPlayer(ArrayList<Player> playersToAdd){
-        synchronized (lock){
-            String s = "Welcome to Sagrada";
-            if(playersToAdd!=null)
-                for(Player p : playersToAdd){
-                    players.put(p, false);
-                    p.getvirtualView().sendMessage(s);
-                }
-        }
+    private synchronized void addPlayer(ArrayList<Player> playersToAdd){
+
+        String s = "Welcome to Sagrada";
+        if(playersToAdd!=null)
+            for(Player p : playersToAdd){
+                players.put(p, false);
+                p.getvirtualView().sendMessage(s);
+            }
+
     }
 
     //This method is called by Game after WP-player pairing. If some players have false
@@ -202,24 +200,24 @@ public class Game {
      * @return true if all player are removed
      * @return false if there is at least one player
      */
-    private boolean deleteWhoLeftGame(){
-        synchronized (lock){
-            ArrayList<Player> playersToRemove = new ArrayList<Player>();
-            for(Player p : players.keySet()){
-                if(!p.getConnected()){
-                    playersToRemove.add(p);
-                }
-            }
+    private synchronized boolean deleteWhoLeftGame(){
 
-            for(Player p : playersToRemove){
-                players.remove(p);
-                gameStatus.deleteWindowPatternCard(p);
+        ArrayList<Player> playersToRemove = new ArrayList<Player>();
+        for(Player p : players.keySet()){
+            if(!p.getConnected()){
+                playersToRemove.add(p);
             }
-            if(players.keySet().size()==0) {
-                return true;
-            }
-            return false;
         }
+
+        for(Player p : playersToRemove){
+            players.remove(p);
+            gameStatus.deleteWindowPatternCard(p);
+        }
+        if(players.keySet().size()==0) {
+            return true;
+        }
+        return false;
+
     }
 
     private void endGame(){

@@ -48,7 +48,9 @@ public class SkeletonClientImp extends UnicastRemoteObject implements SkeletonCl
 
     @Override
     public void sendGameStatus(GameStatus gameStatus) throws RemoteException {
-         ui.updateGameStatus(gameStatus);
+         System.out.println("GameStatusRMISkeleton");
+        ui.pingBack();
+        ui.updateGameStatus(gameStatus);
     }
 
     @Override

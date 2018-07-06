@@ -62,7 +62,7 @@ public class Turn extends TimerTask implements Runnable {
                 if(round< CONSTANT.numberOfRound){
                     System.out.println("ROUND: " + round + "\n" + "Turn: " + turn);
                     for(Player p : players.keySet())
-                        System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected() + p.getStillAlive() + ANSI_COLOR.ANSI_RESET);
+                        System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getName() + " " + p.getConnected() +  " " +  p.getStillAlive() + ANSI_COLOR.ANSI_RESET);
                     if(currentPlayer!=null){
                         currentPlayer.getvirtualView().timerEnd();
                         currentPlayer.startRound();
@@ -76,7 +76,7 @@ public class Turn extends TimerTask implements Runnable {
                         Timer timerRound = new Timer();
 
                         for(Player p : players.keySet())
-                            System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getConnected()+ p.getStillAlive() + ANSI_COLOR.ANSI_RESET);
+                            System.out.println(ANSI_COLOR.ANSI_PURPLE + "Player : " + p.getName() + " " + p.getConnected() +  " " +  p.getStillAlive() + ANSI_COLOR.ANSI_RESET);
                         if(currentPlayer==null || currentPlayer.getSkipNextTurn()) { //currentPlayer is not connected
                             timerRound.schedule(new Turn(players, gameStatus), 0);
                             System.out.println("current true skip next");

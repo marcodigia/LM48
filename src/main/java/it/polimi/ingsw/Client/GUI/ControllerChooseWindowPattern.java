@@ -271,6 +271,7 @@ public class ControllerChooseWindowPattern extends AbstractGUI implements Initia
     }
 
     public void pingBack(){
+        System.out.println("PingBackCW " + username);
         try {
             ControllerLogin.clientServerSender.pingBack(username);
         } catch (RemoteException e) {

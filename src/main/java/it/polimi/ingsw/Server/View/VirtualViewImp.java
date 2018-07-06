@@ -88,13 +88,15 @@ public class VirtualViewImp implements VirtualView {
         try {
             if(!myPlayer.getStillAlive()) {
                 myPlayer.setIsNotConnected();
-                System.out.println(ANSI_COLOR.ANSI_RED + "1" + ANSI_COLOR.ANSI_RESET);
+                System.out.println(ANSI_COLOR.ANSI_RED + "1: " + myPlayer.getName() + ANSI_COLOR.ANSI_RESET);
             }
             else {
-                serverClientSender.sendGameStatus(gameStatus);
                 myPlayer.setStillAlive(false);
+                serverClientSender.sendGameStatus(gameStatus);
+                System.out.println("SetNotStillAlive: " + myPlayer.getName() );
             }
         } catch (RemoteException e) {
+            System.out.println("CAtch : " + e.getMessage());
             myPlayer.setIsNotConnected();
         }
     }
