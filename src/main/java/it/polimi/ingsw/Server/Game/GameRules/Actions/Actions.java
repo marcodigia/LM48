@@ -12,6 +12,12 @@ public interface Actions extends Packetable {
     // use the toolcard
     void doAction(GameStatus gameStatus);
 
+    /**
+     *
+     * @param ui the ui of the client that is to be interacted with
+     * @param gameStatus the gamesStatus that is a repprestantation of the actual gameStatus on the Server
+     * @param userName the username of the player that is actually using the action
+     */
     //To be used by UI
     void useAction(UI ui, GameStatus gameStatus, String userName);
 

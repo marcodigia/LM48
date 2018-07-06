@@ -15,7 +15,7 @@ public class ChangeDiceValue implements Actions {
     private int ammount=0;
     private int draftPoolIndex;
     private int type = 0 ;
-
+    private String username;
 
     public ChangeDiceValue() {
     }
@@ -24,6 +24,14 @@ public class ChangeDiceValue implements Actions {
         this.type = type;
     }
 
+    /**
+     * This method executes the action , based on the type provviden by the constructor it will change dice value in
+     * in different ways
+     * 1 = increase or decrease the value by one
+     * 2 = turn the dice on the opposite side
+     * 3 = extracts a new dice and than set the new value
+     * @param gameStatus the gamestatus that will be affect from the action
+     */
     @Override
     public void doAction(GameStatus gameStatus) {
         draftPool = gameStatus.getDraftPool();
@@ -108,7 +116,7 @@ public class ChangeDiceValue implements Actions {
 
     @Override
     public void setUserName(String userName) {
-
+        this.username=userName;
     }
 
 
