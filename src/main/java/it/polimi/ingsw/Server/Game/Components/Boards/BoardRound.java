@@ -5,12 +5,15 @@ import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.EndGame.ScoreHandler;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
+import it.polimi.ingsw.Server.Game.ServerRete.Game;
+import it.polimi.ingsw.Server.Game.ServerRete.Turn;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 public class BoardRound implements Packetable {
 
@@ -37,6 +40,8 @@ public class BoardRound implements Packetable {
         return false;
     }
 
+
+    //TODO useless, to remove
     public ArrayList<Player> getWinners() {
         ArrayList<Player> winners = new ArrayList<>();
         for (Player p1 : scoreboard.keySet()) {
@@ -60,6 +65,74 @@ public class BoardRound implements Packetable {
         return (new ScoreHandler(gameStatus)).getFinalScore();
     }
 
+    /**
+     * This method is used server-side to calculate the winner
+     * @param gameStatus the actual gameStatus
+     * @return the calculated winner
+     */
+    public Player getWinner(GameStatus gameStatus){
+
+        Hashtable<Player, Integer> winners =  getScore(gameStatus);
+
+        ArrayList<Player> w = new ArrayList<>(winners.keySet());
+        int highScore = 0;
+        for (Player p : winners.keySet()){
+            if (winners.get(p)>highScore)
+                highScore = winners.get(p);
+        }
+
+        //Do this way because i m not sure if the players in winners and player in w are the same so check by name , look in winners and remove in w
+        for(Player p : w){
+            Player p1=null;
+            for (Player p2 : winners.keySet())
+                if (p2.getName().equals(p.getName()))
+                    p1= p2;
+            if (winners.get(p1)<highScore)
+                w.remove(p);
+        }
+
+        int highPrivateScore = 0 ;
+        for (Player p : w){
+            if (p.getPbScore()>highPrivateScore)
+                highPrivateScore=p.getPbScore();
+        }
+
+        for (Player p :w){
+            if (p.getPbScore()<highPrivateScore)
+                w.remove(p);
+        }
+
+        int higToken = 0;
+        for (Player p :w){
+            if (p.getWallet().getTokenAmmount()>higToken)
+                higToken=p.getWallet().getTokenAmmount();
+        }
+
+        for (Player p : w){
+            if (p.getWallet().getTokenAmmount()<higToken)
+                w.remove(p);
+        }
+
+        if (w.size()>1){
+            LinkedHashMap<Player,Boolean> turn = Turn.getPlayers();
+            ArrayList<Player> pl = new ArrayList<>(turn.keySet());
+
+            int lowturn;
+            int posinTurn;
+
+            for (int i = pl.size() ; i > 0 ; i--){
+
+                for (Player p : w){
+                    if (p.getName().equals(pl.get(i).getName()))
+                        return p;
+                }
+            }
+
+        }
+
+
+        return null;
+    }
     public void setDiceAtIndex(int round, int diceIndex , Dice dice){
         roundTrack.get(round).remove(diceIndex);
         roundTrack.get(round).add(diceIndex,dice);

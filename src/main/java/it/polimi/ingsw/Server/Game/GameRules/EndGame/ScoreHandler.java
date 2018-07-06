@@ -31,10 +31,15 @@ public class ScoreHandler {
                 score += pB.getPoints( player.getWindowPatternCard());
             }
 
-            if (gameStatus.getPlayerPrivateObjectiveCards(player.getName())!=null)
-            score +=  gameStatus.getPlayerPrivateObjectiveCards(
-                    player.getName())
-                    .getPoints(player.getWindowPatternCard());
+            if (gameStatus.getPlayerPrivateObjectiveCards(player.getName())!=null){
+
+                int privateObjectivescore = gameStatus.getPlayerPrivateObjectiveCards(
+                        player.getName())
+                        .getPoints(player.getWindowPatternCard());
+                score +=  privateObjectivescore;
+                player.setPbScore(privateObjectivescore);
+            }
+
 
             finalScore.put(player,score);
         }

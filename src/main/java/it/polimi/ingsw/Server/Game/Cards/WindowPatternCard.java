@@ -77,6 +77,10 @@ public class WindowPatternCard implements Drawable , Packetable {
         return difficulty;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toPacket() {
 
