@@ -93,6 +93,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private ArrayList<Label> names = new ArrayList<>();
     private ArrayList<Label> round = new ArrayList<>();
     private ArrayList<GridPane> gridPanes = new ArrayList<>();
+    public static String gameWinner;
 
     @Override
 
@@ -942,6 +943,14 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             e.printStackTrace();
         }
         return toReturn.equals(1);
+    }
+
+    @Override
+    public void endGame(String winner){
+        Platform.runLater(() -> {
+            gameWinner = winner;
+            switchScene(Score);
+        });
     }
 
 }

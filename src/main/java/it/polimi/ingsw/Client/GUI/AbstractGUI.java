@@ -240,4 +240,9 @@ public abstract class AbstractGUI extends Application implements UI{
     public boolean askForAnotherDice() {
         return false;
     }
+
+    @Override
+    public void endGame(String winner) {
+
+    }
 }

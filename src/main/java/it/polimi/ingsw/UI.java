@@ -45,4 +45,6 @@ public interface UI {
 
     int getDiceIndexFromRound();
 
+    void endGame(String winner);
+
 }

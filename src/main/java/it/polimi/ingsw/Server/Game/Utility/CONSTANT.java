@@ -22,6 +22,7 @@ public class CONSTANT {
     public final static String Lobby = "/Lobby.fxml";
     public final static String Set = "/SetWindowPattern.fxml";
     public final static String Create = "/CreateWindowPattern.fxml";
+    public final static String Score = "/EndGame.fxml";
     public final static int toolCardNumber = 12;
     public final static int toolCardToExtract = 3;
     public final static int publicCardNumber = 10;

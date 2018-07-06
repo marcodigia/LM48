@@ -647,4 +647,9 @@ public class CLI implements UI, Runnable{
         t.start();
     }
 
+    @Override
+    public void endGame(String winner){
+
+    }
+
 }

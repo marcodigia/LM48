@@ -11,11 +11,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.Client.GUI.ControllerGame.gameWinner;
+
 public class ControllerScore extends AbstractGUI implements Initializable {
 
     public ImageView bgscore;
     public AnchorPane anchorscore;
-    public Label p1, p2, p3, p4, s1, s2, s3, s4;
+    public Label p1, p2, p3, p4, s1, s2, s3, s4, winner;
     public static GameStatus gameStatus;
     private ArrayList<Label> players = new ArrayList<>();
     private ArrayList<Label> scores = new ArrayList<>();
@@ -36,6 +38,6 @@ public class ControllerScore extends AbstractGUI implements Initializable {
             players.get(i).setText(gameStatus.getPlayer().get(i).getName());
             scores.get(i).setText(scoreHandler.getFinalScore().get(players.get(i).getText()).toString());
         }
-
+        winner.setText(gameWinner);
     }
 }
