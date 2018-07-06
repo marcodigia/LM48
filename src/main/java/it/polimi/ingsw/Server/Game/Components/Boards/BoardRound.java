@@ -75,6 +75,10 @@ public class BoardRound implements Packetable {
 
 
         Hashtable<Player, Integer> winners =  getScore(gameStatus);
+        for (Player p : winners.keySet()){
+            if(!p.getConnected())
+                winners.remove(p);
+        }
 
         ArrayList<Player> w = new ArrayList<>(winners.keySet());
         int highScore = 0;
