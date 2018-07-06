@@ -42,6 +42,7 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         setBackground(bg1, anchorlogin);
         usernametext.addEventFilter(KeyEvent.KEY_TYPED, username_Validation(20));
+        usernametext.setText("user"+(new Random()).nextInt(99999999));
     }
 
     /**

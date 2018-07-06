@@ -7,6 +7,7 @@ import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.ServerRete.Turn;
+import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.DiceColor;
 
@@ -70,15 +71,23 @@ public class BoardRound implements Packetable {
      * @param gameStatus the actual gameStatus
      * @return the calculated winner
      */
-    public Player getWinner(GameStatus gameStatus){
+    public synchronized Player getWinner(GameStatus gameStatus){
+
 
         Hashtable<Player, Integer> winners =  getScore(gameStatus);
+        for (Player p : winners.keySet()){
+            if(!p.getConnected())
+                winners.remove(p);
+        }
 
         ArrayList<Player> w = new ArrayList<>(winners.keySet());
         int highScore = 0;
         for (Player p : winners.keySet()){
-            if (winners.get(p)>highScore)
+            if (winners.get(p)>highScore){
                 highScore = winners.get(p);
+                System.out.println(ANSI_COLOR.ANSI_BLUE + p.getName() +" highscore " +winners.get(p)+ ANSI_COLOR.ANSI_RESET);
+            }
+
         }
 
         //Do this way because i m not sure if the players in winners and player in w are the same so check by name , look in winners and remove in w
@@ -100,12 +109,14 @@ public class BoardRound implements Packetable {
         for (Player p :w){
             if (p.getPbScore()<highPrivateScore)
                 w.remove(p);
+            System.out.println(ANSI_COLOR.ANSI_BLUE + p.getName()+" pb " + ANSI_COLOR.ANSI_RESET);
         }
 
         int higToken = 0;
         for (Player p :w){
             if (p.getWallet().getTokenAmmount()>higToken)
                 higToken=p.getWallet().getTokenAmmount();
+            System.out.println(ANSI_COLOR.ANSI_BLUE + p.getName()+ " highToken" + ANSI_COLOR.ANSI_RESET);
         }
 
         for (Player p : w){
@@ -113,7 +124,7 @@ public class BoardRound implements Packetable {
                 w.remove(p);
         }
 
-        if (w.size()>1){
+        if (w.size()>0){
             LinkedHashMap<Player,Boolean> turn = Turn.getPlayers();
             ArrayList<Player> pl = new ArrayList<>(turn.keySet());
 

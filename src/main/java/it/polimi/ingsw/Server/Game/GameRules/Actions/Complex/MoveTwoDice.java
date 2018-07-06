@@ -73,14 +73,20 @@ public class MoveTwoDice implements Actions {
 
             Logger.log("Seleziona round dal RoundTrack\n");
             roundIndex1= ui.getRoundIndex();
+            System.out.println(" ROUNDINDEX " + roundIndex1);
             Logger.log("Seleziona cella dado del Round\n");
+
             roundDiceIndex1 = ui.getDiceIndexFromRound();
+            System.out.println(" CELLAROUND " + roundDiceIndex1);
 
             Dice diceTrack = gameStatus.getBoardRound().getDices().get(roundIndex1).get(roundDiceIndex1);
             Logger.log("Seleziona cella di partenza\n");
             from1 = ui.getMatrixIndexFrom();
+            System.out.println(" CELLAWP " + from1);
             Logger.log("Seleziona cella di destinazione\n");
             to1 = ui.getMatrixIndexTo();
+            System.out.println(" CELLATO " + to1);
+
             Dice choosenDice = gameStatus.getPlayerWP(gameStatus.getPlayerByName(userName)).getDice(from1);
             if (choosenDice== null || diceTrack== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor()))
             {
@@ -90,24 +96,31 @@ public class MoveTwoDice implements Actions {
                 return;
             } else {
 
+
+                System.out.println(" askforanotherdice ");
                 boolean answer = ui.askForAnotherDice();
-                if (!answer)
+                if (!answer){
+                    System.out.println(" ASKANOTHER ANSWER" + answer);
+                    from2 = -1;
+                    to2 = -1;
                     return;
+                }
+
+
 
                 Logger.log("Seleziona cella di partenza\n");
                 from2 = ui.getMatrixIndexFrom();
-                if (from2 != -1 ){
-                    Logger.log("Seleziona cella di destinazione\n");
-                    to2 = ui.getMatrixIndexTo();
-                }
 
-                else
-                    return;
+                Logger.log("Seleziona cella di destinazione\n");
+                to2 = ui.getMatrixIndexTo();
+
+
                 choosenDice = gameStatus.getPlayerWP(gameStatus.getPlayerByName(userName)).getDice(from2);
                 if (choosenDice== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor())){
                     Logger.log("Scelta secondo dado non valida ");
                     from2 = -1 ;
                     to2 = -1 ;
+                    return;
                 }
 
             }
