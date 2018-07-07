@@ -50,41 +50,49 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
      */
     @FXML
     private void handleLoginButton(ActionEvent event){
-        validateUsername();
-        saveName();
 
-        if (ControllerConnection.rmi) {
-            generiClient = new GeneriClient();
-            generiClient.setLinkClientServerRMI();
-            generiClient.setClientServerReciverRMI();
-            ControllerConnection.clientServerReciver = generiClient.getClientServerReciver();
-            try {
-                ControllerConnection.clientServerReciver.setUI(this);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            generiClient.register(username, ip, Integer.parseInt(port));
-        }
+        if (!validateUsername())
+            switchScene(Login);
         else {
-            generiClient = new GeneriClient();
-            generiClient.setLinkClientServer(ip, Integer.parseInt(port));
-            generiClient.setClientServerReciver();
-            generiClient.setClientServerSender();
-            ControllerConnection.clientServerReciver = generiClient.getClientServerReciver();
-            try {
-                ControllerConnection.clientServerReciver.setUI(this);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            saveName();
+
+            if (ControllerConnection.rmi) {
+                generiClient = new GeneriClient();
+                generiClient.setLinkClientServerRMI();
+                generiClient.setClientServerReciverRMI();
+                ControllerConnection.clientServerReciver = generiClient.getClientServerReciver();
+                try {
+                    ControllerConnection.clientServerReciver.setUI(this);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                generiClient.register(username, ip, Integer.parseInt(port));
+            } else {
+                generiClient = new GeneriClient();
+                generiClient.setLinkClientServer(ip, Integer.parseInt(port));
+                generiClient.setClientServerReciver();
+                generiClient.setClientServerSender();
+                ControllerConnection.clientServerReciver = generiClient.getClientServerReciver();
+                try {
+                    ControllerConnection.clientServerReciver.setUI(this);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                generiClient.register(username);
             }
-            generiClient.register(username);
         }
     }
 
-    private void validateUsername() {
+    private boolean validateUsername() {
         if (usernametext.getText().contains(".")){
             printMessage("'.' can't be included in your username!");
-            switchScene(Login);
+            return false;
         }
+        if (!usernametext.getText().matches("[A-Za-z0-9]+")) {
+            printMessage("empty username!");
+            return false;
+        }
+        return true;
     }
 
     /**

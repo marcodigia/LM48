@@ -222,10 +222,15 @@ public class Game {
 
     private void endGame(){
         synchronized (lock){
-
+            Player winner = gameStatus.getBoardRound().getWinner(gameStatus);
+            System.out.println("There is a winner");
+            for(Player p : players.keySet()) {
+                if (p!=null)
+                    p.getvirtualView().sendScore(winner);
+            }
         }
         System.out.println("End game");
-        //TODO
+
     }
 
 }
