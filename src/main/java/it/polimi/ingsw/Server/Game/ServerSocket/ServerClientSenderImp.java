@@ -60,6 +60,7 @@ public class ServerClientSenderImp implements ServerClientSender {
     public void sendGameStatus(GameStatus gameStatus) throws RemoteException {
         printWriter.println("SGS" + CONSTANT.delimenter + gameStatus.toPacket() + CONSTANT.delimenter);
         printWriter.flush();
+
     }
 
     @Override

@@ -77,6 +77,7 @@ public class Turn extends TimerTask implements Runnable {
                         //Send to each player who result connected new GameStatus
                         for(Map.Entry<Player,Boolean> entry : players.entrySet()) {
                             entry.getKey().getvirtualView().sendGameStatus(gameStatus);
+                            System.out.println(ANSI_COLOR.ANSI_GREEN+ " sendgamestato " + entry.getKey().getName() + ANSI_COLOR.ANSI_RESET);
                         }
                     }
                     if(lookForWinner() == null){

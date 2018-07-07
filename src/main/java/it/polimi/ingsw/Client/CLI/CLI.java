@@ -22,6 +22,7 @@ import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -51,6 +52,7 @@ public class CLI implements UI, Runnable{
     private PlaceDiceAction placeDiceAction;
 
 
+    private boolean incompleteAction = false;
     private final Object Sam = new Object();
     private int roundID = -1;
     private int draftPoolIndex = -1;
@@ -63,7 +65,22 @@ public class CLI implements UI, Runnable{
     Scanner s = new Scanner(System.in);
     private boolean primaMossa = false;
     private int answer;
-    
+
+    private Scanner s1 ;
+    private Scanner s2 ;
+    private Scanner s3 ;
+    private Scanner s4 ;
+    private Scanner s5 ;
+    private Scanner s6 ;
+    private Scanner s7 ;
+
+    private final InputStream sistemin = System.in;
+    private final PrintStream sistemon = System.out;
+
+
+
+    private SpecialBoolean THREAD_RUN = new SpecialBoolean(true);
+
     public CLI(){
     }
 
@@ -223,14 +240,12 @@ public class CLI implements UI, Runnable{
     @Override
     public int getAmmountToChange(int ammountType){
 
-        InputStream is = System.in;
-
         int choice;
         do {
 
             safePrint("Aumentare o Diminuire valore del dado => +1 , -1 : ");
-             
-            choice = Integer.parseInt(safeRead());
+            s1 = new Scanner(System.in);
+            choice = Integer.parseInt(s1.next());
             if (!(choice == -1 || choice == 1))
                 safePrint("Valore non valido , inserire +1 o  -1");
         } while (!(choice == -1 || choice == 1));
@@ -243,8 +258,8 @@ public class CLI implements UI, Runnable{
         do {
             safePrint("Choose dice index from Draft Pool: ");
 
-            // 
-            draftPoolIndex = Integer.parseInt(safeRead());
+            s2 = new Scanner(System.in);
+            draftPoolIndex = Integer.parseInt(s2.next());
 
             if (draftPoolIndex > 0 && draftPoolIndex <= gameStatus.getDraftPool().getDraft().size())
                 indexOK = true;
@@ -259,8 +274,8 @@ public class CLI implements UI, Runnable{
         do {
             safePrint("Choose starting cell index: ");
 
-
-            cellIndexFrom = Integer.parseInt(safeRead());
+            s3 = new Scanner(System.in);
+            cellIndexFrom = Integer.parseInt(s3.next());
 
             if (cellIndexFrom > 0 && cellIndexFrom <= 20)
                 cellIndexOK = true;
@@ -275,8 +290,8 @@ public class CLI implements UI, Runnable{
         do {
             safePrint("Choose ending cell index: ");
 
-             
-            cellIndexTo = Integer.parseInt(safeRead());
+            s4 = new Scanner(System.in);
+            cellIndexTo = Integer.parseInt(s4.next());
 
             if (cellIndexTo > 0 && cellIndexTo <= 20)
                 cellIndexOK = true;
@@ -340,8 +355,8 @@ public class CLI implements UI, Runnable{
         do {
             safePrint("Choose round index: ");
 
-             
-            roundID = Integer.parseInt(safeRead());
+            s5 = new Scanner(System.in);
+            roundID = Integer.parseInt(s5.next());
 
             if (1 <= roundID && roundID <= 10)
                 chooseOK = true;
@@ -365,40 +380,7 @@ public class CLI implements UI, Runnable{
 
     }
 
-    private void makeSecondMove(){
 
-        int answer2 = -1;
-
-        if(answer==1){
-            do {
-
-                safePrint(
-                        "Skip? --> 0\n" + "Do you want to place a dice from Draft Pool? --> 1\n");
-
-                answer2 = Integer.parseInt(safeRead());
-
-            }
-            while (answer2!=0 && answer2!=1);
-            if (answer2 == 1)
-                placeDice();
-        }
-
-        else{
-            do {
-
-                safePrint(
-                        "Skip? --> 0\n" + "Do you want to use a Tool Card? --> 1\n");
-                answer2 = Integer.parseInt(safeRead());
-
-            }
-            while (answer2!=0 && answer2!=1);
-            if (answer2==1)
-                useToolCard();
-        }
-        primaMossa = false;
-        semaforo = 1;
-
-    }
 
     private void resetAllIndex() {
         roundID = -1;
@@ -408,44 +390,11 @@ public class CLI implements UI, Runnable{
         diceIndex = -1;
     }
 
-    private void makeMove(){
-        while (semaforo==1) {
-            try {
-                synchronized (Sam) {
-                    Sam.wait();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        do {
-             
-
-            safePrint(
-                    "Skip Turn? --> 0\n" +
-                    "Do you want to use a Tool Card? --> 1\n" +
-                    "Do you want to place a dice from Draft Pool? --> 2\n");
-            answer = Integer.parseInt(safeRead());
-
-
-        }
-        while (answer!=0 && answer!=1 && answer!=2);
-        if (answer == 1){
-            useToolCard();
-        }
-        if (answer == 2){
-            placeDice();
-        }
-        primaMossa = true;
-        semaforo=1;
-
-    }
 
     private void useToolCard(){
         useToolCardBasic.useAction(this, gameStatus, username);
         try {
+
             clientServerSender.sendAction(useToolCardBasic, username);
         } catch (RemoteException e) {
             generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
@@ -509,44 +458,65 @@ public class CLI implements UI, Runnable{
 
 
     private boolean active = false;
+
+    private SpecialBoolean FLAG = new SpecialBoolean(true);
     private void print(GameStatus gameStatus){
 
         printGameStatus();
 
+
+
+        FLAG.setFlag(false);
+        FLAG = new SpecialBoolean(true);
+
         System.out.println("PLAYER ENABLE: " + active );
         System.out.println("PLAYER NAME: " + username);
+
+
         if (active){
-            String choose = "";
-            if (gameStatus.getPlayerByName(username).getPlaceDiceState()){
-                safePrint("Place dice?   -> 1");
-            }
-            if(gameStatus.getPlayerByName(username).getUseToolCardState()){
-                safePrint("Use ToolCard -->2");
-            }
-            boolean correct = true;
-            do {
-                choose = safeRead();
-                if(choose.equals("1") || choose.equals("2"))
-                    correct =false;
-                else
-                    safePrint("Scelta non valida");
-            }while (correct);
+
+            Thread t = new Thread(()->{
+
+                if (gameStatus.getPlayerByName(username).getPlaceDiceState()){
+                    System.out.println("Place dice?   -> 1");
+                }
+                if(gameStatus.getPlayerByName(username).getUseToolCardState()){
+                    System.out.println("Use ToolCard -->2");
+                }
+                boolean correct = true;
+                String choose = "";
+                do {
 
 
-            switch (choose){
-                case "1":
-                    placeDice();
-                    break;
-                case "2":
-                    useToolCard();
-                    break;
-            }
+                    choose = safeRead();
+                    if(choose.equals("1") || choose.equals("2"))
+                        correct =false;
+                    else
+                        System.out.println("Scelta non valida");
+
+
+                }while (correct&&FLAG.isFlag());
+
+
+                switch (choose){
+                    case "1":
+                        placeDice();
+                        break;
+                    case "2":
+                        useToolCard();
+                        break;
+                }
+            });
+            t.start();
+
         }
 
 
+
+       System.out.println("PrintGameStatus  active " + active +" username " + username);
     }
     private void printGameStatus(){
-        
+
         printRoundTrack();
         printPrivateCard();
         printPublicCard();
@@ -561,8 +531,6 @@ public class CLI implements UI, Runnable{
     @Override
     public void activate(){
 
-        //Thread t1 = new Thread(this::makeMove);
-        //t1.start();
         active = true;
         print(gameStatus);
 
@@ -572,7 +540,7 @@ public class CLI implements UI, Runnable{
     public void disable() {
         active = false;
         print(gameStatus);
-        System.out.println("DIO CANNNEEEEEE");
+        System.out.println("DISABLE");
     }
 
     @Override
@@ -611,9 +579,8 @@ public class CLI implements UI, Runnable{
         boolean chooseOK = false;
         do {
             safePrint("Choose Tool Card : ");
-
-             
-            toolcardID = Integer.parseInt(safeRead());
+            s6 = new Scanner(System.in);
+            toolcardID = Integer.parseInt(s6.next());
 
             if (toolcardID > 0 && toolcardID <= 3)
                 chooseOK = true;
@@ -628,9 +595,8 @@ public class CLI implements UI, Runnable{
         if (gameStatus.getBoardRound().getDices().size() >= (roundID + 1)) {
             do {
                 safePrint("Choose dice index: ");
-
-                 
-                diceIndex = Integer.parseInt(safeRead());
+                 s7 = new Scanner(System.in);
+                diceIndex = Integer.parseInt(s7.next());
 
                 if (diceIndex > 0 && diceIndex <= gameStatus.getBoardRound().getDices().get(roundID).size())
                     chooseOK = true;
@@ -760,23 +726,59 @@ public class CLI implements UI, Runnable{
     }
 
     private String safeRead(){
-        synchronized (System.in){
-            message = s.next();
-            return message;
-        }
+
+        if(s1!=null)
+            s1.close();
+        if(s2!=null)
+            s2.close();
+        if(s3!=null)
+            s3.close();
+        if(s4!=null)
+            s4.close();
+        if(s5!=null)
+            s5.close();
+        if(s6!=null)
+            s6.close();
+        if(s7!=null)
+            s7.close();
+
+        incompleteAction = true;
+        message = s.next();
+        return message;
+
     }
 
     private void safePrint(String s){
-        synchronized (System.out){
+        //synchronized (sistemon){
             System.out.println(s);
-        }
+        //}
     }
 
     private void safePrint(StringBuilder line) {
-        synchronized (System.out){
+        //synchronized (sistemon){
             System.out.println(line);
-        }
+        //}
     }
 
 
 }
+
+class SpecialBoolean{
+
+    boolean flag;
+
+    public SpecialBoolean(boolean flag) {
+        this.flag = flag;
+    }
+
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+}
+
+

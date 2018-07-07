@@ -156,11 +156,9 @@ public class GeneriClient {
         linkClientServer = null;
     }
 
-    public void manageDisconnection(){
-
-    }
 
     public void manageDisconnection(String username, String ipRMI, int portRMI){
+        System.out.println("MANAGEdISCONNECTION");
         TimerUtility timerUtility = new TimerUtility();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
