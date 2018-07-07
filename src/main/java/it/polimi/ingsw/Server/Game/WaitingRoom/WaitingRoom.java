@@ -25,6 +25,8 @@ public class WaitingRoom {
     //other player play a new game.
     public void setNoMorePlayerAccepted(){this.noMorePlayerAccepted = false;}
 
+    public boolean getNoMorePlayerAccepted(){return noMorePlayerAccepted;}
+
     public void setGame(Game game){ this.game = game;}
 
     public synchronized  boolean addClient(String username, ServerClientSender clientRef){

@@ -12,6 +12,8 @@ public class VirtualViewManager  {
         virtualviews.put(player,vv);
     }
 
+    public static synchronized void removeVirtualView(Player p){virtualviews.remove(p);}
+
     public static synchronized VirtualView getVirtualView(Player player){
         return virtualviews.get(player);
     }

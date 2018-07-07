@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.CLI;
 
+import com.sun.imageio.plugins.common.I18N;
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
@@ -250,18 +251,32 @@ public class CLI implements UI, Runnable{
     public int getAmmountToChange(int ammountType){
 
         int choice;
-        do {
-
-            safePrint("Aumentare o Diminuire valore del dado => +1 , -1 : ");
-            SpecialBoolean ok = GO;
-            ReadObject r = safeRead();
-            r.waitOb();
-            if (!ok.equals(GO))
-                return -2;
-            choice = Integer.parseInt(r.getNotifica());
-            if (!(choice == -1 || choice == 1))
-                safePrint("Valore non valido , inserire 1 o  -1");
-        } while (!(choice == -1 || choice == 1));
+        if (ammountType == 0) {
+            do {
+                safePrint("Aumentare o Diminuire valore del dado => +1 , -1 : ");
+                SpecialBoolean ok = GO;
+                ReadObject r = safeRead();
+                r.waitOb();
+                if (!ok.equals(GO))
+                    return -2;
+                choice = Integer.parseInt(r.getNotifica());
+                if (!(choice == -1 || choice == 1))
+                    safePrint("Valore non valido , inserire 1 o  -1");
+            } while (!(choice == -1 || choice == 1));
+        }
+        else {
+            do {
+                safePrint("Selezionare il valore del dado pescato: ");
+                SpecialBoolean ok = GO;
+                ReadObject r = safeRead();
+                r.waitOb();
+                if (!ok.equals(GO))
+                    return -2;
+                choice = Integer.parseInt(r.getNotifica());
+                if (!((choice > 0) && (choice < 7)))
+                    safePrint("Valore non valido , inserire una valore da 1 a 6");
+            } while (!(choice == -1 || choice == 1));
+        }
         return choice;
     }
 
@@ -356,24 +371,29 @@ public class CLI implements UI, Runnable{
             printBoard(windowPatternCard3);
             printBoard(windowPatternCard4);
 
-            safePrint("Choose ID: ");
-            SpecialBoolean ok = GO;
-            ReadObject r = safeRead();
-            r.waitOb();
-            String choice = r.getNotifica();
+            boolean choseOK = false;
 
-            int chose = Integer.parseInt(choice);
+            do {
+                safePrint("Choose ID: ");
+                SpecialBoolean ok = GO;
+                ReadObject r = safeRead();
+                r.waitOb();
+                String choice = r.getNotifica();
 
-            if (chose>=1 && chose <=24) {
-                try {
-                    clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
-                } catch (RemoteException e) {
-                    generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+                int chose = Integer.parseInt(choice);
+
+                if (chose == Integer.parseInt(windowPatternCard1.getID()) || chose == Integer.parseInt(windowPatternCard2.getID()) ||
+                        chose == Integer.parseInt(windowPatternCard3.getID()) || chose == Integer.parseInt(windowPatternCard4.getID())) {
+                    try {
+                        clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
+                    } catch (RemoteException e) {
+                        generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+                    }
+                    choseOK = true;
+                } else {
+                    safePrint("Wrong id");
                 }
-            }
-            else {
-                safePrint("Wrong id");
-            }
+            }while (!choseOK);
         });
         t.start();
     }

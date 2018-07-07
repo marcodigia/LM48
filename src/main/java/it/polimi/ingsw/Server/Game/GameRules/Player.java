@@ -40,6 +40,11 @@ public class Player implements Serializable{
         useToolCardOfTheTurn = new UseToolCardBasic();
     }
 
+    public void setServerClientSender(ServerClientSender serverClientSender){
+        VirtualViewManager.removeVirtualView(this);
+        VirtualViewManager.addVirtualView(this, new VirtualViewImp(serverClientSender,this));
+    }
+
     public synchronized Boolean getStillAlive(){
         return stillAlive;
     }

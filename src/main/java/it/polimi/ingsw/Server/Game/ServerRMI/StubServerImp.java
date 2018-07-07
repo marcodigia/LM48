@@ -35,10 +35,17 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
 
     @Override
     public void register(String username, ServerClientSender clientRef) throws RemoteException {
-        waitingRoom.addClient(username, clientRef);
+        if(!waitingRoom.getNoMorePlayerAccepted())
+            waitingRoom.addClient(username, clientRef);
+        System.out.println("register RMI: " + game.scanForUsername(username));
         if(game.scanForUsername(username)!=null){
-            if(!game.scanForUsername(username).getConnected())
+            if(!game.scanForUsername(username).getConnected()) {
+                game.scanForUsername(username).setServerClientSender(clientRef);
+                game.scanForUsername(username).setStillAlive(true);
                 game.scanForUsername(username).setIsConnected();
+                game.scanForUsername(username).getvirtualView().sendGameStatus(game.getGameStatus());
+
+            }
         }
     }
 
