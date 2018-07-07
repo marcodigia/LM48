@@ -7,6 +7,7 @@ import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.*;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
+import it.polimi.ingsw.Server.Game.GameRules.EndGame.ScoreHandler;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
@@ -824,6 +825,16 @@ public class CLI implements UI, Runnable{
     @Override
     public void endGame(String winner){
 
+        ScoreHandler scoreHandler = new ScoreHandler(gameStatus);
+
+        System.out.println("Game Score\n");
+
+        for (Player p : gameStatus.getPlayer()) {
+            System.out.println(p.getName() + "scored: " +
+                    scoreHandler.getFinalScore().get(gameStatus.getPlayerByName(p.getName()))
+                    + " points\n");
+        }
+        System.out.println("The winner is: " + winner);
     }
 
 

@@ -45,12 +45,7 @@ public class ControllerScore extends AbstractGUI implements Initializable {
         scores.add(s4);
 
         for (int i = 0; i < gameStatus.getPlayer().size(); i++) {
-            players.
-                    get(i).
-                    setText(gameStatus.
-                            getPlayer().
-                            get(i).
-                            getName());
+            players.get(i).setText(gameStatus.getPlayer().get(i).getName());
             scores.get(i).setText(scoreHandler.getFinalScore().get(
                     gameStatus.getPlayerByName(players.get(i).getText())).toString());
         }
