@@ -20,19 +20,13 @@ public class UseToolCardBasic implements Actions {
     private Actions toolCardAction;
     private String userName;
 
-    private boolean incomplete = true ;
-
-    public boolean isIncomplete() {
-        return incomplete;
-    }
-
-    public void setIncomplete(boolean incomplete) {
-        this.incomplete = incomplete;
-    }
-
     private  String toolcardID;
     public UseToolCardBasic() {
 
+    }
+
+    public Actions getToolCardAction() {
+        return toolCardAction;
     }
 
     @Override
@@ -61,6 +55,8 @@ public class UseToolCardBasic implements Actions {
 
 
         ToolCard tc = ui.getChoosenToolCard();
+        if (tc==null)
+            return;
         toolcardID= tc.getID();
         toolCardAction= tc.getActions();
         if (tc.isUsable( gameStatus.getPlayerByName(userName).getWallet()))
@@ -69,8 +65,6 @@ public class UseToolCardBasic implements Actions {
             gameStatus.getPlayerByName(userName).getWallet().useToken(tc.getCost());
         }
 
-        if (toolCardAction!=null)
-            incomplete = false;
     }
 
 

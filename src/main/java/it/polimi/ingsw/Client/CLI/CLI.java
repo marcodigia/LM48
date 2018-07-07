@@ -1,24 +1,20 @@
 package it.polimi.ingsw.Client.CLI;
 
-import com.sun.org.apache.bcel.internal.generic.FADD;
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.*;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
-import it.polimi.ingsw.Server.Game.GameRules.GameContext;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
+import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
-import javafx.application.Platform;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -63,16 +59,12 @@ public class CLI implements UI, Runnable{
     private Integer semaforo = 1;
     private String message;
     Scanner s = new Scanner(System.in);
-    private boolean primaMossa = false;
+    private boolean cleanPrint = false;
     private int answer;
 
-    private Scanner s1 ;
-    private Scanner s2 ;
-    private Scanner s3 ;
-    private Scanner s4 ;
-    private Scanner s5 ;
-    private Scanner s6 ;
-    private Scanner s7 ;
+
+    private int i = 0 ;
+
 
     private final InputStream sistemin = System.in;
     private final PrintStream sistemon = System.out;
@@ -80,8 +72,25 @@ public class CLI implements UI, Runnable{
 
 
     private SpecialBoolean THREAD_RUN = new SpecialBoolean(true);
+    SerialReader serialReader = new SerialReader();
 
     public CLI(){
+
+        Thread t = new Thread(()->{
+            Scanner scanner = new Scanner(System.in);
+            while (true){
+                if (scanner.hasNextLine())
+                    serialReader.notifyAllWaitig(scanner.nextLine());
+                else {
+                    try {
+                        wait(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        t.start();
     }
 
     /**
@@ -244,8 +253,12 @@ public class CLI implements UI, Runnable{
         do {
 
             safePrint("Aumentare o Diminuire valore del dado => +1 , -1 : ");
-            s1 = new Scanner(System.in);
-            choice = Integer.parseInt(s1.next());
+            SpecialBoolean ok = GO;
+            ReadObject r = safeRead();
+            r.waitOb();
+            if (!ok.equals(GO))
+                return -2;
+            choice = Integer.parseInt(r.getNotifica());
             if (!(choice == -1 || choice == 1))
                 safePrint("Valore non valido , inserire 1 o  -1");
         } while (!(choice == -1 || choice == 1));
@@ -258,8 +271,12 @@ public class CLI implements UI, Runnable{
         do {
             safePrint("Choose dice index from Draft Pool: ");
 
-            s2 = new Scanner(System.in);
-            draftPoolIndex = Integer.parseInt(s2.next());
+            SpecialBoolean ok = GO;
+            ReadObject r = safeRead();
+            r.waitOb();
+            if (!ok.equals(GO))
+                return -1;
+            draftPoolIndex = Integer.parseInt(r.getNotifica());
 
             if (draftPoolIndex > 0 && draftPoolIndex <= gameStatus.getDraftPool().getDraft().size())
                 indexOK = true;
@@ -274,8 +291,12 @@ public class CLI implements UI, Runnable{
         do {
             safePrint("Choose starting cell index: ");
 
-            s3 = new Scanner(System.in);
-            cellIndexFrom = Integer.parseInt(s3.next());
+            SpecialBoolean ok = GO;
+            ReadObject r = safeRead();
+            r.waitOb();
+            if (!ok.equals(GO))
+                return -1;
+            cellIndexFrom = Integer.parseInt(r.getNotifica());
 
             if (cellIndexFrom > 0 && cellIndexFrom <= 20)
                 cellIndexOK = true;
@@ -290,8 +311,12 @@ public class CLI implements UI, Runnable{
         do {
             safePrint("Choose ending cell index: ");
 
-            s4 = new Scanner(System.in);
-            cellIndexTo = Integer.parseInt(s4.next());
+            SpecialBoolean ok = GO;
+            ReadObject r = safeRead();
+            r.waitOb();
+            if (!ok.equals(GO))
+                return -1;
+            cellIndexTo = Integer.parseInt(r.getNotifica());
 
             if (cellIndexTo > 0 && cellIndexTo <= 20)
                 cellIndexOK = true;
@@ -332,7 +357,11 @@ public class CLI implements UI, Runnable{
             printBoard(windowPatternCard4);
 
             safePrint("Choose ID: ");
-            String choice = safeRead();
+            SpecialBoolean ok = GO;
+            ReadObject r = safeRead();
+            r.waitOb();
+            String choice = r.getNotifica();
+
             int chose = Integer.parseInt(choice);
 
             if (chose>=1 && chose <=24) {
@@ -355,8 +384,12 @@ public class CLI implements UI, Runnable{
         do {
             safePrint("Choose round index: ");
 
-            s5 = new Scanner(System.in);
-            roundID = Integer.parseInt(s5.next());
+            SpecialBoolean ok = GO;
+            ReadObject r = safeRead();
+            r.waitOb();
+            if (!ok.equals(GO))
+                return -1;
+            roundID = Integer.parseInt(r.getNotifica());
 
             if (1 <= roundID && roundID <= 10)
                 chooseOK = true;
@@ -390,12 +423,22 @@ public class CLI implements UI, Runnable{
         diceIndex = -1;
     }
 
+    private SpecialBoolean GO = new SpecialBoolean(true);
+    private void stopallRead(){
+        GO.setFlag(false);
+        GO=new SpecialBoolean(true);
+    }
+
 
     private void useToolCard(){
-        useToolCardBasic.useAction(this, gameStatus, username);
-        try {
+        SpecialBoolean ok = GO;
 
-            if (!useToolCardBasic.isIncomplete())
+        useToolCardBasic.useAction(this, gameStatus, username);
+
+        if (!ok.equals(GO))
+            return;
+
+        try {
                 clientServerSender.sendAction(useToolCardBasic, username);
         } catch (RemoteException e) {
             generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
@@ -403,7 +446,10 @@ public class CLI implements UI, Runnable{
     }
 
     public void placeDice(){
+        SpecialBoolean ok = GO;
         placeDiceAction.useAction(this, gameStatus, username);
+        if (!ok.equals(GO))
+            return;
         try {
             clientServerSender.sendAction(placeDiceAction, username);
         } catch (RemoteException e) {
@@ -462,7 +508,7 @@ public class CLI implements UI, Runnable{
 
     private SpecialBoolean FLAG = new SpecialBoolean(true);
     private void print(GameStatus gameStatus){
-
+        stopallRead();
         printGameStatus();
 
 
@@ -488,8 +534,12 @@ public class CLI implements UI, Runnable{
                 String choose = "";
                 do {
 
-
-                    choose = safeRead();
+                    SpecialBoolean ok = GO ;
+                    ReadObject r = safeRead();
+                    r.waitOb();
+                    choose = r.getNotifica();
+                    if (!ok.equals(GO))
+                        return;
                     if(choose.equals("1") || choose.equals("2"))
                         correct =false;
                     else
@@ -578,22 +628,25 @@ public class CLI implements UI, Runnable{
     public ToolCard getChoosenToolCard() {
         int toolcardID;
         boolean chooseOK = false;
-        try {
-            s6 = new Scanner(System.in);
+
+        SpecialBoolean ok = GO;
             do {
                 safePrint("Choose Tool Card : ");
 
-                toolcardID = Integer.parseInt(s6.next());
+                ReadObject read = safeRead();
+
+                read.waitOb();
+                String id = read.getNotifica();
+                if (!ok.equals(GO))
+                    return null;
+                toolcardID = Integer.parseInt(id);
 
                 if (toolcardID > 0 && toolcardID <= 3)
                     chooseOK = true;
             }while (!chooseOK);
             toolcardID = toolcardID-1;
 
-        }catch (IllegalStateException e ){
-            useToolCardBasic.setIncomplete(true);
-            return null;
-        }
+
         return gameStatus.getToolCards().get(toolcardID);
     }
 
@@ -603,8 +656,12 @@ public class CLI implements UI, Runnable{
         if (gameStatus.getBoardRound().getDices().size() >= (roundID + 1)) {
             do {
                 safePrint("Choose dice index: ");
-                 s7 = new Scanner(System.in);
-                diceIndex = Integer.parseInt(s7.next());
+                SpecialBoolean ok = GO;
+                ReadObject r = safeRead();
+                r.waitOb();
+                if (!ok.equals(GO))
+                    return -1;
+                diceIndex = Integer.parseInt(r.getNotifica());
 
                 if (diceIndex > 0 && diceIndex <= gameStatus.getBoardRound().getDices().get(roundID).size())
                     chooseOK = true;
@@ -628,8 +685,11 @@ public class CLI implements UI, Runnable{
             do{
                 String choice;
                 safePrint("Choose connection type:\n0->RMI\n1->Socket");
-                 
-                choice = safeRead();
+
+                SpecialBoolean ok = GO;
+                ReadObject r = safeRead();
+                r.waitOb();
+                choice = r.getNotifica();
 
                 switch(choice){
                     case "0":
@@ -637,26 +697,35 @@ public class CLI implements UI, Runnable{
                         //get server ip from input
                         safePrint("Insert server IP: ");
 
-                         
-                        setIp(safeRead());
+                        SpecialBoolean ok1 = GO;
+                        ReadObject r1 = safeRead();
+                        r1.waitOb();
+                        setIp(r1.getNotifica());
                         //get server port from input
                         safePrint("Insert server port: ");
 
-                         
-                        setPort(safeRead());
+                        SpecialBoolean ok2 = GO;
+                        ReadObject r2 = safeRead();
+                        r2.waitOb();
+                        setPort(r2.getNotifica());
                         repeatInsertion = false;
                         break;
                     case "1":
                         //get server ip from input
                         safePrint("Insert server IP: ");
 
-                         
-                        setIp(safeRead());
+                        SpecialBoolean ok3 = GO;
+                        ReadObject r3 = safeRead();
+                        r3.waitOb();
+                        setIp(r3.getNotifica());
                         //get server port from input
                         safePrint("Insert server port: ");
 
+                        ok1 = GO;
+                        r1 = safeRead();
+                        r1.waitOb();
                          
-                        setPort(safeRead());
+                        setPort(r1.getNotifica());
                         repeatInsertion = false;
                         break;
                     default:
@@ -702,8 +771,11 @@ public class CLI implements UI, Runnable{
 
             do {
                 safePrint("Enter username:");
-                 
-                setUsername(safeRead());
+
+                SpecialBoolean ok = GO;
+                ReadObject r = safeRead();
+                r.waitOb();
+                setUsername(r.getNotifica());
                 if (username.contains("."))
                     safePrint("Your username can't contain char '.'");
                 if (username.length() > max_Length)
@@ -728,32 +800,19 @@ public class CLI implements UI, Runnable{
         t.start();
     }
 
+
     @Override
     public void endGame(String winner){
 
     }
 
-    private String safeRead(){
 
-        if(s1!=null)
-            s1.close();
-        if(s2!=null)
-            s2.close();
-        if(s3!=null)
-            s3.close();
-        if(s4!=null)
-            s4.close();
-        if(s5!=null)
-            s5.close();
-        if(s6!=null)
-            s6.close();
-        if(s7!=null)
-            s7.close();
+    private ReadObject safeRead(){
 
-
-        message = s.next();
-        return message;
-
+        SpecialBoolean s = GO;
+        ReadObject o = new ReadObject();
+        serialReader.registry(o,s);
+        return o;
     }
 
     private void safePrint(String s){
@@ -789,4 +848,49 @@ class SpecialBoolean{
     }
 }
 
+
+class SerialReader{
+
+    Scanner s = new Scanner(System.in);
+    Hashtable<ReadObject,SpecialBoolean> waitingList = new Hashtable<>();
+    public void registry(ReadObject r , SpecialBoolean s ) {
+        waitingList.put(r,s);
+    }
+
+    public void notifyAllWaitig(String string){
+        for (ReadObject a : waitingList.keySet())
+            a.notifica(string);
+        waitingList = new Hashtable<>();
+    }
+
+}
+
+class ReadObject{
+
+    String notifica ="";
+    Object o = new Object();
+
+    public void notifica(String s){
+        notifica = s;
+        synchronized (o){
+            o.notify();
+        }
+
+    }
+
+    public String getNotifica() {
+        return notifica;
+    }
+
+    public void waitOb(){
+        synchronized (o){
+            try {
+                o.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
 
