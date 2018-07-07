@@ -258,7 +258,7 @@ public class CLI implements UI, Runnable{
                 ReadObject r = safeRead();
                 r.waitOb();
                 if (!ok.equals(GO))
-                    return -2;
+                    return 0;
                 choice = Integer.parseInt(r.getNotifica());
                 if (!(choice == -1 || choice == 1))
                     safePrint("Valore non valido , inserire 1 o  -1");
@@ -271,11 +271,11 @@ public class CLI implements UI, Runnable{
                 ReadObject r = safeRead();
                 r.waitOb();
                 if (!ok.equals(GO))
-                    return -2;
+                    return -1;
                 choice = Integer.parseInt(r.getNotifica());
                 if (!((choice > 0) && (choice < 7)))
-                    safePrint("Valore non valido , inserire una valore da 1 a 6");
-            } while (!(choice == -1 || choice == 1));
+                    safePrint("Valore non valido , inserire un valore da 1 a 6");
+            } while (!((choice > 0) && (choice < 7)));
         }
         return choice;
     }
@@ -873,11 +873,11 @@ class SerialReader{
 
     Scanner s = new Scanner(System.in);
     Hashtable<ReadObject,SpecialBoolean> waitingList = new Hashtable<>();
-    public void registry(ReadObject r , SpecialBoolean s ) {
+    public synchronized void registry(ReadObject r , SpecialBoolean s ) {
         waitingList.put(r,s);
     }
 
-    public void notifyAllWaitig(String string){
+    public synchronized void notifyAllWaitig(String string){
         for (ReadObject a : waitingList.keySet())
             a.notifica(string);
         waitingList = new Hashtable<>();

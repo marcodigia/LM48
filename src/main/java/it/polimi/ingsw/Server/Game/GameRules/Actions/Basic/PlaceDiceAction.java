@@ -56,6 +56,7 @@ public class PlaceDiceAction implements Actions {
     public void useAction(UI ui, GameStatus gameStatus, String userName){
 
         action.useAction(ui, gameStatus, userName);
+        action.setUserName(userName);
     }
 
 

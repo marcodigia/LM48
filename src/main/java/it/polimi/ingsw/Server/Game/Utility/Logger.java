@@ -4,7 +4,9 @@ import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class Logger {
+import java.io.Serializable;
+
+public class Logger implements Serializable{
 
     private static String log ="";
     private static String lastLog ="";

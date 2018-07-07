@@ -24,7 +24,10 @@ public class ChangePlaceDiceAction implements Actions {
     @Override
     public void doAction(GameStatus gameStatus) {
         System.out.println("CHANGE DICE action " + color +value+adjacency);
-        gameStatus.getPlayerByName(username).getPlaceDiceOfTheTurn().changeRestricion(color,value,adjacency);
+        gameStatus
+                .getPlayerByName(username)
+                .getPlaceDiceOfTheTurn()
+                .changeRestricion(color,value,adjacency);
     }
 
     @Override

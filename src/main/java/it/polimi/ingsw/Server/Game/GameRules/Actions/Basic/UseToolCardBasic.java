@@ -63,6 +63,7 @@ public class UseToolCardBasic implements Actions {
         {
             toolCardAction.useAction(ui,gameStatus,userName);
             gameStatus.getPlayerByName(userName).getWallet().useToken(tc.getCost());
+            toolCardAction.setUserName(userName);
         }
 
     }
