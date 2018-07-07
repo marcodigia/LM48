@@ -52,7 +52,7 @@ public class CLI implements UI, Runnable{
     private PlaceDiceAction placeDiceAction;
 
 
-    private boolean incompleteAction = false;
+
     private final Object Sam = new Object();
     private int roundID = -1;
     private int draftPoolIndex = -1;
@@ -395,7 +395,8 @@ public class CLI implements UI, Runnable{
         useToolCardBasic.useAction(this, gameStatus, username);
         try {
 
-            clientServerSender.sendAction(useToolCardBasic, username);
+            if (!useToolCardBasic.isIncomplete())
+                clientServerSender.sendAction(useToolCardBasic, username);
         } catch (RemoteException e) {
             generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
         }
@@ -577,15 +578,22 @@ public class CLI implements UI, Runnable{
     public ToolCard getChoosenToolCard() {
         int toolcardID;
         boolean chooseOK = false;
-        do {
-            safePrint("Choose Tool Card : ");
+        try {
             s6 = new Scanner(System.in);
-            toolcardID = Integer.parseInt(s6.next());
+            do {
+                safePrint("Choose Tool Card : ");
 
-            if (toolcardID > 0 && toolcardID <= 3)
-                chooseOK = true;
-        }while (!chooseOK);
-        toolcardID = toolcardID-1;
+                toolcardID = Integer.parseInt(s6.next());
+
+                if (toolcardID > 0 && toolcardID <= 3)
+                    chooseOK = true;
+            }while (!chooseOK);
+            toolcardID = toolcardID-1;
+
+        }catch (IllegalStateException e ){
+            useToolCardBasic.setIncomplete(true);
+            return null;
+        }
         return gameStatus.getToolCards().get(toolcardID);
     }
 
@@ -742,7 +750,7 @@ public class CLI implements UI, Runnable{
         if(s7!=null)
             s7.close();
 
-        incompleteAction = true;
+
         message = s.next();
         return message;
 

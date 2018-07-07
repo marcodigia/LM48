@@ -20,6 +20,16 @@ public class UseToolCardBasic implements Actions {
     private Actions toolCardAction;
     private String userName;
 
+    private boolean incomplete = true ;
+
+    public boolean isIncomplete() {
+        return incomplete;
+    }
+
+    public void setIncomplete(boolean incomplete) {
+        this.incomplete = incomplete;
+    }
+
     private  String toolcardID;
     public UseToolCardBasic() {
 
@@ -59,6 +69,8 @@ public class UseToolCardBasic implements Actions {
             gameStatus.getPlayerByName(userName).getWallet().useToken(tc.getCost());
         }
 
+        if (toolCardAction!=null)
+            incomplete = false;
     }
 
 
