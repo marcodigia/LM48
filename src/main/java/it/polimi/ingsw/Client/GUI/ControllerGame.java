@@ -11,8 +11,8 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
-import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -39,7 +39,6 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static it.polimi.ingsw.Client.GUI.ControllerConnection.clientServerReciver;
 import static it.polimi.ingsw.Client.GUI.ControllerLogin.clientServerSender;
@@ -194,7 +193,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             indice_dado = cells4.indexOf(event);
         }
         Thread t = new Thread(()->{
-                placeDiceAction.useAction(this, gameStatus, username);
+                placeDiceAction.useAction(this, gameStatus, username, new SpecialBoolean(true));
                 try {
                         clientServerSender.sendAction(placeDiceAction, username);
                 } catch (RemoteException e) {
@@ -308,7 +307,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
         toolCardSelected = toolCardsLabel.indexOf(event);
         Thread t = new Thread(() -> {
            if (attivo) {
-                useToolCardBasic.useAction(this, gameStatus, username);
+                useToolCardBasic.useAction(this, gameStatus, username, new SpecialBoolean(true));
                 try {
                     clientServerSender.sendAction(useToolCardBasic, username);
                     System.out.println("HANDLECLICK TC "+useToolCardBasic.toPacket());

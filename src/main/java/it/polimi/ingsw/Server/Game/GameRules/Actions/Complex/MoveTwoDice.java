@@ -10,14 +10,15 @@ import it.polimi.ingsw.Server.Game.GameRules.Restrictions.RestrictionType;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
 
 public class MoveTwoDice implements Actions {
 
 
-    private int from1, from2, to1, to2;
+    private int from1=-1, from2=-1, to1=-1, to2=-1;
 
-    private int roundIndex1, roundDiceIndex1 , roundIndex2, roundDiceIndex2;
+    private int roundIndex1=-1, roundDiceIndex1 =-1, roundIndex2, roundDiceIndex2;
     String userName;
 
     RestrictionType resType;
@@ -50,7 +51,7 @@ public class MoveTwoDice implements Actions {
     }
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 
         this.userName = userName;
 
@@ -58,26 +59,38 @@ public class MoveTwoDice implements Actions {
 
             Logger.log("Primo Dado\n");
             Logger.log("Seleziona cella di partenza\n");
+            if (!check.isFlag())
+                return;
             from1 = ui.getMatrixIndexFrom();
             Logger.log("Seleziona cella di destinazione\n");
+            if (!check.isFlag())
+                return;
             to1 = ui.getMatrixIndexTo();
 
             Logger.log("Secondo Dado");
             Logger.log("Seleziona cella di partenza\n");
+            if (!check.isFlag())
+                return;
             from2 = ui.getMatrixIndexFrom();
             Logger.log("Seleziona cella di destinazione\n");
+            if (!check.isFlag())
+                return;
             to2 = ui.getMatrixIndexTo();
 
         }
         else if (resType == RestrictionType.Color){
 
             Logger.log("Seleziona round dal RoundTrack\n");
+            if (!check.isFlag())
+                return;
             roundIndex1= ui.getRoundIndex();
             System.out.println(" ROUNDINDEX " + roundIndex1);
             if (roundIndex1==-1)
                 return;
             Logger.log("Seleziona cella dado del Round\n");
 
+            if (!check.isFlag())
+                return;
             roundDiceIndex1 = ui.getDiceIndexFromRound();
             System.out.println(" CELLAROUND " + roundDiceIndex1);
 
@@ -86,6 +99,8 @@ public class MoveTwoDice implements Actions {
 
             Dice diceTrack = gameStatus.getBoardRound().getDices().get(roundIndex1).get(roundDiceIndex1);
             Logger.log("Seleziona cella di partenza\n");
+            if (!check.isFlag())
+                return;
             from1 = ui.getMatrixIndexFrom();
 
             if (from1==-1)
@@ -93,6 +108,8 @@ public class MoveTwoDice implements Actions {
 
             System.out.println(" CELLAWP " + from1);
             Logger.log("Seleziona cella di destinazione\n");
+            if (!check.isFlag())
+                return;
             to1 = ui.getMatrixIndexTo();
 
             if (to1==-1)
@@ -110,6 +127,8 @@ public class MoveTwoDice implements Actions {
 
 
                 System.out.println(" askforanotherdice ");
+                if (!check.isFlag())
+                    return;
                 boolean answer = ui.askForAnotherDice();
                 if (!answer){
                     System.out.println(" ASKANOTHER ANSWER" + answer);
@@ -121,10 +140,14 @@ public class MoveTwoDice implements Actions {
 
 
                 Logger.log("Seleziona cella di partenza\n");
+                if (!check.isFlag())
+                    return;
                 from2 = ui.getMatrixIndexFrom();
                 if (from2==-1)
                     return;
                 Logger.log("Seleziona cella di destinazione\n");
+                if (!check.isFlag())
+                    return;
                 to2 = ui.getMatrixIndexTo();
                 if (to2==-1)
                     return;

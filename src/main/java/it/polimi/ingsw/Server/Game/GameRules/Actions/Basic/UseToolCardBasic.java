@@ -3,12 +3,11 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 import it.polimi.ingsw.Server.Game.Cards.ToolCard;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
-import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.UI;
 
-import javax.tools.Tool;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -45,23 +44,29 @@ public class UseToolCardBasic implements Actions {
     }
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 
         this.userName = userName;
         if(!ACTIVE){
           ui.printMessage("UUUeeè Cumpà , hai gia usato la toolcard in questo turno!");
           return;
         }
-
-
-        ToolCard tc = ui.getChoosenToolCard();
-        if (tc==null)
+        ToolCard tc ;
+        if (check.isFlag()){
+            tc = ui.getChoosenToolCard();
+            if (tc==null)
+                return;
+        }
+        else
             return;
-        toolcardID= tc.getID();
+
+
+            toolcardID= tc.getID();
+
         toolCardAction= tc.getActions();
         if (tc.isUsable( gameStatus.getPlayerByName(userName).getWallet()))
         {
-            toolCardAction.useAction(ui,gameStatus,userName);
+            toolCardAction.useAction(ui,gameStatus,userName, check);
             gameStatus.getPlayerByName(userName).getWallet().useToken(tc.getCost());
             toolCardAction.setUserName(userName);
         }

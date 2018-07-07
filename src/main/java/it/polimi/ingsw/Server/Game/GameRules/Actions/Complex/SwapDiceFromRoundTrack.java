@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
 
 public class SwapDiceFromRoundTrack implements Actions {
@@ -33,13 +34,19 @@ public class SwapDiceFromRoundTrack implements Actions {
     }
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 
         Logger.log("Seleziona dado dalla Draftpool\n");
+        if (!check.isFlag())
+            return;
         draftPoolIndex=ui.getDraftPoolIndex();
         Logger.log("Seleziona round dal RoundTrack\n");
+        if (!check.isFlag())
+            return;
         roundIndex = ui.getRoundIndex();
         Logger.log("Seleziona dado nel Round \n");
+        if (!check.isFlag())
+            return;
         diceIndex = ui.getDiceIndexFromRound();
 
     }

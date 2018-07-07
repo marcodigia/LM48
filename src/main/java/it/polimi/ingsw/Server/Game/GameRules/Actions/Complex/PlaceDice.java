@@ -5,12 +5,10 @@ import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
-import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
-
-import java.util.function.BinaryOperator;
 
 public class PlaceDice implements Actions {
 
@@ -93,15 +91,19 @@ public class PlaceDice implements Actions {
     }
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 
         this.userName = userName;
         Player activePlayer = gameStatus.getPlayerByName(userName);
         WindowPatternCard activePlayerWP = (WindowPatternCard) gameStatus.getPlayerCards().get(activePlayer).get(0);
 
         Logger.log("Seleziona dado dalla DraftPool\n");
+        if (!check.isFlag())
+            return;
         draftpoolFrom = ui.getDraftPoolIndex();
         Logger.log("Seleziona cella di destinazione\n");
+        if (!check.isFlag())
+            return;
         matrixIndexTo = ui.getMatrixIndexTo();
 
 

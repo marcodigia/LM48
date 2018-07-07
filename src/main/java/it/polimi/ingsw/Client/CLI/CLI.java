@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Client.CLI;
 
-import com.sun.imageio.plugins.common.I18N;
 import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
@@ -10,8 +9,8 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.EndGame.ScoreHandler;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Restriction;
-import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -75,6 +74,7 @@ public class CLI implements UI, Runnable{
 
     private SpecialBoolean THREAD_RUN = new SpecialBoolean(true);
     SerialReader serialReader = new SerialReader();
+    SafePrinter safePrinter = new SafePrinter();
 
     public CLI(){
 
@@ -125,13 +125,15 @@ public class CLI implements UI, Runnable{
 
     private void printBoard(WindowPatternCard windowPatternCard){
 
-            safePrint(windowPatternCard.getID());
+            Object o = new Object();
+            safePrinter.registry(o);
+            safePrinter.print(o,windowPatternCard.getID());
             ArrayList<Restriction> cells = new ArrayList<>();
             StringBuilder line = new StringBuilder();
             for (int i = 0; i < 20; i++) {
                 cells.add(windowPatternCard.getRestrictionAtIndex(i));
                 if (i == 5 || i == 10 || i == 15){
-                    safePrint(line);
+                    safePrinter.print(o,line.toString());
                     line = new StringBuilder();
                 }
                 switch (cells.get(i)) {
@@ -173,8 +175,9 @@ public class CLI implements UI, Runnable{
                         break;
                 }
             }
-            safePrint(line);
-            safePrint("\n");
+
+            safePrinter.print(o,line.toString());
+            safePrinter.print(o,"\n");
 
     }
 
@@ -182,6 +185,9 @@ public class CLI implements UI, Runnable{
     private void printBoardGame(WindowPatternCard windowPatternCard) {
 
         StringBuilder line = new StringBuilder();
+
+        Object o = new Object();
+        safePrinter.registry(o);
 
         for (int i = 0; i < 20; i++) {
             if (windowPatternCard.getDice(i) != null)
@@ -228,33 +234,36 @@ public class CLI implements UI, Runnable{
                 }
             }
             if (i == 4 || i == 9 || i == 14){
-                safePrint(line);
+                safePrinter.print(o,line.toString());
                 line = new StringBuilder();
             }
         }
-        safePrint(line);
-        safePrint("\n");
+        safePrinter.print(o,line.toString());
+        safePrinter.print(o,"\n");
     }
 
     private void printDraftPool(ArrayList<Dice> draft) {
-
-        safePrint("Draft Pool : \n");
+        Object o = new Object();
+        safePrinter.registry(o);
+        safePrinter.print(o,"Draft Pool : \n");
         StringBuilder line = new StringBuilder();
         for (Dice d : draft) {
             line.append(d.getDiceColor().getAnsiColor()).append(ANSI_COLOR.BOLD).append("[")
                     .append(d.getValue()).append("]").append(ANSI_COLOR.ANSI_RESET)
                     .append("  ");
         }
-        safePrint(line);
+        safePrinter.print(o,line.toString());
     }
 
     @Override
     public int getAmmountToChange(int ammountType){
 
+        Object o = new Object();
+        safePrinter.registry(o);
         int choice;
         if (ammountType == 0) {
             do {
-                safePrint("Aumentare o Diminuire valore del dado => +1 , -1 : ");
+                safePrinter.print(o,"Aumentare o Diminuire valore del dado => +1 , -1 : ");
                 SpecialBoolean ok = GO;
                 ReadObject r = safeRead();
                 r.waitOb();
@@ -262,12 +271,12 @@ public class CLI implements UI, Runnable{
                     return 0;
                 choice = Integer.parseInt(r.getNotifica());
                 if (!(choice == -1 || choice == 1))
-                    safePrint("Valore non valido , inserire 1 o  -1");
+                    safePrinter.print(o,"Valore non valido , inserire 1 o  -1");
             } while (!(choice == -1 || choice == 1));
         }
         else {
             do {
-                safePrint("Selezionare il valore del dado pescato: ");
+                safePrinter.print(o,"Selezionare il valore del dado pescato: ");
                 SpecialBoolean ok = GO;
                 ReadObject r = safeRead();
                 r.waitOb();
@@ -275,7 +284,7 @@ public class CLI implements UI, Runnable{
                     return -1;
                 choice = Integer.parseInt(r.getNotifica());
                 if (!((choice > 0) && (choice < 7)))
-                    safePrint("Valore non valido , inserire un valore da 1 a 6");
+                    safePrinter.print(o,"Valore non valido , inserire un valore da 1 a 6");
             } while (!((choice > 0) && (choice < 7)));
         }
         return choice;
@@ -284,8 +293,10 @@ public class CLI implements UI, Runnable{
     @Override
     public int getDraftPoolIndex(){
         boolean indexOK = false;
+        Object o = new Object();
+        safePrinter.registry(o);
         do {
-            safePrint("Choose dice index from Draft Pool: ");
+            safePrinter.print(o,"Choose dice index from Draft Pool: ");
 
             SpecialBoolean ok = GO;
             ReadObject r = safeRead();
@@ -304,8 +315,11 @@ public class CLI implements UI, Runnable{
     @Override
     public int getMatrixIndexFrom(){
         boolean cellIndexOK = false;
+        Object o = new Object();
+        safePrinter.registry(o);
         do {
-            safePrint("Choose starting cell index: ");
+
+            safePrinter.print(o,"Choose starting cell index: ");
 
             SpecialBoolean ok = GO;
             ReadObject r = safeRead();
@@ -324,8 +338,10 @@ public class CLI implements UI, Runnable{
     @Override
     public int getMatrixIndexTo(){
         boolean cellIndexOK = false;
+        Object o = new Object();
+        safePrinter.registry(o);
         do {
-            safePrint("Choose ending cell index: ");
+            safePrinter.print(o,"Choose ending cell index: ");
 
             SpecialBoolean ok = GO;
             ReadObject r = safeRead();
@@ -350,7 +366,9 @@ public class CLI implements UI, Runnable{
     @Override
     public void chooseWP(String wp1fronte, String wp2retro, String wp3fronte, String wp4retro) {
         Thread t = new Thread(() -> {
-            safePrint("Choose Window Pattern: ");
+            Object o = new Object();
+            safePrinter.registry(this);
+            safePrinter.print(this,"Choose Window Pattern: ");
 
             AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
 
@@ -358,7 +376,7 @@ public class CLI implements UI, Runnable{
             try {
                 deck = factory.getNewCardDeck();
             } catch (FileNotFoundException e) {
-                safePrint("Catch chooseWP CLI");
+                safePrinter.print(this,"Catch chooseWP CLI");
                 e.printStackTrace();
             }
 
@@ -375,7 +393,7 @@ public class CLI implements UI, Runnable{
             boolean choseOK = false;
 
             do {
-                safePrint("Choose ID: ");
+                safePrinter.print(this,"Choose ID: ");
                 SpecialBoolean ok = GO;
                 ReadObject r = safeRead();
                 r.waitOb();
@@ -392,7 +410,7 @@ public class CLI implements UI, Runnable{
                     }
                     choseOK = true;
                 } else {
-                    safePrint("Wrong id");
+                    safePrinter.print(this,"Wrong id");
                 }
             }while (!choseOK);
         });
@@ -402,8 +420,10 @@ public class CLI implements UI, Runnable{
     @Override
     public int getRoundIndex() {
         boolean chooseOK = false;
+        Object o = new Object();
+        safePrinter.registry(this);
         do {
-            safePrint("Choose round index: ");
+            safePrinter.print(this,"Choose round index: ");
 
             SpecialBoolean ok = GO;
             ReadObject r = safeRead();
@@ -454,50 +474,59 @@ public class CLI implements UI, Runnable{
     private void useToolCard(){
         SpecialBoolean ok = GO;
 
-        useToolCardBasic.useAction(this, gameStatus, username);
+            useToolCardBasic.useAction(this, gameStatus, username, ok );
 
-        if (!ok.equals(GO))
-            return;
+            if (!ok.equals(GO))
+                return;
 
-        try {
+            try {
                 clientServerSender.sendAction(useToolCardBasic, username);
-        } catch (RemoteException e) {
-            generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
-        }
-    }
+            } catch (RemoteException e) {
+                generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+            }
 
+
+    }
+    UI temp = this;
     public void placeDice(){
         SpecialBoolean ok = GO;
-        placeDiceAction.useAction(this, gameStatus, username);
-        if (!ok.equals(GO))
-            return;
-        try {
-            clientServerSender.sendAction(placeDiceAction, username);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+            placeDiceAction.useAction(this, gameStatus, username, ok);
+            if (!ok.equals(GO))
+                return;
+            try {
+                clientServerSender.sendAction(placeDiceAction, username);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
     }
 
     private void printToolCard(){
-        safePrint(ANSI_COLOR.ANSI_RED + "TOOL CARDS: " + ANSI_COLOR.ANSI_RESET);
+        Object o = new Object();
+        safePrinter.registry(this);
+        safePrinter.print(this,ANSI_COLOR.ANSI_RED + "TOOL CARDS: " + ANSI_COLOR.ANSI_RESET);
         for (ToolCard toolCard : gameStatus.getToolCards()){
-            safePrint(ANSI_COLOR.ANSI_RED + toolCard.getID() +
+            safePrinter.print(this,ANSI_COLOR.ANSI_RED + toolCard.getID() +
                     toolCard.getName() + toolCard.getEffect()
                     + "\n" + ANSI_COLOR.ANSI_RESET);
         }
     }
 
     private void printPrivateCard(){
-        safePrint(ANSI_COLOR.ANSI_BLUE + "PRIVATE CARD: "  +
+        Object o = new Object();
+        safePrinter.registry(this);
+        safePrinter.print(this,ANSI_COLOR.ANSI_BLUE + "PRIVATE CARD: "  +
                 gameStatus.getPlayerPrivateObjectiveCards(username).getDiceColor()
                 + ANSI_COLOR.ANSI_RESET
         );
     }
 
     private void printPublicCard(){
-        safePrint(ANSI_COLOR.ANSI_GREEN + "PUBLIC CARDS: " + ANSI_COLOR.ANSI_RESET);
+        Object o = new Object();
+        safePrinter.registry(this);
+        safePrinter.print(this,ANSI_COLOR.ANSI_GREEN + "PUBLIC CARDS: " + ANSI_COLOR.ANSI_RESET);
         for (PublicObjectiveCard publicObjectiveCard : gameStatus.getPublicObjectiveCards()){
-            safePrint(ANSI_COLOR.ANSI_GREEN + publicObjectiveCard.getName() +
+            safePrinter.print(this,ANSI_COLOR.ANSI_GREEN + publicObjectiveCard.getName() +
                     publicObjectiveCard.getDescription() + "\n" + ANSI_COLOR.ANSI_RESET);
         }
     }
@@ -505,7 +534,8 @@ public class CLI implements UI, Runnable{
     private void printRoundTrack(){
 
         StringBuilder line = new StringBuilder();
-
+        Object o = new Object();
+        safePrinter.registry(this);
         for (int i = 0; i < 10; i++){
             if(gameStatus.getBoardRound().getDices().size()<=i)
                 line.append(i + 1).append(" | ");
@@ -520,7 +550,7 @@ public class CLI implements UI, Runnable{
 
 
         }
-        safePrint(line);
+        safePrinter.print(this,line.toString());
     }
 
 
@@ -594,8 +624,10 @@ public class CLI implements UI, Runnable{
         printPublicCard();
         printToolCard();
         printDraftPool(gameStatus.getDraftPool().getDraft());
+        Object o = new Object();
+        safePrinter.registry(this);
         for (Player p : gameStatus.getPlayerCards().keySet()) {
-            safePrint(p.getName());
+            safePrinter.print(this,p.getName());
             printBoardGame((WindowPatternCard) gameStatus.getPlayerCards().get(p).get(0)); 
         }
     }
@@ -623,7 +655,9 @@ public class CLI implements UI, Runnable{
                 try {
                     clientServerSender.pingBack(username);
                 } catch (RemoteException e) {
-                    safePrint("Catch chooseWP CLI pingback");
+                    Object o = new Object();
+                    safePrinter.registry(this);
+                    safePrinter.print(this,"Catch chooseWP CLI pingback");
                     e.printStackTrace();
                 }
             }
@@ -634,11 +668,13 @@ public class CLI implements UI, Runnable{
     @Override
     public void allCurrentPlayers(String players) {
         Thread t = new Thread(() -> {
+            Object o = new Object();
+            safePrinter.registry(this);
             String[] names = players.split("\\s*,\\s*");
-            safePrint("\nPlayers currently connected:");
+            safePrinter.print(this,"\nPlayers currently connected:");
             for (String name : names) {
                 playersNames.add(name);
-                safePrint(name);
+                safePrinter.print(this,name);
             }
         });
         t.start();
@@ -652,7 +688,9 @@ public class CLI implements UI, Runnable{
 
         SpecialBoolean ok = GO;
             do {
-                safePrint("Choose Tool Card : ");
+                Object o = new Object();
+                safePrinter.registry(this);
+                safePrinter.print(this,"Choose Tool Card : ");
 
                 ReadObject read = safeRead();
 
@@ -676,7 +714,9 @@ public class CLI implements UI, Runnable{
         boolean chooseOK = false;
         if (gameStatus.getBoardRound().getDices().size() >= (roundID + 1)) {
             do {
-                safePrint("Choose dice index: ");
+                Object o = new Object();
+                safePrinter.registry(this);
+                safePrinter.print(this,"Choose dice index: ");
                 SpecialBoolean ok = GO;
                 ReadObject r = safeRead();
                 r.waitOb();
@@ -694,7 +734,9 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void run() {
-        safePrint(ANSI_COLOR.ANSI_RED + ANSI_COLOR.BOLD + "Welcome to Sagrada!" + ANSI_COLOR.ANSI_RESET);
+        Object o = new Object();
+        safePrinter.registry(this);
+        safePrinter.print(this,ANSI_COLOR.ANSI_RED + ANSI_COLOR.BOLD + "Welcome to Sagrada!" + ANSI_COLOR.ANSI_RESET);
         handleConnection();
         validateUsername(maxNameSize);
     }
@@ -705,7 +747,9 @@ public class CLI implements UI, Runnable{
 
             do{
                 String choice;
-                safePrint("Choose connection type:\n0->RMI\n1->Socket");
+                Object o = new Object();
+                safePrinter.registry(this);
+                safePrinter.print(this,"Choose connection type:\n0->RMI\n1->Socket");
 
                 SpecialBoolean ok = GO;
                 ReadObject r = safeRead();
@@ -716,14 +760,14 @@ public class CLI implements UI, Runnable{
                     case "0":
                         rmi = true;
                         //get server ip from input
-                        safePrint("Insert server IP: ");
+                        safePrinter.print(this,"Insert server IP: ");
 
                         SpecialBoolean ok1 = GO;
                         ReadObject r1 = safeRead();
                         r1.waitOb();
                         setIp(r1.getNotifica());
                         //get server port from input
-                        safePrint("Insert server port: ");
+                        safePrinter.print(this,"Insert server port: ");
 
                         SpecialBoolean ok2 = GO;
                         ReadObject r2 = safeRead();
@@ -733,14 +777,14 @@ public class CLI implements UI, Runnable{
                         break;
                     case "1":
                         //get server ip from input
-                        safePrint("Insert server IP: ");
+                        safePrinter.print(this,"Insert server IP: ");
 
                         SpecialBoolean ok3 = GO;
                         ReadObject r3 = safeRead();
                         r3.waitOb();
                         setIp(r3.getNotifica());
                         //get server port from input
-                        safePrint("Insert server port: ");
+                        safePrinter.print(this,"Insert server port: ");
 
                         ok1 = GO;
                         r1 = safeRead();
@@ -750,7 +794,7 @@ public class CLI implements UI, Runnable{
                         repeatInsertion = false;
                         break;
                     default:
-                        safePrint("Value typed is not valid");
+                        safePrinter.print(this,"Value typed is not valid");
                         break;
                 }
             }while(repeatInsertion);
@@ -790,17 +834,19 @@ public class CLI implements UI, Runnable{
      */
     private void validateUsername(final Integer max_Length) {
 
+        Object o = new Object();
+        safePrinter.registry(this);
             do {
-                safePrint("Enter username:");
+                safePrinter.print(this,"Enter username:");
 
                 SpecialBoolean ok = GO;
                 ReadObject r = safeRead();
                 r.waitOb();
                 setUsername(r.getNotifica());
                 if (username.contains("."))
-                    safePrint("Your username can't contain char '.'");
+                    safePrinter.print(this,"Your username can't contain char '.'");
                 if (username.length() > max_Length)
-                    safePrint("Your username is too long");
+                    safePrinter.print(this,"Your username is too long");
             } while (username.contains(".") || username.length() > max_Length);
         handleLogin();
     }
@@ -808,7 +854,9 @@ public class CLI implements UI, Runnable{
     @Override
     public void printMessage(String s){
         Thread t = new Thread(() -> {
-            safePrint(s);
+            Object o = new Object();
+            safePrinter.registry(this);
+            safePrinter.print(this,s);
             switch (s) {
                 case CONSTANT.usernameAlreadyUsed:
                     validateUsername(maxNameSize);
@@ -846,7 +894,7 @@ public class CLI implements UI, Runnable{
         return o;
     }
 
-    private void safePrint(String s){
+    /*private void safePrinter.print(this,String s){
         //synchronized (sistemon){
             System.out.println(s);
         //}
@@ -857,26 +905,8 @@ public class CLI implements UI, Runnable{
             System.out.println(line);
         //}
     }
+*/
 
-
-}
-
-class SpecialBoolean{
-
-    boolean flag;
-
-    public SpecialBoolean(boolean flag) {
-        this.flag = flag;
-    }
-
-
-    public boolean isFlag() {
-        return flag;
-    }
-
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
 }
 
 
@@ -923,5 +953,22 @@ class ReadObject{
         }
 
     }
+
+}
+
+class SafePrinter{
+
+    PrintStream out = System.out;
+
+    Object o ;
+    public void registry(Object o1){
+        o = o1;
+    }
+
+    public void print(Object o1,String s){
+        if (o.equals(o1))
+            out.println(s);
+    }
+
 }
 

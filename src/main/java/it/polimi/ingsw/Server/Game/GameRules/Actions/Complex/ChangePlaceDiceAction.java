@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
 
 public class ChangePlaceDiceAction implements Actions {
@@ -31,7 +32,7 @@ public class ChangePlaceDiceAction implements Actions {
     }
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 
         String azione ="";
         if (adjacency)

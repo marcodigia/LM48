@@ -3,13 +3,9 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Basic;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Complex.PlaceDice;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
-import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Random;
 
 public class PlaceDiceAction implements Actions {
 
@@ -53,9 +49,9 @@ public class PlaceDiceAction implements Actions {
 
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName){
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check){
 
-        action.useAction(ui, gameStatus, userName);
+        action.useAction(ui, gameStatus, userName, check);
         action.setUserName(userName);
     }
 

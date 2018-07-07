@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions;
 
 import it.polimi.ingsw.Packetable;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
 
 //UI use useAction to setup the action and then sends Action to the Server
@@ -13,13 +14,13 @@ public interface Actions extends Packetable {
     void doAction(GameStatus gameStatus);
 
     /**
-     *
-     * @param ui the ui of the client that is to be interacted with
+     *  @param ui the ui of the client that is to be interacted with
      * @param gameStatus the gamesStatus that is a repprestantation of the actual gameStatus on the Server
      * @param userName the username of the player that is actually using the action
+     * @param check Used to interrupt the action beetween threads
      */
     //To be used by UI
-    void useAction(UI ui, GameStatus gameStatus, String userName);
+    void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check);
 
 
     /*

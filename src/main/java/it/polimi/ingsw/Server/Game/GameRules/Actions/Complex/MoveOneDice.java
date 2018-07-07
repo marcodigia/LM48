@@ -4,6 +4,7 @@ import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -55,23 +56,29 @@ public class MoveOneDice implements Actions {
 
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 
         this.userName = userName;
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
         if (!existsValidMove(activePlayerWP)) {
+            if (!check.isFlag())
+                return;
             ui.printMessage("No possible moves");
             Logger.log("Nessuna mossa possibile\n");
-            System.out.println("No possible moves");
+            //System.out.println("No possible moves");
             from = -1;
             to = -1 ;
         } else {
 
             Logger.log("Seleziona cella di partenza\n");
+            if (!check.isFlag())
+                return;
             from = ui.getMatrixIndexFrom();
             Logger.log("Seleziona cella di destinazione\n");
+            if (!check.isFlag())
+                return;
             to = ui.getMatrixIndexTo();
         }
 

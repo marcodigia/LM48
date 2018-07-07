@@ -3,6 +3,7 @@ package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
 import it.polimi.ingsw.Server.Game.Components.Boards.DraftPool;
 import it.polimi.ingsw.Server.Game.Components.Dice;
@@ -81,19 +82,30 @@ public class ChangeDiceValue implements Actions {
     }
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 
 
 
         Logger.log("Seleziona dado dalla DraftPool\n");
-        draftPoolIndex = ui.getDraftPoolIndex();
+        if(check.isFlag())
+            draftPoolIndex = ui.getDraftPoolIndex();
+        else
+            return;
 
         if (type!=2){
             Logger.log("Decidi la variazione del dado\n");
-            if (type == 3)
+            if (type == 3){
+                if (!check.isFlag())
+                    return;
                 ammount = ui.getAmmountToChange(1);
-            else
+            }
+
+            else{
+                if (!check.isFlag())
+                    return;
                 ammount = ui.getAmmountToChange(0);
+            }
+
         }
 
 

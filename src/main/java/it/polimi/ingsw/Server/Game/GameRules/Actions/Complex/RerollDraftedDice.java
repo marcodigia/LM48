@@ -1,14 +1,12 @@
 package it.polimi.ingsw.Server.Game.GameRules.Actions.Complex;
 
-import it.polimi.ingsw.Server.Game.Cards.WindowPatternCard;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.ServerRete.Turn;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import it.polimi.ingsw.Server.Game.Utility.Logger;
+import it.polimi.ingsw.Server.Game.Utility.SpecialBoolean;
 import it.polimi.ingsw.UI;
-import it.polimi.ingsw.Server.Game.Components.Dice;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
-import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 
 public class RerollDraftedDice implements Actions {
 
@@ -43,7 +41,7 @@ public class RerollDraftedDice implements Actions {
     }
 
     @Override
-    public void useAction(UI ui, GameStatus gameStatus, String userName) {
+    public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 
         this.userName = userName;
 
@@ -52,6 +50,8 @@ public class RerollDraftedDice implements Actions {
             return;
         }
         Logger.log("Seleziona Dado dalla Draftpool\n");
+        if (!check.isFlag())
+            return;
         diceIndex = ui.getDraftPoolIndex();
 
 
