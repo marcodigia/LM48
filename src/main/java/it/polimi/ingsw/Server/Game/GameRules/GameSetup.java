@@ -90,9 +90,9 @@ public class GameSetup {
             //toolCards = extractRandom(toolcarddeck,12,CONSTANT.toolCardToExtract);
             //TODO togliere toolcard forzate
             toolCards = new ArrayList<>();
-            toolCards.add((ToolCard) Unpacker.TCDeck.get("2"));
-            toolCards.add((ToolCard) Unpacker.TCDeck.get("3"));
-            toolCards.add((ToolCard) Unpacker.TCDeck.get("4"));
+            toolCards.add((ToolCard) Unpacker.TCDeck.get("9"));
+            toolCards.add((ToolCard) Unpacker.TCDeck.get("11"));
+            toolCards.add((ToolCard) Unpacker.TCDeck.get("12"));
 
         } catch (FileNotFoundException e) {
             System.out.println("File tool card non è stato caricato");

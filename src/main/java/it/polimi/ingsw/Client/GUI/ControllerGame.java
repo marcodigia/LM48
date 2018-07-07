@@ -103,10 +103,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     private ArrayList<GridPane> gridPanes = new ArrayList<>();
     public static String gameWinner;
 
-
-
     public boolean GO = true;
-
 
     public void setGO(boolean GO) {
         this.GO = GO;
@@ -188,10 +185,14 @@ public class ControllerGame extends AbstractGUI implements Initializable {
      */
     private void handleClickWindowPattern(MouseEvent mouseEvent) {
         Label event = (Label) mouseEvent.getSource();
-
-        indice_dadoPrecedente = indice_dado;
-        indice_dado = cells4.indexOf(event);
-
+        if (draftpoolindex == -1) {
+            indice_dadoPrecedente = indice_dado;
+            indice_dado = cells4.indexOf(event);
+        }
+        else {
+            indice_dadoPrecedente = 1;
+            indice_dado = cells4.indexOf(event);
+        }
         Thread t = new Thread(()->{
                 placeDiceAction.useAction(this, gameStatus, username);
                 try {
@@ -217,7 +218,6 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                      }
                  });
                 t2.start();
-
             }
     }
 
