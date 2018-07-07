@@ -247,7 +247,7 @@ public class CLI implements UI, Runnable{
             s1 = new Scanner(System.in);
             choice = Integer.parseInt(s1.next());
             if (!(choice == -1 || choice == 1))
-                safePrint("Valore non valido , inserire +1 o  -1");
+                safePrint("Valore non valido , inserire 1 o  -1");
         } while (!(choice == -1 || choice == 1));
         return choice;
     }
