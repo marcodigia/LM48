@@ -25,13 +25,8 @@ public class RerollDraftedDice implements Actions {
     @Override
     public void doAction(GameStatus gameStatus) {
 
-
-
-
-
-
         if (diceIndex==-1) {
-            if (gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().actionState()&&Turn.getSecondTurn()==2) //TODO && reroll all only at the second turn
+            if (gameStatus.getPlayerByName(userName).getPlaceDiceOfTheTurn().actionState()&&Turn.getSecondTurn()==2)
                 gameStatus.getDraftPool().rerollAllDices();
         }else
             gameStatus.getDraftPool().getDice(diceIndex).reroll();

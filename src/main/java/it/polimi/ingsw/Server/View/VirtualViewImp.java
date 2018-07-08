@@ -111,7 +111,7 @@ public class VirtualViewImp implements VirtualView {
                 System.out.println("SetNotStillAlive: " + myPlayer.getName() );
             }
         } catch (RemoteException e) {
-            System.out.println("CAtch : " + e.getMessage());
+            System.out.println("Catch : " + e.getMessage());
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
             WaitingRoom.removeClient(myPlayer.getName());

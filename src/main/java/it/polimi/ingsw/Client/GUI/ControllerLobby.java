@@ -89,7 +89,6 @@ public class ControllerLobby extends AbstractGUI implements Initializable{
 
             for (String name : names) {
                 playersName.add(name);
-                System.out.println("Lobby: " + name);
             }
             switchScene(Lobby);
         });

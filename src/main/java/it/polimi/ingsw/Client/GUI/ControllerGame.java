@@ -310,7 +310,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 useToolCardBasic.useAction(this, gameStatus, username, new SpecialBoolean(true));
                 try {
                     clientServerSender.sendAction(useToolCardBasic, username);
-                    System.out.println("HANDLECLICK TC "+useToolCardBasic.toPacket());
+
                 } catch (RemoteException e) {
                     GUI.generiClient.manageDisconnection(GUI.username, GUI.ip, Integer.parseInt(GUI.port));
                 }
@@ -560,7 +560,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     }
 
     public void pingBack(){
-        System.out.println("PingBackGame: " + username);
+
         try {
             GUI.generiClient.getClientServerSender().pingBack(username);
         } catch (RemoteException e) {

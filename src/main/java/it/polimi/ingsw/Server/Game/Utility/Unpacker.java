@@ -103,9 +103,7 @@ public class Unpacker {
         for (int i=0 ; i < num_of_player ; i++){
 
 
-           ArrayList<String> pinfo = player_InfoFromPacket(objectPacket[1+ i*4]);
-           //for (int j = 0 ; j < objectPacket.length;j++)
-               //System.out.println(objectPacket[j]);
+            ArrayList<String> pinfo = player_InfoFromPacket(objectPacket[1+ i*4]);
             Player p = new Player(pinfo.get(0),null);
             p.setBasicActionState(Boolean.parseBoolean(pinfo.get(1)),Boolean.parseBoolean(pinfo.get(2)));
             p.getWallet().setUpWallet(Integer.parseInt(pinfo.get(3)));
@@ -226,9 +224,6 @@ public class Unpacker {
            wp = new WindowPatternCard(new ArrayList<>(Arrays.asList(elements)));
            wp.setId(temp);
 
-           for (String s : new ArrayList<>(Arrays.asList(elements)))
-               System.out.println("Dynamic : " + s );
-
        }else {
 
 
@@ -261,7 +256,6 @@ public class Unpacker {
      * @return returns an Actions initialized with all the given params
      */
    public static Actions ACT_fromPacket(String packet,String delimeter){
-
 
        System.out.println("Receive Action from Packet " );
        Actions action = null;

@@ -776,9 +776,6 @@ public class CLI implements UI, Runnable{
 
         }
 
-
-
-       System.out.println("PrintGameStatus  active " + active +" username " + username);
     }
     private void printGameStatus(){
 
@@ -812,23 +809,31 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void pingBack() {
+<<<<<<< Updated upstream
         //System.out.println("Ping");
        // Thread t = new Thread(() -> {
             //if(clientServerSender!=null){
+=======
+            if(clientServerSender!=null) {
+>>>>>>> Stashed changes
                 try {
                     generiClient.getClientServerSender().pingBack(username);
                     //clientServerSender.pingBack(username);
                 } catch (RemoteException e) {
                     Object o = new Object();
                     safePrinter.registry(this);
-                    safePrinter.print(this,"Catch chooseWP CLI pingback");
+                    safePrinter.print(this, "Catch chooseWP CLI pingback");
                     e.printStackTrace();
                 }catch(NullPointerException e){
                     System.out.println("PINGIBAG NULL POINTER EXCEPTIO");
                 }
+<<<<<<< Updated upstream
             //}
       //  });
        // t.start();
+=======
+            }
+>>>>>>> Stashed changes
     }
 
     @Override
@@ -1124,19 +1129,6 @@ public class CLI implements UI, Runnable{
         serialReader.registry(o,s);
         return o;
     }
-
-    /*private void safePrinter.print(this,String s){
-        //synchronized (sistemon){
-            System.out.println(s);
-        //}
-    }
-
-    private void safePrint(StringBuilder line) {
-        //synchronized (sistemon){
-            System.out.println(line);
-        //}
-    }
-*/
 
 }
 
