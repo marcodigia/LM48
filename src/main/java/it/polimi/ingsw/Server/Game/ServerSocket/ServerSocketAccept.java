@@ -25,7 +25,7 @@ public class ServerSocketAccept implements Runnable {
     public void run() {
         do{
             try{
-                System.out.println("Ok");
+                System.out.println("Port: " + port);
                 serverSocket = new ServerSocket(port);
                 bound = true;
             } catch(IOException e){
