@@ -40,7 +40,6 @@ public class DraftPool implements Serializable{
         dices.add(diceToPlace);
     }
 
-    //TODO throw exception if not present
     public Dice getDice(int i ){
 
         return dices.get(i);

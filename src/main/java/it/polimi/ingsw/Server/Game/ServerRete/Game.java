@@ -63,7 +63,6 @@ public class Game {
             gameSetup = new GameSetup(players); //TC - PBC - WP
             gameStatus = new GameStatus(gameSetup.getToolCards(),gameSetup.getPublicObjectiveCards());  //TC and PBC will not change also if
 
-            //TODO Very important to setup here the gameStatus. The Unpacker need a reference to it in order to do Act_from Packet.
             Unpacker.setGameStatus(gameStatus);
 
             //client will disconnect after WP sending
@@ -93,10 +92,9 @@ public class Game {
 
     }
 
-    //TODO control if idWP belongs to WPs send to client
     public synchronized void setWindowToPlayer(String idWp, String username){
 
-        System.out.println("setWP to plater GAME" + idWp);
+        System.out.println("set WP to player " + " " + username + " " + idWp);
         WindowPatternCard windowToRemove = null;
         Player playerRecived = null;    //Used to modify HashMap. Set true mapped value to denote
         //that the player is still playing
@@ -147,7 +145,7 @@ public class Game {
         int i=0;
         if(playerToWP.size()>0){
             for(Player p : playerToWP){
-                System.out.println("sendWindowPattern: " + p.getName());
+                System.out.println("send Window Pattern: " + p.getName());
                 String id1, id2 , id3, id4;
                 id1 = wp.remove(0).getID();
                 id2 = wp.remove(0).getID();
@@ -222,7 +220,7 @@ public class Game {
 
     private void endGame(){
 
-        System.out.println("End game : No player Choosed Window Pattern ");
+        System.out.println("End game : No player chose Window Pattern ");
 
     }
 

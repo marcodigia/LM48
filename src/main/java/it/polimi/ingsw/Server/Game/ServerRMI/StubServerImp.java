@@ -29,7 +29,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
     public void pingBack(String username) throws RemoteException {
 
         if(game.scanForUsername(username)!=null) {
-            System.out.println("PingBack RMI");
+
             game.scanForUsername(username).setStillAlive(true); //Still alive in game
             game.scanForUsername(username).setIsConnected();
         }
@@ -41,7 +41,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
     public void register(String username, ServerClientSender clientRef) throws RemoteException {
         if(!waitingRoom.getNoMorePlayerAccepted())
             waitingRoom.addClient(username, clientRef);
-        System.out.println("register RMI: " + game.scanForUsername(username));
+
         if(game.scanForUsername(username)!=null){
             System.out.println("     scan for username not null " + username + clientRef);
             //if(!game.scanForUsername(username).getConnected()) {
@@ -60,7 +60,6 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         game.setWindowToPlayer(id,username);
     }
 
-    //TODO eliminate instanceof
     @Override
     public void sendAction(Actions action, String username) throws RemoteException {
         if (action instanceof PlaceDiceAction)

@@ -42,8 +42,6 @@ public class ChangeDiceValue implements Actions {
         }
         Dice diceToChange = draftPool.getDice(draftPoolIndex);
 
-
-        System.out.println("Change dice VALUE dp index" + draftPoolIndex + " dicetochange " + diceToChange + " type " + type + " Ammount " + ammount);
         switch (type){
             case 1:
                 if (ammount == 1) {

@@ -165,7 +165,7 @@ public class Matrix implements Packetable {
 
 
         if (coordinate >= matrix.size() || coordinate < 0) {
-            System.out.println("index out of bound ");
+            System.out.println("index out of bound");
             return null;
         }
         if (matrix.get(coordinate).getDice() == null) {
@@ -248,9 +248,8 @@ public class Matrix implements Packetable {
      */
     private boolean checkRestriction(Dice dice, int coordinate, boolean ignore_color, boolean ignore_value, boolean ignore_adjacency) {
 
-        //TODO throw exception
         if (coordinate >= matrix.size()) {
-            System.out.println("index out of bound ");
+            System.out.println("index out of bound");
             return false;
         }
         Cell cell = matrix.get(coordinate);

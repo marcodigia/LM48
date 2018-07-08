@@ -65,8 +65,6 @@ public class GameStatus implements Packetable {
     //Assume that size of privateObjectiveCards is the same of players
     public void addPrivateObjectiveCard(ArrayList<PrivateObjectiveCard> privateObjectiveCards){
 
-        for (PrivateObjectiveCard p : privateObjectiveCards)
-            System.out.println(ANSI_COLOR.ANSI_GREEN+p.getID()+ANSI_COLOR.ANSI_RESET);
         int i =0;
         for (Player p : playerCards.keySet()){
             playerCards.get(p).add(1, privateObjectiveCards.get(i));

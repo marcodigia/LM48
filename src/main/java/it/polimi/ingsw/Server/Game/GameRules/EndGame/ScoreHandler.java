@@ -28,7 +28,7 @@ public class ScoreHandler {
         Hashtable<Player,Integer> finalScore = new Hashtable<>();
         for ( Player player : gameStatus.getPlayer()){
             Integer score = 0;
-            System.out.println(ANSI_COLOR.ANSI_YELLOW+gameStatus.toPacket()+ANSI_COLOR.ANSI_RESET);
+
             for (PublicObjectiveCard pB : gameStatus.getPublicObjectiveCards()){
                 score += pB.getPoints( gameStatus.getPlayerWP(player));
             }

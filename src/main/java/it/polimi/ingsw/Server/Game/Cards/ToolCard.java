@@ -81,10 +81,6 @@ public class ToolCard implements Drawable {
         Actions action = null;
         switch (id) {
 
-            case _13:
-                System.out.println("Did nothing");
-                action = new ChangeDiceValue(0);
-                break;
             case _1:
                 action = new ChangeDiceValue(1);
                 break;

@@ -89,7 +89,7 @@ public class BoardRound implements Packetable {
         for (Player p : winners.keySet()){
             if (winners.get(p)>highScore){
                 highScore = winners.get(p);
-                System.out.println(ANSI_COLOR.ANSI_BLUE + p.getName() +" highscore " +winners.get(p)+ ANSI_COLOR.ANSI_RESET);
+
             }
 
         }
@@ -113,14 +113,14 @@ public class BoardRound implements Packetable {
         for (Player p :w){
             if (p.getPbScore()<highPrivateScore)
                 w.remove(p);
-            System.out.println(ANSI_COLOR.ANSI_BLUE + p.getName()+" pb " + ANSI_COLOR.ANSI_RESET);
+
         }
 
         int higToken = 0;
         for (Player p :w){
             if (p.getWallet().getTokenAmmount()>higToken)
                 higToken=p.getWallet().getTokenAmmount();
-            System.out.println(ANSI_COLOR.ANSI_BLUE + p.getName()+ " highToken" + ANSI_COLOR.ANSI_RESET);
+
         }
 
         for (Player p : w){

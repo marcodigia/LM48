@@ -35,10 +35,6 @@ public class MoveTwoDice implements Actions {
         Player activePlayer = gameStatus.getPlayerByName(userName) ;
         WindowPatternCard activePlayerWP = (WindowPatternCard)gameStatus.getPlayerCards().get(activePlayer).get(0);
 
-
-        //TODO review this method. because first one dice is moved and than the other
-
-        System.out.println(ANSI_COLOR.ANSI_YELLOW + from1 +to1+from2+to2 + ANSI_COLOR.ANSI_RESET);
         if (from1 == -1 || to1 == -1 )
             return;
         if (activePlayerWP.moveDice(from1, to1, false, false, false))
@@ -84,7 +80,7 @@ public class MoveTwoDice implements Actions {
             if (!check.isFlag())
                 return;
             roundIndex1= ui.getRoundIndex();
-            System.out.println(" ROUNDINDEX " + roundIndex1);
+
             if (roundIndex1==-1)
                 return;
             Logger.log("Seleziona cella dado del Round\n");
@@ -92,7 +88,7 @@ public class MoveTwoDice implements Actions {
             if (!check.isFlag())
                 return;
             roundDiceIndex1 = ui.getDiceIndexFromRound();
-            System.out.println(" CELLAROUND " + roundDiceIndex1);
+
 
             if (roundDiceIndex1==-1)
                 return;
@@ -106,7 +102,6 @@ public class MoveTwoDice implements Actions {
             if (from1==-1)
                 return;
 
-            System.out.println(" CELLAWP " + from1);
             Logger.log("Seleziona cella di destinazione\n");
             if (!check.isFlag())
                 return;
@@ -114,7 +109,7 @@ public class MoveTwoDice implements Actions {
 
             if (to1==-1)
                 return;
-            System.out.println(" CELLATO " + to1);
+
 
             Dice choosenDice = gameStatus.getPlayerWP(gameStatus.getPlayerByName(userName)).getDice(from1);
             if (choosenDice== null || diceTrack== null || !choosenDice.getDiceColor().equals(diceTrack.getDiceColor()))
@@ -126,12 +121,11 @@ public class MoveTwoDice implements Actions {
             } else {
 
 
-                System.out.println(" askforanotherdice ");
                 if (!check.isFlag())
                     return;
                 boolean answer = ui.askForAnotherDice();
                 if (!answer){
-                    System.out.println(" ASKANOTHER ANSWER" + answer);
+
                     from2 = -1;
                     to2 = -1;
                     return;

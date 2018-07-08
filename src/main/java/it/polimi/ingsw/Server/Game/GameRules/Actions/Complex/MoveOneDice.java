@@ -74,8 +74,8 @@ public class MoveOneDice implements Actions {
             if (!check.isFlag())
                 return;
             ui.printMessage("No possible moves");
-            Logger.log("Nessuna mossa possibile\n");
-            //System.out.println("No possible moves");
+            Logger.log("No possible moves\n");
+
             from = -1;
             to = -1 ;
         } else {

@@ -20,8 +20,6 @@ public class Wallet implements Packetable {
      * @return true if wallet contains enough tokens
      */
     public Boolean enoughToken(int tokensRequired){
-        System.out.println("token number: " + tokenNumber
-        + "tokenRequired: " + tokensRequired);
         return tokenNumber>=tokensRequired;
     }
 

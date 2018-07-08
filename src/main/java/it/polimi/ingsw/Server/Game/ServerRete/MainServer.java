@@ -26,15 +26,14 @@ public class MainServer {
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setGame(game);
 
-        //TODO togliere hardcode
         System.out.println("Insert ip where RMI should be published: ");
-        String ipServer = args[0];//keyboard.nextLine();
+        String ipServer = keyboard.nextLine();
 
         System.out.println("Insert port where RMI should be published: ");
-        int portRMI = 1099;//keyboard.nextInt();
+        int portRMI = keyboard.nextInt();
 
         System.out.println("Insert port where socket should be listen: ");
-        int portSocket = Integer.parseInt(args[2]);//keyboard.nextInt();
+        int portSocket = keyboard.nextInt();
 
         ServerRMI serverRMI = new ServerRMI(portRMI, waitingRoom,game, ipServer);
         ServerSocketAccept serverSocketAccept = new ServerSocketAccept(portSocket, waitingRoom, game);
