@@ -15,11 +15,11 @@ import java.util.TimerTask;
 //Al momento fatta per la singola partita
 public class WaitingRoom {
 
-    private ArrayList<Player> clientList = new ArrayList<>();
-    private Game game;
-    private Timer timer = null;
-    private TimerUtility timerUtility;
-    private boolean noMorePlayerAccepted = false;
+    private static ArrayList<Player> clientList = new ArrayList<>();
+    private static Game game;
+    private static Timer timer = null;
+    private static TimerUtility timerUtility;
+    private static boolean noMorePlayerAccepted = false;
 
     //This method should be called at the end of a game in order to let
     //other player play a new game.
@@ -84,7 +84,7 @@ public class WaitingRoom {
     }
     //Remove client form ClientList if game is not start. This method will be called
     //also if game is started but will not have effect because clientList will be empty
-    public synchronized  boolean removeClient(String username){
+    public static synchronized  boolean removeClient(String username){
         Player playerToRemove = null;
         if(clientList.size()>0){
             //Look for player in clientList
@@ -105,7 +105,7 @@ public class WaitingRoom {
         return false;
     }
 
-    private void waitForGame(){
+    private static void waitForGame(){
         if(clientList.size()>=2){
             if(clientList.size() == 4){
                 timer.cancel();

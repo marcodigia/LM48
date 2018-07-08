@@ -5,6 +5,7 @@ import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.GameStatus;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
+import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class VirtualViewImp implements VirtualView {
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected(); //Not able to contact client. Set it as disconnected
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
+            WaitingRoom.removeClient(myPlayer.getName());
         }
     }
 
@@ -44,6 +46,7 @@ public class VirtualViewImp implements VirtualView {
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
+            WaitingRoom.removeClient(myPlayer.getName());
         }
     }
 
@@ -54,6 +57,7 @@ public class VirtualViewImp implements VirtualView {
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
+            WaitingRoom.removeClient(myPlayer.getName());
         }
     }
 
@@ -64,6 +68,7 @@ public class VirtualViewImp implements VirtualView {
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
+            WaitingRoom.removeClient(myPlayer.getName());
         }
     }
 
@@ -74,6 +79,8 @@ public class VirtualViewImp implements VirtualView {
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
+
+            WaitingRoom.removeClient(myPlayer.getName());
         }
     }
 
@@ -84,6 +91,8 @@ public class VirtualViewImp implements VirtualView {
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
+            WaitingRoom.removeClient(myPlayer.getName());
+
         }
     }
 
@@ -105,6 +114,7 @@ public class VirtualViewImp implements VirtualView {
             System.out.println("CAtch : " + e.getMessage());
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
+            WaitingRoom.removeClient(myPlayer.getName());
         }
     }
 
@@ -115,6 +125,7 @@ public class VirtualViewImp implements VirtualView {
         } catch (RemoteException e) {
             myPlayer.setIsNotConnected();
             System.out.println("[!] Network problem "+myPlayer.getName()+" client unreachable : RMI" );
+            WaitingRoom.removeClient(myPlayer.getName());
 
         }
     }
