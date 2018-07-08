@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
+import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,10 +39,18 @@ public class ControllerConnection extends AbstractGUI implements Initializable {
      */
     @FXML
     private void handleButtonRMI(ActionEvent event){
-        rmi = true;
-        ip = serverIP.getText();
-        port = serverPort.getText();
-        switchScene(Login);
+        if (serverIP.getText().matches("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+                &&serverPort.getText().matches("[0-9]+")&&(Integer.parseInt(serverPort.getText())<65536)
+                &&(Integer.parseInt(serverPort.getText())>0))
+        {
+            rmi = true;
+            ip = serverIP.getText();
+            port = serverPort.getText();
+            switchScene(Login);
+        }
+        else
+            switchScene(CONSTANT.RMI_Socket);
+
     }
 
     /**
@@ -49,8 +58,16 @@ public class ControllerConnection extends AbstractGUI implements Initializable {
      */
     @FXML
     private void handleButtonSocket(ActionEvent event){
-        ip = serverIP.getText();
-        port = serverPort.getText();
-        switchScene(Login);
+        if (serverIP.getText().matches("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+                &&serverPort.getText().matches("[0-9]+")&&(Integer.parseInt(serverPort.getText())<65536)
+                &&(Integer.parseInt(serverPort.getText())>0))
+        {
+            ip = serverIP.getText();
+            port = serverPort.getText();
+            switchScene(Login);
+        }
+        else
+            switchScene(CONSTANT.RMI_Socket);
+
     }
 }

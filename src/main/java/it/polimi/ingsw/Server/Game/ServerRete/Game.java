@@ -135,7 +135,7 @@ public class Game {
                 else
                     endGame();          //All players left game
             }
-        }, timerUtilitywp.readTimerFromFile(10,"timerDelayPlayer.txt"));
+        }, timerUtilitywp.readTimerFromFile(30,"timerDelayPlayer.txt"));
 
     }
 
@@ -221,15 +221,8 @@ public class Game {
     }
 
     private void endGame(){
-        synchronized (lock){
-            Player winner = gameStatus.getBoardRound().getWinner(gameStatus);
-            System.out.println("There is a winner");
-            for(Player p : players.keySet()) {
-                if (p!=null)
-                    p.getvirtualView().sendScore(winner);
-            }
-        }
-        System.out.println("End game");
+
+        System.out.println("End game : No player Choosed Window Pattern ");
 
     }
 

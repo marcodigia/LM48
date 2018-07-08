@@ -4,6 +4,7 @@ import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerReciver;
 import it.polimi.ingsw.ClientServerCommonInterface.ClientServerSender;
 import it.polimi.ingsw.Server.Game.Cards.*;
+import it.polimi.ingsw.Server.Game.Cards.CardsUtility.DinamicCardCreator;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.EndGame.ScoreHandler;
@@ -24,6 +25,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
+
+import static java.lang.System.exit;
+import static java.lang.System.inheritedChannel;
 
 public class CLI implements UI, Runnable{
 
@@ -368,7 +372,7 @@ public class CLI implements UI, Runnable{
         Thread t = new Thread(() -> {
             Object o = new Object();
             safePrinter.registry(this);
-            safePrinter.print(this,"Choose Window Pattern: ");
+            safePrinter.print(this,"Choose Window Pattern ");
 
             AbstractCardFactory factory = new WindowPatternCardFactory(CONSTANT.windowPatternfile);
 
@@ -390,31 +394,166 @@ public class CLI implements UI, Runnable{
             printBoard(windowPatternCard3);
             printBoard(windowPatternCard4);
 
-            boolean choseOK = false;
-
+            boolean correct = false;
+            Object chooserObject = new Object();
+            safePrinter.registry(chooserObject);
+            String answer;
             do {
-                safePrinter.print(this,"Choose ID: ");
-                SpecialBoolean ok = GO;
+
+                safePrinter.print(chooserObject,"Choose id -> 0 \n Create Dynamic Card -> 1 ");
                 ReadObject r = safeRead();
                 r.waitOb();
-                String choice = r.getNotifica();
 
-                int chose = Integer.parseInt(choice);
+                answer = r.getNotifica();
+                if (answer.equals("0")|| answer.equals("1"))
+                    correct =true;
+                else
+                    safePrinter.print(chooserObject,"Wrong choice");
 
-                if (chose == Integer.parseInt(windowPatternCard1.getID()) || chose == Integer.parseInt(windowPatternCard2.getID()) ||
-                        chose == Integer.parseInt(windowPatternCard3.getID()) || chose == Integer.parseInt(windowPatternCard4.getID())) {
+            }while (!correct);
+
+            SpecialBoolean ok = GO;
+            switch (answer){
+                case "0":
+                    chooseIdWP(ok,chooserObject);
+                    break;
+                case "1":
+                    DinamicCardCreator dc = createDynamicCard(ok,chooserObject);
                     try {
-                        clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
+                        clientServerSender.choosenWindowPattern(dc.toPacket(),username);
                     } catch (RemoteException e) {
-                        generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+                        e.printStackTrace();
                     }
-                    choseOK = true;
-                } else {
-                    safePrinter.print(this,"Wrong id");
-                }
-            }while (!choseOK);
+                    break;
+            }
+
+
+
         });
         t.start();
+    }
+
+
+    private DinamicCardCreator createDynamicCard(SpecialBoolean ok , Object o){
+
+        String finish ="";
+        boolean correct ;
+        String cardName = "";
+        String difficult = "";
+        do {
+            safePrinter.print(o,"Choose Name:");
+            ReadObject r = safeRead();
+            r.waitOb();
+            String name = r.getNotifica();
+            cardName= name;
+            correct = name.matches("[A-Za-z0-9]+");
+            if (!correct)
+                safePrinter.print(o,"Insert a Valid Name");
+
+        }while (!correct);
+
+        do {
+            safePrinter.print(o,"Choose difficult:");
+            ReadObject r = safeRead();
+            r.waitOb();
+            String name = r.getNotifica();
+            difficult= name;
+            correct = name.matches("[0-9]+");
+            if (!correct)
+                safePrinter.print(o,"Insert a number ");
+
+        }while (!correct);
+
+        DinamicCardCreator dc = new DinamicCardCreator(cardName,Integer.parseInt(difficult));
+
+        boolean finishEnter = false;
+        String choice;
+        do {
+            safePrinter.print(o,"Add restriction? \n yes -> 1    no -> 0");
+            ReadObject r = safeRead();
+            r.waitOb();
+
+            choice = r.getNotifica();
+            if (!choice.matches("[0-1]")){
+                safePrinter.print(o,"Wrong choice");
+                finishEnter = false;
+            }else {
+                if (choice.equals("0")){
+                    finishEnter = true;
+
+                }
+                else
+                    generateDynamicCard(dc,o,ok);
+            }
+        }while (ok.isFlag()&&!finishEnter);
+        return dc;
+    }
+
+    private void chooseIdWP(SpecialBoolean ok , Object o ){
+        boolean choseOK = false;
+
+        do {
+            safePrinter.print(o,"Choose ID: ");
+            ReadObject r = safeRead();
+            r.waitOb();
+            String choice = r.getNotifica();
+
+            if (!ok.isFlag())
+                return;
+
+            int chose = Integer.parseInt(choice);
+
+            if (chose == Integer.parseInt(windowPatternCard1.getID()) || chose == Integer.parseInt(windowPatternCard2.getID()) ||
+                    chose == Integer.parseInt(windowPatternCard3.getID()) || chose == Integer.parseInt(windowPatternCard4.getID())) {
+                try {
+                    clientServerSender.choosenWindowPattern(Integer.toString(chose), username);
+                } catch (RemoteException e) {
+                    generiClient.manageDisconnection(username, ip, Integer.parseInt(port));
+                }
+                choseOK = true;
+            } else {
+                safePrinter.print(o,"Wrong id");
+            }
+        }while (!choseOK);
+
+    }
+    public void generateDynamicCard(DinamicCardCreator dc , Object o , SpecialBoolean ok){
+        String res="";
+        String index="";
+        boolean correct = false;
+        do {
+            if (!ok.isFlag())
+                return;
+            safePrinter.print(o,"Choose Restriction : R  B  Y  G  P  1  2  3  4  5  6");
+            ReadObject r = safeRead();
+            r.waitOb();
+
+            res = r.getNotifica();
+            if (res.equals("R")||res.equals("B")||res.equals("Y")||res.equals("G")||res.equals("P")||res.equals("1")||res.equals("2")||res.equals("3")||res.equals("4")||res.equals("5")||res.equals("6"))
+                correct=true;
+            if (!correct)
+                safePrinter.print(o,"Invalid selection");
+        }while (!correct);
+
+
+        correct=false;
+        do {
+            if (!ok.isFlag())
+                return;
+            safePrinter.print(o,"Choose Index : 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20");
+            ReadObject r = safeRead();
+            r.waitOb();
+
+            index = r.getNotifica();
+            if (index.equals("7")||index.equals("8")||index.equals("9")||index.equals("10")||index.equals("1")||index.equals("1")||index.equals("2")||index.equals("3")||index.equals("4")||index.equals("5")||index.equals("6")||index.equals("12")||index.equals("13")||index.equals("14")||index.equals("15")||index.equals("16")||index.equals("17")||index.equals("18")||index.equals("19")||index.equals("20"))
+                correct=true;
+            if (!correct)
+                safePrinter.print(o,"Invalid selection");
+        }while (!correct);
+
+
+        dc.addRestriction(res,Integer.parseInt(index));
+
     }
 
     @Override
@@ -575,11 +714,12 @@ public class CLI implements UI, Runnable{
 
             Thread t = new Thread(()->{
 
+                System.out.println("Quit game? -> 0 ");
                 if (gameStatus.getPlayerByName(username).getPlaceDiceState()){
                     System.out.println("Place dice?   -> 1");
                 }
                 if(gameStatus.getPlayerByName(username).getUseToolCardState()){
-                    System.out.println("Use ToolCard -->2");
+                    System.out.println("Use ToolCard --> 2");
                 }
                 boolean correct = true;
                 String choose = "";
@@ -591,7 +731,7 @@ public class CLI implements UI, Runnable{
                     choose = r.getNotifica();
                     if (!ok.equals(GO))
                         return;
-                    if(choose.equals("1") || choose.equals("2"))
+                    if(choose.equals("1") || choose.equals("2") || choose.equals("0"))
                         correct =false;
                     else
                         System.out.println("Scelta non valida");
@@ -601,6 +741,8 @@ public class CLI implements UI, Runnable{
 
 
                 switch (choose){
+                    case "0":
+                        exit(0);
                     case "1":
                         placeDice();
                         break;
@@ -760,19 +902,40 @@ public class CLI implements UI, Runnable{
                     case "0":
                         rmi = true;
                         //get server ip from input
-                        safePrinter.print(this,"Insert server IP: ");
+                        String ip ="";
+                        SpecialBoolean ok1;
+                        boolean correct = false;
+                        ReadObject r1;
+                        do {
+                            safePrinter.print(this,"Insert server IP: ");
 
-                        SpecialBoolean ok1 = GO;
-                        ReadObject r1 = safeRead();
-                        r1.waitOb();
-                        setIp(r1.getNotifica());
+
+                            ok1 = GO;
+
+                            r1 = safeRead();
+                            r1.waitOb();
+                            ip = r1.getNotifica();
+                            if (ip.matches("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"))
+                                correct=true;
+                        }while (!correct);
+                        setIp(ip);
                         //get server port from input
-                        safePrinter.print(this,"Insert server port: ");
+                        String port ="";
+                        correct =false;
+                        SpecialBoolean ok2;
+                        do {
+                            safePrinter.print(this,"Insert server port: ");
 
-                        SpecialBoolean ok2 = GO;
-                        ReadObject r2 = safeRead();
-                        r2.waitOb();
-                        setPort(r2.getNotifica());
+
+                            ok2 = GO;
+                            ReadObject r2 = safeRead();
+                            r2.waitOb();
+                            port = r2.getNotifica();
+                            if (port.matches("[0-9]+") && (Integer.parseInt(port)<65535 && (Integer.parseInt(port)>0)))
+                                correct= true;
+                        }while (!correct);
+
+                        setPort(port);
                         repeatInsertion = false;
                         break;
                     case "1":
@@ -845,9 +1008,11 @@ public class CLI implements UI, Runnable{
                 setUsername(r.getNotifica());
                 if (username.contains("."))
                     safePrinter.print(this,"Your username can't contain char '.'");
+                if (!username.matches("[A-Za-z0-9]+"))
+                    safePrinter.print(this,"Username can contain only alphanumeric charachter");
                 if (username.length() > max_Length)
                     safePrinter.print(this,"Your username is too long");
-            } while (username.contains(".") || username.length() > max_Length);
+            } while (username.contains(".") || username.length() > max_Length||!username.matches("[A-Za-z0-9]+"));
         handleLogin();
     }
 

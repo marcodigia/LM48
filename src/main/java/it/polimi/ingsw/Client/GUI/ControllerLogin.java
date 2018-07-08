@@ -89,7 +89,7 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
             return false;
         }
         if (!usernametext.getText().matches("[A-Za-z0-9]+")) {
-            printMessage("empty username!");
+            printMessage("non alphanumeric username!");
             return false;
         }
         return true;

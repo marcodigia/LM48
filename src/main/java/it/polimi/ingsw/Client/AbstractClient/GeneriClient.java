@@ -166,7 +166,7 @@ public class GeneriClient {
             public void run() {
                 register(username, ipRMI, portRMI);
             }
-        }, 0, timerUtility.readTimerFromFile(5, "timerDelayPing.txt"));
+        }, 0, timerUtility.readTimerFromFile(30, "timerDelayPing.txt"));
     }
 
 }
