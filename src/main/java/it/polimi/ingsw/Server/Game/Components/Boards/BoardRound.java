@@ -33,6 +33,11 @@ public class BoardRound implements Packetable {
         roundTrack = new ArrayList<>();
     }
 
+    /**
+     * @param player the player wich score need to be update
+     * @param score the score for the player
+     * @return true if the player score is update
+     */
     public boolean updateScore(Player player, int score) {
         if (scoreboard.containsKey(player)) {
             scoreboard.put(player, score);
@@ -145,6 +150,12 @@ public class BoardRound implements Packetable {
 
         return null;
     }
+
+    /**
+     * @param round the index of the round
+     * @param diceIndex the index of the dice in the round
+     * @param dice the new dice to be put
+     */
     public void setDiceAtIndex(int round, int diceIndex , Dice dice){
         roundTrack.get(round).remove(diceIndex);
         roundTrack.get(round).add(diceIndex,dice);
@@ -164,15 +175,6 @@ public class BoardRound implements Packetable {
         roundTrack.add(dices);
     }
 
-
-    public ArrayList<DiceColor> getColors() {
-
-        for(ArrayList<Dice> ar : roundTrack)
-            for (Dice d : ar)
-                if (!colors.contains(d.getDiceColor()))
-                    colors.add(d.getDiceColor());
-        return colors;
-    }
 
     @Override
     public String toPacket() {

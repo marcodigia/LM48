@@ -16,6 +16,9 @@ public class PublicObjectiveCard implements Countable {
 
    CountEffect effect ;
 
+    /**
+     * @param pattern an ArrayList with the pattern of a public Objective Card: id , name , description , point
+     */
     public PublicObjectiveCard(ArrayList<String> pattern ) {
 
         id = pattern.get(0);
@@ -26,6 +29,9 @@ public class PublicObjectiveCard implements Countable {
 
     }
 
+    /**
+     * @return an InputStream with the immage of the PubblicObjectiveCard from the Resources
+     */
     public InputStream getPublicObjectiveCardImage(){
         String publicImageName = "public" + getID() + ".png";
         return getClass().getClassLoader().getResourceAsStream(publicImageName);
@@ -118,10 +124,16 @@ public class PublicObjectiveCard implements Countable {
     }
 
 
+    /**
+     * @return the name of the card
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the description of the card
+     */
     public String getDescription() {
         return description;
     }

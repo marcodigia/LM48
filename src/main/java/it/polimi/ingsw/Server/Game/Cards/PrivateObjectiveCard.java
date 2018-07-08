@@ -17,6 +17,9 @@ public class PrivateObjectiveCard implements Countable {
 
    CountDice effect;
 
+    /**
+     * @param pattern and Arraylist containing a valid pattern for the PrivateObjectiveCard : id , diceColor , effect
+     */
     public PrivateObjectiveCard(ArrayList<String> pattern ) {
         id = pattern.get(0);
         diceColor = DiceColor.resolveColor( pattern.get(1) ) ;
@@ -26,10 +29,14 @@ public class PrivateObjectiveCard implements Countable {
         effect.setRestriction(res);
     }
 
+    /**
+     * @return an InputStream of the immage of this Card
+     */
     public InputStream getPrivateObjectiveCardImage(){
         String privateImageName = "private" + getID() + ".png";
         return getClass().getClassLoader().getResourceAsStream(privateImageName);
     }
+
 
     public String getID() {
         return id;
@@ -41,6 +48,9 @@ public class PrivateObjectiveCard implements Countable {
         return effect.getPoints(wp);
     }
 
+    /**
+     * @return the diceColor of the PrivateObjectiveCard
+     */
     public DiceColor getDiceColor() {
         return diceColor;
     }

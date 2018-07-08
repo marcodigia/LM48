@@ -20,6 +20,11 @@ public class CardManager {
 
     private static ArrayList<String> DynamicCard = new ArrayList<>();
 
+    /**
+     *
+     * @param filename the csv file containing patterns of the WindowPAtternCards
+     * @throws FileNotFoundException throws this excepetion if no valid file with the given filename is given
+     */
     public static void setWPCards(String filename) throws FileNotFoundException {
 
 
@@ -49,6 +54,11 @@ public class CardManager {
     }
 
 
+    /**
+     * @param name the name of the new Dynamic card
+     * @param wpPacket the pattern of the new WindowPatternCard
+     * @return the formatted DynamicCard
+     */
     public static String createDynamicCard(String name, String wpPacket){
         StringBuilder packet = new StringBuilder();
 
@@ -61,9 +71,11 @@ public class CardManager {
         return packet.toString();
     }
 
-    //TODO
-    //NB this method expose the internal state. not good
 
+
+    /**
+     * @return and Iterator on the WindowpatternCard deck
+     */
     public static Iterator<String> getCardsIterator(){
         return WPCards.iterator();
     }

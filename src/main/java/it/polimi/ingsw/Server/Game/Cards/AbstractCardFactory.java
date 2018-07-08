@@ -13,15 +13,29 @@ import java.util.Scanner;
 public abstract class  AbstractCardFactory {
 
     //This method will provide the name of the file which stores the patterns of the cards
+
+    /**This method will provide the name of the file which stores the patterns of the cards
+     * @return the filename of the csv file to be read
+     */
     abstract String getFilename() ;
 
     //This method create actually creates the istance of the specific card
 
-    //TODO throw excteption file not found
+
+    /**
+     * @param pattern an ArrayList with the pattern of valid Drawable
+     * @return a Drawable wich is actually the istance of the specific card
+     */
     abstract  Drawable getCard(ArrayList<String> pattern );
 
 
     // read the csv file and create card deck
+
+    /**
+     * read the csv file and create card deck
+     * @return an HashTable where the key is the id of the Drawable , and value the Actual Drawable
+     * @throws FileNotFoundException throw the exception if the file to be read does not exixst
+     */
     public Hashtable<String , Drawable > getNewCardDeck() throws FileNotFoundException  {
 
         Hashtable<String , Drawable > decks = new Hashtable<String, Drawable>() ;

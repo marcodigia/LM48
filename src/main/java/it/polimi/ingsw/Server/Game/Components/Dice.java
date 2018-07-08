@@ -12,6 +12,10 @@ public class Dice implements Cloneable,Serializable{
     private String value;
     private Random random;
 
+    /**
+     * @param color DiceColor for the new Dice
+     * @param value the value for the new Dice
+     */
     public Dice(DiceColor color , String value ) {
 
         this.color = color;
@@ -20,6 +24,9 @@ public class Dice implements Cloneable,Serializable{
 
     }
 
+    /**
+     * @param s String formatted as the toString of the class :ColorValue ( es. B4 )
+     */
     public Dice(String s){
         color = DiceColor.resolveColor(s.substring(0,1));
         value= s.substring(1);
@@ -67,6 +74,9 @@ public class Dice implements Cloneable,Serializable{
     }
 
 
+    /**
+     * @return an InputStream of the immage of the dice
+     */
     public InputStream getDiceImage(){
 
         String diceImageName = "dice" + (value + color.getColor() + ".png");

@@ -21,9 +21,10 @@ public class DiceBag implements Serializable{
     }
 
 
-    //TODO throw exception for not enough dices , meglio fare controllo su null
-    //TODO verificare comportamento con get 0 dices
-
+    /**
+     * @param n number of the dices to extract
+     * @return and arrayList with n dices
+     */
     public ArrayList<Dice> getNdices(int n ){
 
         if (dices.size() < n || n < 0) {

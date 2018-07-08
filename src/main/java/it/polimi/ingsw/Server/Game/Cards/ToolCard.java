@@ -18,7 +18,11 @@ public class ToolCard implements Drawable {
     private String restriction;
     private int cost;
 
-    //The Id of the toolcard must be in Id
+    /**
+     * The Id of the toolcard must be in the enum class Id
+     * @param pattern an ArrayList containing the values of a valid ToolCArd : color , name , id , effect , restriction
+     */
+
     public ToolCard(ArrayList<String> pattern) {
 
         color = DiceColor.resolveColor(pattern.get(0));
@@ -31,10 +35,16 @@ public class ToolCard implements Drawable {
     }
 
 
+    /**
+     * @return the actual cost of the toolcard
+     */
     public int getCost() {
         return cost;
     }
 
+    /**
+     * @param cost the new cost of the toolcard
+     */
     public void setCost(int cost) {
         this.cost = cost;
     }
@@ -44,16 +54,27 @@ public class ToolCard implements Drawable {
         return id.getId();
     }
 
+    /**
+     * @param wallet the wallet of the player that wants to use the toolcard
+     * @return true if the wallet cointains enough token
+     */
     public Boolean isUsable(Wallet wallet){
         return wallet.enoughToken(cost);
     }
 
+    /**
+     * this method decrease the ammount of token from the player's wallet and update the new cost of the toolcard
+     * @param wallet the wallet of the player who wants to use the toolcard
+     */
     public void use(Wallet wallet){
         wallet.useToken(cost);
         if (cost==1)
             cost =2 ;
     }
 
+    /**
+     * @return the action binded to the toolcard
+     */
     public Actions getActions() {
 
 
@@ -107,15 +128,24 @@ public class ToolCard implements Drawable {
         return action;
     }
 
+    /**
+     * @return an InputStream of the immage of the toolcard from the Resources
+     */
     public InputStream getToolCardImage(){
         String tcImageName = "tc"+id.name() + ".png";
         return getClass().getClassLoader().getResourceAsStream(tcImageName);
     }
 
+    /**
+     * @return the name of the toolcard
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the description of the effect of the toolcard
+     */
     public String getEffect() {
         return effect;
     }

@@ -11,6 +11,9 @@ public class DraftPool implements Serializable{
     private DiceBag diceBag;
 
 
+    /**
+     * @param diceBag the diceBag that will be used by the draftpool to extract dices
+     */
     public DraftPool(DiceBag diceBag) {
         this.diceBag = diceBag;
     }
@@ -18,7 +21,6 @@ public class DraftPool implements Serializable{
     public void extractNdice(int n){
         dices = diceBag.getNdices(n);
     }
-
 
     public void setDiceAtIndex(int index , Dice dice){
         dices.remove(index);
@@ -45,6 +47,10 @@ public class DraftPool implements Serializable{
 
     }
 
+    /**
+     * @param dice dice to be removed
+     * @return true if the dice is correctly removed
+     */
     public boolean removeDice(Dice dice){
         if (dices.contains(dice)){
             dices.remove(dice);
