@@ -75,10 +75,10 @@ public class Unpacker {
      *  num of         player            id of               wp                   id of                 the dp                   number of                   ArrayList                      3 id of toolcards
      *  player         username           wp                 to packet            private               to packet                round already               of Dice
      *  following      and action state                                           card                                           played                      to packet
-
-     *                  where b,b are
-     *                  boolean
-     *
+                                            in case
+     *                  where b,b are       of dynamic card
+     *                  boolean             the id reppresents
+     *                                      the wp
      *
      *@return the method returns a GameStatus object rebuilt from the net-packet
      */

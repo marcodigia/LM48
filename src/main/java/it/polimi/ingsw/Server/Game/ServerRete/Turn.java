@@ -181,6 +181,9 @@ public class Turn extends TimerTask implements Runnable {
         return null;
     }
 
+    /**
+     * @return the last player online , null if nobody is left
+     */
     private Player lookForWinner(){
         int i = 0;
         Player winner = null;

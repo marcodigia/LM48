@@ -25,20 +25,35 @@ public class GameStatus implements Packetable {
     }
 
 
+    /**
+     * @param playerCards A linked hasmap where the player is the key and its private card and windowpattern is and array list with is value
+     * @param boardRound the boardRound of the game
+     */
     public GameStatus(LinkedHashMap<Player, List<Drawable>> playerCards , BoardRound boardRound) {
         this.playerCards = playerCards;
         this.boardRound = boardRound;
     }
 
+    /**
+     * @param toolCards all the toolcard of the game
+     * @param publicObjectiveCards and array list with all the public objectiva cards
+     */
     public GameStatus (ArrayList<ToolCard> toolCards, ArrayList<PublicObjectiveCard> publicObjectiveCards ){
         this.toolCards = new ArrayList<>(toolCards);
         this.publicObjectiveCards = new ArrayList<>(publicObjectiveCards);
     }
 
+    /**
+     * @param p remove the wp of the given player
+     */
     public void deleteWindowPatternCard(Player p){
         playerCards.remove(p);
     }
 
+    /**
+     * @param p the player the windowpatter is add to
+     * @param wp the window pattern to be added
+     */
     public void addWindowPatternCard(Player p, WindowPatternCard wp){
 
         ArrayList<Drawable> list = new ArrayList<>();
@@ -47,6 +62,10 @@ public class GameStatus implements Packetable {
     }
 
 
+    /**
+     * @param p the player of the windowpattern
+     * @return the windowpattern of the given player
+     */
     public WindowPatternCard getPlayerWP(Player p ){
         return (WindowPatternCard) playerCards.get(p).get(0);
     }
@@ -62,7 +81,10 @@ public class GameStatus implements Packetable {
     }
 
 
-    //Assume that size of privateObjectiveCards is the same of players
+    /**Assume that size of privateObjectiveCards is the same of players
+     * @param privateObjectiveCards the ArrayList of the private objective cards for the players
+     */
+
     public void addPrivateObjectiveCard(ArrayList<PrivateObjectiveCard> privateObjectiveCards){
 
         int i =0;
@@ -155,6 +177,10 @@ public class GameStatus implements Packetable {
         return playerCards;
     }
 
+    /**
+     * @param name the name of the player
+     * @return the player , null if no player is found
+     */
     public Player getPlayerByName(String name){
 
         Player player = null;

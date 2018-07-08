@@ -37,6 +37,11 @@ public class CountRow implements CountEffect {
     }
 
 
+    /**
+     * @param i index of the row
+     * @param wp windowPatternFor the row
+     * @return an ArrayList of dice in the row
+     */
     private ArrayList<Dice> getRow(int i , WindowPatternCard wp ){
 
         ArrayList<Dice> row = new ArrayList<>();

@@ -92,6 +92,10 @@ public class Game {
 
     }
 
+    /**
+     * @param idWp the id of the wp to be set
+     * @param username the username of the player who chose the wp
+     */
     public synchronized void setWindowToPlayer(String idWp, String username){
 
         System.out.println("set WP to player " + " " + username + " " + idWp);
@@ -137,6 +141,9 @@ public class Game {
 
     }
 
+    /**
+     * This method send the window pattern to the users for choose
+     */
     private synchronized void sendWindowPatternToChoose(){
 
         ArrayList<WindowPatternCard> wp = new ArrayList<WindowPatternCard>(gameSetup.getWindowPatternCards());

@@ -30,6 +30,10 @@ public class Player implements Serializable{
 
     private Wallet wallet = new Wallet();
 
+    /**
+     * @param username the name for the player
+     * @param serverClientSender the object used to communicate with the client
+     */
     public Player(String username, ServerClientSender serverClientSender){
         name=username;
 
