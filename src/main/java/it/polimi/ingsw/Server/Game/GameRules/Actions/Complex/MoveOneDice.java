@@ -55,6 +55,14 @@ public class MoveOneDice implements Actions {
     }
 
 
+    /**
+     *
+     * This method listen for the moves from the ui
+     * @param ui         the ui of the client that is to be interacted with
+     * @param gameStatus the gamesStatus that is a repprestantation of the actual gameStatus on the Server
+     * @param userName   the username of the player that is actually using the action
+     * @param check      Used to interrupt the action beetween threads
+     */
     @Override
     public void useAction(UI ui, GameStatus gameStatus, String userName, SpecialBoolean check) {
 

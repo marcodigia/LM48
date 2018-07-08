@@ -75,6 +75,11 @@ public class PlaceDiceAction implements Actions {
 
     }
 
+    /**
+     * @param color the new value of the restriction color
+     * @param value the new value of the restriction vale
+     * @param adjacency the new value of the restriction adjacency
+     */
     public void changeRestricion(boolean color , boolean value, boolean adjacency){
         ((PlaceDice) action ).changeRestristricion(color,value,adjacency);
     }

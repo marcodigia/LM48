@@ -28,12 +28,21 @@ public interface Actions extends Packetable {
     In case Socekt is in use View on the Client will just update the virtual view on the Server and then virutalview will use useAction
     */
 
+    /**
+     * @param b the state of the action
+     */
     void setACTIVE(boolean b);
 
 
+    /**
+     * Used to rebuild the action from packet
+     * @param packet the packet which shuld be the same of the ToPAcket of the action
+     */
 
-    //Used to rebuild the action from packet
     void setUpAction(String packet);
 
+    /**
+     * @param userName the username of the player who generates the action
+     */
     void setUserName(String userName);
 }
