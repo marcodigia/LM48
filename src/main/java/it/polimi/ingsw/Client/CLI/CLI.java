@@ -502,7 +502,13 @@ public class CLI implements UI, Runnable{
             if (!ok.isFlag())
                 return;
 
-            int chose = Integer.parseInt(choice);
+            int chose;
+            try {
+                chose = Integer.parseInt(choice);
+            }catch (NumberFormatException e){
+                chose = -1;
+            }
+
 
             if (chose == Integer.parseInt(windowPatternCard1.getID()) || chose == Integer.parseInt(windowPatternCard2.getID()) ||
                     chose == Integer.parseInt(windowPatternCard3.getID()) || chose == Integer.parseInt(windowPatternCard4.getID())) {
@@ -794,16 +800,19 @@ public class CLI implements UI, Runnable{
     public void pingBack() {
         //System.out.println("Ping");
        // Thread t = new Thread(() -> {
-            if(clientServerSender!=null){
+            //if(clientServerSender!=null){
                 try {
-                    clientServerSender.pingBack(username);
+                    generiClient.getClientServerSender().pingBack(username);
+                    //clientServerSender.pingBack(username);
                 } catch (RemoteException e) {
                     Object o = new Object();
                     safePrinter.registry(this);
                     safePrinter.print(this,"Catch chooseWP CLI pingback");
                     e.printStackTrace();
+                }catch(NullPointerException e){
+                    System.out.println("PINGIBAG NULL POINTER EXCEPTIO");
                 }
-            }
+            //}
       //  });
        // t.start();
     }

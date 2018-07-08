@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server.Game.ServerRMI;
 
+import it.polimi.ingsw.Client.AbstractClient.GeneriClient;
 import it.polimi.ingsw.ClientServerCommonInterface.RMICommonInterface.StubServer;
 import it.polimi.ingsw.ClientServerCommonInterface.ServerClientSender;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Actions;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
+import it.polimi.ingsw.Server.View.VirtualViewImp;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -31,6 +33,8 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
             game.scanForUsername(username).setStillAlive(true); //Still alive in game
             game.scanForUsername(username).setIsConnected();
         }
+        else
+            System.out.println("PingBackRMI NO");
     }
 
     @Override
@@ -39,13 +43,15 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
             waitingRoom.addClient(username, clientRef);
         System.out.println("register RMI: " + game.scanForUsername(username));
         if(game.scanForUsername(username)!=null){
-            if(!game.scanForUsername(username).getConnected()) {
+            System.out.println("     scan for username not null " + username + clientRef);
+            //if(!game.scanForUsername(username).getConnected()) {
                 game.scanForUsername(username).setServerClientSender(clientRef);
                 game.scanForUsername(username).setStillAlive(true);
                 game.scanForUsername(username).setIsConnected();
                 game.scanForUsername(username).getvirtualView().sendGameStatus(game.getGameStatus());
+                ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(clientRef);
 
-            }
+
         }
     }
 
