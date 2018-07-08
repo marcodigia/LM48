@@ -31,7 +31,8 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         if(game.scanForUsername(username)!=null) {
 
             game.scanForUsername(username).setStillAlive(true); //Still alive in game
-            game.scanForUsername(username).setIsConnected();
+            //game.scanForUsername(username).setIsConnected();
+
         }
         else
             System.out.println("PingBackRMI NO");

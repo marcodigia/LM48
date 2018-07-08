@@ -611,9 +611,9 @@ public class CLI implements UI, Runnable{
     public int getRoundIndex() {
         boolean chooseOK = false;
         Object o = new Object();
-        safePrinter.registry(this);
+        safePrinter.registry(o);
         do {
-            safePrinter.print(this,"Choose round index: ");
+            safePrinter.print(o,"Choose round index: ");
 
             SpecialBoolean ok = GO;
             ReadObject r = safeRead();
@@ -627,7 +627,7 @@ public class CLI implements UI, Runnable{
             }
 
 
-            if (1 <= roundID && roundID <= 10)
+            if (1 <= roundID && roundID <= gameStatus.getBoardRound().getDices().size())
                 chooseOK = true;
         }while (!chooseOK);
         roundID = roundID-1;
