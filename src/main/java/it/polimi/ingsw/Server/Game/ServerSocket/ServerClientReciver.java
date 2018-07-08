@@ -117,9 +117,9 @@ public class ServerClientReciver implements Runnable {
                 if(game.scanForUsername(username)!=null) {
                         game.scanForUsername(username).setIsNotConnected();
                 }
-                else {
+
                     waitingRoom.removeClient(username);
-                }
+
                 break;
             }
         }
