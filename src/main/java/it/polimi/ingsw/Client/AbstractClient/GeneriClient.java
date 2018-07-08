@@ -168,7 +168,7 @@ public class GeneriClient {
                     e.printStackTrace();
                 }
             }
-        }, 0, timerUtility.readTimerFromFile(30, "timerDelayPing.txt"));
+        }, 0, timerUtility.readTimerFromFile(3, "timerDelayPing.txt"));
     }
 
 }
