@@ -274,7 +274,12 @@ public class CLI implements UI, Runnable{
                 r.waitOb();
                 if (!ok.equals(GO))
                     return 0;
-                choice = Integer.parseInt(r.getNotifica());
+                try {
+                    choice = Integer.parseInt(r.getNotifica());
+                }catch (NumberFormatException e){
+                    choice = 0;
+                }
+
                 if (!(choice == -1 || choice == 1))
                     safePrinter.print(o,"Valore non valido , inserire 1 o  -1");
             } while (!(choice == -1 || choice == 1));
@@ -287,7 +292,12 @@ public class CLI implements UI, Runnable{
                 r.waitOb();
                 if (!ok.equals(GO))
                     return -1;
-                choice = Integer.parseInt(r.getNotifica());
+                try {
+                    choice = Integer.parseInt(r.getNotifica());
+                }catch (NumberFormatException e){
+                    choice = -1;
+                }
+
                 if (!((choice > 0) && (choice < 7)))
                     safePrinter.print(o,"Valore non valido , inserire un valore da 1 a 6");
             } while (!((choice > 0) && (choice < 7)));
@@ -308,7 +318,12 @@ public class CLI implements UI, Runnable{
             r.waitOb();
             if (!ok.equals(GO))
                 return -1;
-            draftPoolIndex = Integer.parseInt(r.getNotifica());
+            try {
+                draftPoolIndex = Integer.parseInt(r.getNotifica());
+            }catch (NumberFormatException e){
+                draftPoolIndex = -1;
+            }
+
 
             if (draftPoolIndex > 0 && draftPoolIndex <= gameStatus.getDraftPool().getDraft().size())
                 indexOK = true;
@@ -331,7 +346,12 @@ public class CLI implements UI, Runnable{
             r.waitOb();
             if (!ok.equals(GO))
                 return -1;
-            cellIndexFrom = Integer.parseInt(r.getNotifica());
+            try {
+                cellIndexFrom = Integer.parseInt(r.getNotifica());
+            }catch (NumberFormatException e){
+                cellIndexFrom = -1;
+            }
+
 
             if (cellIndexFrom > 0 && cellIndexFrom <= 20)
                 cellIndexOK = true;
@@ -353,7 +373,12 @@ public class CLI implements UI, Runnable{
             r.waitOb();
             if (!ok.equals(GO))
                 return -1;
-            cellIndexTo = Integer.parseInt(r.getNotifica());
+            try {
+                cellIndexTo = Integer.parseInt(r.getNotifica());
+            }catch (NumberFormatException e){
+                cellIndexTo = 0;
+            }
+
 
             if (cellIndexTo > 0 && cellIndexTo <= 20)
                 cellIndexOK = true;
@@ -375,7 +400,12 @@ public class CLI implements UI, Runnable{
             if (!ok.equals(GO))
                 return false;
             if (r.getNotifica().matches("[0-1]"))
-                choice = Integer.parseInt(r.getNotifica());
+                try {
+                    choice = Integer.parseInt(r.getNotifica());
+                }catch (NumberFormatException e){
+                    choice=-1;
+                }
+
             else
                 System.out.println("Wrong value");
         } while (!(choice == 0 || choice == 1));
@@ -590,7 +620,12 @@ public class CLI implements UI, Runnable{
             r.waitOb();
             if (!ok.equals(GO))
                 return -1;
-            roundID = Integer.parseInt(r.getNotifica());
+            try {
+                roundID = Integer.parseInt(r.getNotifica());
+            }catch (NumberFormatException e){
+                roundID = -1;
+            }
+
 
             if (1 <= roundID && roundID <= 10)
                 chooseOK = true;
@@ -869,7 +904,12 @@ public class CLI implements UI, Runnable{
                 String id = read.getNotifica();
                 if (!ok.equals(GO))
                     return null;
-                toolcardID = Integer.parseInt(id);
+                try {
+                    toolcardID = Integer.parseInt(id);
+                }catch (NumberFormatException e){
+                    toolcardID = -1;
+                }
+
 
                 if (toolcardID > 0 && toolcardID <= 3)
                     chooseOK = true;
@@ -893,7 +933,12 @@ public class CLI implements UI, Runnable{
                 r.waitOb();
                 if (!ok.equals(GO))
                     return -1;
-                diceIndex = Integer.parseInt(r.getNotifica());
+                try {
+                    diceIndex = Integer.parseInt(r.getNotifica());
+                }catch (NumberFormatException e){
+                    diceIndex = -1;
+                }
+
 
                 if (diceIndex > 0 && diceIndex <= gameStatus.getBoardRound().getDices().get(roundID).size())
                     chooseOK = true;
@@ -960,7 +1005,12 @@ public class CLI implements UI, Runnable{
                             ok2 = GO;
                             ReadObject r2 = safeRead();
                             r2.waitOb();
-                            port = r2.getNotifica();
+
+                            try {
+                                port = r2.getNotifica();
+                            }catch (NumberFormatException e){
+                                port = "-1";
+                            }
                             if (port.matches("[0-9]+") && (Integer.parseInt(port)<65535 && (Integer.parseInt(port)>0)))
                                 correct= true;
                         }while (!correct);
@@ -995,7 +1045,12 @@ public class CLI implements UI, Runnable{
                             ok4 = GO;
                             ReadObject r2 = safeRead();
                             r2.waitOb();
-                            port = r2.getNotifica();
+
+                            try {
+                                port = r2.getNotifica();
+                            }catch (NumberFormatException e){
+                                port = "-1";
+                            }
                             if (port.matches("[0-9]+") && (Integer.parseInt(port)<65535 && (Integer.parseInt(port)>0)))
                                 correct= true;
                         }while (!correct);

@@ -36,12 +36,17 @@ public class ControllerSetWindowPattern extends AbstractGUI implements Initializ
     public void handleAdd(ActionEvent actionEvent) {
         if (!isCorrect(restriction.getText()))
             createAlertBox("Wrong restriction (1, 2, 3, 4, 5, 6, R, B, G, Y, P)");
-        if (!isCorrect(Integer.parseInt(index.getText())))
-            createAlertBox("Wrong index, must be between 0 and 19");
-        else
-            //restrizione e indice giusti
-            dinamicCardCreator.addRestriction(restriction.getText(), Integer.parseInt(index.getText()));
-    }
+        try {
+            if (!isCorrect(Integer.parseInt(index.getText())))
+                createAlertBox("Wrong index, must be between 0 and 19");
+            else
+                //restrizione e indice giusti
+                dinamicCardCreator.addRestriction(restriction.getText(), Integer.parseInt(index.getText()));
+
+        }catch (NumberFormatException e){
+            createAlertBox("Please enter a number as index");
+        }
+       }
 
     private boolean isCorrect(String s){
         return s.equals("1") || s.equals("2") || s.equals("3") || s.equals("4") || s.equals("5") || s.equals("6") ||
