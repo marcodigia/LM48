@@ -82,7 +82,6 @@ public class ClientServerReciverImp implements Runnable, ClientServerReciver {
                         break;
                 }
             }catch(NoSuchElementException e){
-                //TODO remove exit(0)
                 exit(0);
                 //System.out.println(command);
                 //generiClient.manageDisconnection;

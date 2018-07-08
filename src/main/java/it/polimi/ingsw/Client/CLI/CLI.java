@@ -716,7 +716,7 @@ public class CLI implements UI, Runnable{
 
                 System.out.println("Quit game? -> 0 ");
                 if (gameStatus.getPlayerByName(username).getPlaceDiceState()){
-                    System.out.println("Place dice?   -> 1");
+                    System.out.println("Place dice? --> 1");
                 }
                 if(gameStatus.getPlayerByName(username).getUseToolCardState()){
                     System.out.println("Use ToolCard --> 2");
@@ -898,14 +898,16 @@ public class CLI implements UI, Runnable{
                 r.waitOb();
                 choice = r.getNotifica();
 
+                boolean correct = false;
+                String ip ="";
+                ReadObject r1;
+                String port ="";
+
                 switch(choice){
                     case "0":
                         rmi = true;
                         //get server ip from input
-                        String ip ="";
                         SpecialBoolean ok1;
-                        boolean correct = false;
-                        ReadObject r1;
                         do {
                             safePrinter.print(this,"Insert server IP: ");
 
@@ -920,7 +922,6 @@ public class CLI implements UI, Runnable{
                         }while (!correct);
                         setIp(ip);
                         //get server port from input
-                        String port ="";
                         correct =false;
                         SpecialBoolean ok2;
                         do {
@@ -940,20 +941,37 @@ public class CLI implements UI, Runnable{
                         break;
                     case "1":
                         //get server ip from input
-                        safePrinter.print(this,"Insert server IP: ");
+                        SpecialBoolean ok3;
+                        correct = false;
+                        do {
+                            safePrinter.print(this,"Insert server IP: ");
 
-                        SpecialBoolean ok3 = GO;
-                        ReadObject r3 = safeRead();
-                        r3.waitOb();
-                        setIp(r3.getNotifica());
+
+                            ok3 = GO;
+
+                            r1 = safeRead();
+                            r1.waitOb();
+                            ip = r1.getNotifica();
+                            if (ip.matches("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"))
+                                correct=true;
+                        }while (!correct);
+                        setIp(ip);
                         //get server port from input
-                        safePrinter.print(this,"Insert server port: ");
+                        correct =false;
+                        SpecialBoolean ok4;
+                        do {
+                            safePrinter.print(this,"Insert server port: ");
 
-                        ok1 = GO;
-                        r1 = safeRead();
-                        r1.waitOb();
-                         
-                        setPort(r1.getNotifica());
+
+                            ok4 = GO;
+                            ReadObject r2 = safeRead();
+                            r2.waitOb();
+                            port = r2.getNotifica();
+                            if (port.matches("[0-9]+") && (Integer.parseInt(port)<65535 && (Integer.parseInt(port)>0)))
+                                correct= true;
+                        }while (!correct);
+
+                        setPort(port);
                         repeatInsertion = false;
                         break;
                     default:
