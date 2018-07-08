@@ -39,6 +39,8 @@ public class ControllerConnection extends AbstractGUI implements Initializable {
      */
     @FXML
     private void handleButtonRMI(ActionEvent event){
+        try {
+
         if (serverIP.getText().matches("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
                 &&serverPort.getText().matches("[0-9]+")&&(Integer.parseInt(serverPort.getText())<65536)
                 &&(Integer.parseInt(serverPort.getText())>0))
@@ -50,7 +52,10 @@ public class ControllerConnection extends AbstractGUI implements Initializable {
         }
         else
             switchScene(CONSTANT.RMI_Socket);
+        }catch (NumberFormatException e) {
+            switchScene(Login);
 
+        }
     }
 
     /**
@@ -58,16 +63,21 @@ public class ControllerConnection extends AbstractGUI implements Initializable {
      */
     @FXML
     private void handleButtonSocket(ActionEvent event){
-        if (serverIP.getText().matches("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
-                &&serverPort.getText().matches("[0-9]+")&&(Integer.parseInt(serverPort.getText())<65536)
-                &&(Integer.parseInt(serverPort.getText())>0))
-        {
-            ip = serverIP.getText();
-            port = serverPort.getText();
+        try {
+            if (serverIP.getText().matches("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+                    &&serverPort.getText().matches("[0-9]+")&&(Integer.parseInt(serverPort.getText())<65536)
+                    &&(Integer.parseInt(serverPort.getText())>0))
+            {
+                ip = serverIP.getText();
+                port = serverPort.getText();
+                switchScene(Login);
+            }
+            else
+                switchScene(CONSTANT.RMI_Socket);
+        }catch (NumberFormatException e){
             switchScene(Login);
         }
-        else
-            switchScene(CONSTANT.RMI_Socket);
+
 
     }
 }

@@ -23,7 +23,12 @@ public class ControllerCreateWindowPattern extends AbstractGUI implements Initia
 
 
     public void handleCreateButton(ActionEvent actionEvent) {
-        dinamicCardCreator = new DinamicCardCreator(cardName.getText(), Integer.parseInt(cardDifficulty.getText()));
-        switchScene(CONSTANT.Set);
+        try {
+            dinamicCardCreator = new DinamicCardCreator(cardName.getText(), Integer.parseInt(cardDifficulty.getText()));
+            switchScene(CONSTANT.Set);
+        }catch (NumberFormatException e){
+            createAlertBox("please enter a number for difficulty");
+        }
+
     }
 }
