@@ -51,7 +51,7 @@ public class ControllerGame extends AbstractGUI implements Initializable {
     static boolean attivo = false;
     private boolean showDraftpoolAlert = true;
 
-    public Label p1, p2, p3, p4;
+    public Label p1, p2, p3, p4, t1, t2, t3, t4;
     public MenuItem showpublic, showprivate, showtool, showcopyright;
     public ImageView bg4;
     public AnchorPane anchorgame;
@@ -337,9 +337,11 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 gridPanes.add(gp4);
 
                 p4.setText(username);
+                t4.setText(String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p1.setText(gameStatus.getPlayer().get(i).getName() );
+                t1.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
                 i++;
 
                 populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
@@ -354,13 +356,16 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 gridPanes.add(gp4);
 
                 p4.setText(username);
+                t4.setText(String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p2.setText(gameStatus.getPlayer().get(i).getName() );
+                t2.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
                 i++;
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p3.setText(gameStatus.getPlayer().get(i).getName());
+                t3.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
 
                 populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
                 populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));
@@ -374,18 +379,23 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 gridPanes.add(gp4);
 
                 p4.setText(username);
-
+                t4.setText(String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p1.setText(gameStatus.getPlayer().get(i).getName() );
+                t1.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
+
                 i++;
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p2.setText(gameStatus.getPlayer().get(i).getName() );
+                t2.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
+
                 i++;
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p3.setText(gameStatus.getPlayer().get(i).getName());
+                t3.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
 
                 populateGridPane(gp1, gameStatus.getPlayerByName(p1.getText()));
                 populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));

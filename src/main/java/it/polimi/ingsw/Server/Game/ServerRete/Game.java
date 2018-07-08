@@ -120,7 +120,6 @@ public class Game {
 
     }
 
-    //TODO change timervalue
     private synchronized void gameAskClientForWindow(){
 
         sendWindowPatternToChoose();
@@ -133,7 +132,7 @@ public class Game {
                 else
                     endGame();          //All players left game
             }
-        }, timerUtilitywp.readTimerFromFile(30,"timerDelayPlayer.txt"));
+        }, timerUtilitywp.readTimerFromFile(60,"timerDelayPlayer.txt"));
 
     }
 
@@ -173,7 +172,6 @@ public class Game {
 
     }
 
-    //TODO Change turn timer value
     private void manageRound(){
         Thread t = new Thread(new Turn(players, gameStatus));
         t.start();

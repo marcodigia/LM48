@@ -820,9 +820,10 @@ public class CLI implements UI, Runnable{
         printToolCard();
         printDraftPool(gameStatus.getDraftPool().getDraft());
         Object o = new Object();
-        safePrinter.registry(this);
+        safePrinter.registry(o);
         for (Player p : gameStatus.getPlayerCards().keySet()) {
-            safePrinter.print(this,p.getName());
+            safePrinter.print(o, p.getName());
+            safePrinter.print(o, "Token ammount: " + p.getWallet().getTokenAmmount());
             printBoardGame((WindowPatternCard) gameStatus.getPlayerCards().get(p).get(0)); 
         }
     }

@@ -91,7 +91,7 @@ public class Turn extends TimerTask implements Runnable {
                             System.out.println("current true skip next");
                         }
                         else                    //currentPlayer is connected
-                            timerRound.schedule(new Turn(players,gameStatus),timerUtilityround.readTimerFromFile(30,"timerDelayPlayers.txt"));
+                            timerRound.schedule(new Turn(players,gameStatus),timerUtilityround.readTimerFromFile(60,"timerDelayPlayers.txt"));
 
                         turn++;
                     }
