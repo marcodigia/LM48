@@ -844,13 +844,7 @@ public class CLI implements UI, Runnable{
 
     @Override
     public void pingBack() {
-<<<<<<< Updated upstream
-        //System.out.println("Ping");
-       // Thread t = new Thread(() -> {
-            //if(clientServerSender!=null){
-=======
             if(clientServerSender!=null) {
->>>>>>> Stashed changes
                 try {
                     generiClient.getClientServerSender().pingBack(username);
                     //clientServerSender.pingBack(username);
@@ -862,13 +856,7 @@ public class CLI implements UI, Runnable{
                 }catch(NullPointerException e){
                     System.out.println("PINGIBAG NULL POINTER EXCEPTIO");
                 }
-<<<<<<< Updated upstream
-            //}
-      //  });
-       // t.start();
-=======
             }
->>>>>>> Stashed changes
     }
 
     @Override
