@@ -8,6 +8,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
+import it.polimi.ingsw.Server.Game.ServerRete.Turn;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 import it.polimi.ingsw.Server.View.VirtualViewImp;
@@ -51,6 +52,10 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
                 game.scanForUsername(username).setIsConnected();
                 game.scanForUsername(username).getvirtualView().sendGameStatus(game.getGameStatus());
                 ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(clientRef);
+                if(Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username))
+                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerStart();
+                else
+                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
 
 
         }

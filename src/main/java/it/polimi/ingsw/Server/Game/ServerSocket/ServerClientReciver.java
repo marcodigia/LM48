@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
+import it.polimi.ingsw.Server.Game.ServerRete.Turn;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
@@ -62,6 +63,13 @@ public class ServerClientReciver implements Runnable {
                             if (!game.scanForUsername(username).getConnected()) {
                                 game.scanForUsername(username).setStillAlive(true);
                                 game.scanForUsername(username).setIsConnected();
+
+                                if(Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username))
+                                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerStart();
+                                else
+                                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
+
+                                
                                 try {
                                     ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(serverClientSenderImp);
                                     serverClientSenderImp.sendMessage(CONSTANT.correctUsername);
