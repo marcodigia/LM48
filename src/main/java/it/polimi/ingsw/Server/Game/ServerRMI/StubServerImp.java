@@ -8,6 +8,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
+import it.polimi.ingsw.Server.Game.ServerRete.Turn;
 import it.polimi.ingsw.Server.Game.Utility.Unpacker;
 import it.polimi.ingsw.Server.Game.WaitingRoom.WaitingRoom;
 import it.polimi.ingsw.Server.View.VirtualViewImp;
@@ -31,7 +32,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         if(game.scanForUsername(username)!=null) {
 
             game.scanForUsername(username).setStillAlive(true); //Still alive in game
-            //game.scanForUsername(username).setIsConnected();
+            game.scanForUsername(username).setIsConnected();
 
         }
         else
@@ -51,6 +52,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
                 game.scanForUsername(username).setIsConnected();
                 game.scanForUsername(username).getvirtualView().sendGameStatus(game.getGameStatus());
                 ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(clientRef);
+                //if(((Player)game.getPlayers().get(0).).equals(username))
 
 
         }
@@ -68,10 +70,16 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         else
             game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn( (UseToolCardBasic) action); ;
 
-        action.doAction(game.getGameStatus());
-        for(Player p : game.getPlayers().keySet()) {
-            p.getvirtualView().sendGameStatus(game.getGameStatus());
-        }
+
+            if (Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username)){
+                action.doAction(game.getGameStatus());
+                for(Player p : game.getPlayers().keySet()) {
+                    p.getvirtualView().sendGameStatus(game.getGameStatus());
+                }
+            }else
+                Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
+
+
     }
 
     @Override

@@ -5,6 +5,7 @@ import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.PlaceDiceAction;
 import it.polimi.ingsw.Server.Game.GameRules.Actions.Basic.UseToolCardBasic;
 import it.polimi.ingsw.Server.Game.GameRules.Player;
 import it.polimi.ingsw.Server.Game.ServerRete.Game;
+import it.polimi.ingsw.Server.Game.ServerRete.Turn;
 import it.polimi.ingsw.Server.Game.TimerUtility.TimerUtility;
 import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import it.polimi.ingsw.Server.Game.Utility.CONSTANT;
@@ -101,13 +102,19 @@ public class ServerClientReciver implements Runnable {
                             a.setACTIVE(status);
                         }
                         a.setUserName(username);
-                        a.doAction(game.getGameStatus());
-
-                        for(Player p : game.getPlayers().keySet()) {
-                            p.getvirtualView().sendGameStatus(game.getGameStatus());
-                            System.out.println(ANSI_COLOR.BOLD+"Player name "+ username + " placeDiceStaete " + game.getGameStatus().getPlayerByName(username).getPlaceDiceOfTheTurn() +
-                            " useToolcardState " + game.getGameStatus().getPlayerByName(username).getUseToolCardState()+ ANSI_COLOR.ANSI_RESET);
+                        if(Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username))
+                        {
+                            a.doAction(game.getGameStatus());
+                            for(Player p : game.getPlayers().keySet()) {
+                                p.getvirtualView().sendGameStatus(game.getGameStatus());
+                                System.out.println(ANSI_COLOR.BOLD+"Player name "+ username + " placeDiceStaete " + game.getGameStatus().getPlayerByName(username).getPlaceDiceOfTheTurn() +
+                                        " useToolcardState " + game.getGameStatus().getPlayerByName(username).getUseToolCardState()+ ANSI_COLOR.ANSI_RESET);
+                            }
                         }
+                        else
+                            Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
+
+
                         break;
                     default:
                         break;
