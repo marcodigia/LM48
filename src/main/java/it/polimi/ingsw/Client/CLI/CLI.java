@@ -364,8 +364,22 @@ public class CLI implements UI, Runnable{
 
     @Override
     public boolean askForAnotherDice() {
-        //TODO implementare
-        return false;
+        Object o = new Object();
+        safePrinter.registry(o);
+        int choice = -1;
+        do {
+            safePrinter.print(o, "Do you want to place another dice?\nyes --> 1\nno --> 0\n");
+            SpecialBoolean ok = GO;
+            ReadObject r = safeRead();
+            r.waitOb();
+            if (!ok.equals(GO))
+                return false;
+            if (r.getNotifica().matches("[0-1]"))
+                choice = Integer.parseInt(r.getNotifica());
+            else
+                System.out.println("Wrong value");
+        } while (!(choice == 0 || choice == 1));
+        return choice == 1;
     }
 
     @Override
@@ -652,7 +666,7 @@ public class CLI implements UI, Runnable{
         safePrinter.registry(this);
         safePrinter.print(this,ANSI_COLOR.ANSI_RED + "TOOL CARDS: " + ANSI_COLOR.ANSI_RESET);
         for (ToolCard toolCard : gameStatus.getToolCards()){
-            safePrinter.print(this,ANSI_COLOR.ANSI_RED + toolCard.getID() +
+            safePrinter.print(this,ANSI_COLOR.ANSI_RED +
                     toolCard.getName() + toolCard.getEffect()
                     + "\n" + ANSI_COLOR.ANSI_RESET);
         }

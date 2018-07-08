@@ -26,9 +26,9 @@ public class MainServer {
         WaitingRoom waitingRoom = new WaitingRoom();
         waitingRoom.setGame(game);
 
-
+        //TODO togliere hardcode
         System.out.println("Insert ip where RMI should be published: ");
-        String ipServer = "192.168.1.110";//args[0];//keyboard.nextLine();
+        String ipServer = args[0];//keyboard.nextLine();
 
         System.out.println("Insert port where RMI should be published: ");
         int portRMI = 1099;//keyboard.nextInt();
