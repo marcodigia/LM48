@@ -32,7 +32,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         if(game.scanForUsername(username)!=null) {
 
             game.scanForUsername(username).setStillAlive(true); //Still alive in game
-            game.scanForUsername(username).setIsConnected();
+            //game.scanForUsername(username).setIsConnected();
 
         }
         else
@@ -52,7 +52,10 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
                 game.scanForUsername(username).setIsConnected();
                 game.scanForUsername(username).getvirtualView().sendGameStatus(game.getGameStatus());
                 ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(clientRef);
-                //if(((Player)game.getPlayers().get(0).).equals(username))
+                if(Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username))
+                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerStart();
+                else
+                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
 
 
         }
@@ -70,16 +73,10 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         else
             game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn( (UseToolCardBasic) action); ;
 
-
-            if (Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username)){
-                action.doAction(game.getGameStatus());
-                for(Player p : game.getPlayers().keySet()) {
-                    p.getvirtualView().sendGameStatus(game.getGameStatus());
-                }
-            }else
-                Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
-
-
+        action.doAction(game.getGameStatus());
+        for(Player p : game.getPlayers().keySet()) {
+            p.getvirtualView().sendGameStatus(game.getGameStatus());
+        }
     }
 
     @Override

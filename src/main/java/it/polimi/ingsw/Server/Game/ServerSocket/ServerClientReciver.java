@@ -63,6 +63,13 @@ public class ServerClientReciver implements Runnable {
                             if (!game.scanForUsername(username).getConnected()) {
                                 game.scanForUsername(username).setStillAlive(true);
                                 game.scanForUsername(username).setIsConnected();
+
+                                if(Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username))
+                                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerStart();
+                                else
+                                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
+
+                                
                                 try {
                                     ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(serverClientSenderImp);
                                     serverClientSenderImp.sendMessage(CONSTANT.correctUsername);
@@ -102,19 +109,13 @@ public class ServerClientReciver implements Runnable {
                             a.setACTIVE(status);
                         }
                         a.setUserName(username);
-                        if(Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username))
-                        {
-                            a.doAction(game.getGameStatus());
-                            for(Player p : game.getPlayers().keySet()) {
-                                p.getvirtualView().sendGameStatus(game.getGameStatus());
-                                System.out.println(ANSI_COLOR.BOLD+"Player name "+ username + " placeDiceStaete " + game.getGameStatus().getPlayerByName(username).getPlaceDiceOfTheTurn() +
-                                        " useToolcardState " + game.getGameStatus().getPlayerByName(username).getUseToolCardState()+ ANSI_COLOR.ANSI_RESET);
-                            }
+                        a.doAction(game.getGameStatus());
+
+                        for(Player p : game.getPlayers().keySet()) {
+                            p.getvirtualView().sendGameStatus(game.getGameStatus());
+                            System.out.println(ANSI_COLOR.BOLD+"Player name "+ username + " placeDiceStaete " + game.getGameStatus().getPlayerByName(username).getPlaceDiceOfTheTurn() +
+                            " useToolcardState " + game.getGameStatus().getPlayerByName(username).getUseToolCardState()+ ANSI_COLOR.ANSI_RESET);
                         }
-                        else
-                            Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
-
-
                         break;
                     default:
                         break;
