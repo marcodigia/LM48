@@ -337,11 +337,12 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 gridPanes.add(gp4);
 
                 p4.setText(username);
-                t4.setText(String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
+                t4.setText(" Token ammount: " +
+                        String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p1.setText(gameStatus.getPlayer().get(i).getName() );
-                t1.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
+                t1.setText(" Token ammount: " + String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
                 i++;
 
                 populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
@@ -356,16 +357,16 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 gridPanes.add(gp4);
 
                 p4.setText(username);
-                t4.setText(String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
+                t4.setText(" Token ammount: " +String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p2.setText(gameStatus.getPlayer().get(i).getName() );
-                t2.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
+                t2.setText(" Token ammount: " +String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
                 i++;
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p3.setText(gameStatus.getPlayer().get(i).getName());
-                t3.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
+                t3.setText(" Token ammount: " +String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
 
                 populateGridPane(gp4, gameStatus.getPlayerByName(p4.getText()));
                 populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));
@@ -379,23 +380,23 @@ public class ControllerGame extends AbstractGUI implements Initializable {
                 gridPanes.add(gp4);
 
                 p4.setText(username);
-                t4.setText(String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
+                t4.setText(" Token ammount: " +String.valueOf(gameStatus.getPlayerByName(username).getWallet().getTokenAmmount()));
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p1.setText(gameStatus.getPlayer().get(i).getName() );
-                t1.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
+                t1.setText(" Token ammount: " +String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
 
                 i++;
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p2.setText(gameStatus.getPlayer().get(i).getName() );
-                t2.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
+                t2.setText(" Token ammount: " +String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
 
                 i++;
                 if (gameStatus.getPlayer().get(i).getName().equals(username))
                     i++;
                 p3.setText(gameStatus.getPlayer().get(i).getName());
-                t3.setText(String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
+                t3.setText(" Token ammount: " +String.valueOf(gameStatus.getPlayer().get(i).getWallet().getTokenAmmount()));
 
                 populateGridPane(gp1, gameStatus.getPlayerByName(p1.getText()));
                 populateGridPane(gp2, gameStatus.getPlayerByName(p2.getText()));
