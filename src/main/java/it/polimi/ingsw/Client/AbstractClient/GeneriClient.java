@@ -115,7 +115,7 @@ public class GeneriClient {
      * @param portRMI  This is the server's port where remote object is exposed.
      * @author Fabio Dalle Rive.
      * */
-    public void register(String username, String ipRMI, int portRMI){
+    public void register(String username, String ipRMI, int portRMI) throws RemoteException {
         this.username = username;
         try {
             SkeletonClientImp sc = (SkeletonClientImp)clientServerReciver;
@@ -125,8 +125,6 @@ public class GeneriClient {
         } catch (NotBoundException e) {
             System.out.println("Server is still unreachable");
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
@@ -164,7 +162,11 @@ public class GeneriClient {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                register(username, ipRMI, portRMI);
+                try {
+                    register(username, ipRMI, portRMI);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }, 0, timerUtility.readTimerFromFile(30, "timerDelayPing.txt"));
     }

@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import java.net.URL;
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,10 +24,8 @@ import static it.polimi.ingsw.Client.GUI.ControllerGame.gameStatus;
 import static it.polimi.ingsw.Client.GUI.GUI.ip;
 import static it.polimi.ingsw.Client.GUI.GUI.port;
 import static it.polimi.ingsw.Client.GUI.GUI.username;
-import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Board;
-import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Lobby;
-import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.Login;
 import static it.polimi.ingsw.Client.GUI.GUI.generiClient;
+import static it.polimi.ingsw.Server.Game.Utility.CONSTANT.*;
 
 public class ControllerLogin extends AbstractGUI implements Initializable{
 
@@ -64,9 +63,17 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
                 try {
                     ControllerConnection.clientServerReciver.setUI(this);
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    switchScene(RMI_Socket);
+                    return;
                 }
-                generiClient.register(username, ip, Integer.parseInt(port));
+                try {
+                    generiClient.register(username, ip, Integer.parseInt(port));
+                } catch (ConnectException e){
+                    switchScene(RMI_Socket);
+                    return;
+                }catch (RemoteException e) {
+                    switchScene(RMI_Socket);
+                }
             } else {
                 generiClient = new GeneriClient();
                 generiClient.setLinkClientServer(ip, Integer.parseInt(port));
@@ -75,8 +82,15 @@ public class ControllerLogin extends AbstractGUI implements Initializable{
                 ControllerConnection.clientServerReciver = generiClient.getClientServerReciver();
                 try {
                     ControllerConnection.clientServerReciver.setUI(this);
+                }catch (ConnectException e){
+                    switchScene(RMI_Socket);
+                    return;
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                }
+                catch (NullPointerException nullPointerException){
+                    switchScene(RMI_Socket);
+                    return;
                 }
                 generiClient.register(username);
             }

@@ -21,6 +21,7 @@ import it.polimi.ingsw.Server.Game.Utility.ANSI_COLOR;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -992,7 +993,20 @@ public class CLI implements UI, Runnable{
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
-                generiClient.register(username, ip, Integer.parseInt(port));
+
+                try {
+                    generiClient.register(username, ip, Integer.parseInt(port));
+                } catch (ConnectException e){
+                    System.out.println("Connection refused");
+                    handleConnection();
+                    validateUsername(maxNameSize);
+                    return;
+                }catch (RemoteException e) {
+                    System.out.println("Connection refused");
+                    handleConnection();
+                    validateUsername(maxNameSize);
+                    return;
+                }
             }
             else {
                 generiClient = new GeneriClient();
@@ -1002,8 +1016,19 @@ public class CLI implements UI, Runnable{
                 clientServerReciver = generiClient.getClientServerReciver();
                 try {
                     clientServerReciver.setUI(this);
+                }catch (ConnectException e){
+                    System.out.println("Connection refused");
+                    handleConnection();
+                    validateUsername(maxNameSize);
+                    return;
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                }
+                catch (NullPointerException e){
+                    System.out.println("Connection refused");
+                    handleConnection();
+                    validateUsername(maxNameSize);
+                    return;
                 }
                 generiClient.register(username);
             }
