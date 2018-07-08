@@ -46,8 +46,6 @@ public class BoardRound implements Packetable {
         return false;
     }
 
-
-    //TODO useless, to remove
     public ArrayList<Player> getWinners() {
         ArrayList<Player> winners = new ArrayList<>();
         for (Player p1 : scoreboard.keySet()) {
