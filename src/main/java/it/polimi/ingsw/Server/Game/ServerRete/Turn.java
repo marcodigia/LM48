@@ -54,21 +54,7 @@ public class Turn extends TimerTask implements Runnable {
         synchronized (players){
 
             if(!winnerFind){
-                if(turn>=numberOfTurn){
-                    //Move dices from draftpool to boardRound
-                    gameStatus.getBoardRound().addDices(gameStatus.getDraftPool().getDraft());
-                    //Extract new dices from DraftPool
-                    gameStatus.getDraftPool().extractNdice(players.keySet().size()*2+1);
-                    turn=0;
-                    round++;
-                    for(Player p : players.keySet())
-                        p.setSkipNextTurn(false);
-                    ArrayList<Player> p = new ArrayList<Player>(players.keySet());
-                    Player q = p.get(0);
-                    p.remove(0);
-                    players.remove(q);
-                    players.put(q,false);
-                }
+
                 if(round< CONSTANT.numberOfRound){
                     System.out.println("ROUND: " + round + "\n" + "Turn: " + turn);
                     for(Player p : players.keySet())
@@ -106,6 +92,21 @@ public class Turn extends TimerTask implements Runnable {
                                 p.getvirtualView().sendScore(winner);
 
                         }
+                    }
+                    if(turn>=numberOfTurn){
+                        //Move dices from draftpool to boardRound
+                        gameStatus.getBoardRound().addDices(gameStatus.getDraftPool().getDraft());
+                        //Extract new dices from DraftPool
+                        gameStatus.getDraftPool().extractNdice(players.keySet().size()*2+1);
+                        turn=0;
+                        round++;
+                        for(Player p : players.keySet())
+                            p.setSkipNextTurn(false);
+                        ArrayList<Player> p = new ArrayList<Player>(players.keySet());
+                        Player q = p.get(0);
+                        p.remove(0);
+                        players.remove(q);
+                        players.put(q,false);
                     }
                 }
                 else{
