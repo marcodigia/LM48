@@ -454,7 +454,11 @@ public class ControllerGame extends AbstractGUI implements Initializable {
             for (int column = 0; column < COLUMNS; column++) {
                 Label l = new Label();
                 l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getRestrictionAtIndex(5 * row + column)));
-                if (((WindowPatternCard) gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * row + column) != null)
+                if (((WindowPatternCard) gameStatus.
+                        getPlayerCards().
+                        get(player).
+                        get(0)).
+                        getDice(5 * row + column) != null)
                     l.setGraphic(toImage(((WindowPatternCard)gameStatus.getPlayerCards().get(player).get(0)).getDice(5 * row + column)));
                 GridPane.setConstraints(l, column, row);
                 gridPane.getChildren().add(l);
