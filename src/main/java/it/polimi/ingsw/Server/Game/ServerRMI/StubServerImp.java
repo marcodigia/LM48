@@ -32,7 +32,7 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         if(game.scanForUsername(username)!=null) {
 
             game.scanForUsername(username).setStillAlive(true); //Still alive in game
-            //game.scanForUsername(username).setIsConnected();
+            game.scanForUsername(username).setIsConnected();
 
         }
         else
@@ -52,11 +52,8 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
                 game.scanForUsername(username).setIsConnected();
                 game.scanForUsername(username).getvirtualView().sendGameStatus(game.getGameStatus());
                 ((VirtualViewImp)game.scanForUsername(username).getvirtualView()).setServerClientSender(clientRef);
-                if(Turn.getPlayers().entrySet().iterator().next().getKey().getName().equals(username))
-                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerStart();
-                else
-                    Turn.getPlayers().entrySet().iterator().next().getKey().getvirtualView().timerEnd();
-
+                if(!Turn.getCurrentPlayer().getName().equals(username))
+                    game.scanForUsername(username).getvirtualView().timerEnd();
 
         }
     }

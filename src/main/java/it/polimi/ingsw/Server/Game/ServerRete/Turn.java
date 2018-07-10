@@ -31,6 +31,8 @@ public class Turn extends TimerTask implements Runnable {
         this.gameStatus=gameStatus;
     }
 
+    public static Player getCurrentPlayer(){return currentPlayer;}
+
     public static int getNumberOfTurn(){
         return numberOfTurn;
     }
