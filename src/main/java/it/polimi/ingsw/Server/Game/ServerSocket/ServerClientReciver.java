@@ -109,7 +109,11 @@ public class ServerClientReciver implements Runnable {
                             a.setACTIVE(status);
                         }
                         a.setUserName(username);
-                        a.doAction(game.getGameStatus());
+                        if(!Turn.getCurrentPlayer().getName().equals(username))
+                            game.scanForUsername(username).getvirtualView().timerEnd();
+                        else{
+                            a.doAction(game.getGameStatus());
+                        }
 
                         for(Player p : game.getPlayers().keySet()) {
                             p.getvirtualView().sendGameStatus(game.getGameStatus());

@@ -65,17 +65,19 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
 
     @Override
     public void sendAction(Actions action, String username) throws RemoteException {
+
         if (action instanceof PlaceDiceAction)
             game.getGameStatus().getPlayerByName(username).setPlaceDiceOfTheTurn( (PlaceDiceAction) action) ;
         else
             game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn( (UseToolCardBasic) action); ;
 
-        if(!Turn.getCurrentPlayer().getName().equals(username))
+        if(!Turn.getCurrentPlayer().getName().equals(username)) {
             game.scanForUsername(username).getvirtualView().timerEnd();
+        }
         else{
             action.doAction(game.getGameStatus());
         }
-        
+
         for(Player p : game.getPlayers().keySet()) {
             p.getvirtualView().sendGameStatus(game.getGameStatus());
         }
