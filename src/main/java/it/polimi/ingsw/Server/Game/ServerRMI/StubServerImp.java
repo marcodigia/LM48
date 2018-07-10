@@ -70,6 +70,9 @@ public class StubServerImp extends UnicastRemoteObject implements StubServer{
         else
             game.getGameStatus().getPlayerByName(username).setUseToolCardOfTheTurn( (UseToolCardBasic) action); ;
 
+        if(!Turn.getCurrentPlayer().getName().equals(username))
+            game.scanForUsername(username).getvirtualView().timerEnd();
+        
         action.doAction(game.getGameStatus());
         for(Player p : game.getPlayers().keySet()) {
             p.getvirtualView().sendGameStatus(game.getGameStatus());
