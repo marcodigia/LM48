@@ -157,7 +157,7 @@ public class GeneriClient {
 
     public void manageDisconnection(String username, String ipRMI, int portRMI){
 
-        /*TimerUtility timerUtility = new TimerUtility();
+        TimerUtility timerUtility = new TimerUtility();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -168,7 +168,7 @@ public class GeneriClient {
                     e.printStackTrace();
                 }
             }
-        }, 0, timerUtility.readTimerFromFile(3, "timerDelayPing.txt"));*/
+        }, 0, timerUtility.readTimerFromFile((1/100), "timerDelayPing.txt"));
     }
 
 }
